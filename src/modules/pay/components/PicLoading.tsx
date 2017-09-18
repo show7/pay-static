@@ -16,7 +16,7 @@ export default class PicLoading extends React.Component<any, any> {
   render() {
     return (
       <div className="pic-loading-container">
-        <img src="https//static.iqycamp.com/images/loading_page2.gif" className="loading-pic"
+        <img src="https://static.iqycamp.com/images/loading_page2.gif" className="loading-pic"
              style={{"width":300,"display": "block", "margin": "0 auto"}}/>
       </div>
     )
