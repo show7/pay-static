@@ -22,16 +22,12 @@ export default class SignUp extends React.Component<any, any> {
   constructor() {
     super()
     this.state = {
-      tab: 1,
-      code: '',
-      promoSubmit: true,
-      err: null,
       showId: 3,
-      style: {},
       timeOut: false,
       showErr: false,
       showCodeErr: false,
       loading: true,
+      data:{},
     }
   }
 
@@ -57,12 +53,12 @@ export default class SignUp extends React.Component<any, any> {
 
     // 查询订单信息
     pget(`/signup/rise/member`).then(res => {
+      console.log(res)
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({ data: res.msg })
       } else {
         dispatch(alertMsg(res.msg))
-        this.setState({ err: res.msg })
       }
     }).catch((err) => {
       dispatch(endLoad())
@@ -113,7 +109,7 @@ export default class SignUp extends React.Component<any, any> {
       }
     }).catch(ex => {
       dispatch(endLoad())
-      dispatch(ex)
+      dispatch(alertMsg(ex))
     })
   }
 
@@ -125,19 +121,25 @@ export default class SignUp extends React.Component<any, any> {
   }
 
   render() {
-    const { memberTypes, showId, timeOut, showErr, showCodeErr, loading } = this.state
+    const { data, showId, timeOut, showErr, showCodeErr, loading } = this.state
+    const { memberTypes } = data
 
     const showMember = _.find(memberTypes, { id: showId })
 
     const renderPay = () => {
-      return null
+      return (
+        <div className="button-footer" onClick={()=>this.handleClickOpenPayInfo(showId)}>
+          加入商学院
+        </div>
+      )
     }
 
     return (
       <div className="rise-pay">
-        { loading ?
-          <PicLoading/>  : renderPay()
-        }
+        {/*{ loading ?*/}
+          {/*<PicLoading/>  : renderPay()*/}
+        {/*}*/}
+        {renderPay()}
         { timeOut ? <div className="mask" onClick={() => {window.history.back()}}
                         style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}>
           </div> : null}

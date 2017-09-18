@@ -2,7 +2,13 @@ var Router = require("express").Router;
 
 var router = new Router();
 
-router.get("/singup/mark/**",(req,res)=>{
+router.post("/signup/load/goods",(req,res)=>{
+  setTimeout(()=>{
+  res.status(200).json({"msg":{"goodsType":"fragment_member","fee":2280.0,"name":"会员购买","goodsId":3,"coupons":[{"id":2043,"openid":"oWo9HwuQCPN1u50fIcguiqIZGySE","profileId":1,"amount":50.0,"used":0,"cost":null,"orderId":null,"expiredDate":"2047-07-27","category":null,"description":"奖学金","expired":"2047.07.27"}],"startTime":"2017.09.18","endTime":"2018.09.30","activity":null},"code":200})
+}, Math.random() * 1500)
+})
+
+router.get("/signup/mark/**",(req,res)=>{
   setTimeout(()=>{
     res.status(200).json({code:200,msg:"ok"})
   }, Math.random() * 1500)
