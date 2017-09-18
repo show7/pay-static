@@ -3,6 +3,7 @@ import { config } from "modules/helpers/JsConfig"
 import {Route} from "react-router"
 
 import Base from "modules/base/Base"
+import RisePay from "modules/pay/RisePay"
 
 const routes = (
   <Route path="/" >
@@ -11,7 +12,7 @@ const routes = (
           config(['chooseWXPay']);
         {/*}*/}
       }}>
-
+      <Route path="pay/rise" component={RisePay}/>
     </Route>
   </Route>
 )

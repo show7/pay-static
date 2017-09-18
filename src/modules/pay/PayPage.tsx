@@ -416,7 +416,7 @@ export default class SignUp extends React.Component<any, any> {
     }
 
     return (
-      <div className="rise-pay">
+      <div className="pay-pay">
         {renderNewMemberShow(showMember)}
         {renderMenu(showMember)}
         {timeOut ? <div className="mask" onClick={() => {window.history.back()}}

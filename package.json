@@ -1,5 +1,5 @@
 {
-  "name": "pay-static",
+  "name": "confucius-static",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
@@ -28,8 +28,14 @@
     "@types/react-router": "^2.0.30",
     "@types/redux": "^3.5.27",
     "@types/redux-thunk": "^2.1.28",
+    "axios": "^0.15.2",
+    "fbjs": "^0.8.3",
+    "iosselect": "^0.0.5",
     "lodash": "^4.14.1",
     "numeral": "^1.5.5",
+    "pull-element": "^1.1.0",
+    "qs": "^6.2.1",
+    "rc-upload": "^2.3.0",
     "react": "15.3.0",
     "react-document-meta": "^2.0.3",
     "react-dom": "15.3.0",
@@ -44,8 +50,11 @@
     "redux": "^3.5.2",
     "redux-logger": "^2.7.0",
     "redux-thunk": "^2.1.0",
+    "shelljs": "^0.7.3",
+    "swiper": "^3.4.2",
     "ua-device": "^0.1.10",
-    "weui": "^0.4.3"
+    "weui": "^0.4.3",
+    "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
     "@types/node": "0.0.3",
