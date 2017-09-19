@@ -36,6 +36,7 @@ interface PayInfoProps {
   goodsType: string,
   /** dispatch */
   dispatch: any,
+  mutilCoupon: boolean,
 }
 
 export default class PayInfo extends React.Component<PayInfoProps, any> {
@@ -44,7 +45,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     this.state = {
       coupons: [],
       fee: this.props.fee,
-      show: false
+      show: false,
     }
   }
 
@@ -79,6 +80,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
   }
 
   handleClickOpen() {
+    console.log('show');
     this.setState({ show: true }, () => {
       if(_.isFunction(this.props.afterShow)) {
         this.props.afterShow()
@@ -100,14 +102,20 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
   handleClickPay() {
     // this.props.pay()
     const { dispatch, goodsType, goodsId } = this.props
-    const { chose, final, free } = this.state
+    const { chose, final, free, multiCoupons } = this.state
     if(!goodsId || !goodsType) {
       dispatch(alertMsg('支付信息错误，请联系管理员'))
     }
     let param = { goodsId: goodsId, goodsType: goodsType }
     if(chose) {
-      param = _.merge({}, param, { couponId: chose.id })
+      if(multiCoupons && !_.isEmpty(chose.couponsIdGroup)) {
+        param = _.merge({}, param, { couponsIdGroup: chose.couponsIdGroup })
+      } else if(chose.id) {
+        param = _.merge({}, param, { couponId: chose.id })
+      }
     }
+    console.log(chose,multiCoupons , !_.isEmpty(chose.couponsIdGroup));
+    console.log(param);
     dispatch(startLoad())
     loadPaymentParam(param).then(res => {
       dispatch(endLoad())
@@ -232,13 +240,54 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
    */
   handleClickChooseCoupon(coupon) {
     const { dispatch, goodsId, goodsType } = this.props
+    const { multiCoupons, coupons } = this.state;
+    let chose = _.get(this.state, 'chose', {});
     dispatch(startLoad())
-    let param = { goodsId: goodsId, goodsType: goodsType, couponId: coupon.id }
+    let param = { goodsId: goodsId, goodsType: goodsType }
+    if(multiCoupons) {
+      if(chose === null) {
+        chose = {
+          couponsIdGroup: []
+        }
+      } else {
+        if(!chose.couponsIdGroup) {
+          chose.couponsIdGroup = [];
+        }
+      }
+      if(_.indexOf(chose.couponsIdGroup, coupon.id) !== -1) {
+        // 取消选择
+        chose.couponsIdGroup = _.remove(chose.couponsIdGroup, (item) => item != coupon.id);
+      } else {
+        chose.couponsIdGroup.push(coupon.id);
+      }
+      _.merge(param, { couponsIdGroup: chose.couponsIdGroup });
+    } else {
+      _.merge(param, { couponId: coupon.id });
+    }
 
+    if(_.isEmpty(chose.couponsIdGroup) && !chose.id) {
+      chose.used = false;
+      chose.total = 0;
+    } else {
+      chose.used = true;
+      let total = 0;
+      if(!multiCoupons) {
+        total = coupon.amount;
+      } else {
+        for(let i = 0; i < coupons.length; i++) {
+          if(_.indexOf(chose.couponsIdGroup, coupons[ i ].id) !== -1) {
+            total += coupons[ i ].amount;
+          }
+        }
+      }
+      chose.total = total;
+    }
+
+    console.log(this.state.coupons);
     calculateCoupons(param).then((res) => {
       dispatch(endLoad())
       if(res.code === 200) {
-        this.setState({ free: res.msg === 0, chose: coupon, final: res.msg, openCoupon: false })
+        this.setState({ free: res.msg === 0, chose: chose, final: res.msg })
       } else {
         dispatch(alertMsg(res.msg))
       }
@@ -305,7 +354,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
   }
 
   render() {
-    const { openCoupon, final, fee, chose, free, show, name, startTime, endTime, activity } = this.state
+    const { openCoupon, final, fee, chose, free, show, name, startTime, endTime, activity, multiCoupons } = this.state
     const { header, goodsId, goodsType } = this.props
     let coupons = _.get(this.state, 'coupons', [])
     coupons = this.filterCoupons(coupons, goodsType)
@@ -410,7 +459,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                 有效时间：{startTime} - {endTime}
               </div> : null}
               <div className={`coupon item`}>
-                {coupons && chose ? `'优惠券'：¥${numeral(chose.amount).format('0.00')}元` : '选择优惠券'}
+                {coupons && chose && chose.used ? `'优惠券'：¥${numeral(chose.total).format('0.00')}元` : '选择优惠券'}
               </div>
             </div>
             <ul className={`coupon-list`}>
@@ -454,7 +503,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
             </div> : null}
             {hasCoupons ? <div className={`coupon item ${openCoupon ? 'open' : ''}`}
                                onClick={() => this.setState({ openCoupon: !this.state.openCoupon })}>
-              {chose ? `优惠券：¥${numeral(chose.amount).format('0.00')}元` : `选择优惠券`}
+              {chose && chose.used ? `优惠券：¥${numeral(chose.total).format('0.00')}元` : `选择优惠券`}
             </div> : null}
           </div>
           <ul className={`coupon-list ${openCoupon ? 'open' : ''}`} style={renderHeaderTrans(openCoupon)}>
