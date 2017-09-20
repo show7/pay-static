@@ -443,7 +443,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       }
 
       let priceArr = []
-      if(final || free) {
+      if((final || free) && !_.isEqual(final, fee)) {
         priceArr.push(<span className="discard" key={0}>{`¥ ${numeral(fee).format('0.00')}元`}</span>)
         priceArr.push(<span className="final" key={1}
                             style={{ marginLeft: '5px' }}>{`¥ ${numeral(final).format('0.00')}元`}</span>)
@@ -467,7 +467,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
 
       // <!-- 安卓4.3 以下 -->
       return (
-        <div className="simple-pay-info">
+        <div className={`simple-pay-info ${show?'show':''}`}>
           <div className="close" onClick={() => this.handleClickClose()}>
             关闭
           </div>
@@ -483,7 +483,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                 有效时间：{startTime} - {endTime}
               </div> : null}
               <div className={`coupon item`}>
-                {coupons && chose && chose.used ? `'优惠券'：¥${numeral(chose.total).format('0.00')}元` : '选择优惠券'}
+                {coupons && chose && chose.used ? `优惠券：¥${numeral(chose.total).format('0.00')}元` : '选择优惠券'}
               </div>
             </div>
             <ul className={`coupon-list`}>
@@ -493,7 +493,8 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                     ¥{numeral(item.amount).format('0.00')}元
                     <span className="describe">{item.description ? item.description : ''}</span>
                     <span className="expired">{item.expired}过期</span>
-                    <div className="btn" onClick={() => this.handleClickChooseCoupon(item)}>
+                    <div className={`btn ${couponChosen(item)?'chose':''}`}
+                         onClick={() => this.handleClickChooseCoupon(item)}>
                       选择
                     </div>
                   </li>
@@ -501,7 +502,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
               }) : null}
             </ul>
           </div>
-          <div className="bn-container">
+          <div className="btn-container">
             <div className="btn" onClick={() => this.handleClickPay()}/>
           </div>
         </div>
