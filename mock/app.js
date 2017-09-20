@@ -18,13 +18,7 @@ app.use("/assets/", express.static(path.join(__dirname, "../assets")))
 app.use("/js/", express.static(path.join(__dirname, "../js")))
 
 // API
-app.use(require('./course/router'))
-app.use(require('./chapter/router'))
-app.use(require('./introduction/router'))
 app.use(require('./signup/router'))
-app.use(require('./homework/router'))
-app.use(require('./file/router'))
 app.use(require('./personal/router'))
-app.use(require('./operation/router'))
 
 module.exports = app
