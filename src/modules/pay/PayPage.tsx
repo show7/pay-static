@@ -311,13 +311,13 @@ export default class SignUp extends React.Component<any, any> {
             <div className={`bg-hr member1`}/>
             <div className={`bg-hr member2`}/>
             <div className={`page member1`}>
-              <div className={`dot ${showId === 3 ? 'show' : ''}`} onClick={() => this.sliderTo(5)}/>
+              <div className={`dot ${showId === 3 ? 'show' : ''}`} onClick={() => this.sliderTo(3)}/>
               <div className="str">
                 精英版（一年）
               </div>
             </div>
             <div className={`page member2`}>
-              <div className={`dot ${showId === 5 ? 'show' : ''}`} onClick={() => this.sliderTo(3)}/>
+              <div className={`dot ${showId === 5 ? 'show' : ''}`} onClick={() => this.sliderTo(5)}/>
               <div className="str">
                 小课训练营
               </div>
