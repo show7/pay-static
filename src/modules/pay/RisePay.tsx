@@ -128,17 +128,22 @@ export default class SignUp extends React.Component<any, any> {
 
     const renderPay = () => {
       return (
-        <div className="button-footer" onClick={()=>this.handleClickOpenPayInfo(showId)}>
-          加入商学院
+        <div className="pay-page">
+          <div className="sale-pic">
+            <img src="https://static.iqycamp.com/images/fragment/free_limit_welcome_2.jpg?imageslim"
+                 style={{width: '100%'}}
+                 onLoad={()=>this.setState({loading:false})}></img>
+          </div>
+          <div className="button-footer" onClick={()=>this.handleClickOpenPayInfo(showId)}>
+            加入商学院
+          </div>
         </div>
       )
     }
 
     return (
-      <div className="rise-pay">
-        {/*{ loading ?*/}
-          {/*<PicLoading/>  : renderPay()*/}
-        {/*}*/}
+      <div className="rise-pay-container">
+        <PicLoading show={loading}/>
         {renderPay()}
         { timeOut ? <div className="mask" onClick={() => {window.history.back()}}
                         style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}>
