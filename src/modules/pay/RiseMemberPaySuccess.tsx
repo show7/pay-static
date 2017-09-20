@@ -6,6 +6,7 @@ import { ppost, pget } from 'utils/request'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { Button, ButtonArea } from 'react-weui'
 import { changeTitle } from 'utils/helpers'
+import { closeWindow } from '../helpers/JsConfig'
 
 const P = 'signup'
 const numeral = require('numeral')
@@ -47,7 +48,6 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
 
     pget('/customer/profile').then(res => {
       if(res.code === 200) {
-        console.log(res.msg)
         const { isFull, bindMobile } = res.msg
         this.setState({ isFull: isFull, bindMobile: bindMobile })
       } else {
@@ -58,43 +58,27 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
     })
   }
 
-  go() {
-    // 查看是否填写完毕信息，如果没有填写的话则跳到填写页面
-    const { isFull, bindMobile } = this.state
-    if(!isFull) {
-      window.location.href = `https://${window.location.hostname}/rise/static/customer/profile?goRise=true`
-      return
-    }
-    if(!bindMobile) {
-      window.location.href = `https://${window.location.hostname}/rise/static/customer/mobile/check?goRise=true`
-      return
-    }
-    window.location.href = `https://${window.location.hostname}/rise/static/problem/explore`
-  }
-
   render() {
     const { memberTypeId, startTime, endTime } = this.state
-    console.log('this.state', this.state)
     const renderWelComeTips = () => {
       switch(memberTypeId) {
         case 5:
           return (
             <div className="welcome-tips">
               <span className={`big member${memberTypeId}`} style={{ fontSize: `${this.bigFontSize}px` }}>
-              Hi {window.ENV.userName}，欢迎加入小课训练营</span>
+                Hi {window.ENV.userName}，欢迎加入小课训练营</span>
               <span className="small" style={{ fontSize: `${this.smallFontSize}px`, padding: `50px ${this.pd}px` }}>
-                体验训练营带学模式，快去加群。<br/>
-                请去“圈外同学” - “我的” - “个人中心” 查看加群消息吧~
-              </span><br/>
+                现在点击下方按钮，领取小Q的微信二维码。让TA拉你进学习群！
+              </span>
             </div>
           )
         default:
           return (
             <div className="welcome-tips">
               <span className={`big member${memberTypeId}`} style={{ fontSize: `${this.bigFontSize}px` }}>
-              Hi {window.ENV.userName}，欢迎加入精英会员</span>
+                Hi {window.ENV.userName}，欢迎加入精英会员</span>
               <span className="small" style={{ fontSize: `${this.smallFontSize}px`, padding: `50px ${this.pd}px` }}>
-              现在开始加群，进行主题学习，快去个人中心查看加群消息吧！
+                现在点击下方按钮，领取小Q的微信二维码。让TA拉你进学习群！
               </span>
             </div>
           )
@@ -102,7 +86,7 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
     }
 
     return (
-      <div className="rise-pay-success">
+      <div className="rise-pay-success" style={{ minHeight: window.innerHeight }}>
         <div className={`pay-result member${memberTypeId}`}>
           <div className={`content member${memberTypeId}`} style={{ width: this.cardWidth, height: this.cardHeight }}>
             <div className="times">
@@ -111,7 +95,7 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
           </div>
         </div>
         {renderWelComeTips()}
-        <div className="button-footer" onClick={() => this.go()}>确定</div>
+        <div className="close-button" onClick={() => closeWindow()}>领取小Q二维码</div>
       </div>
     )
   }
