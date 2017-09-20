@@ -28,6 +28,7 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
   }
 
   componentWillMount() {
+    changeTitle('了解更多')
     const { dispatch, location } = this.props
     const productId = _.get(location, 'query.productId')
     dispatch(startLoad())
@@ -46,10 +47,11 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
 
     pget('/customer/profile').then(res => {
       if(res.code === 200) {
+        console.log(res.msg)
         const { isFull, bindMobile } = res.msg
         this.setState({ isFull: isFull, bindMobile: bindMobile })
       } else {
-        dispatch(alertMsg(res.msg))
+        dispatch(alertMsg(ex))
       }
     }).catch(ex => {
       dispatch(alertMsg(ex))
@@ -81,8 +83,8 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
               <span className={`big member${memberTypeId}`} style={{ fontSize: `${this.bigFontSize}px` }}>
               Hi {window.ENV.userName}，欢迎加入小课训练营</span>
               <span className="small" style={{ fontSize: `${this.smallFontSize}px`, padding: `50px ${this.pd}px` }}>
-                现在开始加群，进行主题学习，快去个人中心查看加群消息吧！<br/>
-                9月13日的大咖直播（采铜）入场券将在活动前发送给你哦！
+                体验训练营带学模式，快去加群。<br/>
+                请去“圈外同学” - “我的” - “个人中心” 查看加群消息吧~
               </span><br/>
             </div>
           )

@@ -1,4 +1,163 @@
-.pay-info{
+@payInfoHasCouponHeight: 380px;
+@payInfoNoCouponHeight: 310px;
+@couponHeight: 77px;
+@halfCouponHeight: 38px;
+@hiddenHeight: -220px;
+@openCouponBtnTranslateY: 100px;
+
+.translateY(@y:0) {
+  -webkit-transform: translateY(@y);
+  -moz-transform: translateY(@y);
+  -ms-transform: translateY(@y);
+  -o-transform: translateY(@y);
+  transform: translateY(@y);
+}
+
+.simple-pay-info {
+  position: fixed;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  bottom: 0;
+  left: 0;
+  .translateY(100%);
+  &.show {
+    .translateY(0);
+  }
+
+  .close {
+    border: 1px solid #000;
+    border-radius: 100px;
+    color: #000;
+    position: fixed;
+    top: 5px;
+    right: 5px;
+    z-index: 1000;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 14px;
+  }
+  > .main-container {
+    background-color: #FFF;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 200;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    > .header {
+      text-align: center;
+      border-bottom: 1px solid #d0d0d0;
+      color: #333;
+      height: 40px;
+      line-height: 40px;
+      font-size: 16px;
+    }
+    > .content {
+      font-size: 16px;
+      > .item {
+        height: 50px;
+        line-height: 50px;
+        padding: 0 15px;
+        border-bottom: 1px solid #d0d0d0;
+      }
+      .final {
+        color: #28c7e1;
+        font-size: 20px;
+      }
+      .discard {
+        text-decoration: line-through;
+        color: #999999;
+      }
+      > .coupon {
+        &:after {
+          content: ' ';
+          display: inline-block;
+          background: url("https://static.iqycamp.com/images/mobilePersonalEnter.png?imageslim") no-repeat right center/  6px 11.5px;
+          width: 6px;
+          height: 11.5px;
+          float: right;
+          margin-top: 21.75px;
+          margin-left: 4px;
+        }
+      }
+    }
+    > ul {
+      opacity: 1;
+      margin: 0 15px;
+      list-style: none;
+      &.open {
+        opacity: 1;
+      }
+      height: 222px;
+    }
+    > .coupon-list {
+      position: relative;
+      z-index: 300;
+      overflow: scroll;
+
+      > li {
+        height: 50px;
+        line-height: 50px;
+        border-bottom: 1px solid #d0d0d0;
+        > .expired {
+          font-size: 12px;
+          color: #999;
+          margin-left: 10px;
+        }
+        > .describe {
+          font-size: 12px;
+          //color:#999;
+          margin-left: 5px;
+        }
+        > .btn {
+          &.chose {
+            color: #333;
+          }
+          width: 50px;
+          height: 25px;
+          font-size: 13px;
+          margin-top: 12px;
+          line-height: 25px;
+          background-color: #66ccff;
+          text-align: center;
+          border-radius: 5px;
+          float: right;
+          color: #fff;
+        }
+      }
+    }
+  }
+  > .btn-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 400;
+    background-color: #fff;
+    > .btn {
+      height: 42px;
+      background: url('https://static.iqycamp.com/images/sureToPayBtnV2.png?imageslim') center center/100% 100%;
+      //border:1px solid;
+      //border-image:-webkit-linear-gradient(315deg, orange, green) 5 5;
+      //border-image:linear-gradient(315deg,orange,green) 5 5;
+      margin: 15px;
+      //padding:5px;
+      //text-align: center;
+      > svg {
+        > text {
+          text-anchor: middle; /* 文本水平居中 */
+          dominant-baseline: middle; /* 文本垂直居中 */
+        }
+      }
+    }
+  }
+}
+
+.pay-info {
   > .mask {
     position: fixed;
     z-index: 10;
@@ -8,10 +167,23 @@
     left: 0;
     background: rgba(0, 0, 0, 0.6);
   }
+  &.show {
+    height: 100% !important;
+    .translateY(0);
+  }
+  &.hasCoupons {
+    height: @payInfoHasCouponHeight;
+    &.show {
+      .translateY(0);
+    }
+    .translateY(@payInfoHasCouponHeight);
+  }
+  .translateY(@payInfoNoCouponHeight);
+
   position: fixed;
   z-index: 100;
   width: 100%;
-  height: 100%;
+  height: @payInfoNoCouponHeight;
   bottom: 0;
   left: 0;
   -webkit-transition: transform 0.5s;
@@ -20,56 +192,78 @@
   -o-transition: transform 0.5s;
   transition: transform 0.5s;
 
-  > .close{
+  > .close {
+    &.hasCoupons {
+      bottom: @payInfoHasCouponHeight;
+    }
+    bottom: @payInfoNoCouponHeight;
     position: fixed;
     z-index: 500;
-    right:10px;
+    right: 10px;
   }
 
-  > .main-container{
-    background-color:#FFF;
-    height: 210px;
+  > .main-container {
+    background-color: rgb(245, 245, 245);
+    height: @payInfoNoCouponHeight;
+    &.hasCoupons {
+      height: @payInfoHasCouponHeight;
+    }
+    &.show {
+      display: block;
+    }
+    display: none;
     position: fixed;
-    bottom:0;
-    left:0;
-    z-index:200;
-    width:100%;
+    bottom: 0;
+    left: 0;
+    z-index: 200;
+    width: 100%;
     overflow: hidden;
-    > .header{
+    > .header {
+      &.openCoupon {
+        .translateY(@hiddenHeight);
+      }
+      .translateY(0);
       text-align: center;
-      border-bottom:1px solid #d0d0d0;
-      color:#333;
-      height:39px;
-      line-height:40px;
-      font-size:16px;
+      border-bottom: 1px solid #ececec;
+      color: #333;
+      height: 80px;
+      line-height: 80px;
+      font-size: 20px;
       -webkit-transition: transform 0.5s;
       -moz-transition: transform 0.5s;
       -ms-transition: transform 0.5s;
       -o-transition: transform 0.5s;
       transition: transform 0.5s;
     }
-    > .content{
-      font-size:16px;
+    > .content {
+      &.openCoupon {
+        .translateY(@hiddenHeight);
+      }
+      .translateY(0);
+      font-size: 16px;
       -webkit-transition: transform 0.5s;
       -moz-transition: transform 0.5s;
       -ms-transition: transform 0.5s;
       -o-transition: transform 0.5s;
       transition: transform 0.5s;
-      > .item{
-        height:49px;
-        line-height:50px;
-        padding:0 15px;
-        border-bottom:1px solid #d0d0d0;
+      > .item {
+        height: 69px;
+        line-height: 70px;
+        padding: 0 15px;
+        font-size: 18px;
+        color: #333;
+        border-bottom: 1px solid #ececec;
       }
-      .final{
-        color:#28c7e1;
-        font-size:20px;
+      .final {
+        color: #5e3e00;
+        font-size: 20px;
       }
-      .discard{
-        text-decoration:line-through;
-        color:#999999;
+      .discard {
+        text-decoration: line-through;
+        color: #999999;
       }
-      > .coupon{
+      > .coupon {
+        position: relative;
         &:after {
           content: ' ';
           display: inline-block;
@@ -82,28 +276,104 @@
           width: 6px;
           height: 11.5px;
           float: right;
-          margin-top: 21.75px;
+          margin-top: 29.75px;
           margin-left: 4px;
         }
-        &.open:after{
+        &.open:after {
           -webkit-transform: rotate(270deg);
           -moz-transform: rotate(270deg);
           -ms-transform: rotate(270deg);
           -o-transform: rotate(270deg);
           transform: rotate(270deg);
         }
+        &.no-arrow:after {
+          display: none;
+        }
+        .coupon-manual-close {
+          position: absolute;
+          top: 50%;
+          right: 20px;
+          .translateY(-50%);
+          display: inline-block;
+          width: 20%;
+          height: 28px;
+          line-height: 28px;
+          text-align: center;
+          border-radius: 5px;
+          color: #5b3f00;
+          font-size: 15px;
+          background: url('../../../../assets/icons/pay_btn_bg.png') center center/100% 100%;
+
+        }
       }
     }
     > ul {
-      opacity:1;
-      margin:0 15px;
+      opacity: 1;
+      margin: 0 15px;
       list-style: none;
-      &.open{
-        opacity:1;
+      &.open {
+        opacity: 1;
+        height: 310px;
       }
-      height:222px;
+      height: 222px;
     }
-    > .coupon-list{
+    > .coupon-list {
+      &.open {
+        .translateY(@hiddenHeight);
+      }
+
+      .choose-all-wrapper {
+        height: 77px;
+        position: relative;
+        width: 100%;
+        .choose-area {
+          float: right;
+          height: 77px;
+          line-height: 77px;
+          .choose-all-tips {
+            font-size: 12px;
+            color: #333;
+            margin-right: 63px;
+          }
+          .choose-all {
+            position: absolute;
+            top: 50%;
+            right: ~'calc((25% - 23px)/2)';
+            .translateY(-50%);
+            width: 23px;
+            height: 23px;
+            border: 1px solid #333;
+            border-radius: 5px;
+            &.chose {
+              border: none;
+              width: 24px;
+              height: 24px;
+              .btn {
+                background: url('../../../../assets/icons/tick.png') center center/100% 100%;
+                z-index: 7;
+                width: 80%;
+                height: 70%;
+                position: absolute;
+                left: 3px;
+                top: 3px;
+                border-radius: 5px;
+              }
+              .mask {
+                width: 100%;
+                height: 100%;
+                background-color: #000;
+                position: absolute;
+                left: 0;
+                top: 0;
+                z-index: 5;
+                border-radius: 5px;
+              }
+            }
+          }
+        }
+      }
+
+      .translateY(0);
       position: relative;
       z-index: 300;
       overflow: scroll;
@@ -112,71 +382,142 @@
       -ms-transition: transform 0.5s;
       -o-transition: transform 0.5s;
       transition: transform 0.5s;
-      > li{
-        height:50px;
-        line-height:50px;
-        border-bottom:1px solid #d0d0d0;
-        > .expired{
-          font-size:12px;
-          color:#999;
-          margin-left:10px;
+      > li {
+        background-color: #fff;
+        margin-bottom: 10px;
+        padding: 0 15px;
+        height: @couponHeight;
+        border-radius: 10px;
+        position: relative;
+        .coupon-left {
+          height: @couponHeight;
+          display: inline-block;
+          width: 75%;
+          position: relative;
+          .coupon-price {
+            position: absolute;
+            top: 15px;
+            left: 0;
+            font-size: 20px;
+            height: 20px;
+            line-height: 20px;
+            color: #5e3e00;
+          }
+          .coupon-desc {
+            height: @halfCouponHeight;
+            margin-top: 38px;
+            .expired {
+              font-size: 12px;
+              color: #333;
+            }
+            .describe {
+              font-size: 12px;
+              float: right;
+              color: #333;
+              line-height: 12px;
+              margin-top: 8px;
+            }
+          }
         }
-        > .describe{
-          font-size:12px;
-          //color:#999;
-          margin-left:5px;
+        .shuxian {
+          display: inline-block;
+          width: 1px;
+          height: 100%;
+          background: url('../../../../assets/icons/shuxian.png') center center/100% 100%;
+          vertical-align: top;
+          margin-left: 10px;
         }
-        > .btn{
-          width:50px;
-          height:25px;
-          font-size:13px;
-          margin-top:12px;
-          line-height:25px;
-          background-color:#66ccff;
-          text-align: center;
-          border-radius:5px;
-          float:right;
-          color:#fff;
-          padding: 0;
+        .coupon-btn {
+          position: absolute;
+          top: 50%;
+          right: ~'calc((25% - 23px)/2)';
+          .translateY(-50%);
+          width: 23px;
+          height: 23px;
+          border: 1px solid #333;
+          border-radius: 23px;
+          &.multiCoupons {
+            border-radius: 5px;
+          }
+          &.chose {
+            border: none;
+            width: 24px;
+            height: 24px;
+            .btn {
+              background: url('../../../../assets/icons/tick.png') center center/100% 100%;
+              z-index: 7;
+              width: 80%;
+              height: 70%;
+              position: absolute;
+              left: 3px;
+              top: 3px;
+              &.multiCoupons {
+                border-radius: 5px;
+              }
+              border-radius: 23px;
+            }
+            .mask {
+              width: 100%;
+              height: 100%;
+              background-color: #000;
+              position: absolute;
+              left: 0;
+              top: 0;
+              z-index: 5;
+              &.multiCoupons {
+                border-radius: 5px;
+              }
+              border-radius: 23px;
+            }
+          }
         }
       }
     }
   }
-  > .btn-container{
+  > .btn-container {
     position: absolute;
-    height: 70px;
-    bottom:0;
-    left:0;
-    width:100%;
+    height: 89px;
+    bottom: 0;
+    left: 0;
+    width: 100%;
     z-index: 400;
-    background-color:#fff;
-
+    background-color: #f5f5f5;
+    &.openCoupon {
+      .translateY(@openCouponBtnTranslateY)
+    }
     -webkit-transition: transform 0.5s;
     -moz-transition: transform 0.5s;
     -ms-transition: transform 0.5s;
     -o-transition: transform 0.5s;
     transition: transform 0.5s;
-    -webkit-transform: translateY(0);
-    -moz-transform: translateY(0);
-    -ms-transform: translateY(0);
-    -o-transform: translateY(0);
-    transform: translateY(0);
-    > .btn{
-      height:42px;
-      //background:url('') center center/100% 100%;
-      background-color: transparent;
-      background-image: url("https://static.iqycamp.com/images/sureToPayBtnV2.png?imageslim");
-      background-size: 100% 100%;
-      //border:1px solid;
-      //border-image:-webkit-linear-gradient(315deg, orange, green) 5 5;
-      //border-image:linear-gradient(315deg,orange,green) 5 5;
-      margin:15px;
-      padding: 0;
-      //padding:5px;
-      //text-align: center;
-      > svg{
-        > text{
-          text-anchor: middle;  /* 文本水平居中 */
+    .translateY(0);
+    > .btn {
+      height: 40px;
+      margin: 0 6%;
+      position: absolute;
+      width: 88%;
+      top: 50%;
+      left: 0;
+      .translateY(-50%);
+      background: url('../../../../assets/icons/pay_btn_bg.png') center center/100% 100%;
+      background-color: #e3ca65;
+      border-radius: 20px;
+      font-size: 20px;
+      color: #5b3f00;
+      line-height: 40px;
+      overflow: hidden;
+      &:after {
+        content: '';
+        width: 98%;
+        height: 0px;
+        display: block;
+        box-shadow: 0 -15px 27px 1px #000;
+        background: rgba(0, 0, 0, 0);
+        margin: 0 auto;
+      }
+      > svg {
+        > text {
+          text-anchor: middle; /* 文本水平居中 */
           dominant-baseline: middle; /* 文本垂直居中 */
         }
       }

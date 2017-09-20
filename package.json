@@ -40,7 +40,10 @@
     "redux-logger": "^2.7.0",
     "redux-thunk": "^2.1.0",
     "ua-device": "^0.1.10",
-    "weui": "^0.4.3"
+    "weui": "^0.4.3",
+    "swiper": "3.4.2",
+    "fbjs": "0.8.9",
+    "axios":"0.15.3"
   },
   "devDependencies": {
     "@types/node": "0.0.3",
