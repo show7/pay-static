@@ -130,7 +130,7 @@ export default class CampPay extends React.Component<any, any> {
       return (
         <div className="pay-page">
           <div className="sale-pic">
-            <img src="https://static.iqycamp.com/images/camp_promotion_2.png?imageslim"
+            <img src="https://static.iqycamp.com/images/camp_promotion_3.png?imageslim"
                  style={{ width: '100%' }}
                  onLoad={() => this.setState({ loading: false })}/>
           </div>
