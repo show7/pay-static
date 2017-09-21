@@ -51,7 +51,7 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
   render() {
     const { memberTypeId, startTime, endTime } = this.state
     const renderWelComeTips = () => {
-      switch(memberTypeId) {
+      switch(parseInt(memberTypeId)) {
         case 5:
           return (
             <div className="welcome-tips">
