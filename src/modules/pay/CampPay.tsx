@@ -22,7 +22,7 @@ export default class SignUp extends React.Component<any, any> {
   constructor() {
     super()
     this.state = {
-      showId: 3,
+      showId: 5,
       timeOut: false,
       showErr: false,
       showCodeErr: false,
@@ -49,7 +49,7 @@ export default class SignUp extends React.Component<any, any> {
     dispatch(startLoad())
 
     let queryShowId = this.props.location.query.showId
-    this.setState({ showId: queryShowId ? parseInt(queryShowId) : 3 })
+    this.setState({ showId: queryShowId ? parseInt(queryShowId) : 5 })
 
     // 查询订单信息
     pget(`/signup/rise/member`).then(res => {
@@ -135,7 +135,7 @@ export default class SignUp extends React.Component<any, any> {
                  onLoad={()=>this.setState({loading:false})}></img>
           </div>
           <div className="button-footer" onClick={()=>this.handleClickOpenPayInfo(showId)}>
-            加入商学院
+            <dvi className="footer-btn">加入商学院</dvi>
           </div>
         </div>
       )
