@@ -135,7 +135,7 @@ export default class SignUp extends React.Component<any, any> {
                  onLoad={()=>this.setState({loading:false})}></img>
           </div>
           <div className="button-footer" onClick={()=>this.handleClickOpenPayInfo(showId)}>
-            加入商学院
+            <dvi className="footer-btn">加入商学院</dvi>
           </div>
         </div>
       )
