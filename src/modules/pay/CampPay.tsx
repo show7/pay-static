@@ -13,7 +13,7 @@ import PicLoading from './components/PicLoading'
 const numeral = require('numeral')
 
 @connect(state => state)
-export default class SignUp extends React.Component<any, any> {
+export default class CampPay extends React.Component<any, any> {
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
@@ -45,11 +45,7 @@ export default class SignUp extends React.Component<any, any> {
     }
 
     const { dispatch, location } = this.props
-    const productId = _.get(location, 'query.productId')
     dispatch(startLoad())
-
-    let queryShowId = this.props.location.query.showId
-    this.setState({ showId: queryShowId ? parseInt(queryShowId) : 5 })
 
     // 查询订单信息
     pget(`/signup/rise/member`).then(res => {
@@ -134,7 +130,7 @@ export default class SignUp extends React.Component<any, any> {
                  onLoad={()=>this.setState({loading:false})}></img>
           </div>
           <div className="button-footer" onClick={()=>this.handleClickOpenPayInfo(showId)}>
-            <dvi className="footer-btn">加入商学院</dvi>
+            <dvi className="footer-btn">加入训练营</dvi>
           </div>
         </div>
       )
