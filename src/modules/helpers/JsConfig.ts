@@ -1,5 +1,6 @@
 import {pget, mark} from "utils/request"
 import * as _ from "lodash"
+import JsConfigService from "./JsConfigService"
 
 
 export function config(apiList,callback){
