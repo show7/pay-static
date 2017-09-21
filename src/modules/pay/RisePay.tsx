@@ -134,9 +134,9 @@ export default class RisePay extends React.Component<any, any> {
       return (
         <div className="pay-page">
           <div className="sale-pic">
-            <img src="https://static.iqycamp.com/images/rise_promotion.png?imageslim"
-                 style={{ width: '100%' }}
-                 onLoad={() => this.setState({ loading: false })}/>
+            <img src="https://static.iqycamp.com/images/rise_promotion_2.png?imageslim"
+                 style={{width: '100%'}}
+                 onLoad={()=>this.setState({loading:false})}/>
           </div>
           {
             privilege ?
