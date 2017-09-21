@@ -53,7 +53,6 @@ export default class SignUp extends React.Component<any, any> {
 
     // 查询订单信息
     pget(`/signup/rise/member`).then(res => {
-      console.log(res)
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({ data: res.msg })
