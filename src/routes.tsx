@@ -3,6 +3,7 @@ import { config } from "modules/helpers/JsConfig"
 import { Route } from "react-router"
 import Base from "modules/base/Base"
 import RisePay from "modules/pay/RisePay"
+import CampPay from "modules/pay/CampPay"
 
 import NormalQuestion from "modules/pay/NormalQuestion";
 import Pay from "modules/pay/PayPage"
@@ -20,6 +21,7 @@ const routes = (
       <Route path="/pay/risemember/normalquestion" component={NormalQuestion}/>
 
       <Route path="pay/rise" component={RisePay}/>
+      <Route path="pay/camp" component={CampPay}/>
     </Route>
   </Route>
 )
