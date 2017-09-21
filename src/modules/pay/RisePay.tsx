@@ -13,7 +13,7 @@ import PicLoading from './components/PicLoading'
 const numeral = require('numeral')
 
 @connect(state => state)
-export default class SignUp extends React.Component<any, any> {
+export default class RisePay extends React.Component<any, any> {
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
@@ -44,16 +44,11 @@ export default class SignUp extends React.Component<any, any> {
       return
     }
 
-    const { dispatch, location } = this.props
-    const productId = _.get(location, 'query.productId')
+    const { dispatch } = this.props
     dispatch(startLoad())
-
-    let queryShowId = this.props.location.query.showId
-    this.setState({ showId: queryShowId ? parseInt(queryShowId) : 3 })
 
     // 查询订单信息
     pget(`/signup/rise/member`).then(res => {
-      console.log(res)
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({ data: res.msg })
@@ -132,10 +127,10 @@ export default class SignUp extends React.Component<any, any> {
           <div className="sale-pic">
             <img src="https://static.iqycamp.com/images/fragment/free_limit_welcome_2.jpg?imageslim"
                  style={{width: '100%'}}
-                 onLoad={()=>this.setState({loading:false})}></img>
+                 onLoad={()=>this.setState({loading:false})}/>
           </div>
           <div className="button-footer" onClick={()=>this.handleClickOpenPayInfo(showId)}>
-            <dvi className="footer-btn">加入商学院</dvi>
+            <div className="footer-btn">加入商学院</div>
           </div>
         </div>
       )

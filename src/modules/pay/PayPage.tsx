@@ -288,7 +288,6 @@ export default class SignUp extends React.Component<any, any> {
   }
 
   render() {
-    console.log('enter render')
     const { memberTypes, showId, timeOut, showErr, showCodeErr } = this.state
 
     const showMember = _.find(memberTypes, { id: showId })
