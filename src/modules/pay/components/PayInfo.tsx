@@ -441,15 +441,17 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       }
 
       let priceArr = []
-      if((final || free) && !_.isEqual(final, fee)) {
+      if(initPrice && !_.isEqual(initPrice, fee)) {
+        priceArr.push(<span className="discard" key={0}>{`原价：¥${numeral(initPrice).format('0.00')}元`}</span> )
+      } else if((final || free) && !_.isEqual(final, fee)) {
         priceArr.push(<span className="discard" key={0}>{`¥ ${numeral(fee).format('0.00')}元`}</span>)
+      }
+
+      if(priceArr.length >= 1) {
         priceArr.push(<span className="final" key={1}
-                            style={{ marginLeft: '5px' }}>{`¥ ${numeral(final).format('0.00')}元`}</span>)
+                            style={{ marginLeft: '5px' }}>{`¥ ${numeral((final || free) && !_.isEqual(final, fee) ? final : fee).format('0.00')}元`}</span>)
       } else {
         priceArr.push(<span className="final" key={0}>{`¥ ${numeral(fee).format('0.00')}元`}</span>)
-      }
-      if(initPrice) {
-        priceArr.push(<span className="init-price" key={priceArr.length}>{`原价：¥ ${numeral(initPrice).format('0.00')}元`}</span> )
       }
       return priceArr
     }
