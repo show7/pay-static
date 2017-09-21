@@ -62,7 +62,7 @@ export default class RisePay extends React.Component<any, any> {
   }
 
   handlePayedDone() {
-    this.context.router.push('/pay/risemember/success')
+    this.context.router.push({pathname:'/pay/risemember/success'})
   }
 
   /** 处理支付失败的状态 */
@@ -108,6 +108,10 @@ export default class RisePay extends React.Component<any, any> {
     })
   }
 
+  redirect(){
+    window.location.href='https://www.iquanwai.com/survey/wjx?activity=16666777'
+  }
+
   /**
    * 重新注册页面签名
    */
@@ -117,7 +121,7 @@ export default class RisePay extends React.Component<any, any> {
 
   render() {
     const { data, showId, timeOut, showErr, showCodeErr, loading } = this.state
-    const { memberTypes } = data
+    const { memberTypes, privilege } = data
 
     const showMember = _.find(memberTypes, { id: showId })
 
@@ -125,13 +129,20 @@ export default class RisePay extends React.Component<any, any> {
       return (
         <div className="pay-page">
           <div className="sale-pic">
-            <img src="https://static.iqycamp.com/images/fragment/free_limit_welcome_2.jpg?imageslim"
+            <img src="https://static.iqycamp.com/images/rise_promotion.png?imageslim"
                  style={{width: '100%'}}
                  onLoad={()=>this.setState({loading:false})}/>
           </div>
-          <div className="button-footer" onClick={()=>this.handleClickOpenPayInfo(showId)}>
-            <div className="footer-btn">加入商学院</div>
-          </div>
+          {
+            privilege ?
+              <div className="button-footer" onClick={()=>this.handleClickOpenPayInfo(showId)}>
+                <div className="footer-btn">立即入学</div>
+              </div> :
+              <div className="button-footer" onClick={()=>this.redirect()}>
+                <div className="footer-btn">申请商学院</div>
+              </div>
+          }
+
         </div>
       )
     }
@@ -161,7 +172,7 @@ export default class RisePay extends React.Component<any, any> {
               3，在新开的页面完成支付即可<br/>
             </div>
             <img className="xiaoQ" style={{ width: '50%' }}
-                 src="https://static.iqycamp.com/images/rise_member_pay_code.jpeg?imageslim"/>
+                 src="https://static.iqycamp.com/images/pay_rise_code.png?imageslim"/>
           </div> : null}
         { showMember ? <PayInfo ref="payInfo"
                                dispatch={this.props.dispatch}

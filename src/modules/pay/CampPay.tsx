@@ -125,7 +125,7 @@ export default class CampPay extends React.Component<any, any> {
       return (
         <div className="pay-page">
           <div className="sale-pic">
-            <img src="https://static.iqycamp.com/images/fragment/free_limit_welcome_2.jpg?imageslim"
+            <img src="https://static.iqycamp.com/images/camp_promotion.png?imageslim"
                  style={{width: '100%'}}
                  onLoad={()=>this.setState({loading:false})}/>
           </div>
@@ -161,7 +161,7 @@ export default class CampPay extends React.Component<any, any> {
               3，在新开的页面完成支付即可<br/>
             </div>
             <img className="xiaoQ" style={{ width: '50%' }}
-                 src="https://static.iqycamp.com/images/rise_member_pay_code.jpeg?imageslim"/>
+                 src="https://static.iqycamp.com/images/pay_camp_code.png?imageslim"/>
           </div> : null}
         { showMember ? <PayInfo ref="payInfo"
                                dispatch={this.props.dispatch}

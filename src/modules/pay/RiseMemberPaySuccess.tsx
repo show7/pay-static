@@ -29,9 +29,7 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    changeTitle('了解更多')
-    const { dispatch, location } = this.props
-    const productId = _.get(location, 'query.productId')
+    const { dispatch } = this.props
     dispatch(startLoad())
     // 查询订单信息
     pget('/customer/rise/member').then(res => {
@@ -51,11 +49,15 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
         const { isFull, bindMobile } = res.msg
         this.setState({ isFull: isFull, bindMobile: bindMobile })
       } else {
-        dispatch(alertMsg(ex))
+        dispatch(alertMsg(res.msg))
       }
     }).catch(ex => {
       dispatch(alertMsg(ex))
     })
+  }
+
+  close(){
+    closeWindow()
   }
 
   render() {
@@ -68,7 +70,7 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
               <span className={`big member${memberTypeId}`} style={{ fontSize: `${this.bigFontSize}px` }}>
                 Hi {window.ENV.userName}，欢迎加入小课训练营</span>
               <span className="small" style={{ fontSize: `${this.smallFontSize}px`, padding: `50px ${this.pd}px` }}>
-                现在点击下方按钮，领取小Q的微信二维码。让TA拉你进学习群！
+                现在点击下方按钮，领取圈外客服的微信二维码。让TA拉你进学习群！
               </span>
             </div>
           )
@@ -76,9 +78,9 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
           return (
             <div className="welcome-tips">
               <span className={`big member${memberTypeId}`} style={{ fontSize: `${this.bigFontSize}px` }}>
-                Hi {window.ENV.userName}，欢迎加入精英会员</span>
+                Hi {window.ENV.userName}，欢迎加入商学院</span>
               <span className="small" style={{ fontSize: `${this.smallFontSize}px`, padding: `50px ${this.pd}px` }}>
-                现在点击下方按钮，领取小Q的微信二维码。让TA拉你进学习群！
+                现在点击下方按钮，领取圈外客服的微信二维码。让TA拉你进学习群！
               </span>
             </div>
           )
@@ -95,7 +97,7 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
           </div>
         </div>
         {renderWelComeTips()}
-        <div className="close-button" onClick={() => closeWindow()}>领取小Q二维码</div>
+        <div className="close-button" onClick={() => closeWindow()}>领取圈外客服二维码</div>
       </div>
     )
   }
