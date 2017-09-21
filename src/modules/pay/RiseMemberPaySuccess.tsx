@@ -28,28 +28,22 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
 
   componentWillMount() {
     const { dispatch } = this.props
+    const { memberTypeId } = this.props.location.query
     dispatch(startLoad())
     // 查询订单信息
-    pget('/customer/rise/member').then(res => {
+    pget(`/customer/rise/member/${memberTypeId}`).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        this.setState(res.msg)
+        this.setState({
+          startTime: res.msg.startTime,
+          endTime: res.msg.endTime,
+          memberTypeId: memberTypeId
+        })
       } else {
         dispatch(alertMsg(res.msg))
       }
     }).catch(ex => {
       dispatch(endLoad())
-      dispatch(alertMsg(ex))
-    })
-
-    pget('/customer/profile').then(res => {
-      if(res.code === 200) {
-        const { isFull, bindMobile } = res.msg
-        this.setState({ isFull: isFull, bindMobile: bindMobile })
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch(ex => {
       dispatch(alertMsg(ex))
     })
   }
