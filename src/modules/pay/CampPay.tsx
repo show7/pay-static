@@ -127,10 +127,10 @@ export default class CampPay extends React.Component<any, any> {
           <div className="sale-pic">
             <img src="https://static.iqycamp.com/images/fragment/free_limit_welcome_2.jpg?imageslim"
                  style={{width: '100%'}}
-                 onLoad={()=>this.setState({loading:false})}></img>
+                 onLoad={()=>this.setState({loading:false})}/>
           </div>
           <div className="button-footer" onClick={()=>this.handleClickOpenPayInfo(showId)}>
-            <dvi className="footer-btn">加入训练营</dvi>
+            <div className="footer-btn">加入训练营</div>
           </div>
         </div>
       )

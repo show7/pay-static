@@ -250,7 +250,6 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     let coupons = _.get(this.state, 'coupons', [])
     coupons = this.filterCoupons(coupons, goodsType)
     let chose = _.get(this.state, 'chose', {});
-    console.log(coupon, coupons, chose);
     dispatch(startLoad())
     let param = { goodsId: goodsId, goodsType: goodsType }
     if(multiCoupons) {
@@ -390,9 +389,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       for(let i = 0; i < coupons.length; i++) {
         if(_.indexOf(choseList, coupons[ i ].id) === -1) {
           choseList.push(coupons[ i ].id);
-          console.log(chose.total)
           chose.total += coupons[ i ].amount;
-          console.log(chose.total)
           addCount++;
         }
       }
@@ -424,7 +421,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
   }
 
   render() {
-    const { openCoupon, final, fee, chose, free, show, name, startTime, endTime, activity, multiCoupons, chooseAll } = this.state
+    const { openCoupon, final, fee, chose, free, show, name, startTime, endTime, activity, multiCoupons, chooseAll, initPrice } = this.state
     const { header, goodsId, goodsType } = this.props
     let coupons = _.get(this.state, 'coupons', [])
     coupons = this.filterCoupons(coupons, goodsType)
@@ -435,9 +432,10 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
      * @param fee 价格
      * @param final 最终价格（打折后）
      * @param free 是否免费
+     * @param initPrice 原价
      * @returns {Array} 展示dom结构
      */
-    const renderPrice = (fee, final, free) => {
+    const renderPrice = (fee, final, free, initPrice) => {
       if(activity) {
         fee = activity.price
       }
@@ -450,11 +448,13 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       } else {
         priceArr.push(<span className="final" key={0}>{`¥ ${numeral(fee).format('0.00')}元`}</span>)
       }
+      if(initPrice) {
+        priceArr.push(<span className="init-price" key={priceArr.length}>{`原价：¥ ${numeral(initPrice).format('0.00')}元`}</span> )
+      }
       return priceArr
     }
 
     const couponChosen = (item) => {
-      console.log(multiCoupons, _.isEqual(_.get(chose, 'couponId'), item.id), chose, item.id)
       if(multiCoupons) {
         return _.indexOf(_.get(chose, 'couponsIdGroup'), item.id) !== -1
       } else {
@@ -520,7 +520,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
           </div>
           <div className={`content ${openCoupon?'openCoupon':''}`}>
             <div className="price item">
-              {renderPrice(fee, final, free)}
+              {renderPrice(fee, final, free, initPrice)}
             </div>
             {!!startTime && !!endTime ? <div className="open-time item">
               有效时间：{startTime} - {endTime}
