@@ -55,28 +55,36 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
         case 5:
           return (
             <div className="welcome-tips">
-              <span className={`big member${memberTypeId}`} style={{ fontSize: `${this.bigFontSize}px` }}>
-                Hi {window.ENV.userName}，欢迎加入小课训练营</span>
-              <span className="small" style={{ fontSize: `${this.smallFontSize}px`, padding: `50px ${this.pd}px` }}>
-                现在点击下方按钮，领取圈外客服的微信二维码。让TA拉你进学习群！
-              </span>
+              <div className="nickname">
+                Hi {window.ENV.userName}
+              </div>
+              <div className="welcome">
+                欢迎加入训练营
+              </div>
+              <div className="tips">
+                现在点击下方按钮，领取圈外客服的微信二维码。让ta拉你进学习群吧！
+              </div>
             </div>
           )
         default:
           return (
             <div className="welcome-tips">
-              <span className={`big member${memberTypeId}`} style={{ fontSize: `${this.bigFontSize}px` }}>
-                Hi {window.ENV.userName}，欢迎加入商学院</span>
-              <span className="small" style={{ fontSize: `${this.smallFontSize}px`, padding: `50px ${this.pd}px` }}>
-                现在点击下方按钮，领取圈外客服的微信二维码。让TA拉你进学习群！
-              </span>
+              <div className="nickname">
+                Hi {window.ENV.userName}
+              </div>
+              <div className="welcome">
+                欢迎加入商学院
+              </div>
+              <div className="tips">
+                现在点击下方按钮，领取圈外客服的微信二维码。让ta拉你进学习群吧！
+              </div>
             </div>
           )
       }
     }
 
     return (
-      <div className="rise-pay-success" style={{ minHeight: window.innerHeight }}>
+      <div className="rise-pay-success" >
         <div className={`pay-result member${memberTypeId}`}>
           <div className={`content member${memberTypeId}`} style={{ width: this.cardWidth, height: this.cardHeight }}>
             <div className="times">
@@ -85,7 +93,7 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
           </div>
         </div>
         {renderWelComeTips()}
-        <div className="close-button" onClick={() => closeWindow()}>领取圈外客服二维码</div>
+        <div className="close-button" onClick={() => closeWindow()}>我要进群</div>
       </div>
     )
   }
