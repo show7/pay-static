@@ -1,11 +1,9 @@
 import * as React from 'react'
-import * as _ from 'lodash'
 import './RiseMemberPaySuccess.less'
 import { connect } from 'react-redux'
 import { ppost, pget } from 'utils/request'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { Button, ButtonArea } from 'react-weui'
-import { changeTitle } from 'utils/helpers'
 import { closeWindow } from '../helpers/JsConfig'
 
 const P = 'signup'
@@ -54,10 +52,6 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
     }).catch(ex => {
       dispatch(alertMsg(ex))
     })
-  }
-
-  close(){
-    closeWindow()
   }
 
   render() {
