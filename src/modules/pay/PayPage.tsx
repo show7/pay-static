@@ -100,7 +100,7 @@ export default class SignUp extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    window.location.href = `https://${window.location.hostname}/pay/rise`
+    this.context.router.push('/pay/rise')
     // ios／安卓微信支付兼容性
     if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href) {
       ppost('/b/mark', {
@@ -149,13 +149,13 @@ export default class SignUp extends React.Component<any, any> {
             const { activeIndex } = swiper
             this.setState({ showId: this.sliderToMember(activeIndex) })
           })
-          this.setState({ swiper: mySwiper },()=>{
+          this.setState({ swiper: mySwiper }, () => {
             // TODO 临时代码，随时准备删除
-            const { location } = this.props;
+            const { location } = this.props
             if(location.query.showId === '5') {
               pget(`/signup/rise/member/check/5`).then(res => {
                 if(res.code === 200) {
-                  if(!_.isEmpty(coupons)){
+                  if(!_.isEmpty(coupons)) {
                     // 有优惠券
                     this.refs.payInfo.handleClickOpen()
                   } else {
@@ -163,10 +163,10 @@ export default class SignUp extends React.Component<any, any> {
                     this.refs.payInfo.handleClickPay()
                   }
                 }
-              });
+              })
             }
           })
-        });
+        })
         scroll(0, 2000)
       } else {
         dispatch(alertMsg(res.msg))
@@ -203,7 +203,7 @@ export default class SignUp extends React.Component<any, any> {
 
   /** 处理支付失败的状态 */
   handlePayedError(res) {
-    let param = _.get(res,'err_desc');
+    let param = _.get(res, 'err_desc')
     if(param.indexOf('跨公众号发起') != -1) {
       // 跨公众号
       this.setState({ showCodeErr: true })
@@ -248,7 +248,7 @@ export default class SignUp extends React.Component<any, any> {
    * 重新注册页面签名
    */
   reConfig() {
-    config([ 'chooseWXPay' ])
+    config(['chooseWXPay'])
   }
 
   /**
@@ -274,7 +274,7 @@ export default class SignUp extends React.Component<any, any> {
     switch(id) {
       case 5:
         // 小课训练营
-        window.location.href = "http://mp.weixin.qq.com/s/oPyne7M3mGFMzUymTGHLdQ"
+        window.location.href = 'http://mp.weixin.qq.com/s/oPyne7M3mGFMzUymTGHLdQ'
         break
       default:
         this.context.router.push({
@@ -283,7 +283,7 @@ export default class SignUp extends React.Component<any, any> {
             memberType: id
           }
         })
-        break;
+        break
     }
   }
 
