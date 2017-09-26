@@ -30,7 +30,7 @@ export default class RiseApply extends React.Component<any, any> {
       return (
         <div className="pay-page">
           <div className="sale-pic">
-            <img src="https://static.iqycamp.com/images/rise_promotion_5.png?imageslim"
+            <img src="https://static.iqycamp.com/images/rise_promotion_6.png?imageslim"
                  style={{ width: '100%' }}
                  onLoad={() => this.setState({ loading: false })}/>
           </div>
