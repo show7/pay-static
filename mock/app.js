@@ -19,6 +19,5 @@ app.use("/js/", express.static(path.join(__dirname, "../js")))
 
 // API
 app.use(require('./signup/router'))
-app.use(require('./personal/router'))
 
 module.exports = app
