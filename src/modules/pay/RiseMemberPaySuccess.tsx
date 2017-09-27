@@ -31,7 +31,7 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
     const { memberTypeId } = this.props.location.query
     dispatch(startLoad())
     // 查询订单信息
-    pget(`/customer/rise/member/${memberTypeId}`).then(res => {
+    pget(`/signup/rise/member/${memberTypeId}`).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({

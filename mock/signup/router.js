@@ -563,7 +563,7 @@ router.get("/personal/province/load", (req, res) => {
       }, "code": 200
     }), Math.random() * 1500)
 });
-router.get("/customer/rise/member", (req, res) => {
+router.get("/signup/rise/member/*", (req, res) => {
   setTimeout(() => {
     res.status(200).json({
       "msg": {
