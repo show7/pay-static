@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as _ from 'lodash'
 import './CampPay.less'
 import { connect } from 'react-redux'
-import { ppost, pget } from 'utils/request'
+import { ppost, pget, mark } from 'utils/request'
 import { getGoodName } from 'utils/helpers'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { Button, ButtonArea } from 'react-weui'
@@ -32,6 +32,7 @@ export default class CampPay extends React.Component<any, any> {
   }
 
   componentWillMount() {
+    mark({ module: '打点', function: '小课训练营', action: '购买小课训练营' })
     // ios／安卓微信支付兼容性
     if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href) {
       ppost('/b/mark', {

@@ -2,13 +2,13 @@ import * as React from 'react'
 import * as _ from 'lodash'
 import './RisePay.less'
 import { connect } from 'react-redux'
-import { ppost, pget } from 'utils/request'
+import { ppost, pget, mark } from 'utils/request'
 import { getGoodName } from 'utils/helpers'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
-import { Button, ButtonArea } from 'react-weui'
 import { config } from 'modules/helpers/JsConfig'
 import PayInfo from './components/PayInfo'
 import PicLoading from './components/PicLoading'
+import { mevent } from '../../utils/mark'
 
 const numeral = require('numeral')
 
@@ -32,6 +32,7 @@ export default class RisePay extends React.Component<any, any> {
   }
 
   componentWillMount() {
+    mark({ module: '打点', function: '商学院会员', action: '购买商学院会员' })
     // ios／安卓微信支付兼容性
     if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href) {
       ppost('/b/mark', {
@@ -114,7 +115,10 @@ export default class RisePay extends React.Component<any, any> {
   }
 
   redirect() {
-    window.location.href = 'https://www.iquanwai.com/survey/wjx?activity=16666777'
+    mevent('商学院guest', '申请商学院')
+    mark({ module: '打点', function: '商学院会员', action: '申请商学院' }).then(res=>{
+      window.location.href = 'https://www.iquanwai.com/survey/wjx?activity=16666777'
+    })
   }
 
   /**
