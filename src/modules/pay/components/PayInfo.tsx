@@ -72,7 +72,12 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     }
     loadGoodsInfo(goodsType, goodsId).then(res => {
       if(res.code === 200) {
-        this.setState(res.msg)
+        this.setState(res.msg, () => {
+          // 如果autoChose有值则自动选择优惠券
+          if(res.msg.autoCoupons && res.msg.coupons) {
+
+          }
+        })
         if(_.isFunction(this.props.gotGoods)) {
           this.props.gotGoods(res.msg)
         }
@@ -253,6 +258,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     dispatch(startLoad())
     let param = { goodsId: goodsId, goodsType: goodsType }
     if(multiCoupons) {
+      // 可以选择多个优惠券
       if(chose === null) {
         chose = {
           couponsIdGroup: []
@@ -270,6 +276,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       }
       _.merge(param, { couponsIdGroup: chose.couponsIdGroup });
     } else {
+      // 不可以选择多个优惠券
       _.merge(param, { couponId: coupon.id });
       chose.couponId = coupon.id;
       chose.total = coupon.amount;
