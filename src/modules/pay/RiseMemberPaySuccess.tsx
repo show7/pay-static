@@ -20,7 +20,7 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
     super()
     this.state = {}
     this.cardWidth = 540 / 750 * window.innerWidth
-    this.cardHeight = this.cardWidth * (208 / 375)
+    this.cardHeight = this.cardWidth * (300 / 540)
     this.bigFontSize = 40 / 750 * window.innerWidth
     this.smallFontSize = 30 / 750 * window.innerWidth
     this.pd = 130 / 750 * window.innerWidth
