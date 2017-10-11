@@ -98,6 +98,8 @@
       position: relative;
       z-index: 300;
       overflow: scroll;
+      -webkit-overflow-scrolling: touch;
+
 
       > li {
         height: 50px;
@@ -318,6 +320,7 @@
       height: 222px;
     }
     > .coupon-list {
+      -webkit-overflow-scrolling: touch;
       &.open {
         .translateY(@hiddenHeight);
       }
