@@ -95,7 +95,6 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     document.querySelector('.coupon-list').addEventListener('scroll', function(e) {
       let _this = this;
       if(_this.scrollTop >= _this.scrollHeight - _this.clientHeight - 1) {
-        console.log('滚动到底部');
         _this.scrollTop = _this.scrollHeight - _this.clientHeight - 1;
       } else if(_this.scrollTop <= 1) {
         _this.scrollTop = 1;
