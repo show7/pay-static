@@ -2,6 +2,7 @@ import * as React from 'react'
 import './PayInfo.less'
 import Icon from '../../../components/Icon'
 import * as _ from 'lodash'
+
 const numeral = require('numeral')
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import {
@@ -75,7 +76,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
         this.setState(res.msg, () => {
           // 如果autoChose有值则自动选择优惠券
           if(res.msg.autoCoupons && res.msg.coupons) {
-
+            this.handleAutoChooseCoupon(res.msg.autoCoupons, res.msg.multiCoupons, goodsType, goodsId);
           }
         })
         if(_.isFunction(this.props.gotGoods)) {
@@ -242,6 +243,52 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
         }
       }
     )
+  }
+
+  handleAutoChooseCoupon(autoCoupons, multiCoupons, goodsType, goodsId) {
+    if(_.isEmpty(autoCoupons)) {
+      return;
+    }
+    const { dispatch } = this.props
+    // 可用的优惠券
+    let chose = {
+      couponsIdGroup: [],
+      couponId: undefined,
+      total: 0,
+      used: false,
+    }
+    let param = { goodsId: goodsId, goodsType: goodsType }
+
+    if(multiCoupons) {
+      chose.used = true;
+      for(let i = 0; i < autoCoupons.length; i++) {
+        chose.couponsIdGroup.push(autoCoupons[ i ].id);
+        chose.total += autoCoupons[ i ].amount;
+      }
+      _.merge(param, { couponsIdGroup: chose.couponsIdGroup });
+    } else {
+      // 不可以选择多个优惠券
+      _.merge(param, { couponId: _.get(autoCoupons, '[0].id') });
+      chose.couponId = _.get(autoCoupons, '[0].id');
+      chose.total = _.get(autoCoupons, '[0].amount');
+      chose.used = true;
+    }
+    console.log(param);
+    calculateCoupons(param).then((res) => {
+      dispatch(endLoad())
+      if(res.code === 200) {
+        let state = { free: res.msg === 0, chose: chose, final: res.msg };
+        if(!multiCoupons) {
+          _.merge(state, { openCoupon: false });
+        }
+        this.setState(state)
+      } else {
+        dispatch(alertMsg(res.msg))
+      }
+    }).catch(ex => {
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
+    })
 
   }
 
@@ -449,7 +496,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
 
       let priceArr = []
       if(initPrice && !_.isEqual(initPrice, fee)) {
-        priceArr.push(<span className="discard" key={0}>{`原价：¥${numeral(initPrice).format('0.00')}元`}</span> )
+        priceArr.push(<span className="discard" key={0}>{`原价：¥${numeral(initPrice).format('0.00')}元`}</span>)
       } else if((final || free) && !_.isEqual(final, fee)) {
         priceArr.push(<span className="discard" key={0}>{`¥ ${numeral(fee).format('0.00')}元`}</span>)
       }
@@ -476,7 +523,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
 
       // <!-- 安卓4.3 以下 -->
       return (
-        <div className={`simple-pay-info ${show?'show':''}`}>
+        <div className={`simple-pay-info ${show ? 'show' : ''}`}>
           <div className="close" onClick={() => this.handleClickClose()}>
             关闭
           </div>
@@ -502,7 +549,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                     ¥{numeral(item.amount).format('0.00')}元
                     <span className="describe">{item.description ? item.description : ''}</span>
                     <span className="expired">{item.expired}过期</span>
-                    <div className={`btn ${couponChosen(item)?'chose':''}`}
+                    <div className={`btn ${couponChosen(item) ? 'chose' : ''}`}
                          onClick={() => this.handleClickChooseCoupon(item)}>
                       选择
                     </div>
@@ -518,16 +565,16 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       )
     } else {
       // <!--  非安卓4.3 -->
-      return (<div className={`pay-info ${show?'show':''} ${hasCoupons?'hasCoupons':''}`}>
-        {show ? <div className={`close ${hasCoupons?'hasCoupons':''}`} onClick={() => this.handleClickClose()}>
+      return (<div className={`pay-info ${show ? 'show' : ''} ${hasCoupons ? 'hasCoupons' : ''}`}>
+        {show ? <div className={`close ${hasCoupons ? 'hasCoupons' : ''}`} onClick={() => this.handleClickClose()}>
           <Icon type="white_close_btn" size="40px"/>
         </div> : null}
 
-        <div className={`main-container ${hasCoupons?'hasCoupons':''} ${show?'show':''}`}>
-          <div className={`header ${openCoupon?'openCoupon':''}`}>
+        <div className={`main-container ${hasCoupons ? 'hasCoupons' : ''} ${show ? 'show' : ''}`}>
+          <div className={`header ${openCoupon ? 'openCoupon' : ''}`}>
             {header || name}
           </div>
-          <div className={`content ${openCoupon?'openCoupon':''}`}>
+          <div className={`content ${openCoupon ? 'openCoupon' : ''}`}>
             <div className="price item">
               {renderPrice(fee, final, free, initPrice)}
             </div>
@@ -535,13 +582,14 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
               有效时间：{startTime} - {endTime}
             </div> : null}
             {hasCoupons ?
-              <div className={`coupon item  ${openCoupon && multiCoupons?'no-arrow':''} ${openCoupon ? 'open' : ''}`}
-                   onClick={() => this.setState({ openCoupon: !this.state.openCoupon })}>
+              <div
+                className={`coupon item  ${openCoupon && multiCoupons ? 'no-arrow' : ''} ${openCoupon ? 'open' : ''}`}
+                onClick={() => this.setState({ openCoupon: !this.state.openCoupon })}>
                 {chose && chose.used ? `优惠券：¥${numeral(chose.total).format('0.00')}元` : `选择优惠券`}
                 {openCoupon && multiCoupons ?
                   <div className="coupon-manual-close">
                     确认
-                  </div>: null}
+                  </div> : null}
               </div> : null}
           </div>
           <ul className={`coupon-list ${openCoupon ? 'open' : ''}`}>
@@ -549,7 +597,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
               <div className="choose-all-wrapper">
                 <div className="choose-area">
                   <div className="choose-all-tips">全选</div>
-                  <div className={`choose-all ${chooseAll?'chose':''}`} onClick={()=>this.handleClickChooseAll()}>
+                  <div className={`choose-all ${chooseAll ? 'chose' : ''}`} onClick={() => this.handleClickChooseAll()}>
                     <div className="btn">
                     </div>
                     <div className="mask">
@@ -574,11 +622,11 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                   </div>
                   <div
                     className={`
-                       coupon-btn ${multiCoupons?'multiCoupons':''} ${couponChosen(item)?'chose':''}`}
+                       coupon-btn ${multiCoupons ? 'multiCoupons' : ''} ${couponChosen(item) ? 'chose' : ''}`}
                     onClick={() => this.handleClickChooseCoupon(item)}>
-                    <div className={`btn ${multiCoupons?'multiCoupons':''} `}>
+                    <div className={`btn ${multiCoupons ? 'multiCoupons' : ''} `}>
                     </div>
-                    <div className={`mask ${multiCoupons?'multiCoupons':''} `}>
+                    <div className={`mask ${multiCoupons ? 'multiCoupons' : ''} `}>
                     </div>
                   </div>
                 </li>
@@ -586,7 +634,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
             }) : null}
           </ul>
         </div>
-        <div className={`btn-container ${openCoupon?'openCoupon':''}`}>
+        <div className={`btn-container ${openCoupon ? 'openCoupon' : ''}`}>
           <div className="btn" onClick={() => this.handleClickPay()}>
             确认支付
           </div>
