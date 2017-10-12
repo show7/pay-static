@@ -116,7 +116,7 @@ export default class RisePay extends React.Component<any, any> {
 
   redirect() {
     mevent('商学院购买页', '申请商学院')
-    mark({ module: '打点', function: '商学院会员', action: '申请商学院' }).then(res=>{
+    mark({ module: '打点', function: '商学院会员', action: '申请商学院' }).then(res => {
       window.location.href = 'https://www.iquanwai.com/survey/wjx?activity=16666777'
     })
   }
@@ -130,7 +130,7 @@ export default class RisePay extends React.Component<any, any> {
 
   render() {
     const { data, showId, timeOut, showErr, showCodeErr, loading } = this.state
-    const { memberTypes, privilege } = data
+    const { memberTypes, privilege, elite } = data
 
     const showMember = _.find(memberTypes, { id: showId })
 
@@ -138,20 +138,19 @@ export default class RisePay extends React.Component<any, any> {
       return (
         <div className="pay-page">
           <div className="sale-pic">
-            <img src="https://static.iqycamp.com/images/rise_promotion_6.png?imageslim"
+            <img src="https://static.iqycamp.com/images/rise_promotion_7.png?imageslim"
                  style={{ width: '100%' }}
                  onLoad={() => this.setState({ loading: false })}/>
           </div>
           {
             privilege ?
               <div className="button-footer" onClick={() => this.handleClickOpenPayInfo(showId)}>
-                <div className="footer-btn">立即入学</div>
+                <div className="footer-btn">{ elite ? '升级商学院' : '立即入学'}</div>
               </div> :
               <div className="button-footer" onClick={() => this.redirect()}>
                 <div className="footer-btn">申请商学院</div>
               </div>
           }
-
         </div>
       )
     }
