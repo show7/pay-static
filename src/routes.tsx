@@ -17,7 +17,7 @@ const routes = (
           config(['chooseWXPay']);
         {/*}*/}
       }}>
-      <Route path="/pay/pay" component={Pay}/>
+      {/*<Route path="/pay/pay" component={Pay}/>*/}
       <Route path="/pay/risemember/success" component={RiseMemberPaySuccess}/>
       <Route path="/pay/risemember/normalquestion" component={NormalQuestion}/>
 
