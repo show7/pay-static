@@ -130,7 +130,7 @@ export default class RisePay extends React.Component<any, any> {
 
   render() {
     const { data, showId, timeOut, showErr, showCodeErr, loading } = this.state
-    const { memberTypes, privilege, elite } = data
+    const { memberTypes, privilege, buttonStr } = data
 
     const showMember = _.find(memberTypes, { id: showId })
 
@@ -145,7 +145,7 @@ export default class RisePay extends React.Component<any, any> {
           {
             privilege ?
               <div className="button-footer" onClick={() => this.handleClickOpenPayInfo(showId)}>
-                <div className="footer-btn">{ elite ? '升级商学院' : '立即入学'}</div>
+                <div className="footer-btn">{ buttonStr}</div>
               </div> :
               <div className="button-footer" onClick={() => this.redirect()}>
                 <div className="footer-btn">申请商学院</div>
