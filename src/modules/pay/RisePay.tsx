@@ -155,10 +155,21 @@ export default class RisePay extends React.Component<any, any> {
       )
     }
 
+    const renderKefu = () => {
+      return (
+        <div className="kefu-container">
+            <img className="kefu-pic" src="https://static.iqycamp.com/images/kefu.png?imageslim"
+                 onClick={()=> _MEIQIA('showPanel')}/>
+
+        </div>
+      )
+    }
+
     return (
       <div className="rise-pay-container">
         <PicLoading show={loading}/>
         {renderPay()}
+        {renderKefu()}
         { timeOut ? <div className="mask" onClick={() => {window.history.back()}}
                          style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}>
         </div> : null}
@@ -187,7 +198,7 @@ export default class RisePay extends React.Component<any, any> {
                                 goodsType={getGoodName(showMember.id)}
                                 goodsId={showMember.id}
                                 header={showMember.name}
-                                payedDone={(goodsId) => this.handlePayedDone(goodsId)}
+                                payedDone={(goodsId) => this.handlePayedDone()}
                                 payedCancel={(res) => this.handlePayedCancel(res)}
                                 payedError={(res) => this.handlePayedError(res)}
         /> : null}
