@@ -9,6 +9,7 @@ import { config } from 'modules/helpers/JsConfig'
 import PayInfo from './components/PayInfo'
 import PicLoading from './components/PicLoading'
 import { mevent } from '../../utils/mark'
+import { chooseAuditionCourse } from './async';
 
 const numeral = require('numeral')
 
@@ -116,7 +117,7 @@ export default class RisePay extends React.Component<any, any> {
 
   redirect() {
     mevent('商学院购买页', '申请商学院')
-    mark({ module: '打点', function: '商学院会员', action: '申请商学院' }).then(res=>{
+    mark({ module: '打点', function: '商学院会员', action: '申请商学院' }).then(res => {
       window.location.href = 'https://www.iquanwai.com/survey/wjx?activity=16666777'
     })
   }
@@ -125,7 +126,30 @@ export default class RisePay extends React.Component<any, any> {
    * 重新注册页面签名
    */
   reConfig() {
-    config(['chooseWXPay'])
+    config([ 'chooseWXPay' ])
+  }
+
+  handleClickAudition() {
+    // 开试听课
+    const { dispatch } = this.props;
+    dispatch(startLoad());
+    chooseAuditionCourse().then(res => {
+      dispatch(endLoad());
+      if(res.code === 200) {
+        const {  } = res.msg;
+        if(res.msg === -2) {
+          // 已经是会员了，提示一下
+          dispatch(alertMsg("您已经是会员，可在发现页面选课"));
+        } else {
+          window.location.href = `https://${window.location.hostname}/rise/static/plan/study?planId=${res.msg}`;
+        }
+      } else {
+        dispatch(alertMsg(res.msg));
+      }
+    }).catch(ex => {
+      dispatch(endLoad());
+      dispatch(alertMsg(ex));
+    })
   }
 
   render() {
@@ -144,11 +168,15 @@ export default class RisePay extends React.Component<any, any> {
           </div>
           {
             privilege ?
-              <div className="button-footer" onClick={() => this.handleClickOpenPayInfo(showId)}>
-                <div className="footer-btn">立即入学</div>
+              <div className="button-footer">
+                <div className="footer-left" onClick={() => this.handleClickAudition()}><span
+                  className="audition">试听课</span></div>
+                <div className="footer-btn" onClick={() => this.handleClickOpenPayInfo(showId)}>立即入学</div>
               </div> :
-              <div className="button-footer" onClick={() => this.redirect()}>
-                <div className="footer-btn">申请商学院</div>
+              <div className="button-footer">
+                <div className="footer-left" onClick={() => this.handleClickAudition()}><span
+                  className="audition">试听课</span></div>
+                <div className="footer-btn" onClick={() => this.redirect()}>申请商学院</div>
               </div>
           }
 
@@ -160,10 +188,10 @@ export default class RisePay extends React.Component<any, any> {
       <div className="rise-pay-container">
         <PicLoading show={loading}/>
         {renderPay()}
-        { timeOut ? <div className="mask" onClick={() => {window.history.back()}}
-                         style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}>
+        {timeOut ? <div className="mask" onClick={() => {window.history.back()}}
+                        style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}>
         </div> : null}
-        { showErr ? <div className="mask" onClick={() => this.setState({ showErr: false })}>
+        {showErr ? <div className="mask" onClick={() => this.setState({ showErr: false })}>
           <div className="tips">
             出现问题的童鞋看这里<br/>
             1如果显示“URL未注册”，请重新刷新页面即可<br/>
@@ -171,7 +199,7 @@ export default class RisePay extends React.Component<any, any> {
           </div>
           <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
         </div> : null}
-        { showCodeErr ? <div className="mask" onClick={() => this.setState({ showCodeErr: false })}>
+        {showCodeErr ? <div className="mask" onClick={() => this.setState({ showCodeErr: false })}>
           <div className="tips">
             糟糕，支付不成功<br/>
             原因：微信不支持跨公众号支付<br/>
@@ -183,14 +211,14 @@ export default class RisePay extends React.Component<any, any> {
           <img className="xiaoQ" style={{ width: '50%' }}
                src="https://static.iqycamp.com/images/pay_rise_code.png?imageslim"/>
         </div> : null}
-        { showMember ? <PayInfo ref="payInfo"
-                                dispatch={this.props.dispatch}
-                                goodsType={getGoodName(showMember.id)}
-                                goodsId={showMember.id}
-                                header={showMember.name}
-                                payedDone={(goodsId) => this.handlePayedDone(goodsId)}
-                                payedCancel={(res) => this.handlePayedCancel(res)}
-                                payedError={(res) => this.handlePayedError(res)}
+        {showMember ? <PayInfo ref="payInfo"
+                               dispatch={this.props.dispatch}
+                               goodsType={getGoodName(showMember.id)}
+                               goodsId={showMember.id}
+                               header={showMember.name}
+                               payedDone={(goodsId) => this.handlePayedDone(goodsId)}
+                               payedCancel={(res) => this.handlePayedCancel(res)}
+                               payedError={(res) => this.handlePayedError(res)}
         /> : null}
       </div>
     )

@@ -44,7 +44,7 @@ export default class RiseApply extends React.Component<any, any> {
                  onLoad={() => this.setState({ loading: false })}/>
           </div>
           <div className="button-footer" onClick={() => this.redirect()}>
-            <div className="footer-btn">申请商学院</div>
+            <div className="guest-footer-btn">申请商学院</div>
           </div>
 
         </div>
