@@ -284,7 +284,6 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       chose.total = _.get(autoCoupons, '[0].amount');
       chose.used = true;
     }
-    console.log(param);
     calculateCoupons(param).then((res) => {
       dispatch(endLoad())
       if(res.code === 200) {

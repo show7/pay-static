@@ -8,7 +8,6 @@ import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { Button, ButtonArea } from 'react-weui'
 import { pay, config } from 'modules/helpers/JsConfig'
 import PayInfo from './components/PayInfo'
-import Swiper from 'swiper'
 import 'swiper/dist/css/swiper.css'
 
 const P = 'signup'
@@ -101,81 +100,6 @@ export default class SignUp extends React.Component<any, any> {
 
   componentWillMount() {
     this.context.router.push('/pay/rise')
-    // // ios／安卓微信支付兼容性
-    // if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href) {
-    //   ppost('/b/mark', {
-    //     module: 'RISE',
-    //     function: '打点',
-    //     action: '刷新支付页面',
-    //     memo: window.ENV.configUrl + '++++++++++' + window.location.href
-    //   })
-    //   window.location.href = window.location.href
-    //   return
-    // }
-    //
-    // const { dispatch, location } = this.props
-    // const productId = _.get(location, 'query.productId')
-    // this.resize()
-    // dispatch(startLoad())
-    //
-    // let queryShowId = this.props.location.query.showId
-    // this.setState({ showId: queryShowId ? parseInt(queryShowId) : 3 })
-    //
-    // // 查询订单信息
-    // pget(`/signup/rise/member`).then(res => {
-    //   dispatch(endLoad())
-    //   if(res.code === 200) {
-    //     const { memberTypes, coupons } = res.msg
-    //     let types = []
-    //     types.push(_.merge({}, _.find(memberTypes, { id: 3 })))
-    //     types.push(_.merge({}, _.find(memberTypes, { id: 5 })))
-    //     this.setState({ memberTypes: types, coupons: coupons }, () => {
-    //       var mySwiper = new Swiper(`#slider-container`, {
-    //         initialSlide: this.calculateInitialState(this.state.showId),
-    //         slideToClickedSlide: true,
-    //         effect: 'coverflow',
-    //         grabCursor: true,
-    //         centeredSlides: true,
-    //         slidesPerView: 'auto',
-    //         coverflow: {
-    //           rotate: 50,
-    //           stretch: 1,
-    //           depth: 100,
-    //           modifier: 1,
-    //           slideShadows: true
-    //         }
-    //       })
-    //       mySwiper.on('onTransitionStart', (swiper) => {
-    //         const { activeIndex } = swiper
-    //         this.setState({ showId: this.sliderToMember(activeIndex) })
-    //       })
-    //       this.setState({ swiper: mySwiper }, () => {
-    //         // TODO 临时代码，随时准备删除
-    //         const { location } = this.props
-    //         if(location.query.showId === '5') {
-    //           pget(`/signup/rise/member/check/5`).then(res => {
-    //             if(res.code === 200) {
-    //               if(!_.isEmpty(coupons)) {
-    //                 // 有优惠券
-    //                 this.refs.payInfo.handleClickOpen()
-    //               } else {
-    //                 // 弹出付费窗口
-    //                 this.refs.payInfo.handleClickPay()
-    //               }
-    //             }
-    //           })
-    //         }
-    //       })
-    //     })
-    //     scroll(0, 2000)
-    //   } else {
-    //     dispatch(alertMsg(res.msg))
-    //     this.setState({ err: res.msg })
-    //   }
-    // }).catch((err) => {
-    //   dispatch(endLoad())
-    //   dispatch(alertMsg(err))
-    // })
   }
 
   componentDidMount() {

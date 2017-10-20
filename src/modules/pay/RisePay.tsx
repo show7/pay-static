@@ -154,7 +154,7 @@ export default class RisePay extends React.Component<any, any> {
 
   render() {
     const { data, showId, timeOut, showErr, showCodeErr, loading } = this.state
-    const { memberTypes, privilege } = data
+    const { memberTypes, privilege, buttonStr } = data
 
     const showMember = _.find(memberTypes, { id: showId })
 
@@ -162,7 +162,7 @@ export default class RisePay extends React.Component<any, any> {
       return (
         <div className="pay-page">
           <div className="sale-pic">
-            <img src="https://static.iqycamp.com/images/rise_promotion_6.png?imageslim"
+            <img src="https://static.iqycamp.com/images/rise_promotion_7.png?imageslim"
                  style={{ width: '100%' }}
                  onLoad={() => this.setState({ loading: false })}/>
           </div>
@@ -171,7 +171,7 @@ export default class RisePay extends React.Component<any, any> {
               <div className="button-footer">
                 <div className="footer-left" onClick={() => this.handleClickAudition()}><span
                   className="audition">试听课</span></div>
-                <div className="footer-btn" onClick={() => this.handleClickOpenPayInfo(showId)}>立即入学</div>
+                <div className="footer-btn" onClick={() => this.handleClickOpenPayInfo(showId)}>{ buttonStr}</div>
               </div> :
               <div className="button-footer">
                 <div className="footer-left" onClick={() => this.handleClickAudition()}><span
@@ -179,6 +179,15 @@ export default class RisePay extends React.Component<any, any> {
                 <div className="footer-btn" onClick={() => this.redirect()}>申请商学院</div>
               </div>
           }
+        </div>
+      )
+    }
+
+    const renderKefu = () => {
+      return (
+        <div className="kefu-container">
+            <img className="kefu-pic" src="https://static.iqycamp.com/images/kefu.png?imageslim"
+                 onClick={()=> _MEIQIA('showPanel')}/>
 
         </div>
       )
@@ -188,8 +197,9 @@ export default class RisePay extends React.Component<any, any> {
       <div className="rise-pay-container">
         <PicLoading show={loading}/>
         {renderPay()}
+        { renderKefu()}
         {timeOut ? <div className="mask" onClick={() => {window.history.back()}}
-                        style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}>
+                         style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}>
         </div> : null}
         {showErr ? <div className="mask" onClick={() => this.setState({ showErr: false })}>
           <div className="tips">
@@ -216,7 +226,7 @@ export default class RisePay extends React.Component<any, any> {
                                goodsType={getGoodName(showMember.id)}
                                goodsId={showMember.id}
                                header={showMember.name}
-                               payedDone={(goodsId) => this.handlePayedDone(goodsId)}
+                               payedDone={(goodsId) => this.handlePayedDone()}
                                payedCancel={(res) => this.handlePayedCancel(res)}
                                payedError={(res) => this.handlePayedError(res)}
         /> : null}
