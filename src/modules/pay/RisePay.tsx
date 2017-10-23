@@ -74,7 +74,7 @@ export default class RisePay extends React.Component<any, any> {
 
   /** 处理支付失败的状态 */
   handlePayedError(res) {
-    let param = _.get(res, 'err_desc')
+    let param = _.get(res, 'err_desc', _.get(res, 'errMsg', ''))
     if(param.indexOf('跨公众号发起') != -1) {
       // 跨公众号
       this.setState({ showCodeErr: true })
@@ -136,7 +136,7 @@ export default class RisePay extends React.Component<any, any> {
     chooseAuditionCourse().then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
-        const {  } = res.msg;
+        const {} = res.msg;
         if(res.msg === -2) {
           // 已经是会员了，提示一下
           dispatch(alertMsg("您已经是会员，可在发现页面选课"));
@@ -171,7 +171,7 @@ export default class RisePay extends React.Component<any, any> {
               <div className="button-footer">
                 <div className="footer-left" onClick={() => this.handleClickAudition()}><span
                   className="audition">试听课</span></div>
-                <div className="footer-btn" onClick={() => this.handleClickOpenPayInfo(showId)}>{ buttonStr}</div>
+                <div className="footer-btn" onClick={() => this.handleClickOpenPayInfo(showId)}>{buttonStr}</div>
               </div> :
               <div className="button-footer">
                 <div className="footer-left" onClick={() => this.handleClickAudition()}><span
@@ -186,8 +186,8 @@ export default class RisePay extends React.Component<any, any> {
     const renderKefu = () => {
       return (
         <div className="kefu-container">
-            <img className="kefu-pic" src="https://static.iqycamp.com/images/kefu.png?imageslim"
-                 onClick={()=> _MEIQIA('showPanel')}/>
+          <img className="kefu-pic" src="https://static.iqycamp.com/images/kefu.png?imageslim"
+               onClick={() => _MEIQIA('showPanel')}/>
 
         </div>
       )
@@ -197,9 +197,9 @@ export default class RisePay extends React.Component<any, any> {
       <div className="rise-pay-container">
         <PicLoading show={loading}/>
         {renderPay()}
-        { renderKefu()}
+        {renderKefu()}
         {timeOut ? <div className="mask" onClick={() => {window.history.back()}}
-                         style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}>
+                        style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}>
         </div> : null}
         {showErr ? <div className="mask" onClick={() => this.setState({ showErr: false })}>
           <div className="tips">
