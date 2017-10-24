@@ -3,7 +3,7 @@ import * as _ from 'lodash'
 import './RisePay.less'
 import { connect } from 'react-redux'
 import { ppost, pget, mark } from 'utils/request'
-import { getGoodName } from 'utils/helpers'
+import { getGoodType } from 'utils/helpers'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { config } from 'modules/helpers/JsConfig'
 import PayInfo from './components/PayInfo'
@@ -33,7 +33,6 @@ export default class RisePay extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    mark({ module: '打点', function: '商学院会员', action: '购买商学院会员' })
     // ios／安卓微信支付兼容性
     if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href) {
       ppost('/b/mark', {
@@ -54,6 +53,12 @@ export default class RisePay extends React.Component<any, any> {
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({ data: res.msg })
+        const { privilege } = res.msg;
+        if(privilege) {
+          mark({ module: '打点', function: '商学院会员', action: '购买商学院会员', memo: '入学页面' })
+        } else {
+          mark({ module: '打点', function: '商学院会员', action: '购买商学院会员', memo: '申请页面' })
+        }
       } else {
         dispatch(alertMsg(res.msg))
       }
@@ -94,7 +99,7 @@ export default class RisePay extends React.Component<any, any> {
    */
   handleClickOpenPayInfo(showId) {
     this.reConfig()
-    const { memberTypes } = this.state
+    const { memberTypes, data } = this.state
     const item = _.find(memberTypes, { id: showId })
     const { dispatch } = this.props
     dispatch(startLoad())
@@ -113,6 +118,7 @@ export default class RisePay extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
+    mark({ module: '打点', function: '商学院会员', action: '点击入学按钮', memo: data ? data.buttonStr : '' })
   }
 
   redirect() {
@@ -228,7 +234,7 @@ export default class RisePay extends React.Component<any, any> {
         </div> : null}
         {showMember ? <PayInfo ref="payInfo"
                                dispatch={this.props.dispatch}
-                               goodsType={getGoodName(showMember.id)}
+                               goodsType={getGoodType(showMember.id)}
                                goodsId={showMember.id}
                                header={showMember.name}
                                payedDone={(goodsId) => this.handlePayedDone()}

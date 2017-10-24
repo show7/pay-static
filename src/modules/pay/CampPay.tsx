@@ -3,7 +3,7 @@ import * as _ from 'lodash'
 import './CampPay.less'
 import { connect } from 'react-redux'
 import { ppost, pget, mark } from 'utils/request'
-import { getGoodName } from 'utils/helpers'
+import { getGoodType } from 'utils/helpers'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { Button, ButtonArea } from 'react-weui'
 import { config } from 'modules/helpers/JsConfig'
@@ -32,7 +32,6 @@ export default class CampPay extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    mark({ module: '打点', function: '小课训练营', action: '购买小课训练营' })
     // ios／安卓微信支付兼容性
     if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href) {
       ppost('/b/mark', {
@@ -60,6 +59,12 @@ export default class CampPay extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(err))
     })
+
+    ppget(`/signup/current/camp/month`).then(res => {
+      this.setState({ currentCampMonth: _.get(res, 'msg.currentCampMonth', 'error') }, () => {
+        mark({ module: '打点', function: '小课训练营', action: '购买小课训练营', memo: _.get(res, 'msg.currentCampMonth', 'error') });
+      })
+    });
   }
 
   handlePayedDone() {
@@ -112,13 +117,18 @@ export default class CampPay extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
+    mark({ module: '打点', function: '小课训练营', action: '点击加入按钮', memo: this.state.currentCampMonth });
+  }
+
+  handlePayedBefore() {
+    mark({ module: '打点', function: '小课训练营', action: '点击付费', memo: this.state.currentCampMonth });
   }
 
   /**
    * 重新注册页面签名
    */
   reConfig() {
-    config(['chooseWXPay'])
+    config([ 'chooseWXPay' ])
   }
 
   render() {
@@ -146,7 +156,7 @@ export default class CampPay extends React.Component<any, any> {
       return (
         <div className="kefu-container">
           <img className="kefu-pic" src="https://static.iqycamp.com/images/kefu.png?imageslim"
-               onClick={()=> _MEIQIA('showPanel')}/>
+               onClick={() => _MEIQIA('showPanel')}/>
 
         </div>
       )
@@ -157,10 +167,10 @@ export default class CampPay extends React.Component<any, any> {
         <PicLoading show={loading}/>
         {renderPay()}
         {renderKefu()}
-        { timeOut ? <div className="mask" onClick={() => {window.history.back()}}
-                         style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}>
+        {timeOut ? <div className="mask" onClick={() => {window.history.back()}}
+                        style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}>
         </div> : null}
-        { showErr ? <div className="mask" onClick={() => this.setState({ showErr: false })}>
+        {showErr ? <div className="mask" onClick={() => this.setState({ showErr: false })}>
           <div className="tips">
             出现问题的童鞋看这里<br/>
             1如果显示“URL未注册”，请重新刷新页面即可<br/>
@@ -168,7 +178,7 @@ export default class CampPay extends React.Component<any, any> {
           </div>
           <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
         </div> : null}
-        { showCodeErr ? <div className="mask" onClick={() => this.setState({ showCodeErr: false })}>
+        {showCodeErr ? <div className="mask" onClick={() => this.setState({ showCodeErr: false })}>
           <div className="tips">
             糟糕，支付不成功<br/>
             原因：微信不支持跨公众号支付<br/>
@@ -180,14 +190,15 @@ export default class CampPay extends React.Component<any, any> {
           <img className="xiaoQ" style={{ width: '50%' }}
                src="https://static.iqycamp.com/images/pay_camp_code.png?imageslim"/>
         </div> : null}
-        { showMember ? <PayInfo ref="payInfo"
-                                dispatch={this.props.dispatch}
-                                goodsType={getGoodName(showMember.id)}
-                                goodsId={showMember.id}
-                                header={showMember.name}
-                                payedDone={(goodsId) => this.handlePayedDone()}
-                                payedCancel={(res) => this.handlePayedCancel(res)}
-                                payedError={(res) => this.handlePayedError(res)}
+        {showMember ? <PayInfo ref="payInfo"
+                               dispatch={this.props.dispatch}
+                               goodsType={getGoodType(showMember.id)}
+                               goodsId={showMember.id}
+                               header={showMember.name}
+                               payedDone={(goodsId) => this.handlePayedDone()}
+                               payedCancel={(res) => this.handlePayedCancel(res)}
+                               payedError={(res) => this.handlePayedError(res)}
+                               payedBefore={() => this.handlePayedBefore()}
         /> : null}
       </div>
     )

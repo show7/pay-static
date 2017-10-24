@@ -25,6 +25,8 @@ interface PayInfoProps {
   afterClose?: any,
   /** 获得商品信息后的回调 */
   gotGoods?: any,
+  /** 触发支付的回调 */
+  payedBefore?: any,
   /** 支付成功的回调 */
   payedDone?: any,
   /** 支付取消的回调 */
@@ -143,6 +145,9 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     loadPaymentParam(param).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
+        if(_.isFunction(this.props.payedBefore)) {
+          this.props.payedBefore();
+        }
         const { fee, free, signParams, productId } = res.msg
         this.setState({ productId: productId })
         if(!_.isNumber(fee)) {
