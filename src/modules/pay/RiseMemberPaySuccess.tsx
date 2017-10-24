@@ -50,7 +50,7 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
   }
 
   goLearnPage() {
-    window.location.href = `https://${window.location.href}/rise/static/plan/main`
+    window.location.href = `https://${window.location.hostname}/rise/static/plan/main`
   }
 
   render() {
@@ -98,7 +98,7 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
           </div>
         </div>
         {renderWelComeTips()}
-        <img src="https://static.iqycamp.com/images/pay_camp_code.png?imageslim" alt="小黑" className="qrcode"/>
+        <img src="https://static.iqycamp.com/images/fragment/xiaoy_qrcode.jpeg?imageslim" alt="小黑" className="qrcode"/>
         <div className="close-button" onClick={() => this.goLearnPage()}>已入群，开始学习</div>
       </div>
     )
