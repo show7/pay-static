@@ -37,7 +37,6 @@ export default class AuditionSuccess extends React.Component<any, any> {
         this.setState({
           startTime: res.msg.startTime,
           endTime: res.msg.endTime,
-          memberTypeId: memberTypeId
         })
       } else {
         dispatch(alertMsg(res.msg))
@@ -49,15 +48,15 @@ export default class AuditionSuccess extends React.Component<any, any> {
   }
 
   render() {
-    const { memberTypeId, startTime, endTime } = this.state
+    const { startTime, endTime } = this.state
 
     return (
       <div className="audition-success">
         <div className="pay-result">
           <div className="content" style={{ width: this.cardWidth, height: this.cardHeight }}>
-            <div className="times">
-              {startTime}-{endTime}
-            </div>
+            {/*<div className="times">*/}
+              {/*{startTime}-{endTime}*/}
+            {/*</div>*/}
           </div>
         </div>
         <div className="welcome-tips">
@@ -65,7 +64,7 @@ export default class AuditionSuccess extends React.Component<any, any> {
             Hi {window.ENV.userName}
           </div>
           <div className="welcome">
-            欢迎加入训练营
+            你已成功报名商学院试听课
           </div>
           <div className="tips">
             现在点击下方按钮，领取圈外客服的微信二维码。让ta拉你进学习群吧！
