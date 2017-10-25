@@ -68,6 +68,7 @@ export default class RisePay extends React.Component<any, any> {
   }
 
   handlePayedDone() {
+    mark({ module: '打点', function: '商学院会员', action: '支付成功' })
     this.context.router.push({
       pathname: '/pay/risemember/success',
       query: {
@@ -127,6 +128,10 @@ export default class RisePay extends React.Component<any, any> {
     })
   }
 
+  handlePayedBefore() {
+    mark({ module: '打点', function: '商学院会员', action: '点击付费' })
+  }
+
   /**
    * 重新注册页面签名
    */
@@ -151,7 +156,7 @@ export default class RisePay extends React.Component<any, any> {
           {
             privilege ?
               <div className="button-footer" onClick={() => this.handleClickOpenPayInfo(showId)}>
-                <div className="footer-btn">{ buttonStr}</div>
+                <div className="footer-btn">{buttonStr}</div>
               </div> :
               <div className="button-footer" onClick={() => this.redirect()}>
                 <div className="footer-btn">申请商学院</div>
@@ -164,8 +169,8 @@ export default class RisePay extends React.Component<any, any> {
     const renderKefu = () => {
       return (
         <div className="kefu-container">
-            <img className="kefu-pic" src="https://static.iqycamp.com/images/kefu.png?imageslim"
-                 onClick={()=> _MEIQIA('showPanel')}/>
+          <img className="kefu-pic" src="https://static.iqycamp.com/images/kefu.png?imageslim"
+               onClick={() => _MEIQIA('showPanel')}/>
 
         </div>
       )
@@ -176,10 +181,10 @@ export default class RisePay extends React.Component<any, any> {
         <PicLoading show={loading}/>
         {renderPay()}
         {renderKefu()}
-        { timeOut ? <div className="mask" onClick={() => {window.history.back()}}
-                         style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}>
+        {timeOut ? <div className="mask" onClick={() => {window.history.back()}}
+                        style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}>
         </div> : null}
-        { showErr ? <div className="mask" onClick={() => this.setState({ showErr: false })}>
+        {showErr ? <div className="mask" onClick={() => this.setState({ showErr: false })}>
           <div className="tips">
             出现问题的童鞋看这里<br/>
             1如果显示“URL未注册”，请重新刷新页面即可<br/>
@@ -187,7 +192,7 @@ export default class RisePay extends React.Component<any, any> {
           </div>
           <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
         </div> : null}
-        { showCodeErr ? <div className="mask" onClick={() => this.setState({ showCodeErr: false })}>
+        {showCodeErr ? <div className="mask" onClick={() => this.setState({ showCodeErr: false })}>
           <div className="tips">
             糟糕，支付不成功<br/>
             原因：微信不支持跨公众号支付<br/>
@@ -199,14 +204,15 @@ export default class RisePay extends React.Component<any, any> {
           <img className="xiaoQ" style={{ width: '50%' }}
                src="https://static.iqycamp.com/images/pay_rise_code.png?imageslim"/>
         </div> : null}
-        { showMember ? <PayInfo ref="payInfo"
-                                dispatch={this.props.dispatch}
-                                goodsType={getGoodsType(showMember.id)}
-                                goodsId={showMember.id}
-                                header={showMember.name}
-                                payedDone={(goodsId) => this.handlePayedDone()}
-                                payedCancel={(res) => this.handlePayedCancel(res)}
-                                payedError={(res) => this.handlePayedError(res)}
+        {showMember ? <PayInfo ref="payInfo"
+                               dispatch={this.props.dispatch}
+                               goodsType={getGoodsType(showMember.id)}
+                               goodsId={showMember.id}
+                               header={showMember.name}
+                               payedDone={(goodsId) => this.handlePayedDone()}
+                               payedCancel={(res) => this.handlePayedCancel(res)}
+                               payedError={(res) => this.handlePayedError(res)}
+                               payedBefore={() => this.handlePayedBefore()}
         /> : null}
       </div>
     )

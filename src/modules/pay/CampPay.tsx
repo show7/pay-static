@@ -68,6 +68,7 @@ export default class CampPay extends React.Component<any, any> {
   }
 
   handlePayedDone() {
+    mark({ module: '打点', function: '小课训练营', action: '支付成功', memo: this.state.currentCampMonth });
     this.context.router.push({
       pathname: '/pay/risemember/success',
       query: {
