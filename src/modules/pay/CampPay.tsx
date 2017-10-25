@@ -3,7 +3,7 @@ import * as _ from 'lodash'
 import './CampPay.less'
 import { connect } from 'react-redux'
 import { ppost, pget, mark } from 'utils/request'
-import { getGoodName } from 'utils/helpers'
+import { getGoodsType } from 'utils/helpers'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { Button, ButtonArea } from 'react-weui'
 import { config } from 'modules/helpers/JsConfig'
@@ -32,7 +32,6 @@ export default class CampPay extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    mark({ module: '打点', function: '小课训练营', action: '购买小课训练营' })
     // ios／安卓微信支付兼容性
     if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href) {
       ppost('/b/mark', {
@@ -60,6 +59,12 @@ export default class CampPay extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(err))
     })
+
+    pget(`/signup/current/camp/month`).then(res => {
+      this.setState({ currentCampMonth: _.get(res, 'msg.currentCampMonth', 'error') }, () => {
+        mark({ module: '打点', function: '小课训练营', action: '购买小课训练营', memo: _.get(res, 'msg.currentCampMonth', 'error') });
+      })
+    });
   }
 
   handlePayedDone() {
@@ -73,7 +78,9 @@ export default class CampPay extends React.Component<any, any> {
 
   /** 处理支付失败的状态 */
   handlePayedError(res) {
-    let param = _.get(res, 'err_desc')
+    let param = _.get(res, 'err_desc', _.get(res, 'errMsg', ''))
+    console.log(param);
+
     if(param.indexOf('跨公众号发起') != -1) {
       // 跨公众号
       this.setState({ showCodeErr: true })
@@ -112,13 +119,18 @@ export default class CampPay extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
+    mark({ module: '打点', function: '小课训练营', action: '点击加入按钮', memo: this.state.currentCampMonth });
+  }
+
+  handlePayedBefore() {
+    mark({ module: '打点', function: '小课训练营', action: '点击付费', memo: this.state.currentCampMonth });
   }
 
   /**
    * 重新注册页面签名
    */
   reConfig() {
-    config(['chooseWXPay'])
+    config([ 'chooseWXPay' ])
   }
 
   render() {
@@ -182,12 +194,13 @@ export default class CampPay extends React.Component<any, any> {
         </div> : null}
         { showMember ? <PayInfo ref="payInfo"
                                 dispatch={this.props.dispatch}
-                                goodsType={getGoodName(showMember.id)}
+                                goodsType={getGoodsType(showMember.id)}
                                 goodsId={showMember.id}
                                 header={showMember.name}
                                 payedDone={(goodsId) => this.handlePayedDone()}
                                 payedCancel={(res) => this.handlePayedCancel(res)}
                                 payedError={(res) => this.handlePayedError(res)}
+                                payedBefore={() => this.handlePayedBefore()}
         /> : null}
       </div>
     )
