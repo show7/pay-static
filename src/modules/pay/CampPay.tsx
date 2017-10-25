@@ -60,7 +60,7 @@ export default class CampPay extends React.Component<any, any> {
       dispatch(alertMsg(err))
     })
 
-    ppget(`/signup/current/camp/month`).then(res => {
+    pget(`/signup/current/camp/month`).then(res => {
       this.setState({ currentCampMonth: _.get(res, 'msg.currentCampMonth', 'error') }, () => {
         mark({ module: '打点', function: '小课训练营', action: '购买小课训练营', memo: _.get(res, 'msg.currentCampMonth', 'error') });
       })
@@ -78,7 +78,9 @@ export default class CampPay extends React.Component<any, any> {
 
   /** 处理支付失败的状态 */
   handlePayedError(res) {
-    let param = _.get(res, 'err_desc')
+    let param = _.get(res, 'err_desc', _.get(res, 'errMsg', ''))
+    console.log(param);
+
     if(param.indexOf('跨公众号发起') != -1) {
       // 跨公众号
       this.setState({ showCodeErr: true })

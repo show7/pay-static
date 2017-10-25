@@ -145,9 +145,6 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     loadPaymentParam(param).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        if(_.isFunction(this.props.payedBefore)) {
-          this.props.payedBefore();
-        }
         const { fee, free, signParams, productId } = res.msg
         this.setState({ productId: productId })
         if(!_.isNumber(fee)) {
@@ -160,6 +157,9 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
         } else {
           // 收费，调微信支付
           this.handleH5Pay(signParams)
+        }
+        if(_.isFunction(this.props.payedBefore)) {
+          this.props.payedBefore();
         }
       } else {
         dispatch(alertMsg(res.msg))
@@ -219,6 +219,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       dispatch(alertMsg('Windows的微信客户端不能支付哦，请在手机端购买小课～'))
     }
     // 调起H5支付
+    // console.log('start pay');
     pay({
         'appId': signParams.appId,     //公众号名称，由商户传入
         'timeStamp': signParams.timeStamp,         //时间戳，自1970年以来的秒数

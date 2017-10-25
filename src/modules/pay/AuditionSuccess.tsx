@@ -1,14 +1,10 @@
 import * as React from 'react'
 import './AuditionSuccess.less'
 import { connect } from 'react-redux'
-import { ppost, pget } from 'utils/request'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { Button, ButtonArea } from 'react-weui'
 import { closeWindow } from '../helpers/JsConfig'
 import { chooseAuditionCourse } from './async';
-
-const P = 'signup'
-const numeral = require('numeral')
 
 @connect(state => state)
 export default class AuditionSuccess extends React.Component<any, any> {
@@ -48,15 +44,12 @@ export default class AuditionSuccess extends React.Component<any, any> {
   }
 
   render() {
-    const { startTime, endTime } = this.state
+    const { memberTypeId, startTime, endTime, entryCode } = this.state
 
     return (
       <div className="audition-success">
-        <div className="pay-result">
-          <div className="content" style={{ width: this.cardWidth, height: this.cardHeight }}>
-            {/*<div className="times">*/}
-              {/*{startTime}-{endTime}*/}
-            {/*</div>*/}
+        <div className={`pay-result`}>
+          <div className={`content`} style={{ width: this.cardWidth, height: this.cardHeight }}>
           </div>
         </div>
         <div className="welcome-tips">
@@ -70,6 +63,7 @@ export default class AuditionSuccess extends React.Component<any, any> {
             现在点击下方按钮，领取圈外客服的微信二维码。让ta拉你进学习群吧！
           </div>
         </div>
+        <img src="https://static.iqycamp.com/images/pay_camp_code.png?imageslim" alt="小黑" className="qrcode"/>
         <div className="close-button" onClick={() => closeWindow()}>我要进群</div>
       </div>
     )
