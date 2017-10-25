@@ -25,6 +25,8 @@ interface PayInfoProps {
   afterClose?: any,
   /** 获得商品信息后的回调 */
   gotGoods?: any,
+  /** 触发支付的回调 */
+  payedBefore?: any,
   /** 支付成功的回调 */
   payedDone?: any,
   /** 支付取消的回调 */
@@ -155,6 +157,9 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
         } else {
           // 收费，调微信支付
           this.handleH5Pay(signParams)
+        }
+        if(_.isFunction(this.props.payedBefore)) {
+          this.props.payedBefore();
         }
       } else {
         dispatch(alertMsg(res.msg))
