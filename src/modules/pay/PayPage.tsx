@@ -3,7 +3,7 @@ import * as _ from 'lodash'
 import './PayPage.less'
 import { connect } from 'react-redux'
 import { ppost, pget, log, getBrowser } from 'utils/request'
-import { getGoodName, GoodsType } from 'utils/helpers'
+import { getGoodsType, GoodsType } from 'utils/helpers'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { Button, ButtonArea } from 'react-weui'
 import { pay, config } from 'modules/helpers/JsConfig'
@@ -367,7 +367,7 @@ export default class SignUp extends React.Component<any, any> {
         </div> : null}
         {showMember ? <PayInfo ref="payInfo"
                                dispatch={this.props.dispatch}
-                               goodsType={getGoodName(showMember.id)}
+                               goodsType={getGoodsType(showMember.id)}
                                goodsId={showMember.id}
                                header={showMember.name}
                                payedDone={(goodsId) => this.handlePayedDone(goodsId)}

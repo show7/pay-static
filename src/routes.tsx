@@ -12,11 +12,9 @@ import RiseMemberPaySuccess from "modules/pay/RiseMemberPaySuccess"
 
 const routes = (
   <Route path="/">
-    <Route component={Base} onChange={()=>{
-        {/*if(window.ENV.osName !== 'ios'){*/}
-          config(['chooseWXPay']);
-        {/*}*/}
-      }}>
+    <Route component={Base} onChange={() => {
+      config([ 'chooseWXPay' ]);
+    }}>
       {/*<Route path="/pay/pay" component={Pay}/>*/}
       <Route path="/pay/risemember/success" component={RiseMemberPaySuccess}/>
       <Route path="/pay/risemember/normalquestion" component={NormalQuestion}/>

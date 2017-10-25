@@ -40,7 +40,7 @@ export class CouponCategory {
   public static ONLY_WORKSHOP = "OFF_LINE_WORKSHOP";
 }
 
-export const getGoodName = (id) => {
+export const getGoodsType = (id) => {
   switch(id) {
     case 3:
       return GoodsType.FRAG_MEMBER
