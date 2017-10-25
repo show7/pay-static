@@ -37,7 +37,8 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
         this.setState({
           startTime: res.msg.startTime,
           endTime: res.msg.endTime,
-          memberTypeId: memberTypeId
+          memberTypeId: memberTypeId,
+          entryCode: res.msg.entryCode
         })
       } else {
         dispatch(alertMsg(res.msg))
@@ -48,8 +49,12 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
     })
   }
 
+  goLearnPage() {
+    window.location.href = `https://${window.location.hostname}/rise/static/plan/main`
+  }
+
   render() {
-    const { memberTypeId, startTime, endTime } = this.state
+    const { memberTypeId, startTime, endTime, entryCode } = this.state
     const renderWelComeTips = () => {
       switch(parseInt(memberTypeId)) {
         case 5:
@@ -62,7 +67,7 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
                 欢迎加入训练营
               </div>
               <div className="tips">
-                现在点击下方按钮，领取圈外客服的微信二维码。让ta拉你进学习群吧！
+                扫码加小哥哥微信，回复入群密令“<span style={{ color: 'orange' }}>{entryCode}</span>”，让他拉你进班级群吧
               </div>
             </div>
           )
@@ -76,7 +81,7 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
                 欢迎加入商学院
               </div>
               <div className="tips">
-                现在点击下方按钮，领取圈外客服的微信二维码。让ta拉你进学习群吧！
+                扫码加小哥哥微信，回复入群密令“<span style={{ color: 'orange' }}>{entryCode}</span>”，让他拉你进班级群吧
               </div>
             </div>
           )
@@ -84,7 +89,7 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
     }
 
     return (
-      <div className="rise-pay-success" >
+      <div className="rise-pay-success">
         <div className={`pay-result member${memberTypeId}`}>
           <div className={`content member${memberTypeId}`} style={{ width: this.cardWidth, height: this.cardHeight }}>
             <div className="times">
@@ -93,7 +98,8 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
           </div>
         </div>
         {renderWelComeTips()}
-        <div className="close-button" onClick={() => closeWindow()}>我要进群</div>
+        <img src="https://static.iqycamp.com/images/fragment/xiaoy_qrcode.jpeg?imageslim" alt="小黑" className="qrcode"/>
+        <div className="close-button" onClick={() => this.goLearnPage()}>已入群，开始学习</div>
       </div>
     )
   }
