@@ -61,13 +61,14 @@ export default class CampPay extends React.Component<any, any> {
     })
 
     pget(`/signup/current/camp/month`).then(res => {
-      this.setState({ currentCampMonth: _.get(res, 'msg.currentCampMonth', 'error') }, () => {
-        mark({ module: '打点', function: '小课训练营', action: '购买小课训练营', memo: _.get(res, 'msg.currentCampMonth', 'error') });
+      this.setState({ currentCampMonth: _.get(res, 'msg.marKSellingMemo', 'error') }, () => {
+        mark({ module: '打点', function: '小课训练营', action: '购买小课训练营', memo: _.get(res, 'msg.marKSellingMemo', 'error') });
       })
     });
   }
 
   handlePayedDone() {
+    mark({ module: '打点', function: '小课训练营', action: '支付成功', memo: this.state.currentCampMonth });
     this.context.router.push({
       pathname: '/pay/risemember/success',
       query: {
@@ -143,7 +144,7 @@ export default class CampPay extends React.Component<any, any> {
       return (
         <div className="pay-page">
           <div className="sale-pic">
-            <img src="https://static.iqycamp.com/images/fragment/camp_promotion_11_1.png?imageslim"
+            <img src="https://static.iqycamp.com/images/fragment/camp_promotion_11_3.png?imageslim"
                  style={{ width: '100%' }}
                  onLoad={() => this.setState({ loading: false })}/>
           </div>

@@ -69,6 +69,7 @@ export default class RisePay extends React.Component<any, any> {
   }
 
   handlePayedDone() {
+    mark({ module: '打点', function: '商学院会员', action: '支付成功' })
     this.context.router.push({
       pathname: '/pay/risemember/success',
       query: {
@@ -126,6 +127,10 @@ export default class RisePay extends React.Component<any, any> {
     mark({ module: '打点', function: '商学院会员', action: '申请商学院' }).then(res => {
       window.location.href = 'https://www.iquanwai.com/survey/wjx?activity=16666777'
     })
+  }
+
+  handlePayedBefore() {
+    mark({ module: '打点', function: '商学院会员', action: '点击付费' })
   }
 
   /**
@@ -240,6 +245,7 @@ export default class RisePay extends React.Component<any, any> {
                                payedDone={(goodsId) => this.handlePayedDone()}
                                payedCancel={(res) => this.handlePayedCancel(res)}
                                payedError={(res) => this.handlePayedError(res)}
+                               payedBefore={() => this.handlePayedBefore()}
         /> : null}
       </div>
     )
