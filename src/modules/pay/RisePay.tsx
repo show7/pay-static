@@ -146,21 +146,16 @@ export default class RisePay extends React.Component<any, any> {
     dispatch(startLoad());
     chooseAuditionCourse().then(res => {
       dispatch(endLoad());
-      console.log('1');
       if(res.code === 200) {
-        console.log(2);
         const { planId, goSuccess, errMsg, startTime, endTime } = res.msg;
         if(errMsg) {
           dispatch(alertMsg(errMsg));
         } else {
-          console.log(3);
           if(goSuccess) {
-            console.log(4);
             this.context.router.push({
               pathname: '/pay/static/audition/success'
             })
           } else {
-            console.log(5);
             if(planId) {
               console.log('go planId', planId)
               window.location.href = `https://${window.location.hostname}/rise/static/plan/study?planId=${planId}`;
