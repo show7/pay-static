@@ -49,18 +49,16 @@ export default class AuditionSuccess extends React.Component<any, any> {
           {/*<div className={`content`} style={{ width: this.cardWidth, height: this.cardHeight }}>*/}
           {/*</div>*/}
         {/*</div>*/}
+        <div className="header-msg">试听课预约</div>
         <div className="welcome-tips">
-          <div className="nickname">
-          试听课预约
-          </div>
           <div className="welcome">
           </div>
           <div className="tips">
             预约请扫码加小助手，通过后，回复你的预约号：<span style={{ color: 'orange' }}>{className}</span><br/>
             本周日晚上8点统一开课，到时会通知你哦
           </div>
+          <img src="https://static.iqycamp.com/images/fragment/xiaoy_qrcode.jpeg?imageslim" alt="小黑" className="qrcode"/>
         </div>
-        <img src="https://static.iqycamp.com/images/fragment/xiaoy_qrcode.jpeg?imageslim" alt="小黑" className="qrcode"/>
         {/*<div className="close-button" onClick={() => closeWindow()}>预约试听</div>*/}
       </div>
     )
