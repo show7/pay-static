@@ -45,14 +45,14 @@ export default class AuditionSuccess extends React.Component<any, any> {
 
     return (
       <div className="audition-success">
-        <div className={`pay-result`}>
-          <div className={`content`} style={{ width: this.cardWidth, height: this.cardHeight }}>
-          </div>
-        </div>
-        <div className="welcome-tips">
-          {/*<div className="nickname">*/}
-          {/*Hi {window.ENV.userName}*/}
+        {/*<div className={`pay-result`}>*/}
+          {/*<div className={`content`} style={{ width: this.cardWidth, height: this.cardHeight }}>*/}
           {/*</div>*/}
+        {/*</div>*/}
+        <div className="welcome-tips">
+          <div className="nickname">
+          试听课预约
+          </div>
           <div className="welcome">
           </div>
           <div className="tips">
