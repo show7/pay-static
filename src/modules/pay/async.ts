@@ -53,3 +53,6 @@ export function loadGoodsInfo(goodsType, goodsId) {
   return ppost('/signup/load/goods', { goodsType: goodsType, goodsId: goodsId });
 }
 
+export function chooseAuditionCourse() {
+  return ppost('/rise/plan/choose/audition/course');
+}

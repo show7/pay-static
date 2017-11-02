@@ -219,6 +219,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       dispatch(alertMsg('Windows的微信客户端不能支付哦，请在手机端购买小课～'))
     }
     // 调起H5支付
+    // console.log('start pay');
     pay({
         'appId': signParams.appId,     //公众号名称，由商户传入
         'timeStamp': signParams.timeStamp,         //时间戳，自1970年以来的秒数

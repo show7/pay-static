@@ -9,6 +9,7 @@ import { config } from 'modules/helpers/JsConfig'
 import PayInfo from './components/PayInfo'
 import PicLoading from './components/PicLoading'
 import { mevent } from '../../utils/mark'
+import { chooseAuditionCourse } from './async';
 
 const numeral = require('numeral')
 
@@ -139,9 +140,37 @@ export default class RisePay extends React.Component<any, any> {
     config([ 'chooseWXPay' ])
   }
 
+  handleClickAudition() {
+    // 开试听课
+    const { dispatch } = this.props;
+    dispatch(startLoad());
+    chooseAuditionCourse().then(res => {
+      dispatch(endLoad());
+      if(res.code === 200) {
+        const { planId, goSuccess, errMsg, startTime, endTime } = res.msg;
+        if(errMsg) {
+          dispatch(alertMsg(errMsg));
+        } else {
+          if(goSuccess) {
+            this.context.router.push({
+              pathname: '/pay/static/audition/success'
+            })
+          } else {
+            window.location.href = `https://${window.location.hostname}/rise/static/plan/main`;
+          }
+        }
+      } else {
+        dispatch(alertMsg(res.msg));
+      }
+    }).catch(ex => {
+      dispatch(endLoad());
+      dispatch(alertMsg(ex));
+    })
+  }
+
   render() {
     const { data, showId, timeOut, showErr, showCodeErr, loading } = this.state
-    const { memberTypes, privilege, buttonStr } = data
+    const { memberTypes, privilege, buttonStr,auditionStr } = data
 
     const showMember = _.find(memberTypes, { id: showId })
 
@@ -155,11 +184,15 @@ export default class RisePay extends React.Component<any, any> {
           </div>
           {
             privilege ?
-              <div className="button-footer" onClick={() => this.handleClickOpenPayInfo(showId)}>
-                <div className="footer-btn">{buttonStr}</div>
+              <div className="button-footer">
+                <div className="footer-left" onClick={() => this.handleClickAudition()}><span
+                  className="audition">{auditionStr}</span></div>
+                <div className="footer-btn" onClick={() => this.handleClickOpenPayInfo(showId)}>{buttonStr}</div>
               </div> :
-              <div className="button-footer" onClick={() => this.redirect()}>
-                <div className="footer-btn">申请商学院</div>
+              <div className="button-footer">
+                <div className="footer-left" onClick={() => this.handleClickAudition()}><span
+                  className="audition">{auditionStr}</span></div>
+                <div className="footer-btn" onClick={() => this.redirect()}>申请商学院</div>
               </div>
           }
         </div>
