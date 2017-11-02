@@ -60,7 +60,7 @@ export default class AuditionSuccess extends React.Component<any, any> {
             本周日晚上8点统一开课，到时会通知你哦
           </div>
         </div>
-        <img src="https://static.iqycamp.com/images/pay_camp_code.png?imageslim" alt="小黑" className="qrcode"/>
+        <img src="https://static.iqycamp.com/images/fragment/xiaoy_qrcode.jpeg?imageslim" alt="小黑" className="qrcode"/>
         {/*<div className="close-button" onClick={() => closeWindow()}>预约试听</div>*/}
       </div>
     )
