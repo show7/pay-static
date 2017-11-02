@@ -3,7 +3,7 @@ import * as _ from 'lodash'
 import './RisePay.less'
 import { connect } from 'react-redux'
 import { ppost, pget, mark } from 'utils/request'
-import { getGoodType } from 'utils/helpers'
+import { getGoodsType } from 'utils/helpers'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { config } from 'modules/helpers/JsConfig'
 import PayInfo from './components/PayInfo'
@@ -239,7 +239,7 @@ export default class RisePay extends React.Component<any, any> {
         </div> : null}
         {showMember ? <PayInfo ref="payInfo"
                                dispatch={this.props.dispatch}
-                               goodsType={getGoodType(showMember.id)}
+                               goodsType={getGoodsType(showMember.id)}
                                goodsId={showMember.id}
                                header={showMember.name}
                                payedDone={(goodsId) => this.handlePayedDone()}

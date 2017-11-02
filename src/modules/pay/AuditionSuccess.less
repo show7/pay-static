@@ -5,40 +5,28 @@
     overflow: hidden;
 
     > .content {
-      position: relative;
-      margin: 20px auto 10px;
-      padding: 10px;
-      width: 100%;
-      height: 100%;
-      font-size: 11px;
-      line-height: 11px;
-      background: url('https://static.iqycamp.com/images/audition_success_icon.png?imageslim') no-repeat center center/auto 100%;
-      > .times {
-        position: absolute;
-        top: 44px;
-        right: 10px;
-        color: rgba(255, 255, 255, 0.6);
-        font-size: 11px;
+      text-align: center;
+      img {
+        width: 90px;
+        height: auto;
+        margin: 20px auto;
       }
     }
   }
   > .header-msg {
-    font-size: 21px;
+    font-size: 28px;
     color: #333;
     text-align: center;
     padding-top: 3rem;
   }
+  > .header-tips {
+    font-size: 13px;
+    color: #666;
+    text-align: center;
+  }
   > .welcome-tips {
     text-align: center;
-    position: absolute;
-    top: 50%;
-    left: 0;
     width: 100%;
-    -webkit-transform: translateY(-50%);
-    -moz-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    -o-transform: translateY(-50%);
-    transform: translateY(-50%);
     .welcome {
       margin-top: 8px;
       font-size: 21px;
@@ -50,7 +38,8 @@
       font-size: 13px;
       line-height: 24px;
       color: #333;
-      text-align: left;
+      font-weight:500;
+      text-align: center;
     }
 
     > .qrcode {

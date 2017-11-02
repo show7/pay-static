@@ -3,7 +3,7 @@ import * as _ from 'lodash'
 import './CampPay.less'
 import { connect } from 'react-redux'
 import { ppost, pget, mark } from 'utils/request'
-import { getGoodType } from 'utils/helpers'
+import { getGoodsType } from 'utils/helpers'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { Button, ButtonArea } from 'react-weui'
 import { config } from 'modules/helpers/JsConfig'
@@ -195,7 +195,7 @@ export default class CampPay extends React.Component<any, any> {
         </div> : null}
         {showMember ? <PayInfo ref="payInfo"
                                dispatch={this.props.dispatch}
-                               goodsType={getGoodType(showMember.id)}
+                               goodsType={getGoodsType(showMember.id)}
                                goodsId={showMember.id}
                                header={showMember.name}
                                payedDone={(goodsId) => this.handlePayedDone()}
