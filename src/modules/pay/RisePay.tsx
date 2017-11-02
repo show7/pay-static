@@ -156,12 +156,7 @@ export default class RisePay extends React.Component<any, any> {
               pathname: '/pay/static/audition/success'
             })
           } else {
-            if(planId) {
-              console.log('go planId', planId)
-              window.location.href = `https://${window.location.hostname}/rise/static/plan/study?planId=${planId}`;
-            } else {
-              window.location.href = `https://${window.location.hostname}/rise/static/plan/main`;
-            }
+            window.location.href = `https://${window.location.hostname}/rise/static/plan/main`;
           }
         }
       } else {
@@ -175,7 +170,7 @@ export default class RisePay extends React.Component<any, any> {
 
   render() {
     const { data, showId, timeOut, showErr, showCodeErr, loading } = this.state
-    const { memberTypes, privilege, buttonStr } = data
+    const { memberTypes, privilege, buttonStr,auditionStr } = data
 
     const showMember = _.find(memberTypes, { id: showId })
 
@@ -191,12 +186,12 @@ export default class RisePay extends React.Component<any, any> {
             privilege ?
               <div className="button-footer">
                 <div className="footer-left" onClick={() => this.handleClickAudition()}><span
-                  className="audition">试听课</span></div>
+                  className="audition">{auditionStr}</span></div>
                 <div className="footer-btn" onClick={() => this.handleClickOpenPayInfo(showId)}>{buttonStr}</div>
               </div> :
               <div className="button-footer">
                 <div className="footer-left" onClick={() => this.handleClickAudition()}><span
-                  className="audition">试听课</span></div>
+                  className="audition">{auditionStr}</span></div>
                 <div className="footer-btn" onClick={() => this.redirect()}>申请商学院</div>
               </div>
           }
