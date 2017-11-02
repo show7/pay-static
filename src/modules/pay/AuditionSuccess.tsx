@@ -30,10 +30,7 @@ export default class AuditionSuccess extends React.Component<any, any> {
     chooseAuditionCourse().then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        this.setState({
-          startTime: res.msg.startTime,
-          endTime: res.msg.endTime,
-        })
+        this.setState(res.msg)
       } else {
         dispatch(alertMsg(res.msg))
       }
@@ -44,7 +41,7 @@ export default class AuditionSuccess extends React.Component<any, any> {
   }
 
   render() {
-    const { memberTypeId, startTime, endTime, entryCode } = this.state
+    const { memberTypeId, startTime, endTime, className } = this.state
 
     return (
       <div className="audition-success">
@@ -53,18 +50,18 @@ export default class AuditionSuccess extends React.Component<any, any> {
           </div>
         </div>
         <div className="welcome-tips">
-          <div className="nickname">
-            Hi {window.ENV.userName}
-          </div>
+          {/*<div className="nickname">*/}
+          {/*Hi {window.ENV.userName}*/}
+          {/*</div>*/}
           <div className="welcome">
-            你已成功报名商学院试听课
           </div>
           <div className="tips">
-            现在点击下方按钮，领取圈外客服的微信二维码。让ta拉你进学习群吧！
+            预约请扫码加小助手，通过后，回复你的预约号：<span style={{ color: 'orange' }}>{className}</span><br/>
+            本周日晚上8点统一开课，到时会通知你哦
           </div>
         </div>
         <img src="https://static.iqycamp.com/images/pay_camp_code.png?imageslim" alt="小黑" className="qrcode"/>
-        <div className="close-button" onClick={() => closeWindow()}>我要进群</div>
+        {/*<div className="close-button" onClick={() => closeWindow()}>预约试听</div>*/}
       </div>
     )
   }
