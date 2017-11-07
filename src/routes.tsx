@@ -11,6 +11,7 @@ import Pay from "modules/pay/PayPage"
 import RiseMemberPaySuccess from "modules/pay/RiseMemberPaySuccess"
 import AuditionSuccess from "modules/pay/AuditionSuccess";
 
+import MemberPaySuccess from 'modules/pay/MemberPaySuccess'
 const routes = (
   <Route path="/">
     <Route component={Base} onChange={() => {
@@ -18,6 +19,7 @@ const routes = (
     }}>
       {/*<Route path="/pay/pay" component={Pay}/>*/}
       <Route path="/pay/risemember/success" component={RiseMemberPaySuccess}/>
+      <Route path="/pay/member/success" component={MemberPaySuccess}/>
       <Route path="/pay/risemember/normalquestion" component={NormalQuestion}/>
 
       <Route path="pay/rise" component={RisePay}/>
