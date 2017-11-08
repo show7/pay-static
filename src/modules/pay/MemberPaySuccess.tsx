@@ -20,7 +20,9 @@ export default class MemberPaySuccess extends React.Component<any, any> {
     super()
     this.state = {}
 
-    this.pd = 50 / 500 * window.innerWidth
+    this.pd = 50 / 750 * window.innerWidth
+    this.topPd = 90 / 750 * window.innerWidth
+
   }
 
   componentWillMount() {
@@ -51,19 +53,19 @@ export default class MemberPaySuccess extends React.Component<any, any> {
 
     return (
       <div className="pay-success">
-        <div className="success-header">报名成功</div>
+        <div className="success-header" style={{ paddingTop: `${this.topPd}px` }}>报名成功</div>
         <div className="success-tips">
           Hi, {window.ENV.userName}，欢迎加入商学院
         </div>
         <div className="step-wrapper">
           <div className="content">
             <div className="step step-1" data-step="1" style={{ paddingBottom: `${this.pd}px` }}>
-              你的学号：<span className="code">{entryCode}</span><br/>
-              （长按复制）
+              长按复制你的学号<br/>
+              <span className="code">{entryCode}</span>
             </div>
             <div className="step step-2" data-step="2" style={{ paddingBottom: `${this.pd}px` }}>
               扫码添加班主任<br/>
-              <img src="https://static.iqycamp.com/images/fragment/xiaoy_qrcode.jpeg?imageslim" alt="小黑"
+              <img src="https://static.iqycamp.com/images/xiaoy_qrcode_20171108.jpeg?imageslim" alt="小黑"
                    className="qrcode"/>
             </div>
             <div className="step step-3" data-step="3">

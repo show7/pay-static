@@ -4,7 +4,7 @@
   position: relative;
   overflow: hidden;
   .success-header {
-    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#FFEE53), to(#FFB200));
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#feff1c), to(#F49B31));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-size: 36px;
@@ -36,19 +36,23 @@
       width: 100%;
       .step {
         padding-bottom: 50px;
-        padding-left: ~'calc(12%)';
-        margin-left: ~'calc(23%)';
+        padding-left: ~'calc(10%)';
+        margin-left: ~'calc(21%)';
         font-size: 15px;
         color: #333;
         position: relative;
         border-left: 1px solid rgb(204, 204, 204);
 
         img {
+          margin-top: 7px;
           width: 100%;
           height: auto;
         }
         span.code {
           color: #399BD3 !important;
+          font-size: 18px;
+          margin-top: 10px;
+          display: inline-block;
         }
         &:before {
           content: attr(data-step);
@@ -67,6 +71,7 @@
         }
       }
       .step-1 {
+        line-height: 15px;
         margin-top: 25px;
       }
       .step-2 img {
