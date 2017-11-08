@@ -19,11 +19,8 @@ export default class MemberPaySuccess extends React.Component<any, any> {
   constructor() {
     super()
     this.state = {}
-    this.cardWidth = 540 / 750 * window.innerWidth
-    this.cardHeight = this.cardWidth * (300 / 540)
-    this.bigFontSize = 40 / 750 * window.innerWidth
-    this.smallFontSize = 30 / 750 * window.innerWidth
-    this.pd = 130 / 750 * window.innerWidth
+
+    this.pd = 50 / 500 * window.innerWidth
   }
 
   componentWillMount() {
@@ -60,11 +57,11 @@ export default class MemberPaySuccess extends React.Component<any, any> {
         </div>
         <div className="step-wrapper">
           <div className="content">
-            <div className="step step-1" data-step="1">
+            <div className="step step-1" data-step="1" style={{ paddingBottom: `${this.pd}px` }}>
               你的学号：<span className="code">{entryCode}</span><br/>
               （长按复制）
             </div>
-            <div className="step step-2" data-step="2">
+            <div className="step step-2" data-step="2" style={{ paddingBottom: `${this.pd}px` }}>
               扫码添加班主任<br/>
               <img src="https://static.iqycamp.com/images/fragment/xiaoy_qrcode.jpeg?imageslim" alt="小黑"
                    className="qrcode"/>
