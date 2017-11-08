@@ -21,7 +21,7 @@ export default class MemberPaySuccess extends React.Component<any, any> {
     this.state = {}
 
     this.pd = 50 / 750 * window.innerWidth
-    this.topPd = 90 / 750 * window.innerWidth
+    this.topPd = 90 / 500 * window.innerWidth
 
   }
 
@@ -53,7 +53,8 @@ export default class MemberPaySuccess extends React.Component<any, any> {
 
     return (
       <div className="pay-success">
-        <div className="success-header" style={{ paddingTop: `${this.topPd}px` }}>报名成功</div>
+        <div className="gutter" style={{ height: `${this.topPd}px` }}/>
+        <div className="success-header">报名成功</div>
         <div className="success-tips">
           Hi, {window.ENV.userName}，欢迎加入商学院
         </div>
