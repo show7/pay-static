@@ -55,7 +55,7 @@ if (Boolean(PROXY)) {
   }
 }
 
-new WebpackDevServer(webpack(devConfig), serverConfig).listen(4000, "0.0.0.0", function(err, result) {
+new WebpackDevServer(webpack(devConfig), serverConfig).listen(4001, "0.0.0.0", function(err, result) {
   if (err) {
     console.log(err);
   }
