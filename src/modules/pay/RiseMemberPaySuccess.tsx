@@ -67,7 +67,9 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
                 欢迎加入训练营
               </div>
               <div className="tips">
-                扫码加小哥哥微信，回复入群密令“<span style={{ color: 'orange' }}>{entryCode}</span>”，让他拉你进班级群吧
+                扫码加小哥哥微信，回复入群密令<br/>
+                <span style={{ color: 'orange' }}>{entryCode}</span><br/>
+                让他拉你进班级群吧
               </div>
             </div>
           )
@@ -81,7 +83,9 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
                 欢迎加入商学院
               </div>
               <div className="tips">
-                扫码加小哥哥微信，回复入群密令“<span style={{ color: 'orange' }}>{entryCode}</span>”，让他拉你进班级群吧
+                扫码加小哥哥微信，回复入群密令<br/>
+                <span style={{ color: 'orange' }}>{entryCode}</span><br/>
+                让他拉你进班级群吧
               </div>
             </div>
           )
