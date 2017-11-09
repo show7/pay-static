@@ -66,7 +66,7 @@ export default class MemberPaySuccess extends React.Component<any, any> {
             </div>
             <div className="step step-2" data-step="2" style={{ paddingBottom: `${this.pd}px` }}>
               扫码添加班主任<br/>
-              <img src="https://static.iqycamp.com/images/xiaoy_qrcode_20171108.jpeg?imageslim" alt="班主任"
+              <img src="https://static.iqycamp.com/images/banzhuren_code_1109.jpeg?imageslim" alt="班主任"
                    className="qrcode"/>
             </div>
             <div className="step step-3" data-step="3">
