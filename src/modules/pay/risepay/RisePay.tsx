@@ -72,7 +72,7 @@ export default class RisePay extends React.Component<any, any> {
   handlePayedDone() {
     mark({ module: '打点', function: '商学院会员', action: '支付成功' })
     this.context.router.push({
-      pathname: '/pay/risemember/success',
+      pathname: '/pay/member/success',
       query: {
         memberTypeId: 3
       }

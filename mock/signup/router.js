@@ -576,7 +576,8 @@ router.get("/signup/rise/member/*", (req, res) => {
         "addTime": 1492521171000,
         "startTime": "2017.04.18",
         "endTime": "2017.10.17",
-        "name": "专业版（半年）"
+        "name": "专业版（半年）",
+        "entryCode":20171102
       }, "code": 200
     })
   })
