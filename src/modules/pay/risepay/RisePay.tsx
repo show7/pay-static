@@ -181,7 +181,7 @@ export default class RisePay extends React.Component<any, any> {
           <div className="sale-pic">
             <img
               className="pic-part1"
-              src="https://static.iqycamp.com/images/pay_rise_part1.png?imageslim"
+              src="https://static.iqycamp.com/images/pay_rise_part1_1.png?imageslim"
               style={{ width: '100%' }}
               onLoad={() => this.setState({ loading: false })}/>
             {
