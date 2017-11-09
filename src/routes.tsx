@@ -1,21 +1,20 @@
-import * as React from "react"
-import { config } from "modules/helpers/JsConfig"
-import { Route } from "react-router"
-import Base from "modules/base/Base"
-import RisePay from "modules/pay/RisePay"
-import CampPay from "modules/pay/CampPay"
-import RiseApply from "modules/pay/RiseApply"
+import * as React from 'react'
+import { config } from 'modules/helpers/JsConfig'
+import { Route } from 'react-router'
+import Base from 'modules/base/Base'
+import RisePay from 'modules/pay/risepay/RisePay'
+import CampPay from 'modules/pay/CampPay'
+import RiseApply from 'modules/pay/RiseApply'
 
-import NormalQuestion from "modules/pay/NormalQuestion";
-import Pay from "modules/pay/PayPage"
-import RiseMemberPaySuccess from "modules/pay/RiseMemberPaySuccess"
-import AuditionSuccess from "modules/pay/AuditionSuccess";
+import NormalQuestion from 'modules/pay/NormalQuestion'
+import RiseMemberPaySuccess from 'modules/pay/RiseMemberPaySuccess'
+import AuditionSuccess from 'modules/pay/AuditionSuccess'
 
 import MemberPaySuccess from 'modules/pay/MemberPaySuccess'
 const routes = (
   <Route path="/">
     <Route component={Base} onChange={() => {
-      config([ 'chooseWXPay' ]);
+      config(['chooseWXPay'])
     }}>
       {/*<Route path="/pay/pay" component={Pay}/>*/}
       <Route path="/pay/risemember/success" component={RiseMemberPaySuccess}/>

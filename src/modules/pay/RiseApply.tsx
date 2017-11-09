@@ -1,5 +1,5 @@
 import * as React from 'react'
-import './RisePay.less'
+import './risepay/RisePay.less'
 import { connect } from 'react-redux'
 import PicLoading from './components/PicLoading'
 import { mark } from '../../utils/request'
@@ -17,17 +17,17 @@ export default class RiseApply extends React.Component<any, any> {
   constructor() {
     super()
     this.state = {
-      loading: true,
+      loading: true
     }
   }
 
-  componentWillMount(){
+  componentWillMount() {
     mark({ module: '打点', function: '商学院guest', action: '购买商学院会员' })
   }
 
   redirect() {
     mevent('商学院guest', '申请商学院')
-    mark({ module: '打点', function: '商学院guest', action: '申请商学院' }).then(res=>{
+    mark({ module: '打点', function: '商学院guest', action: '申请商学院' }).then(res => {
       window.location.href = 'https://www.iquanwai.com/survey/wjx?activity=16666777'
     })
   }
