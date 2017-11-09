@@ -6,10 +6,11 @@ import { ppost, pget, mark } from 'utils/request'
 import { getGoodsType } from 'utils/helpers'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { config } from 'modules/helpers/JsConfig'
-import PayInfo from './components/PayInfo'
-import PicLoading from './components/PicLoading'
-import { mevent } from '../../utils/mark'
-import { chooseAuditionCourse } from './async';
+import PayInfo from '../components/PayInfo'
+import PicLoading from '../components/PicLoading'
+import { mevent } from '../../../utils/mark'
+import { chooseAuditionCourse } from '../async'
+import { CustomerEvaluate } from './components/CustomerEvaluate'
 
 const numeral = require('numeral')
 
@@ -53,7 +54,7 @@ export default class RisePay extends React.Component<any, any> {
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({ data: res.msg })
-        const { privilege } = res.msg;
+        const { privilege } = res.msg
         if(privilege) {
           mark({ module: '打点', function: '商学院会员', action: '购买商学院会员', memo: '入学页面' })
         } else {
@@ -137,40 +138,40 @@ export default class RisePay extends React.Component<any, any> {
    * 重新注册页面签名
    */
   reConfig() {
-    config([ 'chooseWXPay' ])
+    config(['chooseWXPay'])
   }
 
   handleClickAudition() {
     // 开试听课
-    const { dispatch } = this.props;
-    dispatch(startLoad());
+    const { dispatch } = this.props
+    dispatch(startLoad())
     chooseAuditionCourse().then(res => {
-      dispatch(endLoad());
+      dispatch(endLoad())
       if(res.code === 200) {
-        const { planId, goSuccess, errMsg, startTime, endTime } = res.msg;
+        const { planId, goSuccess, errMsg, startTime, endTime } = res.msg
         if(errMsg) {
-          dispatch(alertMsg(errMsg));
+          dispatch(alertMsg(errMsg))
         } else {
           if(goSuccess) {
             this.context.router.push({
               pathname: '/pay/static/audition/success'
             })
           } else {
-            window.location.href = `https://${window.location.hostname}/rise/static/plan/main`;
+            window.location.href = `https://${window.location.hostname}/rise/static/plan/main`
           }
         }
       } else {
-        dispatch(alertMsg(res.msg));
+        dispatch(alertMsg(res.msg))
       }
     }).catch(ex => {
-      dispatch(endLoad());
-      dispatch(alertMsg(ex));
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
     })
   }
 
   render() {
     const { data, showId, timeOut, showErr, showCodeErr, loading } = this.state
-    const { memberTypes, privilege, buttonStr,auditionStr } = data
+    const { memberTypes, privilege, buttonStr, auditionStr } = data
 
     const showMember = _.find(memberTypes, { id: showId })
 
@@ -178,9 +179,19 @@ export default class RisePay extends React.Component<any, any> {
       return (
         <div className="pay-page">
           <div className="sale-pic">
-            <img src="https://static.iqycamp.com/images/rise_promotion_7.png?imageslim"
-                 style={{ width: '100%' }}
-                 onLoad={() => this.setState({ loading: false })}/>
+            <img
+              className="pic-part1"
+              src="https://static.iqycamp.com/images/pay_rise_part1.png?imageslim"
+              style={{ width: '100%' }}
+              onLoad={() => this.setState({ loading: false })}/>
+            {
+              loading ? null : <CustomerEvaluate/>
+            }
+            <img
+              className="pic-part2"
+              src="https://static.iqycamp.com/images/pay_rise_part2.png?imageslim"
+              style={{ width: '100%' }}
+              onLoad={() => this.setState({ loading: false })}/>
           </div>
           {
             privilege ?
