@@ -62,7 +62,7 @@ export default class MemberPaySuccess extends React.Component<any, any> {
           <div className="content">
             <div className="step step-1" data-step="1" style={{ paddingBottom: `${this.pd}px` }}>
               长按复制你的学号<br/>
-              <div className="code">{entryCode || 123123}</div>
+              <div className="code">{entryCode     }</div>
             </div>
             <div className="step step-2" data-step="2" style={{ paddingBottom: `${this.pd}px` }}>
               扫码添加班主任<br/>
