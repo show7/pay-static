@@ -59,7 +59,7 @@ export default class AuditionSuccess extends React.Component<any, any> {
             预约请扫码加小助手,通过后回复数字：
             <span style={{ color: 'orange', fontSize: '28px',display:"block",padding:"20px 0 0" }}>{className}</span>
           </div>
-          <img src="https://static.iqycamp.com/images/fragment/xiaoy_qrcode.jpeg?imageslim" alt="小黑"
+          <img src="https://static.iqycamp.com/images/xiaohei_code_1109.jpeg?imageslim" alt="小黑"
                className="qrcode"/>
         </div>
         {/*<div className="close-button" onClick={() => closeWindow()}>预约试听</div>*/}
