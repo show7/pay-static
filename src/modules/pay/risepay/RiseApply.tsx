@@ -30,7 +30,7 @@ export default class RiseApply extends React.Component<any, any> {
   redirect() {
     mevent('商学院guest', '申请商学院')
     mark({ module: '打点', function: '商学院guest', action: '申请商学院' }).then(res => {
-      window.location.href = 'https://www.iquanwai.com/survey/wjx?activity=16666777'
+      window.location.href = 'https://www.iquanwai.com/survey/wjx?activity=18057279'
     })
   }
 
