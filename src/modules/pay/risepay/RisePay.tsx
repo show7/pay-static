@@ -7,10 +7,9 @@ import { getGoodsType } from 'utils/helpers'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { config } from 'modules/helpers/JsConfig'
 import PayInfo from '../components/PayInfo'
-import PicLoading from '../components/PicLoading'
 import { mevent } from '../../../utils/mark'
 import { chooseAuditionCourse } from '../async'
-import { CustomerEvaluate } from './components/CustomerEvaluate'
+import { SaleBody } from './components/SaleBody'
 
 const numeral = require('numeral')
 
@@ -28,7 +27,6 @@ export default class RisePay extends React.Component<any, any> {
       timeOut: false,
       showErr: false,
       showCodeErr: false,
-      loading: true,
       data: {}
     }
   }
@@ -170,7 +168,7 @@ export default class RisePay extends React.Component<any, any> {
   }
 
   render() {
-    const { data, showId, timeOut, showErr, showCodeErr, loading } = this.state
+    const { data, showId, timeOut, showErr, showCodeErr } = this.state
     const { memberTypes, privilege, buttonStr, auditionStr } = data
 
     const showMember = _.find(memberTypes, { id: showId })
@@ -178,21 +176,7 @@ export default class RisePay extends React.Component<any, any> {
     const renderPay = () => {
       return (
         <div className="pay-page">
-          <div className="sale-pic">
-            <img
-              className="pic-part1"
-              src="https://static.iqycamp.com/images/pay_rise_part1_1.png?imageslim"
-              style={{ width: '100%' }}
-              onLoad={() => this.setState({ loading: false })}/>
-            {
-              loading ? null : <CustomerEvaluate/>
-            }
-            <img
-              className="pic-part2"
-              src="https://static.iqycamp.com/images/pay_rise_part2.png?imageslim"
-              style={{ width: '100%' }}
-              onLoad={() => this.setState({ loading: false })}/>
-          </div>
+          <SaleBody/>
           {
             privilege ?
               <div className="button-footer">
@@ -222,7 +206,6 @@ export default class RisePay extends React.Component<any, any> {
 
     return (
       <div className="rise-pay-container">
-        <PicLoading show={loading}/>
         {renderPay()}
         {renderKefu()}
         {timeOut ? <div className="mask" onClick={() => {window.history.back()}}
