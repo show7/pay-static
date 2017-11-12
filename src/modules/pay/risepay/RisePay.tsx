@@ -236,6 +236,7 @@ export default class RisePay extends React.Component<any, any> {
                                goodsType={getGoodsType(showMember.id)}
                                goodsId={showMember.id}
                                header={showMember.name}
+                               priceTips={true}
                                payedDone={(goodsId) => this.handlePayedDone()}
                                payedCancel={(res) => this.handlePayedCancel(res)}
                                payedError={(res) => this.handlePayedError(res)}

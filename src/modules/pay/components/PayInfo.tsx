@@ -39,7 +39,8 @@ interface PayInfoProps {
   goodsType: string,
   /** dispatch */
   dispatch: any,
-  mutilCoupon: boolean,
+  mutilCoupon?: boolean,
+  priceTips?: boolean,
 }
 
 export default class PayInfo extends React.Component<PayInfoProps, any> {
@@ -522,6 +523,9 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                             style={{ marginLeft: '5px' }}>{`¥ ${numeral((final || free) && !_.isEqual(final, fee) ? final : fee).format('0.00')}元`}</span>)
       } else {
         priceArr.push(<span className="final" key={0}>{`¥ ${numeral(fee).format('0.00')}元`}</span>)
+      }
+      if(this.props.priceTips){
+        priceArr.push(<div className="price-tips">每天给自己投资7元，获得全年36次职场加速机会</div>)
       }
       return priceArr
     }
