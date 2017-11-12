@@ -524,8 +524,8 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       } else {
         priceArr.push(<span className="final" key={0}>{`¥ ${numeral(fee).format('0.00')}元`}</span>)
       }
-      if(this.props.priceTips){
-        priceArr.push(<div className="price-tips">每天给自己投资7元，获得全年36次职场加速机会</div>)
+      if(this.props.priceTips) {
+        priceArr.push(<div key={priceArr.length} className="price-tips">每天给自己投资7元，获得全年36次职场加速机会</div>)
       }
       return priceArr
     }
