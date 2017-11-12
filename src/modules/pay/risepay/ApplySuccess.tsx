@@ -137,7 +137,7 @@ export default class ApplySuccess extends React.Component<any, any> {
     const renderPay = () => {
       return (
         <div className="pay-page">
-          <div className="button-footer">
+          <div className="button-pay-footer">
             <div className="footer-btn" onClick={() => this.handleClickOpenPayInfo(showId)}>{buttonStr}</div>
           </div>
         </div>
