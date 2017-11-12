@@ -552,7 +552,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
               {header || name}
             </div>
             <div className="content">
-              <div className="price item">
+              <div className={`price item ${this.props.priceTips ? 'show-tips' : ''}`}>
                 {renderPrice(fee, final, free)}
               </div>
               {!!startTime && !!endTime ? <div className="open-time item">
@@ -595,7 +595,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
             {header || name}
           </div>
           <div className={`content ${openCoupon ? 'openCoupon' : ''}`}>
-            <div className="price item">
+            <div className={`price item ${this.props.priceTips ? 'show-tips' : ''}`}>
               {renderPrice(fee, final, free, initPrice)}
             </div>
             {!!startTime && !!endTime ? <div className="open-time item">
