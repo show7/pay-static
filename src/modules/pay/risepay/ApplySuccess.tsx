@@ -8,7 +8,6 @@ import './RisePay.less'
 import { getGoodsType } from 'utils/helpers'
 import PayInfo from '../components/PayInfo'
 import { mark } from '../../../utils/request'
-import { mevent } from '../../../utils/mark'
 import { SaleBody } from './components/SaleBody'
 import Icon from '../../../components/Icon'
 
@@ -28,7 +27,8 @@ export default class ApplySuccess extends React.Component<any, any> {
       timeOut: false,
       showErr: false,
       showCodeErr: false,
-      data: {}
+      data: {},
+      more:false,
     }
   }
 
@@ -130,7 +130,7 @@ export default class ApplySuccess extends React.Component<any, any> {
   }
 
   render() {
-    const { data, showId, timeOut, showErr, showCodeErr } = this.state
+    const { data, showId, timeOut, showErr, showCodeErr, more } = this.state
     const { memberTypes, privilege, buttonStr, auditionStr } = data
     const showMember = _.find(memberTypes, { id: showId })
 
@@ -157,14 +157,24 @@ export default class ApplySuccess extends React.Component<any, any> {
     return (
       <div className="rise-pay-container apply">
         <div className="apply-header">
-          恭喜你通过商学院申请！
+          {''+"恭喜你通过商学院申请!"}
         </div>
         <div className="apply-icon">
           <Icon type='notice_book_icon'/>
         </div>
         <div className="click-tips">
-          点击下方按钮，立即加入商学院
+          在未来的日子里<br/>
+          希望你在商学院内取得傲人的成就<br/>
+          和顶尖的校友们一同前进!<br/>
         </div>
+        {more ? <div className="desc-container">
+            <SaleBody loading={false}/>
+          </div>:
+          <div className="click-desc" onClick={()=>this.setState({more:true})}>
+            商学院介绍
+          </div>
+        }
+
         {renderPay()}
         {renderKefu()}
         {timeOut ? <div className="mask" onClick={() => {window.history.back()}}
