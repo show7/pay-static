@@ -2,10 +2,33 @@ var Router = require("express").Router;
 
 var router = new Router();
 
-router.post("/signup/load/goods",(req,res)=>{
-  setTimeout(()=>{
-  res.status(200).json({"msg":{"goodsType":"fragment_member","fee":2280.0,"name":"会员购买","goodsId":3,"coupons":[{"id":2043,"openid":"oWo9HwuQCPN1u50fIcguiqIZGySE","profileId":1,"amount":50.0,"used":0,"cost":null,"orderId":null,"expiredDate":"2047-07-27","category":null,"description":"奖学金","expired":"2047.07.27"}],"startTime":"2017.09.18","endTime":"2018.09.30","activity":null},"code":200})
-}, Math.random() * 1500)
+router.post("/signup/load/goods", (req, res) => {
+  setTimeout(() => {
+    res.status(200).json({
+      "msg": {
+        "goodsType": "fragment_member",
+        "fee": 2280.0,
+        "name": "会员购买",
+        "goodsId": 3,
+        "coupons": [ {
+          "id": 2043,
+          "openid": "oWo9HwuQCPN1u50fIcguiqIZGySE",
+          "profileId": 1,
+          "amount": 50.0,
+          "used": 0,
+          "cost": null,
+          "orderId": null,
+          "expiredDate": "2047-07-27",
+          "category": null,
+          "description": "奖学金",
+          "expired": "2047.07.27"
+        } ],
+        "startTime": "2017.09.18",
+        "endTime": "2018.09.30",
+        "activity": null
+      }, "code": 200
+    })
+  }, Math.random() * 1500)
 })
 
 router.get("/signup/mark/**", (req, res) => {
@@ -13,6 +36,13 @@ router.get("/signup/mark/**", (req, res) => {
     res.status(200).json({ code: 200, msg: "ok" })
   }, Math.random() * 1500)
 })
+
+router.post("/rise/b/mark", (req, res) => {
+  setTimeout(() => {
+    res.status(200).json({ "msg": "ok", "code": 200 })
+  }, Math.random() * 1500)
+})
+
 router.get("/signup/info/load", (req, res) => {
   setTimeout(() =>
     res.status(200).json({
@@ -158,105 +188,31 @@ router.get("/signup/rise/member", (req, res) => {
       "msg": {
         "memberType": null,
         "openId": null,
-        "couponId": null,
+        "couponIdGroup": null,
         "memberTypes": [ {
-          "id": 1,
-          "fee": 0.01,
-          "name": "专业版（半年）",
-          "description": "testestiawehgiapowehgpwoih",
-          "openMonth": 6,
-          "startTime": "2017.04.18",
-          "endTime": "2017.10.17"
-        }, {
-          "id": 2,
-          "fee": 0.01,
-          "name": "专业版（一年）",
-          "description": "jfweijfwope[jfpowejg[awih",
-          "openMonth": 12,
-          "startTime": "2017.04.18",
-          "endTime": "2018.04.17"
-        }, {
           "id": 3,
-          "fee": 0.01,
-          "name": "精英版（一年）\n",
-          "description": "jfwepijfwepihgw[eih",
+          "fee": 2680.0,
+          "name": "圈外商学院",
+          "description": "精英版（一年）",
           "openMonth": 12,
-          "startTime": "2017.04.18",
-          "endTime": "2018.04.17"
-        } ],
-        "coupons": [ {
-          "id": 1,
-          "openid": "o5h6ywsiXYMcLlex2xt7DRAgQX-A",
-          "amount": 0.03,
-          "used": 0,
-          "cost": null,
-          "orderId": null,
-          "expiredDate": "2017-04-27",
-          "expired": "2017.04.27"
-        }, {
-          "id": 2,
-          "openid": "o5h6ywsiXYMcLlex2xt7DRAgQX-A",
-          "amount": 200.0,
-          "used": 0,
-          "cost": null,
-          "orderId": null,
-          "expiredDate": "2018-04-12",
-          "expired": "2018.04.12"
-        }, {
-          "id": 3,
-          "openid": "o5h6ywsiXYMcLlex2xt7DRAgQX-A",
-          "amount": 100.0,
-          "used": 0,
-          "cost": null,
-          "orderId": null,
-          "expiredDate": "2017-06-01",
-          "expired": "2017.06.01"
-        }, {
-          "id": 4,
-          "openid": "o5h6ywsiXYMcLlex2xt7DRAgQX-A",
-          "amount": 100.0,
-          "used": 0,
-          "cost": null,
-          "orderId": null,
-          "expiredDate": "2017-06-01",
-          "expired": "2017.06.01"
+          "startTime": "2017.11.12",
+          "endTime": "2018.11.11",
+          "del": false
         }, {
           "id": 5,
-          "openid": "o5h6ywsiXYMcLlex2xt7DRAgQX-A",
-          "amount": 100.0,
-          "used": 0,
-          "cost": null,
-          "orderId": null,
-          "expiredDate": "2017-06-01",
-          "expired": "2017.06.01"
-        }, {
-          "id": 6,
-          "openid": "o5h6ywsiXYMcLlex2xt7DRAgQX-A",
-          "amount": 100.0,
-          "used": 0,
-          "cost": null,
-          "orderId": null,
-          "expiredDate": "2017-06-01",
-          "expired": "2017.06.01"
-        }, {
-          "id": 7,
-          "openid": "o5h6ywsiXYMcLlex2xt7DRAgQX-A",
-          "amount": 100.0,
-          "used": 0,
-          "cost": null,
-          "orderId": null,
-          "expiredDate": "2017-06-01",
-          "expired": "2017.06.01"
-        }, {
-          "id": 8,
-          "openid": "o5h6ywsiXYMcLlex2xt7DRAgQX-A",
-          "amount": 100.0,
-          "used": 0,
-          "cost": null,
-          "orderId": null,
-          "expiredDate": "2017-06-01",
-          "expired": "2017.06.01"
-        } ]
+          "fee": 299.0,
+          "name": "小课训练营",
+          "description": "小课训练营",
+          "openMonth": 1,
+          "startTime": "2017.11.12",
+          "endTime": "2017.12.24",
+          "del": false
+        } ],
+        "coupons": [],
+        "privilege": true,
+        "elite": null,
+        "buttonStr": "升级商学院",
+        "auditionStr": "试听课"
       }, "code": 200
     });
   })
@@ -577,10 +533,30 @@ router.get("/signup/rise/member/*", (req, res) => {
         "startTime": "2017.04.18",
         "endTime": "2017.10.17",
         "name": "专业版（半年）",
-        "entryCode":20171102
+        "entryCode": 20171102
       }, "code": 200
     })
   })
+})
+
+router.get("/wx/js/signature", (req, res) => {
+  setTimeout(() =>
+    res.status(200).json({
+      "code": 200,
+      "msg": {
+        appId: '', // 必填，公众号的唯一标识
+        timestamp: '', // 必填，生成签名的时间戳
+        nonceStr: '', // 必填，生成签名的随机串
+        signature: '',// 必填，签名，见附录1
+      }
+    }), Math.random() * 1500
+  )
+})
+
+router.post("/signup/payment/coupon/calculate", (req, res) => {
+  setTimeout(() =>
+    res.status(200).json({"msg":2381.01,"code":200}), Math.random() * 1500
+  )
 })
 
 module.exports = router;
