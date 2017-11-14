@@ -11,7 +11,7 @@ export class CustomerEvaluate extends React.Component {
 
     return (
       <section className="customer-evaluate-component">
-        <img className="evaluate-tag" src="https://static.iqycamp.com/images/rise_pay_tag.png?imageslim" alt=""/>
+        <img className="evaluate-tag" src="https://static.iqycamp.com/images/rise_pay_tag_2.png?imageslim" alt=""/>
         <EvaluateCard
           headImage="https://static.iqycamp.com/images/case_headimage_1.png?imageslim"
           nickname="Roger" description="网易游戏项目管理">
