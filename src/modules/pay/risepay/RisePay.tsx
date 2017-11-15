@@ -10,6 +10,7 @@ import PayInfo from '../components/PayInfo'
 import { mevent } from '../../../utils/mark'
 import { chooseAuditionCourse } from '../async'
 import { SaleBody } from './components/SaleBody'
+import { CustomerService } from '../../../components/customerservice/CustomerService'
 
 const numeral = require('numeral')
 
@@ -196,11 +197,7 @@ export default class RisePay extends React.Component<any, any> {
 
     const renderKefu = () => {
       return (
-        <div className="kefu-container">
-          <img className="kefu-pic" src="https://static.iqycamp.com/images/kefu.png?imageslim"
-               onClick={() => _MEIQIA('showPanel')}/>
-
-        </div>
+        <CustomerService image="https://static.iqycamp.com/images/kefu.png?imageslim"/>
       )
     }
 

@@ -10,6 +10,7 @@ import PayInfo from '../components/PayInfo'
 import { mark } from '../../../utils/request'
 import { SaleBody } from './components/SaleBody'
 import Icon from '../../../components/Icon'
+import { CustomerService } from '../../../components/customerservice/CustomerService'
 
 const numeral = require('numeral')
 
@@ -28,7 +29,7 @@ export default class ApplySuccess extends React.Component<any, any> {
       showErr: false,
       showCodeErr: false,
       data: {},
-      more:false,
+      more: false
     }
   }
 
@@ -126,7 +127,7 @@ export default class ApplySuccess extends React.Component<any, any> {
    * 重新注册页面签名
    */
   reConfig() {
-    config([ 'chooseWXPay' ])
+    config(['chooseWXPay'])
   }
 
   render() {
@@ -146,18 +147,14 @@ export default class ApplySuccess extends React.Component<any, any> {
 
     const renderKefu = () => {
       return (
-        <div className="kefu-container">
-          <img className="kefu-pic" src="https://static.iqycamp.com/images/kefu.png?imageslim"
-               onClick={() => _MEIQIA('showPanel')}/>
-
-        </div>
+        <CustomerService image="https://static.iqycamp.com/images/kefu_ruxuezixun.png?imageslim"/>
       )
     }
 
     return (
       <div className="rise-pay-container apply">
         <div className="apply-header">
-          {''+"恭喜你通过商学院申请!"}
+          {'' + '恭喜你通过商学院申请!'}
         </div>
         <div className="apply-icon">
           <Icon type='notice_book_icon'/>
@@ -168,9 +165,9 @@ export default class ApplySuccess extends React.Component<any, any> {
           和顶尖的校友们一同前进!<br/>
         </div>
         {more ? <div className="desc-container">
-            <SaleBody loading={false}/>
-          </div>:
-          <div className="click-desc" onClick={()=>this.setState({more:true})}>
+          <SaleBody loading={false}/>
+        </div> :
+          <div className="click-desc" onClick={() => this.setState({ more: true })}>
             商学院介绍
           </div>
         }
