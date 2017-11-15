@@ -9,6 +9,7 @@ import { Button, ButtonArea } from 'react-weui'
 import { config } from 'modules/helpers/JsConfig'
 import PayInfo from './components/PayInfo'
 import PicLoading from './components/PicLoading'
+import { CustomerService } from '../../components/customerservice/CustomerService'
 
 const numeral = require('numeral')
 
@@ -62,13 +63,13 @@ export default class CampPay extends React.Component<any, any> {
 
     pget(`/signup/current/camp/month`).then(res => {
       this.setState({ currentCampMonth: _.get(res, 'msg.marKSellingMemo', 'error') }, () => {
-        mark({ module: '打点', function: '小课训练营', action: '购买小课训练营', memo: _.get(res, 'msg.marKSellingMemo', 'error') });
+        mark({ module: '打点', function: '小课训练营', action: '购买小课训练营', memo: _.get(res, 'msg.marKSellingMemo', 'error') })
       })
-    });
+    })
   }
 
   handlePayedDone() {
-    mark({ module: '打点', function: '小课训练营', action: '支付成功', memo: this.state.currentCampMonth });
+    mark({ module: '打点', function: '小课训练营', action: '支付成功', memo: this.state.currentCampMonth })
     this.context.router.push({
       pathname: '/pay/risemember/success',
       query: {
@@ -80,7 +81,7 @@ export default class CampPay extends React.Component<any, any> {
   /** 处理支付失败的状态 */
   handlePayedError(res) {
     let param = _.get(res, 'err_desc', _.get(res, 'errMsg', ''))
-    console.log(param);
+    console.log(param)
 
     if(param.indexOf('跨公众号发起') != -1) {
       // 跨公众号
@@ -120,18 +121,18 @@ export default class CampPay extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
-    mark({ module: '打点', function: '小课训练营', action: '点击加入按钮', memo: this.state.currentCampMonth });
+    mark({ module: '打点', function: '小课训练营', action: '点击加入按钮', memo: this.state.currentCampMonth })
   }
 
   handlePayedBefore() {
-    mark({ module: '打点', function: '小课训练营', action: '点击付费', memo: this.state.currentCampMonth });
+    mark({ module: '打点', function: '小课训练营', action: '点击付费', memo: this.state.currentCampMonth })
   }
 
   /**
    * 重新注册页面签名
    */
   reConfig() {
-    config([ 'chooseWXPay' ])
+    config(['chooseWXPay'])
   }
 
   render() {
@@ -157,11 +158,7 @@ export default class CampPay extends React.Component<any, any> {
 
     const renderKefu = () => {
       return (
-        <div className="kefu-container">
-          <img className="kefu-pic" src="https://static.iqycamp.com/images/kefu.png?imageslim"
-               onClick={() => _MEIQIA('showPanel')}/>
-
-        </div>
+        <CustomerService image="https://static.iqycamp.com/images/kefu.png?imageslim"/>
       )
     }
 
