@@ -181,13 +181,23 @@ export default class RisePay extends React.Component<any, any> {
           {
             privilege ?
               <div className="button-footer">
-                <div className="footer-left" onClick={() => this.handleClickAudition()}><span
-                  className="audition">{auditionStr}</span></div>
+                {
+                  auditionStr ?
+                    <div className="footer-left" onClick={() => this.handleClickAudition()}>
+                      <span className="audition">{auditionStr}</span>
+                    </div> :
+                    null
+                }
                 <div className="footer-btn" onClick={() => this.handleClickOpenPayInfo(showId)}>{buttonStr}</div>
               </div> :
               <div className="button-footer">
-                <div className="footer-left" onClick={() => this.handleClickAudition()}><span
-                  className="audition">{auditionStr}</span></div>
+                {
+                  auditionStr ?
+                    <div className="footer-left" onClick={() => this.handleClickAudition()}>
+                      <span className="audition">{auditionStr}</span>
+                    </div> :
+                    null
+                }
                 <div className="footer-btn" onClick={() => this.redirect()}>申请商学院</div>
               </div>
           }
