@@ -11,6 +11,7 @@ import { mevent } from '../../../utils/mark'
 import { chooseAuditionCourse } from '../async'
 import { SaleBody } from './components/SaleBody'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
+import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
 
 const numeral = require('numeral')
 
@@ -195,8 +196,7 @@ export default class RisePay extends React.Component<any, any> {
                   auditionStr ?
                     <div className="footer-left" onClick={() => this.handleClickAudition()}>
                       <span className="audition">{auditionStr}</span>
-                    </div> :
-                    null
+                    </div> : null
                 }
                 <div className="footer-btn" onClick={() => this.redirect()}>申请商学院</div>
               </div>

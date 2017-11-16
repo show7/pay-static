@@ -48,3 +48,27 @@ export const getGoodsType = (id) => {
       return GoodsType.FRAG_CAMP
   }
 }
+
+function scrollLimit(e) {
+  let _this = this;
+  if(_this.scrollTop >= _this.scrollHeight - _this.clientHeight - 1) {
+    _this.scrollTop = _this.scrollHeight - _this.clientHeight - 1;
+  } else if(_this.scrollTop <= 1) {
+    _this.scrollTop = 1;
+  }
+}
+
+export function unScrollToBorder(selector) {
+  console.log('绑定', selector);
+  let dom = document.querySelector(selector);
+  if(dom) {
+    dom.addEventListener('scroll', scrollLimit)
+    return () => {
+      console.log('解绑')
+      dom.removeEventListener('scroll', scrollLimit)
+    };
+  } else {
+    // return 空函数，防止报错
+    return () => {};
+  }
+}
