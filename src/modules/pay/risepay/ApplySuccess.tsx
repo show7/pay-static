@@ -12,6 +12,9 @@ import { SaleBody } from './components/SaleBody'
 import Icon from '../../../components/Icon'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
 import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
+import FooterButton from './components/FooterButton';
+import { chooseAuditionCourse } from '../async'
+
 
 const numeral = require('numeral')
 
@@ -128,8 +131,40 @@ export default class ApplySuccess extends React.Component<any, any> {
    * 重新注册页面签名
    */
   reConfig() {
-    config(['chooseWXPay'])
+    config([ 'chooseWXPay' ])
   }
+
+  handleClickAudition() {
+    // 开试听课
+    const { dispatch } = this.props
+    dispatch(startLoad())
+    chooseAuditionCourse().then(res => {
+      dispatch(endLoad())
+      if(res.code === 200) {
+        const { planId, goSuccess, errMsg, startTime, endTime } = res.msg
+        if(errMsg) {
+          mark({ module: '打点', function: '试听课', action: '无法开启试听课', memo: '申请成功页面' })
+          dispatch(alertMsg(errMsg))
+        } else {
+          if(goSuccess) {
+            mark({ module: '打点', function: '试听课', action: '开通试听课', memo: '申请成功页面' })
+            this.context.router.push({
+              pathname: '/pay/static/audition/success'
+            })
+          } else {
+            mark({ module: '打点', function: '试听课', action: '进入试听课', memo: '申请成功页面' })
+            window.location.href = `https://${window.location.hostname}/rise/static/plan/main`
+          }
+        }
+      } else {
+        dispatch(alertMsg(res.msg))
+      }
+    }).catch(ex => {
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
+    })
+  }
+
 
   render() {
     const { data, showId, timeOut, showErr, showCodeErr, more } = this.state
@@ -137,8 +172,17 @@ export default class ApplySuccess extends React.Component<any, any> {
     const showMember = _.find(memberTypes, { id: showId })
 
     const renderPay = () => {
+      {/*<SubmitButton clickFunc={() => this.handleClickOpenPayInfo(showId)} buttonText={buttonStr}/>*/
+      }
       return (
-        <SubmitButton clickFunc={() => this.handleClickOpenPayInfo(showId)} buttonText={buttonStr}/>
+        <FooterButton buttons={[ {
+          onClick: () => this.handleClickAudition(),
+          text: auditionStr,
+          icon:'audition'
+        }, {
+          onClick: () => this.handleClickOpenPayInfo(showId),
+          text: buttonStr
+        } ]}/>
       )
     }
 
@@ -162,8 +206,8 @@ export default class ApplySuccess extends React.Component<any, any> {
           和顶尖的校友们一同前进!<br/>
         </div>
         {more ? <div className="desc-container">
-          <SaleBody loading={false}/>
-        </div> :
+            <SaleBody loading={false}/>
+          </div> :
           <div className="click-desc" onClick={() => this.setState({ more: true })}>
             商学院介绍
           </div>
