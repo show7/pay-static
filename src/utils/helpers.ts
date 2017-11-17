@@ -59,12 +59,10 @@ function scrollLimit(e) {
 }
 
 export function unScrollToBorder(selector) {
-  console.log('绑定', selector);
   let dom = document.querySelector(selector);
   if(dom) {
     dom.addEventListener('scroll', scrollLimit)
     return () => {
-      console.log('解绑')
       dom.removeEventListener('scroll', scrollLimit)
     };
   } else {
