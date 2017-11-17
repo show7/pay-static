@@ -11,6 +11,7 @@ import { mark } from '../../../utils/request'
 import { SaleBody } from './components/SaleBody'
 import Icon from '../../../components/Icon'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
+import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
 
 const numeral = require('numeral')
 
@@ -137,11 +138,7 @@ export default class ApplySuccess extends React.Component<any, any> {
 
     const renderPay = () => {
       return (
-        <div className="pay-page">
-          <div className="button-pay-footer">
-            <div className="footer-btn" onClick={() => this.handleClickOpenPayInfo(showId)}>{buttonStr}</div>
-          </div>
-        </div>
+        <SubmitButton clickFunc={() => this.handleClickOpenPayInfo(showId)} buttonText={buttonStr}/>
       )
     }
 
