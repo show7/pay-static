@@ -4,17 +4,15 @@ import { ppost, pget, mark } from 'utils/request'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { connect } from 'react-redux'
 import { config } from 'modules/helpers/JsConfig'
-import './RisePay.less'
+import './ApplySuccess.less'
 import { getGoodsType } from 'utils/helpers'
 import PayInfo from '../components/PayInfo'
 import { mark } from '../../../utils/request'
 import { SaleBody } from './components/SaleBody'
 import Icon from '../../../components/Icon'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
-import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
 import FooterButton from './components/FooterButton';
 import { chooseAuditionCourse } from '../async'
-
 
 const numeral = require('numeral')
 
@@ -59,6 +57,7 @@ export default class ApplySuccess extends React.Component<any, any> {
     pget(`/signup/rise/member`).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
+        this.countDown(res.msg.remainHour, res.msg.remainMinute)
         this.setState({ data: res.msg })
       } else {
         dispatch(alertMsg(res.msg))
@@ -77,6 +76,45 @@ export default class ApplySuccess extends React.Component<any, any> {
         memberTypeId: 3
       }
     })
+  }
+
+  handleClickIntro() {
+    mark({ module: '打点', function: '商学院会员', action: '打开商学院介绍' })
+    this.setState({ more: true })
+  }
+
+  countDown(remainHour, remainMinute) {
+    if(remainHour === 0 && remainMinute === 0) {
+      this.setState({ expired: true })
+    } else {
+      if(remainHour !== 0) {
+        let hourStr = remainHour + ''
+        let ones = '0'
+        let tens = '0'
+        // 小于等于0 按0算
+        if(hourStr.length > 1) {
+          ones = hourStr[ 1 ]
+          tens = hourStr[ 0 ]
+        } else {
+          // 1位数
+          ones = hourStr[ 0 ]
+        }
+        this.setState({ ones: ones, tens: tens, unit: '小时', expired: false })
+      } else {
+        let minuteStr = remainMinute + ''
+        let ones = '0'
+        let tens = '0'
+        // 小于等于0 按0算
+        if(minuteStr.length > 1) {
+          ones = minuteStr[ 1 ]
+          tens = minuteStr[ 0 ]
+        } else {
+          // 1位数
+          ones = minuteStr[ 0 ]
+        }
+        this.setState({ ones: ones, tens: tens, unit: '分钟', expired: false })
+      }
+    }
   }
 
   /** 处理支付失败的状态 */
@@ -165,24 +203,22 @@ export default class ApplySuccess extends React.Component<any, any> {
     })
   }
 
-
   render() {
-    const { data, showId, timeOut, showErr, showCodeErr, more } = this.state
+    const { data, showId, timeOut, showErr, showCodeErr, more, tens, ones, unit } = this.state
     const { memberTypes, privilege, buttonStr, auditionStr } = data
     const showMember = _.find(memberTypes, { id: showId })
 
     const renderPay = () => {
-      {/*<SubmitButton clickFunc={() => this.handleClickOpenPayInfo(showId)} buttonText={buttonStr}/>*/
-      }
       return (
-        <FooterButton buttons={[ {
-          onClick: () => this.handleClickAudition(),
-          text: auditionStr,
-          icon:'audition'
-        }, {
-          onClick: () => this.handleClickOpenPayInfo(showId),
-          text: buttonStr
-        } ]}/>
+        <div className="button-footer">
+        {
+          auditionStr ?
+            <div className="footer-left" onClick={() => this.handleClickAudition()}>
+              <span className="audition">{auditionStr}</span>
+            </div> : null
+        }
+          <div className="footer-btn" onClick={() => this.handleClickOpenPayInfo(showId)}>{buttonStr}</div>
+        </div>
       )
     }
 
@@ -193,14 +229,28 @@ export default class ApplySuccess extends React.Component<any, any> {
     }
 
     return (
-      <div className="rise-pay-container apply">
+      <div className="rise-pay-apply-container">
         <div className="apply-header">
           {'' + '恭喜你通过商学院申请!'}
         </div>
-        <div className="apply-icon">
-          <Icon type='notice_book_icon'/>
+        <div className="header">
+          <div className="msg">通过状态有效期</div>
+        </div>
+        <div className="remainder">
+          <div className="time">
+            <div className="tens-place place">
+              {tens}
+            </div>
+            <div className={`ones-place place ${unit=='小时'?'hour':'minute'}`}>
+              {ones}
+            </div>
+          </div>
         </div>
         <div className="click-tips">
+          请点击下方按钮，及时办理入学<br/>
+          过期后需再次申请
+        </div>
+        <div className="welcome-msg">
           在未来的日子里<br/>
           希望你在商学院内取得傲人的成就<br/>
           和顶尖的校友们一同前进!<br/>
@@ -208,7 +258,7 @@ export default class ApplySuccess extends React.Component<any, any> {
         {more ? <div className="desc-container">
             <SaleBody loading={false}/>
           </div> :
-          <div className="click-desc" onClick={() => this.setState({ more: true })}>
+          <div className="click-desc" onClick={() => this.handleClickIntro()}>
             商学院介绍
           </div>
         }
@@ -217,27 +267,27 @@ export default class ApplySuccess extends React.Component<any, any> {
         {renderKefu()}
         {timeOut ? <div className="mask" onClick={() => {window.history.back()}}
                         style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}>
-        </div> : null}
+          </div> : null}
         {showErr ? <div className="mask" onClick={() => this.setState({ showErr: false })}>
-          <div className="tips">
-            出现问题的童鞋看这里<br/>
-            1如果显示“URL未注册”，请重新刷新页面即可<br/>
-            2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
-          </div>
-          <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
-        </div> : null}
+            <div className="tips">
+              出现问题的童鞋看这里<br/>
+              1如果显示“URL未注册”，请重新刷新页面即可<br/>
+              2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
+            </div>
+            <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
+          </div> : null}
         {showCodeErr ? <div className="mask" onClick={() => this.setState({ showCodeErr: false })}>
-          <div className="tips">
-            糟糕，支付不成功<br/>
-            原因：微信不支持跨公众号支付<br/>
-            怎么解决：<br/>
-            1，长按下方二维码，保存到相册；<br/>
-            2，打开微信扫一扫，点击右上角相册，选择二维码图片；<br/>
-            3，在新开的页面完成支付即可<br/>
-          </div>
-          <img className="xiaoQ" style={{ width: '50%' }}
-               src="https://static.iqycamp.com/images/applySuccessCode.png?imageslim"/>
-        </div> : null}
+            <div className="tips">
+              糟糕，支付不成功<br/>
+              原因：微信不支持跨公众号支付<br/>
+              怎么解决：<br/>
+              1，长按下方二维码，保存到相册；<br/>
+              2，打开微信扫一扫，点击右上角相册，选择二维码图片；<br/>
+              3，在新开的页面完成支付即可<br/>
+            </div>
+            <img className="xiaoQ" style={{ width: '50%' }}
+                 src="https://static.iqycamp.com/images/applySuccessCode.png?imageslim"/>
+          </div> : null}
         {showMember ? <PayInfo ref="payInfo"
                                dispatch={this.props.dispatch}
                                goodsType={getGoodsType(showMember.id)}
@@ -248,7 +298,7 @@ export default class ApplySuccess extends React.Component<any, any> {
                                payedCancel={(res) => this.handlePayedCancel(res)}
                                payedError={(res) => this.handlePayedError(res)}
                                payedBefore={() => this.handlePayedBefore()}
-        /> : null}
+          /> : null}
       </div>
     )
   }
