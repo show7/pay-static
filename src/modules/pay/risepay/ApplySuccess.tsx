@@ -87,6 +87,9 @@ export default class ApplySuccess extends React.Component<any, any> {
       this.setState({ expired: true })
     } else {
       if(remainHour !== 0) {
+        if(remainHour > 99){
+          remainHour = 99
+        }
         let hourStr = remainHour + ''
         let ones = '0'
         let tens = '0'
