@@ -190,7 +190,7 @@ router.get("/signup/rise/member", (req, res) => {
         "openId": null,
         "couponIdGroup": null,
         "remainHour":0,
-        "remainMinute":3,
+        "remainMinute":0,
         "memberTypes": [ {
           "id": 3,
           "fee": 2680.0,

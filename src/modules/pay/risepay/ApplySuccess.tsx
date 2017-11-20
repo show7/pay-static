@@ -9,10 +9,9 @@ import { getGoodsType } from 'utils/helpers'
 import PayInfo from '../components/PayInfo'
 import { mark } from '../../../utils/request'
 import { SaleBody } from './components/SaleBody'
-import Icon from '../../../components/Icon'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
-import FooterButton from './components/FooterButton';
 import { chooseAuditionCourse } from '../async'
+import Icon from '../../../components/Icon'
 
 const numeral = require('numeral')
 
@@ -172,6 +171,12 @@ export default class ApplySuccess extends React.Component<any, any> {
     config([ 'chooseWXPay' ])
   }
 
+  redirect() {
+    mark({ module: '打点', function: '商学院会员', action: '申请商学院' }).then(res => {
+      window.location.href = 'https://www.iquanwai.com/survey/wjx?activity=18057279'
+    })
+  }
+
   handleClickAudition() {
     // 开试听课
     const { dispatch } = this.props
@@ -204,20 +209,34 @@ export default class ApplySuccess extends React.Component<any, any> {
   }
 
   render() {
-    const { data, showId, timeOut, showErr, showCodeErr, more, tens, ones, unit } = this.state
+    const { data, showId, timeOut, showErr, showCodeErr, more, tens, ones, unit, expired } = this.state
     const { memberTypes, privilege, buttonStr, auditionStr } = data
     const showMember = _.find(memberTypes, { id: showId })
 
     const renderPay = () => {
       return (
         <div className="button-footer">
-        {
-          auditionStr ?
-            <div className="footer-left" onClick={() => this.handleClickAudition()}>
-              <span className="audition">{auditionStr}</span>
-            </div> : null
-        }
+          {
+            auditionStr ?
+              <div className="footer-left" onClick={() => this.handleClickAudition()}>
+                <span className="audition">{auditionStr}</span>
+              </div> : null
+          }
           <div className="footer-btn" onClick={() => this.handleClickOpenPayInfo(showId)}>{buttonStr}</div>
+        </div>
+      )
+    }
+
+    const renderApply = () => {
+      return (
+        <div className="button-footer">
+          {
+            auditionStr ?
+              <div className="footer-left" onClick={() => this.handleClickAudition()}>
+                <span className="audition">{auditionStr}</span>
+              </div> : null
+          }
+          <div className="footer-btn" onClick={() => this.redirect()}>申请商学院</div>
         </div>
       )
     }
@@ -228,77 +247,107 @@ export default class ApplySuccess extends React.Component<any, any> {
       )
     }
 
+    const renderCountdown = () => {
+      return (
+        <div>
+          <div className="apply-header">
+            {'恭喜你通过商学院申请!'}
+          </div>
+          <div className="header">
+            <div className="msg">离入学截止时间还剩</div>
+          </div>
+          <div className="remainder">
+            <div className="time">
+              <div className={`tens-place place ${unit=='小时'?'hour':'minute'}`}>
+                {tens}
+              </div>
+              <div className={`ones-place place ${unit=='小时'?'hour':'minute'}`}>
+                {ones}
+              </div>
+            </div>
+          </div>
+          <div className="click-tips">
+            请点击下方按钮，及时办理入学<br/>
+            过期后需再次申请
+          </div>
+          <div className="welcome-msg">
+            在未来的日子里<br/>
+            希望你在商学院内取得傲人的成就<br/>
+            和顶尖的校友们一同前进!<br/>
+          </div>
+          {more ? <div className="desc-container">
+              <SaleBody loading={false}/>
+            </div> :
+            <div className="click-desc" onClick={() => this.handleClickIntro()}>
+              商学院介绍
+            </div>
+          }
+
+          {renderPay()}
+          {renderKefu()}
+          {timeOut ? <div className="mask" onClick={() => {window.history.back()}}
+                          style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}>
+            </div> : null}
+          {showErr ? <div className="mask" onClick={() => this.setState({ showErr: false })}>
+              <div className="tips">
+                出现问题的童鞋看这里<br/>
+                1如果显示“URL未注册”，请重新刷新页面即可<br/>
+                2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
+              </div>
+              <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
+            </div> : null}
+          {showCodeErr ? <div className="mask" onClick={() => this.setState({ showCodeErr: false })}>
+              <div className="tips">
+                糟糕，支付不成功<br/>
+                原因：微信不支持跨公众号支付<br/>
+                怎么解决：<br/>
+                1，长按下方二维码，保存到相册；<br/>
+                2，打开微信扫一扫，点击右上角相册，选择二维码图片；<br/>
+                3，在新开的页面完成支付即可<br/>
+              </div>
+              <img className="xiaoQ" style={{ width: '50%' }}
+                   src="https://static.iqycamp.com/images/applySuccessCode.png?imageslim"/>
+            </div> : null}
+          {showMember ? <PayInfo ref="payInfo"
+                                 dispatch={this.props.dispatch}
+                                 goodsType={getGoodsType(showMember.id)}
+                                 goodsId={showMember.id}
+                                 header={showMember.name}
+                                 priceTips={true}
+                                 payedDone={(goodsId) => this.handlePayedDone()}
+                                 payedCancel={(res) => this.handlePayedCancel(res)}
+                                 payedError={(res) => this.handlePayedError(res)}
+                                 payedBefore={() => this.handlePayedBefore()}
+            /> : null}
+        </div>
+      )
+    }
+
+    const renderExpired = () => {
+      return (
+        <div>
+          <div className="apply-header">
+            {'很抱歉，您的入学资格已过期!'}
+          </div>
+          <div className="apply-icon">
+            <Icon type='apply_fail'/>
+          </div>
+          <div className="click-tips">
+            由于您未在申请通过后48小时内办理入学<br/>
+            入学资格已过期。
+          </div>
+          {renderApply()}
+          {renderKefu()}
+          {timeOut ? <div className="mask" onClick={() => {window.history.back()}}
+                          style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}>
+            </div> : null}
+        </div>)
+    }
+
     return (
       <div className="rise-pay-apply-container">
-        <div className="apply-header">
-          {'' + '恭喜你通过商学院申请!'}
-        </div>
-        <div className="header">
-          <div className="msg">通过状态有效期</div>
-        </div>
-        <div className="remainder">
-          <div className="time">
-            <div className="tens-place place">
-              {tens}
-            </div>
-            <div className={`ones-place place ${unit=='小时'?'hour':'minute'}`}>
-              {ones}
-            </div>
-          </div>
-        </div>
-        <div className="click-tips">
-          请点击下方按钮，及时办理入学<br/>
-          过期后需再次申请
-        </div>
-        <div className="welcome-msg">
-          在未来的日子里<br/>
-          希望你在商学院内取得傲人的成就<br/>
-          和顶尖的校友们一同前进!<br/>
-        </div>
-        {more ? <div className="desc-container">
-            <SaleBody loading={false}/>
-          </div> :
-          <div className="click-desc" onClick={() => this.handleClickIntro()}>
-            商学院介绍
-          </div>
-        }
+        { expired ? renderExpired() : renderCountdown()}
 
-        {renderPay()}
-        {renderKefu()}
-        {timeOut ? <div className="mask" onClick={() => {window.history.back()}}
-                        style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}>
-          </div> : null}
-        {showErr ? <div className="mask" onClick={() => this.setState({ showErr: false })}>
-            <div className="tips">
-              出现问题的童鞋看这里<br/>
-              1如果显示“URL未注册”，请重新刷新页面即可<br/>
-              2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
-            </div>
-            <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
-          </div> : null}
-        {showCodeErr ? <div className="mask" onClick={() => this.setState({ showCodeErr: false })}>
-            <div className="tips">
-              糟糕，支付不成功<br/>
-              原因：微信不支持跨公众号支付<br/>
-              怎么解决：<br/>
-              1，长按下方二维码，保存到相册；<br/>
-              2，打开微信扫一扫，点击右上角相册，选择二维码图片；<br/>
-              3，在新开的页面完成支付即可<br/>
-            </div>
-            <img className="xiaoQ" style={{ width: '50%' }}
-                 src="https://static.iqycamp.com/images/applySuccessCode.png?imageslim"/>
-          </div> : null}
-        {showMember ? <PayInfo ref="payInfo"
-                               dispatch={this.props.dispatch}
-                               goodsType={getGoodsType(showMember.id)}
-                               goodsId={showMember.id}
-                               header={showMember.name}
-                               priceTips={true}
-                               payedDone={(goodsId) => this.handlePayedDone()}
-                               payedCancel={(res) => this.handlePayedCancel(res)}
-                               payedError={(res) => this.handlePayedError(res)}
-                               payedBefore={() => this.handlePayedBefore()}
-          /> : null}
       </div>
     )
   }
