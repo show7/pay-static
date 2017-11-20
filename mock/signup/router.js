@@ -189,6 +189,8 @@ router.get("/signup/rise/member", (req, res) => {
         "memberType": null,
         "openId": null,
         "couponIdGroup": null,
+        "remainHour":0,
+        "remainMinute":0,
         "memberTypes": [ {
           "id": 3,
           "fee": 2680.0,
@@ -212,7 +214,7 @@ router.get("/signup/rise/member", (req, res) => {
         "privilege": true,
         "elite": null,
         "buttonStr": "升级商学院",
-        "auditionStr": "试听课"
+        "auditionStr": null
       }, "code": 200
     });
   })
