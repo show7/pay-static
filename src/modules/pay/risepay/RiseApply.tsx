@@ -6,6 +6,7 @@ import { mevent } from '../../../utils/mark'
 import { SaleBody } from './components/SaleBody'
 import { chooseAuditionCourse } from '../async'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
+import { configShare } from '../../helpers/JsConfig'
 
 const numeral = require('numeral')
 
@@ -25,6 +26,13 @@ export default class RiseApply extends React.Component<any, any> {
 
   componentWillMount() {
     mark({ module: '打点', function: '商学院guest', action: '购买商学院会员' })
+  }
+
+  componentDidMount(){
+    configShare(`圈外商学院--你负责努力，我们负责帮你赢`,
+      `https://${window.location.hostname}/pay/static/rise`,
+      'https://static.iqycamp.com/images/rise_share.jpg?imageslim',
+      '最实用的竞争力提升课程，搭建最优质的人脉圈，解决最困扰的职场难题')
   }
 
   redirect() {
