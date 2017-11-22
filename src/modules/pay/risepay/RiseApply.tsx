@@ -57,7 +57,7 @@ export default class RiseApply extends React.Component<any, any> {
               pathname: '/pay/static/audition/success'
             })
           } else {
-            dispatch(alertMsg('预约失败'))
+            dispatch(alertMsg('不能重复预约'))
           }
         }
       } else {
