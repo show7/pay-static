@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { ppost, pget, mark } from 'utils/request'
 import { getGoodsType } from 'utils/helpers'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
-import { config } from 'modules/helpers/JsConfig'
+import { config, configShare } from 'modules/helpers/JsConfig'
 import PayInfo from '../components/PayInfo'
 import { mevent } from '../../../utils/mark'
 import { chooseAuditionCourse } from '../async'
@@ -67,6 +67,13 @@ export default class RisePay extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(err))
     })
+  }
+
+  componentDidMount(){
+    configShare(`圈外商学院--你负责努力，我们负责帮你赢`,
+      `https://${window.location.hostname}/pay/static/rise`,
+      'https://static.iqycamp.com/images/rise_share.jpg?imageslim',
+      '最实用的竞争力提升课程，搭建最优质的人脉圈，解决最困扰的职场难题')
   }
 
   handlePayedDone() {
