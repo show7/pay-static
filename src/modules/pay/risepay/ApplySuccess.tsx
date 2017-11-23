@@ -208,7 +208,7 @@ export default class ApplySuccess extends React.Component<any, any> {
           if(goSuccess) {
             mark({ module: '打点', function: '试听课', action: '开通试听课', memo: '申请成功页面' })
             this.context.router.push({
-              pathname: '/pay/static/audition/success'
+              pathname: '/pay/audition/success'
             })
           } else {
             mark({ module: '打点', function: '试听课', action: '进入试听课', memo: '申请成功页面' })

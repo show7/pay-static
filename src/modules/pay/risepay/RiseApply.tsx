@@ -20,14 +20,6 @@ export default class RiseApply extends React.Component<any, any> {
     super()
     this.state = {
       subscribe: true,
-      alert: {
-        buttons: [
-          {
-            label: '关闭',
-            onClick: ()=>this.setState({show:false})
-          }
-        ]
-      },
       show:false,
     }
   }
@@ -65,7 +57,7 @@ export default class RiseApply extends React.Component<any, any> {
           } else {
             if(goSuccess) {
               this.context.router.push({
-                pathname: '/pay/static/audition/success'
+                pathname: '/pay/audition/success'
               })
             } else {
               dispatch(alertMsg('您已预约过，上课请关注公众号后，进入商学院'))
@@ -98,8 +90,8 @@ export default class RiseApply extends React.Component<any, any> {
     }
 
     return (
-      <div className="rise-pay-container">
-        <Alert show={show} { ...this.state.alert } title="关注圈外同学，完成预约">
+      <div className="rise-pay-container" onClick={()=>this.setState({show:false})}>
+        <Alert show={show} title="扫码关注，完成预约">
             <img src="https://www.iqycamp.com/images/qrcode/audition_signup_test.jpeg" style={{width: 160, height: 160}}/>
         </Alert>
 

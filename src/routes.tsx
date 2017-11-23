@@ -21,13 +21,13 @@ const routes = (
       {/*<Route path="/pay/pay" component={Pay}/>*/}
       <Route path="/pay/risemember/success" component={RiseMemberPaySuccess}/>
       <Route path="/pay/member/success" component={MemberPaySuccess}/>
+      <Route path="/pay/audition/success" component={AuditionSuccess}/>
       <Route path="/pay/risemember/normalquestion" component={NormalQuestion}/>
 
       <Route path="pay/rise" component={RisePay}/>
       <Route path="pay/camp" component={CampPay}/>
       <Route path="pay/static/rise" component={RiseApply}/>
       <Route path="pay/static/share" component={RiseShare}/>
-      <Route path="pay/static/audition/success" component={AuditionSuccess}/>
       <Route path="pay/apply" component={ApplySuccess}/>
     </Route>
   </Route>

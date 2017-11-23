@@ -160,7 +160,7 @@ export default class RisePay extends React.Component<any, any> {
         } else {
           if(goSuccess) {
             this.context.router.push({
-              pathname: '/pay/static/audition/success'
+              pathname: '/pay/audition/success'
             })
           } else {
             window.location.href = `https://${window.location.hostname}/rise/static/plan/main`
