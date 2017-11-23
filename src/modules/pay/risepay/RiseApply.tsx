@@ -92,7 +92,7 @@ export default class RiseApply extends React.Component<any, any> {
     return (
       <div className="rise-pay-container" onClick={()=>this.setState({show:false})}>
         <Alert show={show} title="扫码关注，完成预约">
-            <img src="https://www.iqycamp.com/images/qrcode/audition_signup_test.jpeg" style={{width: 160, height: 160}}/>
+            <img src="https://www.iqycamp.com/images/qrcode/audition_signup.jpeg" style={{width: 160, height: 160}}/>
         </Alert>
 
         {renderPay()}
