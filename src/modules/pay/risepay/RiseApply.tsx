@@ -2,13 +2,12 @@ import * as React from 'react'
 import './RisePay.less'
 import { connect } from 'react-redux'
 import { mark } from '../../../utils/request'
-import { mevent } from '../../../utils/mark'
 import { SaleBody } from './components/SaleBody'
 import { chooseAuditionCourse } from '../async'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { configShare } from '../../helpers/JsConfig'
-
-const numeral = require('numeral')
+import { Dialog } from "react-weui"
+const { Alert } = Dialog
 
 @connect(state => state)
 export default class RiseApply extends React.Component<any, any> {
@@ -20,7 +19,16 @@ export default class RiseApply extends React.Component<any, any> {
   constructor() {
     super()
     this.state = {
-      loading: true
+      subscribe: true,
+      alert: {
+        buttons: [
+          {
+            label: '关闭',
+            onClick: ()=>this.setState({show:false})
+          }
+        ]
+      },
+      show:false,
     }
   }
 
@@ -28,7 +36,7 @@ export default class RiseApply extends React.Component<any, any> {
     mark({ module: '打点', function: '商学院guest', action: '购买商学院会员' })
   }
 
-  componentDidMount(){
+  componentDidMount() {
     configShare(`圈外商学院--你负责努力，我们负责帮你赢`,
       `https://${window.location.hostname}/pay/static/rise`,
       'https://static.iqycamp.com/images/rise_share.jpg?imageslim',
@@ -48,16 +56,20 @@ export default class RiseApply extends React.Component<any, any> {
     chooseAuditionCourse().then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        const { planId, goSuccess, errMsg } = res.msg
+        const { goSuccess, errMsg, subscribe } = res.msg
         if(errMsg) {
           dispatch(alertMsg(errMsg))
         } else {
-          if(goSuccess) {
-            this.context.router.push({
-              pathname: '/pay/static/audition/success'
-            })
+          if(!subscribe) {
+            this.setState({ show:true })
           } else {
-            dispatch(alertMsg('不能重复预约'))
+            if(goSuccess) {
+              this.context.router.push({
+                pathname: '/pay/static/audition/success'
+              })
+            } else {
+              dispatch(alertMsg('您已预约过，上课请关注公众号后，进入商学院'))
+            }
           }
         }
       } else {
@@ -70,8 +82,7 @@ export default class RiseApply extends React.Component<any, any> {
   }
 
   render() {
-    const { loading } = this.state
-
+    const { show } = this.state
     const renderPay = () => {
       return (
         <div className="pay-page">
@@ -88,6 +99,10 @@ export default class RiseApply extends React.Component<any, any> {
 
     return (
       <div className="rise-pay-container">
+        <Alert show={show} { ...this.state.alert } title="关注圈外同学，完成预约">
+            <img src="https://www.iqycamp.com/images/qrcode/audition_signup_test.jpeg" style={{width: 160, height: 160}}/>
+        </Alert>
+
         {renderPay()}
       </div>
     )
