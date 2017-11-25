@@ -45,7 +45,7 @@ export default class AuditionSuccess extends React.Component<any, any> {
     return (
       <div className="audition-success">
         <div className="header-msg">商学院试听课预约</div>
-        <div className="header-tips">（试听课下周开始，具体信息添加小助手获取）</div>
+        <div className="header-tips">（公开课下周开始，欢迎添加小助手预约）</div>
         <div className={`pay-result`}>
           <div className="content">
             <img src="https://static.iqycamp.com/images/audition_success_icon.png?imageslim"/>
