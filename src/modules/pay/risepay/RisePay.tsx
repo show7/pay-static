@@ -132,7 +132,7 @@ export default class RisePay extends React.Component<any, any> {
 
   redirect() {
     mark({ module: '打点', function: '商学院会员', action: '申请商学院' }).then(res => {
-      window.location.href = 'https://www.iquanwai.com/survey/wjx?activity=18057279'
+      window.location.href = `https://${window.location.hostname}/rise/static/business/apply/start`
     })
   }
 
