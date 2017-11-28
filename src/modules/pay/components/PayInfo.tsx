@@ -115,8 +115,9 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
 
   handleClickClose() {
     this.setState({
-      show: false, openCoupon: false, chose: { used: false, total: 0, couponsIdGroup: [], couponId: null }, free: false,
-      final: null, chooseAll: false
+      show:false, openCoupon: false
+      // show: false, openCoupon: false, chose: { used: false, total: 0, couponsIdGroup: [], couponId: null }, free: false,
+      // final: null, chooseAll: false
     }, () => {
       if(_.isFunction(this.props.afterClose)) {
         this.props.afterClose()
@@ -138,8 +139,6 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     if(chose) {
       if(multiCoupons && !_.isEmpty(chose.couponsIdGroup)) {
         param = _.merge({}, param, { couponsIdGroup: chose.couponsIdGroup })
-      } else if(chose.couponId) {
-        param = _.merge({}, param, { couponId: chose.couponId })
       }
     }
     dispatch(startLoad())
@@ -277,20 +276,20 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     }
     let param = { goodsId: goodsId, goodsType: goodsType }
 
-    if(multiCoupons) {
+    // if(multiCoupons) {
       chose.used = true;
       for(let i = 0; i < autoCoupons.length; i++) {
         chose.couponsIdGroup.push(autoCoupons[ i ].id);
         chose.total += autoCoupons[ i ].amount;
       }
       _.merge(param, { couponsIdGroup: chose.couponsIdGroup });
-    } else {
-      // 不可以选择多个优惠券
-      _.merge(param, { couponId: _.get(autoCoupons, '[0].id') });
-      chose.couponId = _.get(autoCoupons, '[0].id');
-      chose.total = _.get(autoCoupons, '[0].amount');
-      chose.used = true;
-    }
+    // } else {
+    //   // 不可以选择多个优惠券
+    //   _.merge(param, { couponId: _.get(autoCoupons, '[0].id') });
+    //   chose.couponId = _.get(autoCoupons, '[0].id');
+    //   chose.total = _.get(autoCoupons, '[0].amount');
+    //   chose.used = true;
+    // }
     calculateCoupons(param).then((res) => {
       dispatch(endLoad())
       if(res.code === 200) {
@@ -321,7 +320,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     let chose = _.get(this.state, 'chose', {});
     dispatch(startLoad())
     let param = { goodsId: goodsId, goodsType: goodsType }
-    if(multiCoupons) {
+    // if(multiCoupons) {
       // 可以选择多个优惠券
       if(chose === null) {
         chose = {
@@ -339,15 +338,15 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
         chose.couponsIdGroup.push(coupon.id);
       }
       _.merge(param, { couponsIdGroup: chose.couponsIdGroup });
-    } else {
-      // 不可以选择多个优惠券
-      _.merge(param, { couponId: coupon.id });
-      chose.couponId = coupon.id;
-      chose.total = coupon.amount;
-      chose.used = true;
-    }
+    // } else {
+    //   // 不可以选择多个优惠券
+    //   _.merge(param, { couponId: coupon.id });
+    //   chose.couponId = coupon.id;
+    //   chose.total = coupon.amount;
+    //   chose.used = true;
+    // }
 
-    if(_.isEmpty(chose.couponsIdGroup) && !chose.couponId) {
+    if(_.isEmpty(chose.couponsIdGroup) ) {
       chose.used = false;
       chose.total = 0;
     } else {
@@ -531,11 +530,11 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     }
 
     const couponChosen = (item) => {
-      if(multiCoupons) {
+      // if(multiCoupons) {
         return _.indexOf(_.get(chose, 'couponsIdGroup'), item.id) !== -1
-      } else {
-        return _.isEqual(_.get(chose, 'couponId'), item.id);
-      }
+      // } else {
+      //   return _.isEqual(_.get(chose, 'couponId'), item.id);
+      // }
     }
 
     // <!-- render内容如下：如果是安卓4.3以下版本的话，则渲染简化页面，否则渲染正常页面 -->

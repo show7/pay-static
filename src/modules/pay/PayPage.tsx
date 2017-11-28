@@ -122,7 +122,7 @@ export default class SignUp extends React.Component<any, any> {
   }
 
   handlePayedDone() {
-    this.context.router.push('/pay/risemember/success')
+    this.context.router.push('/pay/camp/success')
   }
 
   /** 处理支付失败的状态 */

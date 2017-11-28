@@ -18,7 +18,7 @@ const routes = (
     <Route component={Base} onChange={() => {
       config(['chooseWXPay'])
     }}>
-      <Route path="/pay/risemember/success" component={CampPaySuccess}/>
+      <Route path="/pay/camp/success" component={CampPaySuccess}/>
       <Route path="/pay/member/success" component={MemberPaySuccess}/>
       <Route path="/pay/audition/success" component={AuditionSuccess}/>
       {/*<Route path="/pay/risemember/normalquestion" component={NormalQuestion}/>*/}
