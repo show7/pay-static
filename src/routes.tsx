@@ -7,8 +7,8 @@ import CampPay from 'modules/pay/CampPay'
 import RiseApply from 'modules/pay/risepay/RiseApply'
 import RiseShare from 'modules/pay/risepay/RiseShare'
 
-import NormalQuestion from 'modules/pay/NormalQuestion'
-import RiseMemberPaySuccess from 'modules/pay/RiseMemberPaySuccess'
+// import NormalQuestion from 'modules/pay/NormalQuestion'
+import CampPaySuccess from 'modules/pay/CampPaySuccess'
 import AuditionSuccess from 'modules/pay/AuditionSuccess'
 import ApplySuccess from 'modules/pay/risepay/ApplySuccess';
 
@@ -18,10 +18,10 @@ const routes = (
     <Route component={Base} onChange={() => {
       config(['chooseWXPay'])
     }}>
-      <Route path="/pay/risemember/success" component={RiseMemberPaySuccess}/>
+      <Route path="/pay/risemember/success" component={CampPaySuccess}/>
       <Route path="/pay/member/success" component={MemberPaySuccess}/>
       <Route path="/pay/audition/success" component={AuditionSuccess}/>
-      <Route path="/pay/risemember/normalquestion" component={NormalQuestion}/>
+      {/*<Route path="/pay/risemember/normalquestion" component={NormalQuestion}/>*/}
 
       <Route path="pay/rise" component={RisePay}/>
       <Route path="pay/camp" component={CampPay}/>

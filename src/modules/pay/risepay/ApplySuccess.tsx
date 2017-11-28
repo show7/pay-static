@@ -287,9 +287,10 @@ export default class ApplySuccess extends React.Component<any, any> {
             过期后需再次申请
           </div>
           <div className="welcome-msg">
-            在未来的日子里<br/>
-            希望你在商学院内取得傲人的成就<br/>
-            和顶尖的校友们一同前进!<br/>
+            {/*在未来的日子里<br/>*/}
+            {/*希望你在商学院内取得傲人的成就<br/>*/}
+            {/*和顶尖的校友们一同前进!<br/>*/}
+            友情提示：商学院学费即将升至¥3080<br/>请尽快办理入学
           </div>
           {more ? <div className="desc-container">
               <SaleBody loading={false}/>

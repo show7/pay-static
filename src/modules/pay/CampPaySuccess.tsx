@@ -1,5 +1,5 @@
 import * as React from 'react'
-import './RiseMemberPaySuccess.less'
+import './CampPaySuccess.less'
 import { connect } from 'react-redux'
 import { ppost, pget } from 'utils/request'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
