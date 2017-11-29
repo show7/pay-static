@@ -227,7 +227,7 @@ export default class ApplySuccess extends React.Component<any, any> {
 
   render() {
     const { data, showId, timeOut, showErr, showCodeErr, more, tens, ones, unit, expired, auditionStr } = this.state
-    const { memberType, buttonStr } = data
+    const { memberType, buttonStr, tip } = data
 
     const renderPay = () => {
       return (
@@ -330,7 +330,7 @@ export default class ApplySuccess extends React.Component<any, any> {
                                  goodsType={getGoodsType(memberType.id)}
                                  goodsId={memberType.id}
                                  header={memberType.name}
-                                 priceTips={memberType.tip}
+                                 priceTips={tip}
                                  payedDone={(goodsId) => this.handlePayedDone()}
                                  payedCancel={(res) => this.handlePayedCancel(res)}
                                  payedError={(res) => this.handlePayedError(res)}
