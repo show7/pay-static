@@ -213,7 +213,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
         action: 'windows-pay',
         memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
       })
-      dispatch(alertMsg('Windows的微信客户端不能支付哦，请在手机端购买小课～'))
+      dispatch(alertMsg('Windows的微信客户端不能支付哦，请在手机端购买课程～'))
     }
     // 调起H5支付
     // console.log('start pay');
