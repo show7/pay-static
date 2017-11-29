@@ -40,7 +40,7 @@ interface PayInfoProps {
   /** dispatch */
   dispatch: any,
   mutilCoupon?: boolean,
-  priceTips?: boolean,
+  priceTips?: string,
 }
 
 export default class PayInfo extends React.Component<PayInfoProps, any> {
@@ -322,6 +322,9 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       // 取消选择
       chose.couponsIdGroup = _.remove(chose.couponsIdGroup, (item) => item != coupon.id);
     } else {
+      if(!multiCoupons){
+        chose.couponsIdGroup = []
+      }
       chose.couponsIdGroup.push(coupon.id);
     }
     _.merge(param, { couponsIdGroup: chose.couponsIdGroup });
@@ -504,7 +507,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
         priceArr.push(<span className="final" key={0}>{`¥ ${numeral(fee).format('0.00')}元`}</span>)
       }
       if(this.props.priceTips) {
-        priceArr.push(<div key={priceArr.length} className="price-tips">每天给自己投资7元，获得全年36次职场加速机会</div>)
+        priceArr.push(<div key={priceArr.length} className="price-tips">{this.props.priceTips}</div>)
       }
       return priceArr
     }

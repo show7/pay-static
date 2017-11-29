@@ -9,6 +9,7 @@ import { Button, ButtonArea } from 'react-weui'
 import { config } from 'modules/helpers/JsConfig'
 import PayInfo from './components/PayInfo'
 import PicLoading from './components/PicLoading'
+import { getRiseMember, checkRiseMember } from './async'
 import { CustomerService } from '../../components/customerservice/CustomerService'
 
 const numeral = require('numeral')
@@ -49,7 +50,7 @@ export default class CampPay extends React.Component<any, any> {
     dispatch(startLoad())
 
     // 查询订单信息
-    pget(`/signup/rise/member`).then(res => {
+    getRiseMember(this.state.showId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({ data: res.msg })
@@ -102,12 +103,10 @@ export default class CampPay extends React.Component<any, any> {
    */
   handleClickOpenPayInfo(showId) {
     this.reConfig()
-    const { memberTypes } = this.state
-    const item = _.find(memberTypes, { id: showId })
     const { dispatch } = this.props
     dispatch(startLoad())
     // 先检查是否能够支付
-    pget(`/signup/rise/member/check/${showId}`).then(res => {
+    checkRiseMember(showId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         // 查询是否还在报名
@@ -137,9 +136,7 @@ export default class CampPay extends React.Component<any, any> {
 
   render() {
     const { data, showId, timeOut, showErr, showCodeErr, loading } = this.state
-    const { memberTypes } = data
-
-    const showMember = _.find(memberTypes, { id: showId })
+    const { memberType } = data
 
     const renderPay = () => {
       return (
@@ -190,11 +187,11 @@ export default class CampPay extends React.Component<any, any> {
           <img className="xiaoQ" style={{ width: '50%' }}
                src="https://static.iqycamp.com/images/pay_camp_code.png?imageslim"/>
         </div> : null}
-        {showMember ? <PayInfo ref="payInfo"
+        {memberType ? <PayInfo ref="payInfo"
                                dispatch={this.props.dispatch}
-                               goodsType={getGoodsType(showMember.id)}
-                               goodsId={showMember.id}
-                               header={showMember.name}
+                               goodsType={getGoodsType(memberType.id)}
+                               goodsId={memberType.id}
+                               header={memberType.name}
                                payedDone={(goodsId) => this.handlePayedDone()}
                                payedCancel={(res) => this.handlePayedCancel(res)}
                                payedError={(res) => this.handlePayedError(res)}

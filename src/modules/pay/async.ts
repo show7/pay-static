@@ -4,7 +4,6 @@ import { pget, ppost } from "utils/request";
  * 获取支付信息
  */
 export function loadPaymentParam(param) {
-  console.log('param', param)
   return ppost('/signup/load/pay/param', param);
 }
 
@@ -32,12 +31,16 @@ export function afterPayDone(productId) {
   return ppost(`/signup/paid/rise/${productId}`);
 }
 
-export function loadPayParam(param) {
-  return ppost('/signup/rise/course/pay', param);
+export function getRiseMember(riseMember) {
+  return pget(`/signup/rise/member/${riseMember}`);
 }
 
-export function loadUserCoupons() {
-  return pget(`/signup/coupon/list`);
+export function checkRiseMember(riseMember) {
+  return pget(`/signup/rise/member/check/${riseMember}`);
+}
+
+export function entryRiseMember(riseMember){
+  return pget(`/signup/rise/member/entry/${riseMember}`);
 }
 
 export function mark(param) {
