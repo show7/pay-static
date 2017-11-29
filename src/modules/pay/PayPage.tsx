@@ -9,6 +9,7 @@ import { Button, ButtonArea } from 'react-weui'
 import { pay, config } from 'modules/helpers/JsConfig'
 import PayInfo from './components/PayInfo'
 import 'swiper/dist/css/swiper.css'
+import { checkRiseMember } from './async'
 
 const P = 'signup'
 const numeral = require('numeral')
@@ -122,7 +123,7 @@ export default class SignUp extends React.Component<any, any> {
   }
 
   handlePayedDone() {
-    this.context.router.push('/pay/risemember/success')
+    this.context.router.push('/pay/camp/success')
   }
 
   /** 处理支付失败的状态 */
@@ -147,12 +148,10 @@ export default class SignUp extends React.Component<any, any> {
    */
   handleClickOpenPayInfo(showId) {
     this.reConfig()
-    const { memberTypes } = this.state
-    const item = _.find(memberTypes, { id: showId })
     const { dispatch } = this.props
     dispatch(startLoad())
     // 先检查是否能够支付
-    pget(`/signup/rise/member/check/${showId}`).then(res => {
+    checkRiseMember(showId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         // 查询是否还在报名

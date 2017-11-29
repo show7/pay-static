@@ -40,7 +40,7 @@ interface PayInfoProps {
   /** dispatch */
   dispatch: any,
   mutilCoupon?: boolean,
-  priceTips?: boolean,
+  priceTips?: string,
 }
 
 export default class PayInfo extends React.Component<PayInfoProps, any> {
@@ -54,7 +54,6 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
         used: false,
         total: 0,
         couponsIdGroup: [],
-        couponId: null
       }
     }
   }
@@ -115,8 +114,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
 
   handleClickClose() {
     this.setState({
-      show: false, openCoupon: false, chose: { used: false, total: 0, couponsIdGroup: [], couponId: null }, free: false,
-      final: null, chooseAll: false
+      show: false, openCoupon: false
     }, () => {
       if(_.isFunction(this.props.afterClose)) {
         this.props.afterClose()
@@ -136,10 +134,8 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     }
     let param = { goodsId: goodsId, goodsType: goodsType }
     if(chose) {
-      if(multiCoupons && !_.isEmpty(chose.couponsIdGroup)) {
+      if(!_.isEmpty(chose.couponsIdGroup)) {
         param = _.merge({}, param, { couponsIdGroup: chose.couponsIdGroup })
-      } else if(chose.couponId) {
-        param = _.merge({}, param, { couponId: chose.couponId })
       }
     }
     dispatch(startLoad())
@@ -217,7 +213,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
         action: 'windows-pay',
         memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
       })
-      dispatch(alertMsg('Windows的微信客户端不能支付哦，请在手机端购买小课～'))
+      dispatch(alertMsg('Windows的微信客户端不能支付哦，请在手机端购买课程～'))
     }
     // 调起H5支付
     // console.log('start pay');
@@ -271,26 +267,17 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     // 可用的优惠券
     let chose = {
       couponsIdGroup: [],
-      couponId: undefined,
       total: 0,
       used: false,
     }
     let param = { goodsId: goodsId, goodsType: goodsType }
 
-    if(multiCoupons) {
-      chose.used = true;
-      for(let i = 0; i < autoCoupons.length; i++) {
-        chose.couponsIdGroup.push(autoCoupons[ i ].id);
-        chose.total += autoCoupons[ i ].amount;
-      }
-      _.merge(param, { couponsIdGroup: chose.couponsIdGroup });
-    } else {
-      // 不可以选择多个优惠券
-      _.merge(param, { couponId: _.get(autoCoupons, '[0].id') });
-      chose.couponId = _.get(autoCoupons, '[0].id');
-      chose.total = _.get(autoCoupons, '[0].amount');
-      chose.used = true;
+    chose.used = true;
+    for(let i = 0; i < autoCoupons.length; i++) {
+      chose.couponsIdGroup.push(autoCoupons[ i ].id);
+      chose.total += autoCoupons[ i ].amount;
     }
+    _.merge(param, { couponsIdGroup: chose.couponsIdGroup });
     calculateCoupons(param).then((res) => {
       dispatch(endLoad())
       if(res.code === 200) {
@@ -321,33 +308,28 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     let chose = _.get(this.state, 'chose', {});
     dispatch(startLoad())
     let param = { goodsId: goodsId, goodsType: goodsType }
-    if(multiCoupons) {
-      // 可以选择多个优惠券
-      if(chose === null) {
-        chose = {
-          couponsIdGroup: []
-        }
-      } else {
-        if(!chose.couponsIdGroup) {
-          chose.couponsIdGroup = [];
-        }
+    // 可以选择多个优惠券
+    if(chose === null) {
+      chose = {
+        couponsIdGroup: []
       }
-      if(_.indexOf(chose.couponsIdGroup, coupon.id) !== -1) {
-        // 取消选择
-        chose.couponsIdGroup = _.remove(chose.couponsIdGroup, (item) => item != coupon.id);
-      } else {
-        chose.couponsIdGroup.push(coupon.id);
-      }
-      _.merge(param, { couponsIdGroup: chose.couponsIdGroup });
     } else {
-      // 不可以选择多个优惠券
-      _.merge(param, { couponId: coupon.id });
-      chose.couponId = coupon.id;
-      chose.total = coupon.amount;
-      chose.used = true;
+      if(!chose.couponsIdGroup) {
+        chose.couponsIdGroup = [];
+      }
     }
+    if(_.indexOf(chose.couponsIdGroup, coupon.id) !== -1) {
+      // 取消选择
+      chose.couponsIdGroup = _.remove(chose.couponsIdGroup, (item) => item != coupon.id);
+    } else {
+      if(!multiCoupons){
+        chose.couponsIdGroup = []
+      }
+      chose.couponsIdGroup.push(coupon.id);
+    }
+    _.merge(param, { couponsIdGroup: chose.couponsIdGroup });
 
-    if(_.isEmpty(chose.couponsIdGroup) && !chose.couponId) {
+    if(_.isEmpty(chose.couponsIdGroup)) {
       chose.used = false;
       chose.total = 0;
     } else {
@@ -525,17 +507,13 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
         priceArr.push(<span className="final" key={0}>{`¥ ${numeral(fee).format('0.00')}元`}</span>)
       }
       if(this.props.priceTips) {
-        priceArr.push(<div key={priceArr.length} className="price-tips">每天给自己投资7元，获得全年36次职场加速机会</div>)
+        priceArr.push(<div key={priceArr.length} className="price-tips">{this.props.priceTips}</div>)
       }
       return priceArr
     }
 
     const couponChosen = (item) => {
-      if(multiCoupons) {
-        return _.indexOf(_.get(chose, 'couponsIdGroup'), item.id) !== -1
-      } else {
-        return _.isEqual(_.get(chose, 'couponId'), item.id);
-      }
+      return _.indexOf(_.get(chose, 'couponsIdGroup'), item.id) !== -1
     }
 
     // <!-- render内容如下：如果是安卓4.3以下版本的话，则渲染简化页面，否则渲染正常页面 -->
@@ -556,26 +534,26 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                 {renderPrice(fee, final, free)}
               </div>
               {!!startTime && !!endTime ? <div className="open-time item">
-                有效时间：{startTime} - {endTime}
-              </div> : null}
+                  有效时间：{startTime} - {endTime}
+                </div> : null}
               <div className={`coupon item`}>
                 {coupons && chose && chose.used ? `优惠券：¥${numeral(chose.total).format('0.00')}元` : '选择优惠券'}
               </div>
             </div>
             <ul className={`coupon-list`}>
               {coupons ? coupons.map((item, seq) => {
-                return (
-                  <li className="coupon" key={seq}>
-                    ¥{numeral(item.amount).format('0.00')}元
-                    <span className="describe">{item.description ? item.description : ''}</span>
-                    <span className="expired">{item.expired}过期</span>
-                    <div className={`btn ${couponChosen(item) ? 'chose' : ''}`}
-                         onClick={() => this.handleClickChooseCoupon(item)}>
-                      选择
-                    </div>
-                  </li>
-                )
-              }) : null}
+                  return (
+                    <li className="coupon" key={seq}>
+                      ¥{numeral(item.amount).format('0.00')}元
+                      <span className="describe">{item.description ? item.description : ''}</span>
+                      <span className="expired">{item.expired}过期</span>
+                      <div className={`btn ${couponChosen(item) ? 'chose' : ''}`}
+                           onClick={() => this.handleClickChooseCoupon(item)}>
+                        选择
+                      </div>
+                    </li>
+                  )
+                }) : null}
             </ul>
           </div>
           <div className="btn-container">
@@ -587,8 +565,8 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       // <!--  非安卓4.3 -->
       return (<div className={`pay-info ${show ? 'show' : ''} ${hasCoupons ? 'hasCoupons' : ''}`}>
         {show ? <div className={`close ${hasCoupons ? 'hasCoupons' : ''}`} onClick={() => this.handleClickClose()}>
-          <Icon type="white_close_btn" size="40px"/>
-        </div> : null}
+            <Icon type="white_close_btn" size="40px"/>
+          </div> : null}
 
         <div className={`main-container ${hasCoupons ? 'hasCoupons' : ''} ${show ? 'show' : ''}`}>
           <div className={`header ${openCoupon ? 'openCoupon' : ''}`}>
@@ -599,8 +577,8 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
               {renderPrice(fee, final, free, initPrice)}
             </div>
             {!!startTime && !!endTime ? <div className="open-time item">
-              有效时间：{startTime} - {endTime}
-            </div> : null}
+                有效时间：{startTime} - {endTime}
+              </div> : null}
             {hasCoupons ?
               <div
                 className={`coupon item  ${openCoupon && multiCoupons ? 'no-arrow' : ''} ${openCoupon ? 'open' : ''}`}
@@ -614,44 +592,45 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
           </div>
           <ul className={`coupon-list ${openCoupon ? 'open' : ''}`}>
             {multiCoupons ? (
-              <div className="choose-all-wrapper">
-                <div className="choose-area">
-                  <div className="choose-all-tips">全选</div>
-                  <div className={`choose-all ${chooseAll ? 'chose' : ''}`} onClick={() => this.handleClickChooseAll()}>
-                    <div className="btn">
-                    </div>
-                    <div className="mask">
+                <div className="choose-all-wrapper">
+                  <div className="choose-area">
+                    <div className="choose-all-tips">全选</div>
+                    <div className={`choose-all ${chooseAll ? 'chose' : ''}`}
+                         onClick={() => this.handleClickChooseAll()}>
+                      <div className="btn">
+                      </div>
+                      <div className="mask">
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ) : null}
+              ) : null}
             {coupons ? coupons.map((item, seq) => {
-              return (
-                <li className="coupon" key={seq}>
-                  <div className="coupon-left">
-                    <div className="coupon-price">
-                      ¥{numeral(item.amount).format('0.00')}元
+                return (
+                  <li className="coupon" key={seq}>
+                    <div className="coupon-left">
+                      <div className="coupon-price">
+                        ¥{numeral(item.amount).format('0.00')}元
+                      </div>
+                      <div className="coupon-desc">
+                        <span className="describe">{item.description ? item.description : ''}</span>
+                        <span className="expired">{item.expired}过期</span>
+                      </div>
                     </div>
-                    <div className="coupon-desc">
-                      <span className="describe">{item.description ? item.description : ''}</span>
-                      <span className="expired">{item.expired}过期</span>
+                    <div className="shuxian">
                     </div>
-                  </div>
-                  <div className="shuxian">
-                  </div>
-                  <div
-                    className={`
+                    <div
+                      className={`
                        coupon-btn ${multiCoupons ? 'multiCoupons' : ''} ${couponChosen(item) ? 'chose' : ''}`}
-                    onClick={() => this.handleClickChooseCoupon(item)}>
-                    <div className={`btn ${multiCoupons ? 'multiCoupons' : ''} `}>
+                      onClick={() => this.handleClickChooseCoupon(item)}>
+                      <div className={`btn ${multiCoupons ? 'multiCoupons' : ''} `}>
+                      </div>
+                      <div className={`mask ${multiCoupons ? 'multiCoupons' : ''} `}>
+                      </div>
                     </div>
-                    <div className={`mask ${multiCoupons ? 'multiCoupons' : ''} `}>
-                    </div>
-                  </div>
-                </li>
-              )
-            }) : null}
+                  </li>
+                )
+              }) : null}
           </ul>
         </div>
         <div className={`btn-container ${openCoupon ? 'openCoupon' : ''}`}>

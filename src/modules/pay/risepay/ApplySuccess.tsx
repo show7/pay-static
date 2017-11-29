@@ -10,7 +10,7 @@ import PayInfo from '../components/PayInfo'
 import { mark } from '../../../utils/request'
 import { SaleBody } from './components/SaleBody'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
-import { chooseAuditionCourse, loadAuditionButtonStr } from '../async'
+import { chooseAuditionCourse, loadAuditionButtonStr, getRiseMember } from '../async'
 import Icon from '../../../components/Icon'
 
 const numeral = require('numeral')
@@ -53,7 +53,7 @@ export default class ApplySuccess extends React.Component<any, any> {
     dispatch(startLoad())
 
     // 查询订单信息
-    pget(`/signup/rise/member`).then(res => {
+    getRiseMember(this.state.showId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         this.countDown(res.msg.remainHour, res.msg.remainMinute)
@@ -227,8 +227,7 @@ export default class ApplySuccess extends React.Component<any, any> {
 
   render() {
     const { data, showId, timeOut, showErr, showCodeErr, more, tens, ones, unit, expired, auditionStr } = this.state
-    const { memberTypes, privilege, buttonStr } = data
-    const showMember = _.find(memberTypes, { id: showId })
+    const { memberType, buttonStr } = data
 
     const renderPay = () => {
       return (
@@ -288,9 +287,10 @@ export default class ApplySuccess extends React.Component<any, any> {
             过期后需再次申请
           </div>
           <div className="welcome-msg">
-            在未来的日子里<br/>
-            希望你在商学院内取得傲人的成就<br/>
-            和顶尖的校友们一同前进!<br/>
+            {/*在未来的日子里<br/>*/}
+            {/*希望你在商学院内取得傲人的成就<br/>*/}
+            {/*和顶尖的校友们一同前进!<br/>*/}
+            友情提示：商学院学费即将升至¥3080<br/>请尽快办理入学
           </div>
           {more ? <div className="desc-container">
               <SaleBody loading={false}/>
@@ -325,12 +325,12 @@ export default class ApplySuccess extends React.Component<any, any> {
             <img className="xiaoQ" style={{ width: '50%' }}
                  src="https://static.iqycamp.com/images/applySuccessCode.png?imageslim"/>
           </div> : null}
-          {showMember ? <PayInfo ref="payInfo"
+          {memberType ? <PayInfo ref="payInfo"
                                  dispatch={this.props.dispatch}
-                                 goodsType={getGoodsType(showMember.id)}
-                                 goodsId={showMember.id}
-                                 header={showMember.name}
-                                 priceTips={true}
+                                 goodsType={getGoodsType(memberType.id)}
+                                 goodsId={memberType.id}
+                                 header={memberType.name}
+                                 priceTips={memberType.tip}
                                  payedDone={(goodsId) => this.handlePayedDone()}
                                  payedCancel={(res) => this.handlePayedCancel(res)}
                                  payedError={(res) => this.handlePayedError(res)}

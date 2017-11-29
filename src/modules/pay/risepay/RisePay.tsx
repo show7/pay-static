@@ -7,11 +7,9 @@ import { getGoodsType } from 'utils/helpers'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { config, configShare } from 'modules/helpers/JsConfig'
 import PayInfo from '../components/PayInfo'
-import { mevent } from '../../../utils/mark'
-import { chooseAuditionCourse } from '../async'
+import { chooseAuditionCourse, getRiseMember } from '../async'
 import { SaleBody } from './components/SaleBody'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
-import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
 import { MarkButton } from '../components/markbutton/MarkButton'
 
 const numeral = require('numeral')
@@ -51,7 +49,7 @@ export default class RisePay extends React.Component<any, any> {
     dispatch(startLoad())
 
     // 查询订单信息
-    pget(`/signup/rise/member`).then(res => {
+    getRiseMember(this.state.showId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({ data: res.msg })
@@ -176,9 +174,7 @@ export default class RisePay extends React.Component<any, any> {
 
   render() {
     const { data, showId, timeOut, showErr, showCodeErr } = this.state
-    const { memberTypes, privilege, buttonStr, auditionStr } = data
-
-    const showMember = _.find(memberTypes, { id: showId })
+    const { privilege, buttonStr, auditionStr, memberType } = data
 
     const renderPay = () => {
       return (
@@ -247,12 +243,12 @@ export default class RisePay extends React.Component<any, any> {
           <img className="xiaoQ" style={{ width: '50%' }}
                src="https://static.iqycamp.com/images/pay_rise_code.png?imageslim"/>
         </div> : null}
-        {showMember ? <PayInfo ref="payInfo"
+        {memberType ? <PayInfo ref="payInfo"
                                dispatch={this.props.dispatch}
-                               goodsType={getGoodsType(showMember.id)}
-                               goodsId={showMember.id}
-                               header={showMember.name}
-                               priceTips={true}
+                               goodsType={getGoodsType(memberType.id)}
+                               goodsId={memberType.id}
+                               header={memberType.name}
+                               priceTips={memberType.tip}
                                payedDone={(goodsId) => this.handlePayedDone()}
                                payedCancel={(res) => this.handlePayedCancel(res)}
                                payedError={(res) => this.handlePayedError(res)}

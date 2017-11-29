@@ -1,10 +1,10 @@
 import * as React from 'react'
-import './RiseMemberPaySuccess.less'
+import './CampPaySuccess.less'
 import { connect } from 'react-redux'
 import { ppost, pget } from 'utils/request'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { Button, ButtonArea } from 'react-weui'
-import { closeWindow } from '../helpers/JsConfig'
+import { entryRiseMember } from './async'
 
 const P = 'signup'
 const numeral = require('numeral')
@@ -31,7 +31,7 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
     const { memberTypeId } = this.props.location.query
     dispatch(startLoad())
     // 查询订单信息
-    pget(`/signup/rise/member/${memberTypeId}`).then(res => {
+    entryRiseMember(memberTypeId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({
