@@ -134,7 +134,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     }
     let param = { goodsId: goodsId, goodsType: goodsType }
     if(chose) {
-      if(multiCoupons && !_.isEmpty(chose.couponsIdGroup)) {
+      if(!_.isEmpty(chose.couponsIdGroup)) {
         param = _.merge({}, param, { couponsIdGroup: chose.couponsIdGroup })
       }
     }
