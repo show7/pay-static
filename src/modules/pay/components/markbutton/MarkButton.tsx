@@ -37,7 +37,7 @@ export class MarkButton extends React.Component<MarkButtonProps, any> {
     })
   }
 
-  handleClickMarkButton() {
+  handleClickMarkButton(onClickFunc) {
     const { module, func, action, memo } = this.state
     let param = {
       module: module,
@@ -46,7 +46,9 @@ export class MarkButton extends React.Component<MarkButtonProps, any> {
       memo: memo
     }
     mark(param).then(res => {
-      if(res.code !== 200) {
+      if(res.code === 200) {
+        onClickFunc()
+      } else {
         console.error(res.msg)
       }
     }).catch(er => console.error(er))
@@ -60,8 +62,7 @@ export class MarkButton extends React.Component<MarkButtonProps, any> {
     return (
       <div {...this.props}
            onClick={() => {
-             onClick()
-             this.handleClickMarkButton()
+             this.handleClickMarkButton(onClick)
            }}>
         {this.props.children}
       </div>)
