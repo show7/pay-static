@@ -10,6 +10,7 @@ import PayInfo from '../components/PayInfo'
 import { chooseAuditionCourse, getRiseMember } from '../async'
 import { SaleBody } from './components/SaleBody'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
+import { MarkButton } from '../components/markbutton/MarkButton'
 
 const numeral = require('numeral')
 
@@ -129,9 +130,7 @@ export default class RisePay extends React.Component<any, any> {
   }
 
   redirect() {
-    mark({ module: '打点', function: '商学院会员', action: '申请商学院' }).then(res => {
-      window.location.href = `https://${window.location.hostname}/rise/static/business/apply/start`
-    })
+    window.location.href = `https://${window.location.hostname}/rise/static/business/apply/start`
   }
 
   handlePayedBefore() {
@@ -200,7 +199,11 @@ export default class RisePay extends React.Component<any, any> {
                       <span className="audition">{auditionStr}</span>
                     </div> : null
                 }
-                <div className="footer-btn" onClick={() => this.redirect()}>申请商学院</div>
+                <MarkButton module={`打点`} func={`商学院会员`} action={`申请商学院`}
+                            className={`footer-btn`}
+                            onClick={() => this.redirect()}>
+                  申请商学院
+                </MarkButton>
               </div>
           }
         </div>
