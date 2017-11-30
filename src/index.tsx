@@ -9,6 +9,7 @@ import { Provider } from "react-redux"
 import configureStore from "./redux/configureStore"
 import routes from "./routes"
 import "weui"
+import 'animate.css/animate.min.css'
 
 // const FastClick = require("fastclick")
 // import { config } from "modules/helpers/JsConfig"

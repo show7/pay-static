@@ -10,6 +10,18 @@ const SHOW_MODAL_KEY = `${P}.showModal`
 const { Alert } = Dialog
 import UA from "ua-device";
 import {toLower,get} from "lodash";
+import $ from 'jquery';
+
+$.fn.extend({
+  animateCss: function(animationName, callback) {
+    var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+    this.addClass('animated ' + animationName).one(animationEnd, function() {
+      $(this).removeClass('animated ' + animationName);
+      if(callback) callback()
+    });
+    return this;
+  }
+});
 
 @connect(state => state)
 export default class Main extends React.Component<any, any> {

@@ -1,0 +1,59 @@
+@import "../../../components/CommonStyle";
+@import "../../../style/variable";
+
+.business-apply {
+  height: 100vh;
+  position: relative;
+  background: url(@imgBusinessBackground) repeat-y center top/100% auto;
+  overflow: hidden;
+  .ba-header {
+    padding: 35px 0 0;
+    .ba-header-msg {
+      padding: 0 50px;
+      .linear-gradient();
+    }
+    .ba-header-pic {
+      text-align: center;
+      padding: 25px 0;
+      img {
+        width: 100px;
+      }
+    }
+  }
+  .ba-main-body {
+    padding: 0 30px 40px;
+    font-size: 15px;
+    color: #FFF;
+    line-height: 18px;
+  }
+  .ba-sub-tips {
+    padding: 0 30px 5px;
+    color: #ffb200;
+    font-size: 12px;
+  }
+  .ba-sub-body {
+    padding: 0 30px;
+    color: #cccccc;
+    font-size: 12px;
+
+  }
+  .qrcode {
+    display: block;
+    margin: 0 auto;
+    width: 150px;
+    height: 150px;
+    padding:10px 0 50px;
+  }
+  &.submit-success {
+    .ba-main-body {
+      padding: 0 30px 50px;
+      text-align: center;
+      line-height: 20px;
+    }
+    .ba-sub-tips {
+      text-align: center;
+      line-height: 20px;
+      font-size: 15px;
+    }
+  }
+}
