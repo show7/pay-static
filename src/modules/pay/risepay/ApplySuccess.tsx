@@ -290,7 +290,9 @@ export default class ApplySuccess extends React.Component<any, any> {
             {/*在未来的日子里<br/>*/}
             {/*希望你在商学院内取得傲人的成就<br/>*/}
             {/*和顶尖的校友们一同前进!<br/>*/}
-            友情提示：商学院学费即将升至¥3080<br/>请尽快办理入学
+            {memberType ? `友情提示：商学院学费即将升至¥${memberType.fee + 400}`: null}
+            <br/>
+            {memberType ? `请尽快办理入学` : null}
           </div>
           {more ? <div className="desc-container">
               <SaleBody loading={false}/>
