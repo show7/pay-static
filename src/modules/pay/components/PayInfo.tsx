@@ -77,7 +77,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       if(res.code === 200) {
         this.setState(res.msg, () => {
           // 如果autoChose有值则自动选择优惠券
-          if(res.msg.autoCoupons && res.msg.coupons) {
+          if(!_.isEmpty(res.msg.autoCoupons) && res.msg.coupons) {
             this.handleAutoChooseCoupon(res.msg.autoCoupons, res.msg.multiCoupons, goodsType, goodsId);
           }
         })
