@@ -139,6 +139,7 @@ export default class CampPay extends React.Component<any, any> {
     const { memberType } = data
 
     const renderPay = () => {
+      if(!memberType) return null
       return (
         <div className="pay-page">
           <img
