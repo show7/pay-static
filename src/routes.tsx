@@ -28,6 +28,7 @@ const routes = (
       <Route path="pay/static/rise" component={RiseApply}/>
       <Route path="pay/static/share" component={RiseShare}/>
       <Route path="pay/apply" component={ApplySuccess}/>
+      <Route path="pay/pay" component={RisePay}/>
     </Route>
   </Route>
 )
