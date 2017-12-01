@@ -2,58 +2,69 @@
 @import "../../../style/variable";
 
 .business-apply {
-  height: 100vh;
+  min-height: 100%;
   position: relative;
   background: url(@imgBusinessBackground) repeat-y center top/100% auto;
-  overflow: hidden;
+  //overflow: hidden;
   .ba-header {
-    padding: 35px 0 0;
+    padding-top: 3.5rem;
     .ba-header-msg {
-      padding: 0 50px;
+      padding: 0 5rem;
       .linear-gradient();
     }
     .ba-header-pic {
       text-align: center;
-      padding: 25px 0;
+      padding: 2.5rem 0;
       img {
-        width: 100px;
+        width: 10rem;
       }
     }
   }
   .ba-main-body {
-    padding: 0 30px 40px;
-    font-size: 15px;
-    color: #FFF;
-    line-height: 18px;
+    padding: 0 3rem 0.5rem;
+    font-size: 1.5rem;
+    color: @color_white;
+    font-weight: 300;
+    line-height: 2.0rem;
+    .ba-line {
+      margin-bottom: 3.0rem;
+    }
   }
   .ba-sub-tips {
-    padding: 0 30px 5px;
+    margin: 0 3rem;
+    padding-bottom: 0.5rem;
+    height: 15px;
     color: #ffb200;
     font-size: 12px;
+    line-height: 16px;
+    text-indent: 20px;
+    background-image: url('../../../../assets/icons/readme.png');
+    background-size: 13px 15px;
+    background-repeat: no-repeat;
   }
   .ba-sub-body {
-    padding: 0 30px;
+    padding: 0 3rem 6rem;
     color: #cccccc;
-    font-size: 12px;
+    font-size: 1.2rem;
 
   }
   .qrcode {
     display: block;
     margin: 0 auto;
-    width: 150px;
-    height: 150px;
-    padding:10px 0 50px;
+    width: 15rem;
+    height: 15rem;
+    padding:1rem 0 5rem;
   }
   &.submit-success {
     .ba-main-body {
-      padding: 0 30px 50px;
+      padding: 0 3rem 5rem;
       text-align: center;
-      line-height: 20px;
+      line-height: 2rem;
     }
     .ba-sub-tips {
       text-align: center;
-      line-height: 20px;
-      font-size: 15px;
+      line-height: 2rem;
+      font-size: 1.5rem;
     }
   }
 }

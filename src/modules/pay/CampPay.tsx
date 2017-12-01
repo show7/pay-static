@@ -82,7 +82,6 @@ export default class CampPay extends React.Component<any, any> {
   /** 处理支付失败的状态 */
   handlePayedError(res) {
     let param = _.get(res, 'err_desc', _.get(res, 'errMsg', ''))
-    console.log(param)
 
     if(param.indexOf('跨公众号发起') != -1) {
       // 跨公众号
