@@ -249,7 +249,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
           <QuestionGroup group={questionGroup[ currentIndex ]} allGroup={questionGroup} region={this.props.region}
                          onGroupChanged={(group) => this.handleGroupChanged(group, currentIndex)}/>
         </div>
-        <div  style={{height: '65px',width:'100%'}}/>
+        <div style={{ height: '65px', width: '100%' }}/>
         {currentIndex === seriesCount - 1 ? <SubmitButton clickFunc={() => this.handleClickSubmit()} buttonText="提交"/> :
           <SubmitButton clickFunc={() => {this.handleClickNextStep()}} buttonText="下一步"/>}
       </div>
@@ -276,19 +276,20 @@ enum QuestionType {
 class QuestionGroup extends Component<QuestionGroupProps, any> {
   constructor() {
     super();
-    this.state = {}
+    this.state = {
+      codeTimeRemain: 0
+    }
   }
 
   componentWillMount() {
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if(_.isEmpty(this.props.group) && !_.isEmpty(nextProps.group)) {
-  //     // console.log('recive', nextProps.group);
-  //   }
-  //   // console.log('props', nextProps.group);
-  // }
-
+  /**
+   * 通用的onChange处理方法
+   * @param question 问题信息
+   * @param value 值
+   * @param keyName 键名
+   */
   commonHandleValueChange(question, value, keyName) {
     const { group = {} } = this.props;
     const { questions = [] } = group;
@@ -297,6 +298,12 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
     this.props.onGroupChanged(result);
   }
 
+  /**
+   * 点击选择区域
+   * @param question 问题信息
+   * @param one 省
+   * @param two 市
+   */
   handleChoiceRegion(question, one, two) {
     const { group = {} } = this.props;
     const { questions = [] } = group;
@@ -304,6 +311,21 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
     let result = _.set(_.cloneDeep(group), `questions[${key}]`, _.set(_.cloneDeep(question), 'oneId', one.id));
     _.set(result, `questions[${key}].twoId`, two.id);
     this.props.onGroupChanged(result);
+  }
+
+  /**
+   * 点击发送验证码
+   */
+  handleClickSendPhoneCode() {
+    const { codeTimeRemain } = this.state;
+    const { dispatch } = this.props;
+    if(codeTimeRemain !== 0) {
+      dispatch(alertMsg(`请${codeTimeRemain}秒稍后再试`));
+      return;
+    } else {
+      // 可以发送
+    }
+
   }
 
   render() {
@@ -389,10 +411,21 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
 
     const renderPhoneQuestion = (questionInfo) => {
       const { question, type, sequence, request, preChoiceId, id, series, tips, choices, chosenId, placeholder, userValue } = questionInfo;
+      const { phoneCheckCode, codeTimeRemain } = this.state;
       return mixQuestionDom(questionInfo,
-        <div className="question-blank">
-          <input type="text" placeholder={placeholder ? placeholder : '请填写'} value={userValue}
-                 onChange={(e) => this.commonHandleValueChange(questionInfo, e.target.value, 'userValue')}/>
+        <div>
+          <div className="question-blank">
+            <input type="text" placeholder={placeholder ? placeholder : '请填写'} value={userValue}
+                   onChange={(e) => this.commonHandleValueChange(questionInfo, e.target.value, 'userValue')}/>
+          </div>
+          <div className="check-code-wrapper">
+            <span className="code-send-label">验证码：</span>
+            <div className={`send-phone-code ${codeTimeRemain === 0?'free':'sending'}`} onClick={() => this.handleClickSendPhoneCode()}>
+              {codeTimeRemain === 0 ? '发送验证码' : `${codeTimeRemain}秒后重新发送`}
+            </div>
+            <input type="text" placeholder='请填写验证码' value={phoneCheckCode}
+                   onChange={(e) => this.setState({ phoneCheckCode: e.target.value })}/>
+          </div>
         </div>
       )
     }
