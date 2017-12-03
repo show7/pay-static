@@ -43,34 +43,9 @@ export default class RiseApply extends React.Component<any, any> {
   }
 
   handleClickAudition() {
-    // 开试听课
-    const { dispatch } = this.props
-    dispatch(startLoad())
-    chooseAuditionCourse().then(res => {
-      dispatch(endLoad())
-      if(res.code === 200) {
-        const { goSuccess, errMsg, subscribe } = res.msg
-        if(errMsg) {
-          dispatch(alertMsg(errMsg))
-        } else {
-          if(!subscribe) {
-            this.setState({ show:true })
-          } else {
-            if(goSuccess) {
-              this.context.router.push({
-                pathname: '/pay/audition/success'
-              })
-            } else {
-              dispatch(alertMsg('您已预约过，上课请关注公众号后，进入商学院'))
-            }
-          }
-        }
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
+    mark({ module: '打点', function: '商学院会员', action: '点击宣讲课按钮' });
+    this.context.router.push({
+      pathname: '/pay/preacher',
     })
   }
 
@@ -82,7 +57,7 @@ export default class RiseApply extends React.Component<any, any> {
           <SaleBody />
           <div className="button-footer">
             <div className="footer-left" onClick={() => this.handleClickAudition()}><span
-              className="audition">{'预约试听'}</span></div>
+              className="audition">{'宣讲课'}</span></div>
             <div className="footer-btn" onClick={() => this.redirect()}>申请商学院</div>
           </div>
 
