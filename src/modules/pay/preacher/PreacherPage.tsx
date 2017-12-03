@@ -54,7 +54,7 @@ export default class PreacherPage extends React.Component<any, any> {
           当你开始学会并开始实现这些规律和套路的时候，你的世界会从标清标清模式突然变成高清模式。
         </div>
         <div className="video-partition white-bg">
-          <video src="http://139.224.134.53/preacher_video_1.mp4" className="preacher-video" controls={true} poster='https://static.iqycamp.com/images/stage1_poster.jpeg?imageslim'/>
+          <video src="https://static.iqycamp.com/video/preacher_video_1.mp4" className="preacher-video" controls={true} poster='https://static.iqycamp.com/images/stage1_poster.jpeg?imageslim'/>
           <div className="preacher-video-title">1. 模糊不确定的VUCA时代，你需要看得更清楚</div>
           <div className="preacher-video-tips">
             #宣讲会/ 5'27''
@@ -65,7 +65,7 @@ export default class PreacherPage extends React.Component<any, any> {
         </div>
 
         <div className="video-partition white-bg">
-          <video src="http://139.224.134.53/preacher_video_2.mp4" className="preacher-video" controls={true} poster='https://static.iqycamp.com/images/stage2_poster.jpeg?imageslim'/>
+          <video src="https://static.iqycamp.com/video/preacher_video_2.mp4" className="preacher-video" controls={true} poster='https://static.iqycamp.com/images/stage2_poster.jpeg?imageslim'/>
           <div className="preacher-video-title">2. 终身学习：活到老=学到老吗？</div>
           <div className="preacher-video-tips">
             #宣讲会/ 21'34''
@@ -76,7 +76,7 @@ export default class PreacherPage extends React.Component<any, any> {
         </div>
 
         <div className="video-partition white-bg">
-          <video src="http://139.224.134.53/preacher_video_3.mp4" className="preacher-video" controls={true} poster='https://static.iqycamp.com/images/stage3_poster.jpeg?imageslim'/>
+          <video src="https://static.iqycamp.com/video/preacher_video_3.mp4" className="preacher-video" controls={true} poster='https://static.iqycamp.com/images/stage3_poster.jpeg?imageslim'/>
           <div className="preacher-video-title">3. 借助他人的力量</div>
           <div className="preacher-video-tips">
             #宣讲会/ 16'02''
@@ -87,7 +87,7 @@ export default class PreacherPage extends React.Component<any, any> {
         </div>
 
         <div className="video-partition white-bg">
-          <video src="http://139.224.134.53/preacher_video_4.mp4" className="preacher-video" controls={true} poster='https://static.iqycamp.com/images/stage4_poster.jpeg?imageslim'/>
+          <video src="https://static.iqycamp.com/video/preacher_video_4.mp4" className="preacher-video" controls={true} poster='https://static.iqycamp.com/images/stage4_poster.jpeg?imageslim'/>
           <div className="preacher-video-title">4. 我们的商学院有何不同 —— 你负责努力，我们帮你赢</div>
           <div className="preacher-video-tips">
             #宣讲会/ 10'12''
