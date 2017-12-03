@@ -10,7 +10,7 @@ import PayInfo from '../components/PayInfo'
 import { mark } from '../../../utils/request'
 import { SaleBody } from './components/SaleBody'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
-import { chooseAuditionCourse, loadAuditionButtonStr, getRiseMember } from '../async'
+import {  getRiseMember } from '../async'
 import Icon from '../../../components/Icon'
 
 const numeral = require('numeral')
@@ -65,19 +65,6 @@ export default class ApplySuccess extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(err))
     })
-
-    loadAuditionButtonStr().then(res => {
-      dispatch(endLoad())
-      if(res.code === 200) {
-        this.setState({ auditionStr: res.msg });
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch((err) => {
-      dispatch(endLoad())
-      dispatch(alertMsg(err))
-    })
-
   }
 
   handlePayedDone() {
@@ -203,7 +190,7 @@ export default class ApplySuccess extends React.Component<any, any> {
   }
 
   render() {
-    const { data, showId, timeOut, showErr, showCodeErr, more, tens, ones, unit, expired, auditionStr } = this.state
+    const { data, showId, timeOut, showErr, showCodeErr, more, tens, ones, unit, expired } = this.state
     const { memberType, buttonStr, tip } = data
 
     const renderPay = () => {
@@ -220,12 +207,9 @@ export default class ApplySuccess extends React.Component<any, any> {
     const renderApply = () => {
       return (
         <div className="button-footer">
-          {
-            auditionStr ?
-              <div className="footer-left" onClick={() => this.handleClickAudition()}>
-                <span className="audition">{auditionStr}</span>
-              </div> : null
-          }
+          <div className="footer-left" onClick={() => this.handleClickAudition()}>
+            <span className="audition">宣讲课</span>
+          </div>
           <div className="footer-btn" onClick={() => this.redirect()}>申请商学院</div>
         </div>
       )

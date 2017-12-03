@@ -3,7 +3,6 @@ import './RisePay.less'
 import { connect } from 'react-redux'
 import { mark } from '../../../utils/request'
 import { SaleBody } from './components/SaleBody'
-import { chooseAuditionCourse } from '../async'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { configShare } from '../../helpers/JsConfig'
 import { Dialog } from "react-weui"
