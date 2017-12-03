@@ -101,7 +101,7 @@ export default class PreacherPage extends React.Component<any, any> {
           最新一期宣讲会信息，请扫码加小助手<br/>
           并回复数字{preacherNumber}
         </div>
-        <div className="img-wrapper white-bg" white-bg>
+        <div className="img-wrapper white-bg">
           <img src="https://static.iqycamp.com/images/qrcode_xiaoy_20171117.jpeg?imageslim"
                className="qrcode"/>
         </div>
