@@ -34,6 +34,7 @@
     "jquery": "^3.2.1",
     "lodash": "^4.14.1",
     "numeral": "^1.5.5",
+    "popcorn": "^0.0.3",
     "react": "15.3.0",
     "react-dom": "15.3.0",
     "react-lite": "^0.15.16",
