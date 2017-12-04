@@ -47,7 +47,12 @@ export default class BusinessApply extends Component<any, any> {
     getRiseMember(this.state.showId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        this.setState({ memberType: res.msg.memberType })
+        //是否已经付款
+        if(res.msg.entry){
+          this.goApplySubmitPage()
+        } else{
+          this.setState({ memberType: res.msg.memberType })
+        }
       } else {
         dispatch(alertMsg(res.msg))
       }
@@ -64,7 +69,7 @@ export default class BusinessApply extends Component<any, any> {
     checkSubmitApply().then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
-        this.context.router.push('/rise/static/business/apply/choice');
+        this.context.router.push('/pay/applychoice');
       } else {
         dispatch(alertMsg(res.msg));
       }
