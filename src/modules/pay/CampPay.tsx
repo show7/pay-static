@@ -11,8 +11,8 @@ import PayInfo from './components/PayInfo'
 import PicLoading from './components/PicLoading'
 import { getRiseMember, checkRiseMember } from './async'
 import { CustomerService } from '../../components/customerservice/CustomerService'
-
-const numeral = require('numeral')
+import { PageMark } from '../../utils/decorators'
+import { MarkBlock } from './components/markblock/MarkBlock'
 
 @connect(state => state)
 export default class CampPay extends React.Component<any, any> {
@@ -33,15 +33,10 @@ export default class CampPay extends React.Component<any, any> {
     }
   }
 
+  @PageMark({ module: 'RISE', func: '打点', action: '刷新支付页面', memo: window.ENV.configUrl + '++' + window.location.href })
   componentWillMount() {
     // ios／安卓微信支付兼容性
     if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href) {
-      ppost('/b/mark', {
-        module: 'RISE',
-        function: '打点',
-        action: '刷新支付页面',
-        memo: window.ENV.configUrl + '++++++++++' + window.location.href
-      })
       window.location.href = window.location.href
       return
     }
@@ -82,7 +77,6 @@ export default class CampPay extends React.Component<any, any> {
   /** 处理支付失败的状态 */
   handlePayedError(res) {
     let param = _.get(res, 'err_desc', _.get(res, 'errMsg', ''))
-    console.log(param)
 
     if(param.indexOf('跨公众号发起') != -1) {
       // 跨公众号
@@ -120,7 +114,6 @@ export default class CampPay extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
-    mark({ module: '打点', function: '小课训练营', action: '点击加入按钮', memo: this.state.currentCampMonth })
   }
 
   handlePayedBefore() {
@@ -142,14 +135,14 @@ export default class CampPay extends React.Component<any, any> {
       if(!memberType) return null
       return (
         <div className="pay-page">
-          <img
-            className="sale-pic"
-            src="https://static.iqycamp.com/images/fragment/camp_promotion_12_1.png?imageslim"
-            style={{ width: '100%' }}
-            onLoad={() => this.setState({ loading: false })}/>
-          <div className="button-footer" onClick={() => this.handleClickOpenPayInfo(showId)}>
+          <img className="sale-pic" style={{ width: '100%' }}
+               src="https://static.iqycamp.com/images/fragment/camp_promotion_12_1.png?imageslim"
+               onLoad={() => this.setState({ loading: false })}/>
+          <MarkBlock module={'打点'} func={'小课训练营'}
+                     action={'点击加入按钮'} memo={this.state.currentCampMonth}
+                     className='button-footer' onClick={() => this.handleClickOpenPayInfo(showId)}>
             <div className="footer-btn">加入训练营</div>
-          </div>
+          </MarkBlock>>
         </div>
       )
     }

@@ -5,9 +5,6 @@ import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { Button, ButtonArea } from 'react-weui'
 import { entryRiseMember } from './async'
 
-const P = 'signup'
-const numeral = require('numeral')
-
 @connect(state => state)
 export default class MemberPaySuccess extends React.Component<any, any> {
 
@@ -21,7 +18,6 @@ export default class MemberPaySuccess extends React.Component<any, any> {
 
     this.pd = 50 / 750 * window.innerWidth
     this.topPd = 90 / 500 * window.innerWidth
-
   }
 
   componentWillMount() {
@@ -61,7 +57,7 @@ export default class MemberPaySuccess extends React.Component<any, any> {
           <div className="content">
             <div className="step step-1" data-step="1" style={{ paddingBottom: `${this.pd}px` }}>
               长按复制你的学号<br/>
-              <div className="code">{entryCode     }</div>
+              <div className="code">{entryCode}</div>
             </div>
             <div className="step step-2" data-step="2" style={{ paddingBottom: `${this.pd}px` }}>
               扫码添加班主任<br/>

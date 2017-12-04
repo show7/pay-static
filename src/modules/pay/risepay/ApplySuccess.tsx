@@ -12,6 +12,8 @@ import { SaleBody } from './components/SaleBody'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
 import { chooseAuditionCourse, loadAuditionButtonStr, getRiseMember } from '../async'
 import Icon from '../../../components/Icon'
+import { PageMark } from '../../../utils/decorators'
+import { MarkBlock } from '../components/markblock/MarkBlock'
 
 const numeral = require('numeral')
 
@@ -34,17 +36,10 @@ export default class ApplySuccess extends React.Component<any, any> {
     }
   }
 
+  @PageMark({ module: '打点', func: '商学院会员', action: '购买商学院会员', memo: '申请成功页面' })
   componentWillMount() {
-    mark({ module: '打点', function: '商学院会员', action: '购买商学院会员', memo: '申请成功页面' })
-
     // ios／安卓微信支付兼容性
     if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href) {
-      ppost('/b/mark', {
-        module: 'RISE',
-        function: '打点',
-        action: '刷新支付页面',
-        memo: window.ENV.configUrl + '++++++++++' + window.location.href
-      })
       window.location.href = window.location.href
       return
     }
@@ -69,7 +64,7 @@ export default class ApplySuccess extends React.Component<any, any> {
     loadAuditionButtonStr().then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        this.setState({ auditionStr: res.msg });
+        this.setState({ auditionStr: res.msg })
       } else {
         dispatch(alertMsg(res.msg))
       }
@@ -77,7 +72,6 @@ export default class ApplySuccess extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(err))
     })
-
   }
 
   handlePayedDone() {
@@ -91,7 +85,6 @@ export default class ApplySuccess extends React.Component<any, any> {
   }
 
   handleClickIntro() {
-    mark({ module: '打点', function: '商学院会员', action: '打开商学院介绍' })
     this.setState({ more: true })
   }
 
@@ -108,11 +101,11 @@ export default class ApplySuccess extends React.Component<any, any> {
         let tens = '0'
         // 小于等于0 按0算
         if(hourStr.length > 1) {
-          ones = hourStr[ 1 ]
-          tens = hourStr[ 0 ]
+          ones = hourStr[1]
+          tens = hourStr[0]
         } else {
           // 1位数
-          ones = hourStr[ 0 ]
+          ones = hourStr[0]
         }
         this.setState({ ones: ones, tens: tens, unit: '小时', expired: false })
       } else {
@@ -121,11 +114,11 @@ export default class ApplySuccess extends React.Component<any, any> {
         let tens = '0'
         // 小于等于0 按0算
         if(minuteStr.length > 1) {
-          ones = minuteStr[ 1 ]
-          tens = minuteStr[ 0 ]
+          ones = minuteStr[1]
+          tens = minuteStr[0]
         } else {
           // 1位数
-          ones = minuteStr[ 0 ]
+          ones = minuteStr[0]
         }
         this.setState({ ones: ones, tens: tens, unit: '分钟', expired: false })
       }
@@ -173,7 +166,6 @@ export default class ApplySuccess extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
-    mark({ module: '打点', function: '商学院会员', action: '点击入学按钮', memo: data ? data.buttonStr : '' })
   }
 
   handlePayedBefore() {
@@ -184,14 +176,11 @@ export default class ApplySuccess extends React.Component<any, any> {
    * 重新注册页面签名
    */
   reConfig() {
-    config([ 'chooseWXPay' ])
+    config(['chooseWXPay'])
   }
 
   redirect() {
-    mark({ module: '打点', function: '商学院会员', action: '申请商学院' }).then(res => {
-      window.location.href = `https://${window.location.hostname}/rise/static/business/apply/start`
-      // window.location.href = 'https://www.iquanwai.com/survey/wjx?activity=18057279'
-    })
+    window.location.href = `https://${window.location.hostname}/rise/static/business/apply/start`
   }
 
   handleClickAudition() {
@@ -238,7 +227,11 @@ export default class ApplySuccess extends React.Component<any, any> {
                 <span className="audition">{auditionStr}</span>
               </div> : null
           }
-          <div className="footer-btn" onClick={() => this.handleClickOpenPayInfo(showId)}>{buttonStr}</div>
+          <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'}
+                     memo={this.state.data ? this.state.data.buttonStr : ''}
+                     className="footer-btn" onClick={() => this.handleClickOpenPayInfo(showId)}>
+            {buttonStr}
+          </MarkBlock>
         </div>
       )
     }
@@ -252,7 +245,10 @@ export default class ApplySuccess extends React.Component<any, any> {
                 <span className="audition">{auditionStr}</span>
               </div> : null
           }
-          <div className="footer-btn" onClick={() => this.redirect()}>申请商学院</div>
+          <MarkBlock module={'打点'} func={'商学院会员'} action={'申请商学院'}
+                     className="footer-btn" onClick={() => this.redirect()}>
+            申请商学院
+          </MarkBlock>
         </div>
       )
     }
@@ -287,19 +283,17 @@ export default class ApplySuccess extends React.Component<any, any> {
             过期后需再次申请
           </div>
           <div className="welcome-msg">
-            {/*在未来的日子里<br/>*/}
-            {/*希望你在商学院内取得傲人的成就<br/>*/}
-            {/*和顶尖的校友们一同前进!<br/>*/}
-            {memberType ? `友情提示：商学院学费即将升至¥${memberType.fee + 400}`: null}
+            {memberType ? `友情提示：商学院学费即将升至¥${memberType.fee + 400}` : null}
             <br/>
             {memberType ? `请尽快办理入学` : null}
           </div>
           {more ? <div className="desc-container">
               <SaleBody loading={false}/>
             </div> :
-            <div className="click-desc" onClick={() => this.handleClickIntro()}>
+            <MarkBlock module={'打点'} func={'商学院会员'} action={'打开商学院介绍'}
+                       onClick={() => this.handleClickIntro()}>
               商学院介绍
-            </div>
+            </MarkBlock>
           }
 
           {renderPay()}
@@ -360,7 +354,8 @@ export default class ApplySuccess extends React.Component<any, any> {
           {timeOut ? <div className="mask" onClick={() => {window.history.back()}}
                           style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}>
           </div> : null}
-        </div>)
+        </div>
+      )
     }
 
     return (
