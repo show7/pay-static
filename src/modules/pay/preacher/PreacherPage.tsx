@@ -22,6 +22,7 @@ export default class PreacherPage extends React.Component<any, any> {
 
   componentWillMount() {
     const { dispatch } = this.props
+    mark({ module: '打点', function: '宣讲课页面', action: '进入宣讲课页面' })
     dispatch(startLoad());
     loadPreacherNumber().then(res => {
       dispatch(endLoad());
