@@ -7,7 +7,7 @@ import { getGoodsType } from 'utils/helpers'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { config, configShare } from 'modules/helpers/JsConfig'
 import PayInfo from '../components/PayInfo'
-import { chooseAuditionCourse, getRiseMember } from '../async'
+import { getRiseMember } from '../async'
 import { SaleBody } from './components/SaleBody'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
 import { MarkButton } from '../components/markbutton/MarkButton'
@@ -141,34 +141,14 @@ export default class RisePay extends React.Component<any, any> {
    * 重新注册页面签名
    */
   reConfig() {
-    config(['chooseWXPay'])
+    config([ 'chooseWXPay' ])
   }
 
   handleClickAudition() {
     // 开试听课
-    const { dispatch } = this.props
-    dispatch(startLoad())
-    chooseAuditionCourse().then(res => {
-      dispatch(endLoad())
-      if(res.code === 200) {
-        const { planId, goSuccess, errMsg, startTime, endTime } = res.msg
-        if(errMsg) {
-          dispatch(alertMsg(errMsg))
-        } else {
-          if(goSuccess) {
-            this.context.router.push({
-              pathname: '/pay/audition/success'
-            })
-          } else {
-            window.location.href = `https://${window.location.hostname}/rise/static/plan/main`
-          }
-        }
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
+    mark({ module: '打点', function: '商学院会员', action: '点击宣讲课按钮' });
+    this.context.router.push({
+      pathname: '/pay/preacher',
     })
   }
 
@@ -177,37 +157,39 @@ export default class RisePay extends React.Component<any, any> {
     const { privilege, buttonStr, auditionStr, memberType, tip } = data
 
     const renderPay = () => {
-      return (
-        <div className="pay-page">
-          <SaleBody/>
-          {
-            privilege ?
-              <div className="button-footer">
-                {
-                  auditionStr ?
-                    <div className="footer-left" onClick={() => this.handleClickAudition()}>
-                      <span className="audition">{auditionStr}</span>
-                    </div> :
-                    null
-                }
-                <div className="footer-btn" onClick={() => this.handleClickOpenPayInfo(showId)}>{buttonStr}</div>
-              </div> :
-              <div className="button-footer">
-                {
-                  auditionStr ?
-                    <div className="footer-left" onClick={() => this.handleClickAudition()}>
-                      <span className="audition">{auditionStr}</span>
-                    </div> : null
-                }
-                <MarkButton module={`打点`} func={`商学院会员`} action={`申请商学院`}
-                            className={`footer-btn`}
-                            onClick={() => this.redirect()}>
-                  申请商学院
-                </MarkButton>
-              </div>
-          }
-        </div>
-      )
+      if(!memberType) return null
+
+      if(privilege) {
+        return (
+          <div className="button-footer">
+            {
+              auditionStr ?
+                <div className="footer-left" onClick={() => this.handleClickAudition()}>
+                  <span className="audition">{auditionStr}</span>
+                </div> :
+                null
+            }
+            <div className="footer-btn" onClick={() => this.handleClickOpenPayInfo(showId)}>{buttonStr}</div>
+          </div>
+        )
+      } else {
+        return (
+          <div className="button-footer">
+            {
+              auditionStr ?
+                <div className="footer-left" onClick={() => this.handleClickAudition()}>
+                  <span className="audition">{auditionStr}</span>
+                </div> : null
+            }
+            <MarkButton module={`打点`} func={`商学院会员`} action={`申请商学院`}
+                        className={`footer-btn`}
+                        onClick={() => this.redirect()}>
+              申请商学院
+            </MarkButton>
+          </div>
+        )
+      }
+
     }
 
     const renderKefu = () => {
@@ -218,7 +200,10 @@ export default class RisePay extends React.Component<any, any> {
 
     return (
       <div className="rise-pay-container">
-        {renderPay()}
+        <div className="pay-page">
+          <SaleBody/>
+          {renderPay()}
+        </div>
         {renderKefu()}
         {timeOut ? <div className="mask" onClick={() => {window.history.back()}}
                         style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}>

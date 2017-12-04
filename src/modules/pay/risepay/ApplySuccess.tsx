@@ -10,7 +10,7 @@ import PayInfo from '../components/PayInfo'
 import { mark } from '../../../utils/request'
 import { SaleBody } from './components/SaleBody'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
-import { chooseAuditionCourse, loadAuditionButtonStr, getRiseMember } from '../async'
+import {  getRiseMember } from '../async'
 import Icon from '../../../components/Icon'
 
 const numeral = require('numeral')
@@ -65,19 +65,6 @@ export default class ApplySuccess extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(err))
     })
-
-    loadAuditionButtonStr().then(res => {
-      dispatch(endLoad())
-      if(res.code === 200) {
-        this.setState({ auditionStr: res.msg });
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch((err) => {
-      dispatch(endLoad())
-      dispatch(alertMsg(err))
-    })
-
   }
 
   handlePayedDone() {
@@ -196,48 +183,22 @@ export default class ApplySuccess extends React.Component<any, any> {
 
   handleClickAudition() {
     // 开试听课
-    const { dispatch } = this.props
-    dispatch(startLoad())
-    chooseAuditionCourse().then(res => {
-      dispatch(endLoad())
-      if(res.code === 200) {
-        const { planId, goSuccess, errMsg, startTime, endTime } = res.msg
-        if(errMsg) {
-          mark({ module: '打点', function: '试听课', action: '无法开启试听课', memo: '申请成功页面' })
-          dispatch(alertMsg(errMsg))
-        } else {
-          if(goSuccess) {
-            mark({ module: '打点', function: '试听课', action: '开通试听课', memo: '申请成功页面' })
-            this.context.router.push({
-              pathname: '/pay/audition/success'
-            })
-          } else {
-            mark({ module: '打点', function: '试听课', action: '进入试听课', memo: '申请成功页面' })
-            window.location.href = `https://${window.location.hostname}/rise/static/plan/main`
-          }
-        }
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
+    mark({ module: '打点', function: '申请成功页面', action: '点击宣讲课按钮' });
+    this.context.router.push({
+      pathname: '/pay/preacher',
     })
   }
 
   render() {
-    const { data, showId, timeOut, showErr, showCodeErr, more, tens, ones, unit, expired, auditionStr } = this.state
+    const { data, showId, timeOut, showErr, showCodeErr, more, tens, ones, unit, expired } = this.state
     const { memberType, buttonStr, tip } = data
 
     const renderPay = () => {
       return (
         <div className="button-footer">
-          {
-            auditionStr ?
-              <div className="footer-left" onClick={() => this.handleClickAudition()}>
-                <span className="audition">{auditionStr}</span>
-              </div> : null
-          }
+          <div className="footer-left" onClick={() => this.handleClickAudition()}>
+            <span className="audition">宣讲课</span>
+          </div>
           <div className="footer-btn" onClick={() => this.handleClickOpenPayInfo(showId)}>{buttonStr}</div>
         </div>
       )
@@ -246,12 +207,9 @@ export default class ApplySuccess extends React.Component<any, any> {
     const renderApply = () => {
       return (
         <div className="button-footer">
-          {
-            auditionStr ?
-              <div className="footer-left" onClick={() => this.handleClickAudition()}>
-                <span className="audition">{auditionStr}</span>
-              </div> : null
-          }
+          <div className="footer-left" onClick={() => this.handleClickAudition()}>
+            <span className="audition">宣讲课</span>
+          </div>
           <div className="footer-btn" onClick={() => this.redirect()}>申请商学院</div>
         </div>
       )
@@ -290,7 +248,7 @@ export default class ApplySuccess extends React.Component<any, any> {
             {/*在未来的日子里<br/>*/}
             {/*希望你在商学院内取得傲人的成就<br/>*/}
             {/*和顶尖的校友们一同前进!<br/>*/}
-            {memberType ? `友情提示：商学院学费即将升至¥${memberType.fee + 400}`: null}
+            {memberType ? `友情提示：商学院学费即将升至¥${memberType.fee + 400}` : null}
             <br/>
             {memberType ? `请尽快办理入学` : null}
           </div>

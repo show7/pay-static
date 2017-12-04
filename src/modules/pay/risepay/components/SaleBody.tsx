@@ -28,7 +28,7 @@ export class SaleBody extends React.Component {
         }
         <img
           className="pic-part2"
-          src="https://static.iqycamp.com/images/pay_rise_part2_3.png?imageslim"
+          src="https://static.iqycamp.com/images/pay_rise_part2_4.png?imageslim"
           style={{ width: '100%' }}
         />
         {
