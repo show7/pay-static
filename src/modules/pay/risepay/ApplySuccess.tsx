@@ -33,8 +33,8 @@ export default class ApplySuccess extends React.Component<any, any> {
     }
   }
 
-  @PageMark({ module: '打点', func: '商学院会员', action: '购买商学院会员', memo: '申请成功页面' })
   componentWillMount() {
+    mark({ module: '打点', func: '商学院会员', action: '购买商学院会员', memo: '申请成功页面' })
     // ios／安卓微信支付兼容性
     if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href) {
       window.location.href = window.location.href

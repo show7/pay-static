@@ -32,8 +32,8 @@ export default class CampPay extends React.Component<any, any> {
     }
   }
 
-  @PageMark({ module: 'RISE', func: '打点', action: '刷新支付页面', memo: window.ENV.configUrl + '++' + window.location.href })
   componentWillMount() {
+    mark({ module: 'RISE', func: '打点', action: '刷新支付页面', memo: window.ENV.configUrl + '++' + window.location.href })
     // ios／安卓微信支付兼容性
     if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href) {
       window.location.href = window.location.href
