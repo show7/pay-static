@@ -139,7 +139,7 @@ export default class CampPay extends React.Component<any, any> {
                      action={'点击加入按钮'} memo={this.state.currentCampMonth}
                      className='button-footer' onClick={() => this.handleClickOpenPayInfo(showId)}>
             <div className="footer-btn">加入训练营</div>
-          </MarkBlock>>
+          </MarkBlock>
         </div>
       )
     }
