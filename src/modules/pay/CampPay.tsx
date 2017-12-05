@@ -133,7 +133,7 @@ export default class CampPay extends React.Component<any, any> {
       return (
         <div className="pay-page">
           <img className="sale-pic" style={{ width: '100%' }}
-               src="https://static.iqycamp.com/images/fragment/camp_promotion_01_1.png?imageslim"
+               src="https://static.iqycamp.com/images/fragment/camp_promotion_01_2.png?imageslim"
                onLoad={() => this.setState({ loading: false })}/>
           <MarkBlock module={'打点'} func={'小课训练营'}
                      action={'点击加入按钮'} memo={this.state.currentCampMonth}
