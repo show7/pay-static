@@ -10,7 +10,7 @@ import PayInfo from '../components/PayInfo'
 import { mark } from '../../../utils/request'
 import { SaleBody } from './components/SaleBody'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
-import { chooseAuditionCourse, loadAuditionButtonStr, getRiseMember } from '../async'
+import { chooseAuditionCourse, getRiseMember } from '../async'
 import Icon from '../../../components/Icon'
 
 const numeral = require('numeral')
@@ -58,18 +58,6 @@ export default class ApplySuccess extends React.Component<any, any> {
       if(res.code === 200) {
         this.countDown(res.msg.remainHour, res.msg.remainMinute)
         this.setState({ data: res.msg })
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch((err) => {
-      dispatch(endLoad())
-      dispatch(alertMsg(err))
-    })
-
-    loadAuditionButtonStr().then(res => {
-      dispatch(endLoad())
-      if(res.code === 200) {
-        this.setState({ auditionStr: res.msg });
       } else {
         dispatch(alertMsg(res.msg))
       }
@@ -189,8 +177,7 @@ export default class ApplySuccess extends React.Component<any, any> {
 
   redirect() {
     mark({ module: '打点', function: '商学院会员', action: '申请商学院' }).then(res => {
-      window.location.href = `https://${window.location.hostname}/rise/static/business/apply/start`
-      // window.location.href = 'https://www.iquanwai.com/survey/wjx?activity=18057279'
+      window.location.href = `https://${window.location.hostname}/pay/bsstart`
     })
   }
 
