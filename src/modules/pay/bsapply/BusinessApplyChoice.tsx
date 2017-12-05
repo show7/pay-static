@@ -4,10 +4,11 @@ import './BusinessApplyChoice.less';
 import { set, startLoad, endLoad, alertMsg } from "redux/actions"
 import * as _ from 'lodash';
 import { pget, ppost, mark } from "utils/request"
-import { loadBusinessApplyQuestion, submitApply } from './async';
+import { loadBusinessApplyQuestion, submitApply, sendValidCode, validSMSCode } from './async';
 import DropDownList from "../../../components/form/DropDownList";
 import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
 import $ from 'jquery';
+import { FooterButton } from '../../../components/submitbutton/FooterButton'
 
 @connect(state => state)
 export default class BusinessApplyChoice extends Component<any, any> {
@@ -71,7 +72,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
    * @param userChoices 用户选项
    */
   checkQuestionComplete(question, userChoices) {
-    const { type, chosenId, preChoiceId, userValue, oneId, twoId, request } = question;
+    const { type, chosenId, preChoiceId, userValue, oneId, twoId, request, phoneCheckCode } = question;
     if(!!preChoiceId) {
       if(_.indexOf(userChoices, preChoiceId) === -1) {
         // 不满足前置条件，则不检查
@@ -149,10 +150,54 @@ export default class BusinessApplyChoice extends Component<any, any> {
       return submitList;
     }, []);
 
+    // 特殊检查电话
+    let phoneQuestions = _.reduce(questionGroup, (questionList, nextGroup) => {
+      let subQuestion = _.find(nextGroup.questions, { type: QuestionType.PHONE });
+      if(!!subQuestion) {
+        questionList.push(subQuestion);
+      }
+      return questionList;
+    }, []);
+    console.log('phones', phoneQuestions);
+    let phoneInfo = _.get(phoneQuestions, '[0]');
+    const { preChoiceId, userValue, phoneCheckCode } = phoneInfo;
+    let hasPhone = true;
+    if(!!phoneInfo) {
+      // 有电话题目
+      if(!!preChoiceId) {
+        // 如果有前置选项，并且前置选项没有选，则不渲染这个
+        if(_.indexOf(userChoices, preChoiceId) === -1) {
+          hasPhone = false;
+        }
+      }
+    }
+    if(hasPhone) {
+      if(!phoneCheckCode) {
+        dispatch(alertMsg('请输入验证码'));
+        return;
+      }
+
+      dispatch(startLoad());
+      validSMSCode({ phone: userValue, code: phoneCheckCode }).then(res => {
+        if(res.code === 200) {
+          this.submitApplyAPI({ userSubmits: result });
+        } else {
+          dispatch(endLoad());
+          dispatch(alertMsg(res.msg));
+        }
+      }).catch(ex => {
+        dispatch(alertMsg(ex));
+      })
+    } else {
+      dispatch(startLoad());
+      this.submitApplyAPI({ userSubmits: result });
+    }
+  }
+
+  submitApplyAPI(param) {
+    const { dispatch } = this.props;
     // 开始提交
-    console.log('result', result);
-    dispatch(startLoad());
-    submitApply({ userSubmits: result }).then(res => {
+    submitApply(param).then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
         this.context.router.push('/rise/static/business/apply/submit/success');
@@ -233,6 +278,34 @@ export default class BusinessApplyChoice extends Component<any, any> {
       }));
     }
 
+    const renderButtons = () => {
+      if(currentIndex === 0) {
+        return (
+          <FooterButton btnArray={[ {
+            click: () => this.handleClickNextStep(),
+            text: '下一步'
+          } ]}/>
+        )
+      } else if(currentIndex === seriesCount - 1) {
+        return (
+          <FooterButton btnArray={[ {
+            click: () => this.handleClickSubmit(),
+            text: '提交'
+          } ]}/>
+        )
+      } else {
+        return (
+          <FooterButton btnArray={[ {
+            click: () => this.prevStep(),
+            text: '上一步'
+          }, {
+            click: () => this.handleClickNextStep(),
+            text: '下一步'
+          } ]}/>
+        )
+      }
+    }
+
     return (
       <div className="apply-choice" style={{ minHeight: window.innerHeight }}>
         <div className="apply-container">
@@ -242,16 +315,11 @@ export default class BusinessApplyChoice extends Component<any, any> {
             <div className="apply-progress-bar"
                  style={{ width: (window.innerWidth - 90) * (currentIndex / (seriesCount - 1)) }}/>
           </div>
-          <div className="intro-index">
-            {seriesCount !== 0 && currentIndex <= seriesCount - 1 && currentIndex != 0 ?
-              <span className="prev" onClick={() => this.prevStep()}>上一步</span> : null}
-          </div>
           <QuestionGroup group={questionGroup[ currentIndex ]} allGroup={questionGroup} region={this.props.region}
                          onGroupChanged={(group) => this.handleGroupChanged(group, currentIndex)}/>
         </div>
         <div style={{ height: '65px', width: '100%' }}/>
-        {currentIndex === seriesCount - 1 ? <SubmitButton clickFunc={() => this.handleClickSubmit()} buttonText="提交"/> :
-          <SubmitButton clickFunc={() => {this.handleClickNextStep()}} buttonText="下一步"/>}
+        {renderButtons()}
       </div>
     )
   }
@@ -273,12 +341,12 @@ enum QuestionType {
   PHONE,
 }
 
+@connect(state => state)
 class QuestionGroup extends Component<QuestionGroupProps, any> {
   constructor() {
     super();
-    this.state = {
-      codeTimeRemain: 0
-    }
+    this.state = { codeTimeRemain: 0 }
+    this.intervalTrigger = null;
   }
 
   componentWillMount() {
@@ -316,14 +384,45 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
   /**
    * 点击发送验证码
    */
-  handleClickSendPhoneCode() {
-    const { codeTimeRemain } = this.state;
+  handleClickSendPhoneCode(questionInfo) {
+    const { phoneCheckCode, userValue } = questionInfo;
+    const { codeTimeRemain = 0 } = this.state;
     const { dispatch } = this.props;
+    console.log('phone', questionInfo);
     if(codeTimeRemain !== 0) {
       dispatch(alertMsg(`请${codeTimeRemain}秒稍后再试`));
       return;
     } else {
-      // 可以发送
+      // 可以发送，检查phone
+      let NUMBER_REG = /^[0-9]+$/;
+      if(!userValue) {
+        dispatch(alertMsg('请输入手机号码'));
+        return;
+      }
+
+      if(!NUMBER_REG.test(userValue)) {
+        dispatch(alertMsg('请输入格式正确的手机'));
+        return;
+      }
+
+      if(!!this.intervalTrigger) {
+        clearInterval(this.intervalTrigger);
+      }
+      this.setState({ codeTimeRemain: 60 }, () => {
+        this.intervalTrigger = setInterval(() => {
+          this.setState({ codeTimeRemain: this.state.codeTimeRemain - 1 });
+          if(this.state.codeTimeRemain <= 0) {
+            clearInterval(this.intervalTrigger);
+          }
+        }, 1000);
+      })
+
+      // 发送验证码
+      sendValidCode(userValue).then(res => {
+        if(res.code !== 200) {
+          dispatch(alertMsg(res.msg));
+        }
+      });
     }
 
   }
@@ -410,8 +509,8 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
     }
 
     const renderPhoneQuestion = (questionInfo) => {
-      const { question, type, sequence, request, preChoiceId, id, series, tips, choices, chosenId, placeholder, userValue } = questionInfo;
-      const { phoneCheckCode, codeTimeRemain } = this.state;
+      const { question, type, sequence, request, preChoiceId, id, series, tips, choices, chosenId, placeholder, userValue, phoneCheckCode } = questionInfo;
+      const { codeTimeRemain = 0 } = this.state;
       return mixQuestionDom(questionInfo,
         <div>
           <div className="question-blank">
@@ -420,11 +519,12 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
           </div>
           <div className="check-code-wrapper">
             <span className="code-send-label">验证码：</span>
-            <div className={`send-phone-code ${codeTimeRemain === 0?'free':'sending'}`} onClick={() => this.handleClickSendPhoneCode()}>
+            <div className={`send-phone-code ${codeTimeRemain === 0 ? 'free' : 'sending'}`}
+                 onClick={() => this.handleClickSendPhoneCode(questionInfo)}>
               {codeTimeRemain === 0 ? '发送验证码' : `${codeTimeRemain}秒后重新发送`}
             </div>
             <input type="text" placeholder='请填写验证码' value={phoneCheckCode}
-                   onChange={(e) => this.setState({ phoneCheckCode: e.target.value })}/>
+                   onChange={(e) => this.commonHandleValueChange(questionInfo, e.target.value, 'phoneCheckCode')}/>
           </div>
         </div>
       )

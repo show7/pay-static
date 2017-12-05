@@ -11,3 +11,11 @@ export function checkSubmitApply() {
 export function submitApply(param) {
   return ppost('/rise/business/submit/apply', param);
 }
+
+export function sendValidCode(phone) {
+  return ppost('/rise/customer/send/valid/code', { phone: phone });
+}
+
+export function validSMSCode(param) {
+  return ppost('/rise/customer/valid/sms', param);
+}
