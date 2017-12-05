@@ -20,13 +20,6 @@ export class MarkBlock extends React.Component<MarkBlockProps, any> {
     this.initParams()
   }
 
-  componentWillReceiveProps(nextProps) {
-    if(JSON.stringify(nextProps) != JSON.stringify(this.props)) {
-      this.props = nextProps
-      this.initParams()
-    }
-  }
-
   initParams() {
     const { module, func, action, memo = '' } = this.props
     this.setState({

@@ -102,7 +102,6 @@ export default class RisePay extends React.Component<any, any> {
    */
   handleClickOpenPayInfo(showId) {
     this.reConfig()
-    const { data } = this.state
     const { dispatch } = this.props
     dispatch(startLoad())
     // 先检查是否能够支付
@@ -120,7 +119,6 @@ export default class RisePay extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
-    mark({ module: '打点', function: '商学院会员', action: '点击入学按钮', memo: data ? data.buttonStr : '' })
   }
 
   redirect() {
@@ -163,7 +161,7 @@ export default class RisePay extends React.Component<any, any> {
               </MarkBlock>
             }
             <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'}
-                       memo={this.state.data ? this.state.data.buttonStr : ''}
+                       memo={data ? buttonStr : ''}
                        className="footer-btn" onClick={() => this.handleClickOpenPayInfo(showId)}>
               {buttonStr}
             </MarkBlock>
