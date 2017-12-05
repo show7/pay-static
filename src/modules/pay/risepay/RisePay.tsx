@@ -7,7 +7,7 @@ import { getGoodsType } from 'utils/helpers'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { config, configShare } from 'modules/helpers/JsConfig'
 import PayInfo from '../components/PayInfo'
-import { chooseAuditionCourse, getRiseMember } from '../async'
+import { getRiseMember } from '../async'
 import { SaleBody } from './components/SaleBody'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
 import { MarkBlock } from '../components/markblock/MarkBlock'
@@ -103,8 +103,7 @@ export default class RisePay extends React.Component<any, any> {
    */
   handleClickOpenPayInfo(showId) {
     this.reConfig()
-    const { memberTypes, data } = this.state
-    const item = _.find(memberTypes, { id: showId })
+    const { data } = this.state
     const { dispatch } = this.props
     dispatch(startLoad())
     // 先检查是否能够支付
@@ -142,29 +141,8 @@ export default class RisePay extends React.Component<any, any> {
 
   handleClickAudition() {
     // 开试听课
-    const { dispatch } = this.props
-    dispatch(startLoad())
-    chooseAuditionCourse().then(res => {
-      dispatch(endLoad())
-      if(res.code === 200) {
-        const { planId, goSuccess, errMsg, startTime, endTime } = res.msg
-        if(errMsg) {
-          dispatch(alertMsg(errMsg))
-        } else {
-          if(goSuccess) {
-            this.context.router.push({
-              pathname: '/pay/audition/success'
-            })
-          } else {
-            window.location.href = `https://${window.location.hostname}/rise/static/plan/main`
-          }
-        }
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
+    this.context.router.push({
+      pathname: '/pay/preacher'
     })
   }
 
@@ -179,11 +157,11 @@ export default class RisePay extends React.Component<any, any> {
         return (
           <div className="button-footer">
             {
-              auditionStr ?
-                <div className="footer-left" onClick={() => this.handleClickAudition()}>
-                  <span className="audition">{auditionStr}</span>
-                </div> :
-                null
+              auditionStr &&
+              <MarkBlock module={'打点'} func={'商学院会员'} action={'点击宣讲课按钮'}
+                         className={'footer-left'} onClick={() => this.handleClickAudition()}>
+                <span className="audition">{auditionStr}</span>
+              </MarkBlock>
             }
             <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'}
                        memo={this.state.data ? this.state.data.buttonStr : ''}
@@ -196,14 +174,14 @@ export default class RisePay extends React.Component<any, any> {
         return (
           <div className="button-footer">
             {
-              auditionStr ?
-                <div className="footer-left" onClick={() => this.handleClickAudition()}>
-                  <span className="audition">{auditionStr}</span>
-                </div> : null
+              auditionStr &&
+              <MarkBlock module={'打点'} func={'商学院会员'} action={'点击宣讲课按钮'}
+                         className={'footer-left'} onClick={() => this.handleClickAudition()}>
+                <span className="audition">{auditionStr}</span>
+              </MarkBlock>
             }
             <MarkBlock module={`打点`} func={`商学院会员`} action={`申请商学院`}
-                       className={`footer-btn`}
-                       onClick={() => this.redirect()}>
+                       className={`footer-btn`} onClick={() => this.redirect()}>
               申请商学院
             </MarkBlock>
           </div>

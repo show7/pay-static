@@ -2,7 +2,6 @@ import * as React from 'react'
 import './RisePay.less'
 import { connect } from 'react-redux'
 import { SaleBody } from './components/SaleBody'
-import { chooseAuditionCourse } from '../async'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { configShare } from '../../helpers/JsConfig'
 import { Dialog } from 'react-weui'
@@ -43,34 +42,9 @@ export default class RiseApply extends React.Component<any, any> {
   }
 
   handleClickAudition() {
-    // 开试听课
-    const { dispatch } = this.props
-    dispatch(startLoad())
-    chooseAuditionCourse().then(res => {
-      dispatch(endLoad())
-      if(res.code === 200) {
-        const { goSuccess, errMsg, subscribe } = res.msg
-        if(errMsg) {
-          dispatch(alertMsg(errMsg))
-        } else {
-          if(!subscribe) {
-            this.setState({ show: true })
-          } else {
-            if(goSuccess) {
+    mark({ module: '打点', function: '商学院会员', action: '点击宣讲课按钮' }) ;
               this.context.router.push({
-                pathname: '/pay/audition/success'
-              })
-            } else {
-              dispatch(alertMsg('您已预约过，上课请关注公众号后，进入商学院'))
-            }
-          }
-        }
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
+                pathname: '/pay/preacher',
     })
   }
 
@@ -82,7 +56,7 @@ export default class RiseApply extends React.Component<any, any> {
           <SaleBody/>
           <div className="button-footer">
             <div className="footer-left" onClick={() => this.handleClickAudition()}><span
-              className="audition">{'预约试听'}</span></div>
+              className="audition">{'宣讲课'}</span></div>
             <MarkBlock module={'打点'} func={'商学院guest'} action={'申请商学院'}
                        className={'footer-btn'} onClick={() => this.redirect()}>
               申请商学院
