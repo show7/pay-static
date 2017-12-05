@@ -3,10 +3,10 @@ import './PreacherPage.less'
 import { connect } from 'react-redux'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { Button, ButtonArea } from 'react-weui'
-import Icon from '../../../components/Icon'
 import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
-import { loadPreacherNumber } from './async';
+import { loadPreacherNumber } from './async'
 import { mark } from '../../../utils/request'
+import { MarkBlock } from '../components/markblock/MarkBlock'
 
 @connect(state => state)
 export default class PreacherPage extends React.Component<any, any> {
@@ -21,29 +21,28 @@ export default class PreacherPage extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    const { dispatch } = this.props
     mark({ module: '打点', function: '宣讲课页面', action: '进入宣讲课页面' })
-    dispatch(startLoad());
+    const { dispatch } = this.props
+    dispatch(startLoad())
     loadPreacherNumber().then(res => {
-      dispatch(endLoad());
+      dispatch(endLoad())
       if(res.code === 200) {
-        this.setState({ preacherNumber: res.msg });
+        this.setState({ preacherNumber: res.msg })
       } else {
-        dispatch(alertMsg(res.msg));
+        dispatch(alertMsg(res.msg))
       }
     }).catch(ex => {
-      dispatch(endLoad());
-      dispatch(alertMsg(ex));
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
     })
   }
 
   handleClickGoApply() {
-    mark({ module: '打点', function: '宣讲课页面', action: '申请商学院' })
     window.location.href = `https://${window.location.hostname}/rise/static/business/apply/start`
   }
 
   render() {
-    const { preacherNumber = "" } = this.state
+    const { preacherNumber = '' } = this.state
 
     return (
       <div className="preacher-page">
@@ -56,7 +55,7 @@ export default class PreacherPage extends React.Component<any, any> {
           每知道一种规律，你就获得了一次升级。而升级之后的回报，不仅仅是物质收入方面，更重要的是，它让你眼前的世界变得更加清晰。<br/><br/>
 
           圈外商学院每个月都会举办宣讲会，我们会请各个领域的大咖直播给大家分享关于未来、学习、商业的思考，以及圈外商学院会如何通过课程、校友会等资源帮大家提升自己的认知和价值。<br/><br/>
-          <ul style={{marginLeft:'1rem'}}>
+          <ul style={{ marginLeft: '1rem' }}>
             <li>
               宣讲会讲什么？<br/>
 
@@ -79,7 +78,8 @@ export default class PreacherPage extends React.Component<any, any> {
           </div>
           <div className="preacher-video-description">
             宝洁首席运营官Robert McDonald借用一个军事术语来描述我们身处的这个充满变化、不确定的、复杂和模糊的时代 ：“这是一个VUCA的世界”。<br/>
-            越是时代处于混沌状态的时候，越是需要我们保持视野和头脑的清醒。根据达沃斯世界经济论坛介绍，2020年之际全球将会有510万个工作岗位消失。面对未来职场结构性调整，圈圈告诉你 —— VUCA时代的核心就是，你要比别人看得更清楚一些。<br/>
+            越是时代处于混沌状态的时候，越是需要我们保持视野和头脑的清醒。根据达沃斯世界经济论坛介绍，2020年之际全球将会有510万个工作岗位消失。面对未来职场结构性调整，圈圈告诉你 ——
+            VUCA时代的核心就是，你要比别人看得更清楚一些。<br/>
           </div>
         </div>
 
@@ -129,7 +129,9 @@ export default class PreacherPage extends React.Component<any, any> {
                className="qrcode"/>
         </div>
         <div style={{ height: '60px' }}/>
-        <SubmitButton clickFunc={() => this.handleClickGoApply()} buttonText="申请商学院"/>
+        <MarkBlock module={'打点'} func={'宣讲课页面'} action={'申请商学院'}>
+          <SubmitButton clickFunc={() => this.handleClickGoApply()} buttonText="申请商学院"/>
+        </MarkBlock>
       </div>
     )
   }

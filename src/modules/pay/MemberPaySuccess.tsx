@@ -5,9 +5,6 @@ import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { Button, ButtonArea } from 'react-weui'
 import { entryRiseMember } from './async'
 
-const P = 'signup'
-const numeral = require('numeral')
-
 @connect(state => state)
 export default class MemberPaySuccess extends React.Component<any, any> {
 
@@ -21,7 +18,6 @@ export default class MemberPaySuccess extends React.Component<any, any> {
 
     this.pd = 50 / 750 * window.innerWidth
     this.topPd = 90 / 500 * window.innerWidth
-
   }
 
   componentWillMount() {

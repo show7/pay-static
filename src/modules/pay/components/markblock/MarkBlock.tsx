@@ -1,14 +1,14 @@
 import * as React from 'react'
 import { mark } from '../../../../utils/request'
 
-interface MarkButtonProps {
+interface MarkBlockProps {
   module: string,
   func: string,
   action: string,
   memo?: string
 }
 
-export class MarkButton extends React.Component<MarkButtonProps, any> {
+export class MarkBlock extends React.Component<MarkBlockProps, any> {
 
   constructor() {
     super()
@@ -20,15 +20,8 @@ export class MarkButton extends React.Component<MarkButtonProps, any> {
     this.initParams()
   }
 
-  componentWillReceiveProps(nextProps) {
-    if(JSON.stringify(nextProps) != JSON.stringify(this.props)) {
-      this.props = nextProps
-      this.initParams()
-    }
-  }
-
   initParams() {
-    const { module, func, action, memo } = this.props
+    const { module, func, action, memo = '' } = this.props
     this.setState({
       module: module,
       func: func,
@@ -37,8 +30,8 @@ export class MarkButton extends React.Component<MarkButtonProps, any> {
     })
   }
 
-  handleClickMarkButton(onClickFunc) {
-    const { module, func, action, memo } = this.state
+  handleClickMarkBlock(onClickFunc) {
+    const { module, func, action, memo = '' } = this.state
     let param = {
       module: module,
       function: func,
@@ -55,17 +48,16 @@ export class MarkButton extends React.Component<MarkButtonProps, any> {
   }
 
   render() {
-    const {} = this.state
-
     const { onClick = () => {} } = this.props
 
     return (
       <div {...this.props}
            onClick={() => {
-             this.handleClickMarkButton(onClick)
+             this.handleClickMarkBlock(onClick)
            }}>
         {this.props.children}
-      </div>)
+      </div>
+    )
   }
 
 }

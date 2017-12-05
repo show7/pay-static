@@ -10,11 +10,10 @@ import PayInfo from '../components/PayInfo'
 import { mark } from '../../../utils/request'
 import { SaleBody } from './components/SaleBody'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
-import {  getRiseMember } from '../async'
+import { getRiseMember } from '../async'
 import { chooseAuditionCourse, getRiseMember } from '../async'
 import Icon from '../../../components/Icon'
-
-const numeral = require('numeral')
+import { MarkBlock } from '../components/markblock/MarkBlock'
 
 @connect(state => state)
 export default class ApplySuccess extends React.Component<any, any> {
@@ -40,12 +39,6 @@ export default class ApplySuccess extends React.Component<any, any> {
 
     // ios／安卓微信支付兼容性
     if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href) {
-      ppost('/b/mark', {
-        module: 'RISE',
-        function: '打点',
-        action: '刷新支付页面',
-        memo: window.ENV.configUrl + '++++++++++' + window.location.href
-      })
       window.location.href = window.location.href
       return
     }
@@ -80,7 +73,6 @@ export default class ApplySuccess extends React.Component<any, any> {
   }
 
   handleClickIntro() {
-    mark({ module: '打点', function: '商学院会员', action: '打开商学院介绍' })
     this.setState({ more: true })
   }
 
@@ -97,11 +89,11 @@ export default class ApplySuccess extends React.Component<any, any> {
         let tens = '0'
         // 小于等于0 按0算
         if(hourStr.length > 1) {
-          ones = hourStr[ 1 ]
-          tens = hourStr[ 0 ]
+          ones = hourStr[1]
+          tens = hourStr[0]
         } else {
           // 1位数
-          ones = hourStr[ 0 ]
+          ones = hourStr[0]
         }
         this.setState({ ones: ones, tens: tens, unit: '小时', expired: false })
       } else {
@@ -110,11 +102,11 @@ export default class ApplySuccess extends React.Component<any, any> {
         let tens = '0'
         // 小于等于0 按0算
         if(minuteStr.length > 1) {
-          ones = minuteStr[ 1 ]
-          tens = minuteStr[ 0 ]
+          ones = minuteStr[1]
+          tens = minuteStr[0]
         } else {
           // 1位数
-          ones = minuteStr[ 0 ]
+          ones = minuteStr[0]
         }
         this.setState({ ones: ones, tens: tens, unit: '分钟', expired: false })
       }
@@ -143,8 +135,6 @@ export default class ApplySuccess extends React.Component<any, any> {
    */
   handleClickOpenPayInfo(showId) {
     this.reConfig()
-    const { memberTypes, data } = this.state
-    const item = _.find(memberTypes, { id: showId })
     const { dispatch } = this.props
     dispatch(startLoad())
     // 先检查是否能够支付
@@ -162,7 +152,6 @@ export default class ApplySuccess extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
-    mark({ module: '打点', function: '商学院会员', action: '点击入学按钮', memo: data ? data.buttonStr : '' })
   }
 
   handlePayedBefore() {
@@ -173,7 +162,7 @@ export default class ApplySuccess extends React.Component<any, any> {
    * 重新注册页面签名
    */
   reConfig() {
-    config([ 'chooseWXPay' ])
+    config(['chooseWXPay'])
   }
 
   redirect() {
@@ -184,9 +173,8 @@ export default class ApplySuccess extends React.Component<any, any> {
 
   handleClickAudition() {
     // 开试听课
-    mark({ module: '打点', function: '申请成功页面', action: '点击宣讲课按钮' });
     this.context.router.push({
-      pathname: '/pay/preacher',
+      pathname: '/pay/preacher'
     })
   }
 
@@ -197,10 +185,15 @@ export default class ApplySuccess extends React.Component<any, any> {
     const renderPay = () => {
       return (
         <div className="button-footer">
-          <div className="footer-left" onClick={() => this.handleClickAudition()}>
+          <MarkBlock module={'打点'} func={'申请成功页面'} action={'点击入学按钮'}
+                     className="footer-left" onClick={() => this.handleClickAudition()}>
             <span className="audition">宣讲课</span>
-          </div>
-          <div className="footer-btn" onClick={() => this.handleClickOpenPayInfo(showId)}>{buttonStr}</div>
+          </MarkBlock>
+          <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'}
+                     memo={this.state.data ? this.state.data.buttonStr : ''}
+                     className="footer-btn" onClick={() => this.handleClickOpenPayInfo(showId)}>
+            {buttonStr}
+          </MarkBlock>
         </div>
       )
     }
@@ -208,10 +201,14 @@ export default class ApplySuccess extends React.Component<any, any> {
     const renderApply = () => {
       return (
         <div className="button-footer">
-          <div className="footer-left" onClick={() => this.handleClickAudition()}>
+          <MarkBlock module={'打点'} func={'申请成功页面'} action={'点击入学按钮'}
+                     className="footer-left" onClick={() => this.handleClickAudition()}>
             <span className="audition">宣讲课</span>
-          </div>
-          <div className="footer-btn" onClick={() => this.redirect()}>申请商学院</div>
+          </MarkBlock>
+          <MarkBlock module={'打点'} func={'商学院会员'} action={'申请商学院'}
+                     className="footer-btn" onClick={() => this.redirect()}>
+            申请商学院
+          </MarkBlock>
         </div>
       )
     }
@@ -246,57 +243,68 @@ export default class ApplySuccess extends React.Component<any, any> {
             过期后需再次申请
           </div>
           <div className="welcome-msg">
-            {/*在未来的日子里<br/>*/}
-            {/*希望你在商学院内取得傲人的成就<br/>*/}
-            {/*和顶尖的校友们一同前进!<br/>*/}
             {memberType ? `友情提示：商学院学费即将升至¥${memberType.fee + 400}` : null}
             <br/>
             {memberType ? `请尽快办理入学` : null}
           </div>
-          {more ? <div className="desc-container">
-              <SaleBody loading={false}/>
-            </div> :
-            <div className="click-desc" onClick={() => this.handleClickIntro()}>
-              商学院介绍
-            </div>
+          {
+            more ?
+              <div className="desc-container">
+                <SaleBody loading={false}/>
+              </div> :
+              <MarkBlock module={'打点'} func={'商学院会员'} action={'打开商学院介绍'}
+                         onClick={() => this.handleClickIntro()}>
+                商学院介绍
+              </MarkBlock>
           }
 
           {renderPay()}
           {renderKefu()}
-          {timeOut ? <div className="mask" onClick={() => {window.history.back()}}
-                          style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}>
-          </div> : null}
-          {showErr ? <div className="mask" onClick={() => this.setState({ showErr: false })}>
-            <div className="tips">
-              出现问题的童鞋看这里<br/>
-              1如果显示“URL未注册”，请重新刷新页面即可<br/>
-              2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
+          {
+            timeOut &&
+            <div className="mask" onClick={() => {window.history.back()}}
+                 style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}>
             </div>
-            <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
-          </div> : null}
-          {showCodeErr ? <div className="mask" onClick={() => this.setState({ showCodeErr: false })}>
-            <div className="tips">
-              糟糕，支付不成功<br/>
-              原因：微信不支持跨公众号支付<br/>
-              怎么解决：<br/>
-              1，长按下方二维码，保存到相册；<br/>
-              2，打开微信扫一扫，点击右上角相册，选择二维码图片；<br/>
-              3，在新开的页面完成支付即可<br/>
+          }
+          {
+            showErr &&
+            <div className="mask" onClick={() => this.setState({ showErr: false })}>
+              <div className="tips">
+                出现问题的童鞋看这里<br/>
+                1如果显示“URL未注册”，请重新刷新页面即可<br/>
+                2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
+              </div>
+              <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
             </div>
-            <img className="xiaoQ" style={{ width: '50%' }}
-                 src="https://static.iqycamp.com/images/applySuccessCode.png?imageslim"/>
-          </div> : null}
-          {memberType ? <PayInfo ref="payInfo"
-                                 dispatch={this.props.dispatch}
-                                 goodsType={getGoodsType(memberType.id)}
-                                 goodsId={memberType.id}
-                                 header={memberType.name}
-                                 priceTips={tip}
-                                 payedDone={(goodsId) => this.handlePayedDone()}
-                                 payedCancel={(res) => this.handlePayedCancel(res)}
-                                 payedError={(res) => this.handlePayedError(res)}
-                                 payedBefore={() => this.handlePayedBefore()}
-          /> : null}
+          }
+          {
+            showCodeErr &&
+            <div className="mask" onClick={() => this.setState({ showCodeErr: false })}>
+              <div className="tips">
+                糟糕，支付不成功<br/>
+                原因：微信不支持跨公众号支付<br/>
+                怎么解决：<br/>
+                1，长按下方二维码，保存到相册；<br/>
+                2，打开微信扫一扫，点击右上角相册，选择二维码图片；<br/>
+                3，在新开的页面完成支付即可<br/>
+              </div>
+              <img className="xiaoQ" style={{ width: '50%' }}
+                   src="https://static.iqycamp.com/images/applySuccessCode.png?imageslim"/>
+            </div>
+          }
+          {
+            memberType &&
+            <PayInfo ref="payInfo"
+                     dispatch={this.props.dispatch}
+                     goodsType={getGoodsType(memberType.id)}
+                     goodsId={memberType.id}
+                     header={memberType.name}
+                     priceTips={tip}
+                     payedDone={(goodsId) => this.handlePayedDone()}
+                     payedCancel={(res) => this.handlePayedCancel(res)}
+                     payedError={(res) => this.handlePayedError(res)}
+                     payedBefore={() => this.handlePayedBefore()}/>
+          }
         </div>
       )
     }
@@ -319,7 +327,8 @@ export default class ApplySuccess extends React.Component<any, any> {
           {timeOut ? <div className="mask" onClick={() => {window.history.back()}}
                           style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}>
           </div> : null}
-        </div>)
+        </div>
+      )
     }
 
     return (
