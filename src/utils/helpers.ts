@@ -27,6 +27,7 @@ export class GoodsType {
   public static FRAG_COURSE = 'fragment_rise_course'
   public static FRAG_MEMBER = 'fragment_member'
   public static FRAG_CAMP = 'fragment_camp'
+  public static BS_APPLICATION = 'bs_application'
 }
 
 export class CouponCategory {
@@ -46,6 +47,8 @@ export const getGoodsType = (id) => {
       return GoodsType.FRAG_MEMBER
     case 5:
       return GoodsType.FRAG_CAMP
+    case 7:
+      return GoodsType.BS_APPLICATION
   }
 }
 

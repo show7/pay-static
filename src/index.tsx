@@ -27,3 +27,11 @@ render(
 		<Router history={browserHistory} routes={routes} />
 	</Provider>
 	, document.getElementById(window.ENV.reactMountPoint))
+
+var fontSize = 0
+if(document.body.clientWidth > 414) {
+	fontSize = 414 / 37.5
+} else {
+	fontSize = document.body.clientWidth / 37.5
+}
+document.getElementsByTagName('html')[0].style.fontSize = fontSize + 'px'

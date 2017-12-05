@@ -59,3 +59,4 @@ export function loadGoodsInfo(goodsType, goodsId) {
 export function chooseAuditionCourse() {
   return ppost('/rise/plan/choose/audition/course');
 }
+
