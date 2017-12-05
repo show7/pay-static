@@ -1,13 +1,9 @@
 import * as React from 'react'
 import './CampPaySuccess.less'
 import { connect } from 'react-redux'
-import { ppost, pget } from 'utils/request'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { Button, ButtonArea } from 'react-weui'
 import { entryRiseMember } from './async'
-
-const P = 'signup'
-const numeral = require('numeral')
 
 @connect(state => state)
 export default class RiseMemberPaySuccess extends React.Component<any, any> {

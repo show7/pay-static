@@ -71,7 +71,7 @@ export default class PointTip extends React.Component<any,any> {
           <img className="pic" src="https://static.iqycamp.com/images/CreamMoreMsgImg2.jpg"
                onClick={() => preview("https://static.iqycamp.com/images/CreamMoreMsgImg2.jpg", ["https://static.iqycamp.com/images/CreamMoreMsgImg2.jpg"])}/>
           <div className="title">
-            <br/>二、Q&A:<br/>
+            <br/>二、Q&amp;A:<br/>
           </div>
           <b style={{fontSize:"16px"}}>Q:我想知道半年和一年的课程内容是一样的吗？</b><br/>
           A:半年版和一年版在会员期间接收到的服务一模一样，只是会员时长不同 参考健身房半年卡和一年卡的权益即可（但是一年版显然更划算，因为半年后续费就不是现在这个价格咯）<br/><br/>

@@ -3,7 +3,7 @@ import './AuditionSuccess.less'
 import { connect } from 'react-redux'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { Button, ButtonArea } from 'react-weui'
-import { chooseAuditionCourse } from './async';
+import { chooseAuditionCourse } from './async'
 
 @connect(state => state)
 export default class AuditionSuccess extends React.Component<any, any> {
@@ -40,7 +40,7 @@ export default class AuditionSuccess extends React.Component<any, any> {
   }
 
   render() {
-    const { memberTypeId, startTime, endTime, className } = this.state
+    const { className } = this.state
 
     return (
       <div className="audition-success">
@@ -56,7 +56,8 @@ export default class AuditionSuccess extends React.Component<any, any> {
           </div>
           <div className="tips">
             预约请扫码加小助手,通过后回复数字：
-            <span style={{ color: 'orange', fontSize: '28px',display:"block",padding:"20px 0 0" }}>{className}</span>
+            <span
+              style={{ color: 'orange', fontSize: '28px', display: 'block', padding: '20px 0 0' }}>{className}</span>
           </div>
           <img src="https://static.iqycamp.com/images/qrcode_xiaoy_20171117.jpeg?imageslim"
                className="qrcode"/>
