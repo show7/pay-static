@@ -330,7 +330,6 @@ export default class ApplySuccess extends React.Component<any, any> {
     return (
       <div className="rise-pay-apply-container">
         {expired ? renderExpired() : renderCountdown()}
-
       </div>
     )
   }
