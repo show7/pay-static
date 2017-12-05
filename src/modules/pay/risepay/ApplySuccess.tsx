@@ -34,7 +34,8 @@ export default class ApplySuccess extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    mark({ module: '打点', func: '商学院会员', action: '购买商学院会员', memo: '申请成功页面' })
+    mark({ module: '打点', function: '商学院会员', action: '购买商学院会员', memo: '申请成功页面' })
+
     // ios／安卓微信支付兼容性
     if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href) {
       window.location.href = window.location.href
@@ -168,7 +169,6 @@ export default class ApplySuccess extends React.Component<any, any> {
 
   handleClickAudition() {
     // 开试听课
-    mark({ module: '打点', function: '申请成功页面', action: '点击宣讲课按钮' })
     this.context.router.push({
       pathname: '/pay/preacher'
     })
@@ -181,9 +181,10 @@ export default class ApplySuccess extends React.Component<any, any> {
     const renderPay = () => {
       return (
         <div className="button-footer">
-          <div className="footer-left" onClick={() => this.handleClickAudition()}>
+          <MarkBlock module={'打点'} func={'申请成功页面'} action={'点击入学按钮'}
+                     className="footer-left" onClick={() => this.handleClickAudition()}>
             <span className="audition">宣讲课</span>
-          </div>
+          </MarkBlock>
           <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'}
                      memo={this.state.data ? this.state.data.buttonStr : ''}
                      className="footer-btn" onClick={() => this.handleClickOpenPayInfo(showId)}>
@@ -196,9 +197,10 @@ export default class ApplySuccess extends React.Component<any, any> {
     const renderApply = () => {
       return (
         <div className="button-footer">
-          <div className="footer-left" onClick={() => this.handleClickAudition()}>
+          <MarkBlock module={'打点'} func={'申请成功页面'} action={'点击入学按钮'}
+                     className="footer-left" onClick={() => this.handleClickAudition()}>
             <span className="audition">宣讲课</span>
-          </div>
+          </MarkBlock>
           <MarkBlock module={'打点'} func={'商学院会员'} action={'申请商学院'}
                      className="footer-btn" onClick={() => this.redirect()}>
             申请商学院
@@ -241,51 +243,64 @@ export default class ApplySuccess extends React.Component<any, any> {
             <br/>
             {memberType ? `请尽快办理入学` : null}
           </div>
-          {more ? <div className="desc-container">
-              <SaleBody loading={false}/>
-            </div> :
-            <MarkBlock module={'打点'} func={'商学院会员'} action={'打开商学院介绍'}
-                       onClick={() => this.handleClickIntro()}>
-              商学院介绍
-            </MarkBlock>
+          {
+            more ?
+              <div className="desc-container">
+                <SaleBody loading={false}/>
+              </div> :
+              <MarkBlock module={'打点'} func={'商学院会员'} action={'打开商学院介绍'}
+                         onClick={() => this.handleClickIntro()}>
+                商学院介绍
+              </MarkBlock>
           }
 
           {renderPay()}
           {renderKefu()}
-          {timeOut ? <div className="mask" onClick={() => {window.history.back()}}
-                          style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}>
-          </div> : null}
-          {showErr ? <div className="mask" onClick={() => this.setState({ showErr: false })}>
-            <div className="tips">
-              出现问题的童鞋看这里<br/>
-              1如果显示“URL未注册”，请重新刷新页面即可<br/>
-              2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
+          {
+            timeOut &&
+            <div className="mask" onClick={() => {window.history.back()}}
+                 style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}>
             </div>
-            <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
-          </div> : null}
-          {showCodeErr ? <div className="mask" onClick={() => this.setState({ showCodeErr: false })}>
-            <div className="tips">
-              糟糕，支付不成功<br/>
-              原因：微信不支持跨公众号支付<br/>
-              怎么解决：<br/>
-              1，长按下方二维码，保存到相册；<br/>
-              2，打开微信扫一扫，点击右上角相册，选择二维码图片；<br/>
-              3，在新开的页面完成支付即可<br/>
+          }
+          {
+            showErr &&
+            <div className="mask" onClick={() => this.setState({ showErr: false })}>
+              <div className="tips">
+                出现问题的童鞋看这里<br/>
+                1如果显示“URL未注册”，请重新刷新页面即可<br/>
+                2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
+              </div>
+              <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
             </div>
-            <img className="xiaoQ" style={{ width: '50%' }}
-                 src="https://static.iqycamp.com/images/applySuccessCode.png?imageslim"/>
-          </div> : null}
-          {memberType ? <PayInfo ref="payInfo"
-                                 dispatch={this.props.dispatch}
-                                 goodsType={getGoodsType(memberType.id)}
-                                 goodsId={memberType.id}
-                                 header={memberType.name}
-                                 priceTips={tip}
-                                 payedDone={(goodsId) => this.handlePayedDone()}
-                                 payedCancel={(res) => this.handlePayedCancel(res)}
-                                 payedError={(res) => this.handlePayedError(res)}
-                                 payedBefore={() => this.handlePayedBefore()}
-          /> : null}
+          }
+          {
+            showCodeErr &&
+            <div className="mask" onClick={() => this.setState({ showCodeErr: false })}>
+              <div className="tips">
+                糟糕，支付不成功<br/>
+                原因：微信不支持跨公众号支付<br/>
+                怎么解决：<br/>
+                1，长按下方二维码，保存到相册；<br/>
+                2，打开微信扫一扫，点击右上角相册，选择二维码图片；<br/>
+                3，在新开的页面完成支付即可<br/>
+              </div>
+              <img className="xiaoQ" style={{ width: '50%' }}
+                   src="https://static.iqycamp.com/images/applySuccessCode.png?imageslim"/>
+            </div>
+          }
+          {
+            memberType &&
+            <PayInfo ref="payInfo"
+                     dispatch={this.props.dispatch}
+                     goodsType={getGoodsType(memberType.id)}
+                     goodsId={memberType.id}
+                     header={memberType.name}
+                     priceTips={tip}
+                     payedDone={(goodsId) => this.handlePayedDone()}
+                     payedCancel={(res) => this.handlePayedCancel(res)}
+                     payedError={(res) => this.handlePayedError(res)}
+                     payedBefore={() => this.handlePayedBefore()}/>
+          }
         </div>
       )
     }

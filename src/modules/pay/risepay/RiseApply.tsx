@@ -26,7 +26,7 @@ export default class RiseApply extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    mark({ module: '打点', func: '商学院guest', action: '购买商学院会员' })
+    mark({ module: '打点', function: '商学院guest', action: '购买商学院会员' })
   }
 
   componentDidMount() {
@@ -42,7 +42,6 @@ export default class RiseApply extends React.Component<any, any> {
   }
 
   handleClickAudition() {
-    mark({ module: '打点', function: '商学院会员', action: '点击宣讲课按钮' })
     this.context.router.push({
       pathname: '/pay/preacher'
     })
@@ -55,8 +54,10 @@ export default class RiseApply extends React.Component<any, any> {
         <div className="pay-page">
           <SaleBody/>
           <div className="button-footer">
-            <div className="footer-left" onClick={() => this.handleClickAudition()}><span
-              className="audition">{'宣讲课'}</span></div>
+            <MarkBlock module={'打点'} func={'商学院会员'} action={'点击宣讲课按钮'}
+                       className="footer-left" onClick={() => this.handleClickAudition()}>
+              <span className="audition">{'宣讲课'}</span>
+            </MarkBlock>
             <MarkBlock module={'打点'} func={'商学院guest'} action={'申请商学院'}
                        className={'footer-btn'} onClick={() => this.redirect()}>
               申请商学院

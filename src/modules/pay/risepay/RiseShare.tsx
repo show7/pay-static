@@ -22,7 +22,7 @@ export default class RiseShare extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    mark({ module: '打点', func: '商学院会员', action: '分享页面' })
+    mark({ module: '打点', function: '商学院会员', action: '分享页面' })
   }
 
   componentDidMount() {
@@ -58,13 +58,12 @@ export default class RiseShare extends React.Component<any, any> {
       <div className="rise-pay-container">
         {renderPay()}
         {
-          showTip ?
-            <div className="share-tip" onClick={() => this.setState({ showTip: false })}>
-              <div className="tip-pic">
-                <img src="https://static.iqycamp.com/images/share_pic1.png" width={247}/>
-              </div>
+          showTip &&
+          <div className="share-tip" onClick={() => this.setState({ showTip: false })}>
+            <div className="tip-pic">
+              <img src="https://static.iqycamp.com/images/share_pic1.png" width={247}/>
             </div>
-            : null
+          </div>
         }
       </div>
     )
