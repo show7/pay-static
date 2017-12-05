@@ -3,11 +3,9 @@ import './PreacherPage.less'
 import { connect } from 'react-redux'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { Button, ButtonArea } from 'react-weui'
-import Icon from '../../../components/Icon'
 import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
 import { loadPreacherNumber } from './async'
 import { mark } from '../../../utils/request'
-import { PageMark } from '../../../utils/decorators'
 import { MarkBlock } from '../components/markblock/MarkBlock'
 
 @connect(state => state)
@@ -22,8 +20,8 @@ export default class PreacherPage extends React.Component<any, any> {
     this.state = {}
   }
 
-  @PageMark({ module: '打点', func: '宣讲课页面', action: '进入宣讲课页面' })
   componentWillMount() {
+    mark({ module: '打点', func: '宣讲课页面', action: '进入宣讲课页面' })
     const { dispatch } = this.props
     dispatch(startLoad())
     loadPreacherNumber().then(res => {

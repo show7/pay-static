@@ -11,7 +11,6 @@ import PayInfo from './components/PayInfo'
 import PicLoading from './components/PicLoading'
 import { getRiseMember, checkRiseMember } from './async'
 import { CustomerService } from '../../components/customerservice/CustomerService'
-import { PageMark } from '../../utils/decorators'
 import { MarkBlock } from './components/markblock/MarkBlock'
 
 @connect(state => state)

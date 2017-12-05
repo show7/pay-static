@@ -10,12 +10,9 @@ import PayInfo from '../components/PayInfo'
 import { mark } from '../../../utils/request'
 import { SaleBody } from './components/SaleBody'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
-import {  getRiseMember } from '../async'
+import { getRiseMember } from '../async'
 import Icon from '../../../components/Icon'
-import { PageMark } from '../../../utils/decorators'
 import { MarkBlock } from '../components/markblock/MarkBlock'
-
-const numeral = require('numeral')
 
 @connect(state => state)
 export default class ApplySuccess extends React.Component<any, any> {
@@ -135,8 +132,6 @@ export default class ApplySuccess extends React.Component<any, any> {
    */
   handleClickOpenPayInfo(showId) {
     this.reConfig()
-    const { memberTypes, data } = this.state
-    const item = _.find(memberTypes, { id: showId })
     const { dispatch } = this.props
     dispatch(startLoad())
     // 先检查是否能够支付
@@ -173,9 +168,9 @@ export default class ApplySuccess extends React.Component<any, any> {
 
   handleClickAudition() {
     // 开试听课
-    mark({ module: '打点', function: '申请成功页面', action: '点击宣讲课按钮' });
+    mark({ module: '打点', function: '申请成功页面', action: '点击宣讲课按钮' })
     this.context.router.push({
-      pathname: '/pay/preacher',
+      pathname: '/pay/preacher'
     })
   }
 

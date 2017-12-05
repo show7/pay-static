@@ -5,8 +5,8 @@ import { SaleBody } from './components/SaleBody'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { configShare } from '../../helpers/JsConfig'
 import { Dialog } from 'react-weui'
-import { PageMark } from '../../../utils/decorators'
 import { MarkBlock } from '../components/markblock/MarkBlock'
+import { mark } from '../../../utils/request'
 
 const { Alert } = Dialog
 
@@ -25,8 +25,8 @@ export default class RiseApply extends React.Component<any, any> {
     }
   }
 
-  @PageMark({ module: '打点', func: '商学院guest', action: '购买商学院会员' })
   componentWillMount() {
+    mark({ module: '打点', func: '商学院guest', action: '购买商学院会员' })
   }
 
   componentDidMount() {
@@ -42,9 +42,9 @@ export default class RiseApply extends React.Component<any, any> {
   }
 
   handleClickAudition() {
-    mark({ module: '打点', function: '商学院会员', action: '点击宣讲课按钮' }) ;
-              this.context.router.push({
-                pathname: '/pay/preacher',
+    mark({ module: '打点', function: '商学院会员', action: '点击宣讲课按钮' })
+    this.context.router.push({
+      pathname: '/pay/preacher'
     })
   }
 

@@ -11,7 +11,6 @@ import { getRiseMember } from '../async'
 import { SaleBody } from './components/SaleBody'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
 import { MarkBlock } from '../components/markblock/MarkBlock'
-import { PageMark } from '../../../utils/decorators'
 
 @connect(state => state)
 export default class RisePay extends React.Component<any, any> {
@@ -29,16 +28,17 @@ export default class RisePay extends React.Component<any, any> {
       showCodeErr: false,
       data: {}
     }
+    this.componentWillMount = this.componentWillMount().bind(this)
   }
 
-  @PageMark({ module: 'RISE', func: '打点', action: '刷新支付页面', memo: window.ENV.configUrl + '++' + window.location.href })
   componentWillMount() {
+    mark({ module: 'RISE', func: '打点', action: '刷新支付页面', memo: window.ENV.configUrl + '++' + window.location.href })
+
     // ios／安卓微信支付兼容性
     if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href) {
       window.location.href = window.location.href
       return
     }
-
     const { dispatch } = this.props
     dispatch(startLoad())
 

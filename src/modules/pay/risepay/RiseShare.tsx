@@ -5,7 +5,6 @@ import { ppost, pget, mark } from 'utils/request'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { config, configShare } from 'modules/helpers/JsConfig'
 import { SaleBody } from './components/SaleBody'
-import { PageMark } from '../../../utils/decorators'
 import { MarkBlock } from '../components/markblock/MarkBlock'
 
 @connect(state => state)
@@ -22,8 +21,8 @@ export default class RiseShare extends React.Component<any, any> {
     }
   }
 
-  @PageMark({ module: '打点', func: '商学院会员', action: '分享页面' })
   componentWillMount() {
+    mark({ module: '打点', func: '商学院会员', action: '分享页面' })
   }
 
   componentDidMount() {

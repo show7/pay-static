@@ -8,19 +8,19 @@ interface MarkParams {
   memo?: string
 }
 
-function PageMark(markParams: MarkParams) {
-  return function decorator(target, name, descriptor) {
-    const original = descriptor.value
-    if(typeof original === 'function') {
-      descriptor.value = function() {
-        try {
-          const { module, func, action, memo = '' } = markParams
-          mark({ module: module, function: func, action: action, memo: memo })
-          return null
-        } catch(e) {
-          throw e
-        }
+const PageMark = (markParams: MarkParams) => {
+  return (target, name, descriptor) => {
+    const method = descriptor.value
+    descriptor.value = (...args) => {
+      let result
+      try {
+        result = method.apply(target, args)
+        const { module, func, action, memo = '' } = markParams
+        mark({ module: module, function: func, action: action, memo: memo })
+      } catch(e) {
+        throw e
       }
+      return result
     }
     return descriptor
   }
