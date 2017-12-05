@@ -28,7 +28,6 @@ export default class RisePay extends React.Component<any, any> {
       showCodeErr: false,
       data: {}
     }
-    this.componentWillMount = this.componentWillMount().bind(this)
   }
 
   componentWillMount() {
