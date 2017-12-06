@@ -181,11 +181,11 @@ export default class ApplySuccess extends React.Component<any, any> {
     const renderPay = () => {
       return (
         <div className="button-footer">
-          <MarkBlock module={'打点'} func={'申请成功页面'} action={'点击入学按钮'}
+          <MarkBlock module={'打点'} func={'申请成功页面'} action={'点击宣讲课按钮'} memo={'申请未过期'}
                      className="footer-left" onClick={() => this.handleClickAudition()}>
             <span className="audition">宣讲课</span>
           </MarkBlock>
-          <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'}
+          <MarkBlock module={'打点'} func={'申请成功页面'} action={'点击入学按钮'}
                      memo={this.state.data ? this.state.data.buttonStr : ''}
                      className="footer-btn" onClick={() => this.handleClickOpenPayInfo(showId)}>
             {buttonStr}
@@ -197,11 +197,11 @@ export default class ApplySuccess extends React.Component<any, any> {
     const renderApply = () => {
       return (
         <div className="button-footer">
-          <MarkBlock module={'打点'} func={'申请成功页面'} action={'点击入学按钮'}
+          <MarkBlock module={'打点'} func={'申请成功页面'} action={'点击宣讲课按钮'} memo={'申请过期'}
                      className="footer-left" onClick={() => this.handleClickAudition()}>
             <span className="audition">宣讲课</span>
           </MarkBlock>
-          <MarkBlock module={'打点'} func={'商学院会员'} action={'申请商学院'}
+          <MarkBlock module={'打点'} func={'申请成功页面'} action={'申请商学院'} memo={'申请过期'}
                      className="footer-btn" onClick={() => this.redirect()}>
             申请商学院
           </MarkBlock>
