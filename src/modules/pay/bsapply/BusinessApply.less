@@ -2,7 +2,7 @@
 @import "../../../style/variable";
 
 .business-apply {
-  min-height: 100%;
+  min-height: 100vh;
   position: relative;
   background: url(@imgBusinessBackground) repeat-y center top/100% auto;
   //overflow: hidden;
@@ -33,14 +33,11 @@
   .ba-sub-tips {
     margin: 0 3rem;
     padding-bottom: 0.5rem;
-    height: 15px;
     color: #ffb200;
     font-size: 12px;
     line-height: 16px;
     text-indent: 20px;
-    background-image: url('../../../../assets/icons/readme.png');
-    background-size: 13px 15px;
-    background-repeat: no-repeat;
+    background-image: url('../../../../assets/icons/readme.png') no-repeat 13px 15px/center center;
   }
   .ba-sub-body {
     padding: 0 3rem 6rem;
@@ -53,7 +50,7 @@
     margin: 0 auto;
     width: 15rem;
     height: 15rem;
-    padding:1rem 0 5rem;
+    padding: 1rem 0 5rem;
   }
   &.submit-success {
     .ba-main-body {

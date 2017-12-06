@@ -48,9 +48,9 @@ export default class BusinessApply extends Component<any, any> {
       dispatch(endLoad())
       if(res.code === 200) {
         //是否已经付款
-        if(res.msg.entry){
+        if(res.msg.entry) {
           this.goApplySubmitPage()
-        } else{
+        } else {
           this.setState({ memberType: res.msg.memberType })
         }
       } else {
@@ -133,12 +133,12 @@ export default class BusinessApply extends Component<any, any> {
    * 重新注册页面签名
    */
   reConfig() {
-    config(['chooseWXPay'])
+    config([ 'chooseWXPay' ])
   }
 
   render() {
-    const {showErr, showCodeErr, memberType, showId} = this.state
-
+    const { showErr, showCodeErr, memberType, showId } = this.state
+    console.log('memberType', memberType);
     return (
       <div className="business-apply">
         <div className="ba-header">
@@ -149,7 +149,8 @@ export default class BusinessApply extends Component<any, any> {
         </div>
         <div className="ba-main-body">
           <div className="ba-line">欢迎申请圈外商学院！</div>
-          <div className="ba-line">每个月我们会收到数以千计的申请，招生委员会将通过<b>电话面试</b>，了解申请人的工作现状和发展目标，综合考虑做出录取和奖学金发放决定，为最具潜力的申请人的职业发展助力！</div>
+          <div className="ba-line">每个月我们会收到数以千计的申请，招生委员会将通过<b>电话面试</b>，了解申请人的工作现状和发展目标，综合考虑做出录取和奖学金发放决定，为最具潜力的申请人的职业发展助力！
+          </div>
           <div className="ba-line">招生委员会由圈外创始人、顶尖公司HR构成。申请面试费用¥99，若通过面试，将作为奖学金抵扣学费。若未通过面试，将退回您的账户。</div>
           <div className="ba-line">接下来，我们邀请你填写入学申请。期待你的加入！</div>
         </div>
@@ -157,29 +158,29 @@ export default class BusinessApply extends Component<any, any> {
         <div className="ba-sub-body">
           申请填写需要3分钟时间，提交后无法修改，请认真填写。
         </div>
-        <SubmitButton clickFunc={() => this.handleClickOpenPayInfo(showId)} buttonText="付款并开始申请"/>
+        {memberType ? <SubmitButton clickFunc={() => this.handleClickOpenPayInfo(showId)} buttonText="付款并开始申请"/> : null}
 
 
         {showErr ? <div className="mask" onClick={() => this.setState({ showErr: false })}>
-            <div className="tips">
-              出现问题的童鞋看这里<br/>
-              1如果显示“URL未注册”，请重新刷新页面即可<br/>
-              2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
-            </div>
-            <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
-          </div> : null}
+          <div className="tips">
+            出现问题的童鞋看这里<br/>
+            1如果显示“URL未注册”，请重新刷新页面即可<br/>
+            2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
+          </div>
+          <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
+        </div> : null}
         {showCodeErr ? <div className="mask" onClick={() => this.setState({ showCodeErr: false })}>
-            <div className="tips">
-              糟糕，支付不成功<br/>
-              原因：微信不支持跨公众号支付<br/>
-              怎么解决：<br/>
-              1，长按下方二维码，保存到相册；<br/>
-              2，打开微信扫一扫，点击右上角相册，选择二维码图片；<br/>
-              3，在新开的页面完成支付即可<br/>
-            </div>
-            <img className="xiaoQ" style={{ width: '50%' }}
-                 src="https://static.iqycamp.com/images/pay_camp_code.png?imageslim"/>
-          </div> : null}
+          <div className="tips">
+            糟糕，支付不成功<br/>
+            原因：微信不支持跨公众号支付<br/>
+            怎么解决：<br/>
+            1，长按下方二维码，保存到相册；<br/>
+            2，打开微信扫一扫，点击右上角相册，选择二维码图片；<br/>
+            3，在新开的页面完成支付即可<br/>
+          </div>
+          <img className="xiaoQ" style={{ width: '50%' }}
+               src="https://static.iqycamp.com/images/pay_camp_code.png?imageslim"/>
+        </div> : null}
         {memberType ? <PayInfo ref="payInfo"
                                dispatch={this.props.dispatch}
                                goodsType={getGoodsType(memberType.id)}
@@ -189,7 +190,7 @@ export default class BusinessApply extends Component<any, any> {
                                payedCancel={(res) => this.handlePayedCancel(res)}
                                payedError={(res) => this.handlePayedError(res)}
                                payedBefore={() => this.handlePayedBefore()}
-          /> : null}
+        /> : null}
       </div>
     )
   }
