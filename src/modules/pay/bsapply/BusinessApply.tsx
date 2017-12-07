@@ -162,7 +162,7 @@ export default class BusinessApply extends Component<any, any> {
         {memberType ? <SubmitButton clickFunc={() => this.handleClickOpenPayInfo(showId)} buttonText="付款并开始申请"/> : null}
 
 
-        {showErr ? <div className="mask" onClick={() => this.setState({ showErr: false })}>
+        {showErr ? <div className="pay-tips-mask" onClick={() => this.setState({ showErr: false })}>
           <div className="tips">
             出现问题的童鞋看这里<br/>
             1如果显示“URL未注册”，请重新刷新页面即可<br/>
@@ -170,7 +170,7 @@ export default class BusinessApply extends Component<any, any> {
           </div>
           <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
         </div> : null}
-        {showCodeErr ? <div className="mask" onClick={() => this.setState({ showCodeErr: false })}>
+        {showCodeErr ? <div className="pay-tips-mask" onClick={() => this.setState({ showCodeErr: false })}>
           <div className="tips">
             糟糕，支付不成功<br/>
             原因：微信不支持跨公众号支付<br/>
