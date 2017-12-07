@@ -158,7 +158,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
       }
       return questionList;
     }, []);
-    console.log('phones', phoneQuestions);
+
     let phoneInfo = _.get(phoneQuestions, '[0]');
     const { preChoiceId, userValue, phoneCheckCode } = phoneInfo;
     let hasPhone = true;
@@ -519,12 +519,12 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
           </div>
           <div className="check-code-wrapper">
             <span className="code-send-label">验证码：</span>
-            <div className={`send-phone-code ${codeTimeRemain === 0 ? 'free' : 'sending'}`}
-                 onClick={() => this.handleClickSendPhoneCode(questionInfo)}>
-              {codeTimeRemain === 0 ? '发送验证码' : `${codeTimeRemain}秒后重新发送`}
-            </div>
             <input type="text" placeholder='请填写验证码' value={phoneCheckCode}
                    onChange={(e) => this.commonHandleValueChange(questionInfo, e.target.value, 'phoneCheckCode')}/>
+          </div>
+          <div className={`send-phone-code ${codeTimeRemain === 0 ? 'free' : 'sending'}`}
+               onClick={() => this.handleClickSendPhoneCode(questionInfo)}>
+            {codeTimeRemain === 0 ? '发送验证码' : `${codeTimeRemain}秒后重新发送`}
           </div>
         </div>
       )
