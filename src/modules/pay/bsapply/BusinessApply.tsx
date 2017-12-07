@@ -10,6 +10,7 @@ import { getGoodsType } from '../../../utils/helpers'
 import { getRiseMember, checkRiseMember } from '../async'
 import PayInfo from '../components/PayInfo'
 import { config } from '../../helpers/JsConfig'
+import * as _ from 'lodash';
 
 @connect(state => state)
 export default class BusinessApply extends Component<any, any> {
