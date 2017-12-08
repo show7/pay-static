@@ -448,7 +448,7 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
     }, []);
 
     const renderPickerQuestion = (questionInfo) => {
-      const { question, type, sequence, request, preChoiceId, id, series, tips, choices, chosenId } = questionInfo;
+      const { question, type, sequence, request, preChoiceId, id, series, tips, choices, chosenId,placeholder } = questionInfo;
       let userData = {
         id: chosenId,
       }
@@ -467,7 +467,9 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
                         defaultData={defaultValue ? [ {
                           id: defaultValue.id, value: defaultValue.subject
                         } ] : undefined}
-                        onChoice={(one) => this.commonHandleValueChange(questionInfo, Number.parseInt(one.id), 'chosenId')}/>
+                        onChoice={(one) => this.commonHandleValueChange(questionInfo, Number.parseInt(one.id), 'chosenId')}
+                        placeholder={placeholder}
+          />
         </div>
       )
     }
