@@ -519,6 +519,8 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
           </div>
           <div className="check-code-wrapper">
             <span className="code-send-label">验证码：</span>
+          </div>
+          <div className="question-blank" style={{margin:'0 0 20px'}}>
             <input type="text" placeholder='请填写验证码' value={phoneCheckCode}
                    onChange={(e) => this.commonHandleValueChange(questionInfo, e.target.value, 'phoneCheckCode')}/>
           </div>
