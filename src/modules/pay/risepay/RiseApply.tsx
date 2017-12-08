@@ -58,7 +58,7 @@ export default class RiseApply extends React.Component<any, any> {
           <div className="button-footer">
             <MarkBlock module={'打点'} func={'商学院会员'} action={'点击宣讲课按钮'}
                        className="footer-left" onClick={() => this.handleClickAudition()}>
-              <span className="audition">{'宣讲课'}</span>
+              <span className="audition">{'抢先了解'}</span>
             </MarkBlock>
             <MarkBlock module={'打点'} func={'商学院guest'} action={'申请商学院'}
                        className={'footer-btn'} onClick={() => this.redirect()}>
