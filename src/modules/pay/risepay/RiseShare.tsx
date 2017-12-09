@@ -46,7 +46,7 @@ export default class RiseShare extends React.Component<any, any> {
           <SaleBody/>
           <div className="button-footer">
             <MarkBlock module={'打点'} func={'商学院会员'} action={'点击转发按钮'}
-                       className={'footer-btn'}>
+                       className={'footer-btn'} onClick={() => this.handleShare()}>
               转发
             </MarkBlock>
           </div>
