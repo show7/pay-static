@@ -150,9 +150,8 @@ export default class BusinessApply extends Component<any, any> {
         </div>
         <div className="ba-main-body">
           <div className="ba-line">欢迎申请圈外商学院！</div>
-          <div className="ba-line">每个月我们会收到数以千计的申请，招生委员会将通过<b>电话面试</b>，了解申请人的工作现状和发展目标，综合考虑做出录取和奖学金发放决定，为最具潜力的申请人的职业发展助力！
-          </div>
-          <div className="ba-line">招生委员会由圈外创始人、顶尖公司HR构成。申请面试费用¥99，若通过面试，将作为奖学金抵扣学费。若未通过面试，将退回您的账户。</div>
+          <div className="ba-line">每个月我们会收到数以千计的申请，招生委员会将通过<b>电话面试</b>，了解申请人的工作现状和发展目标，综合考虑做出录取和奖学金发放决定，为最具潜力的申请人的职业发展助力！</div>
+          <div className="ba-line">招生委员会由圈外创始人团队和顶级公司HR等权威专家构成，电话面试的同时，也会帮助申请人梳理职业发展问题，给出学习和提升的建议。因此我们会收取¥99的面试费用，若通过面试，将作为奖学金抵扣学费。若未通过面试，将退回您的账户。</div>
           <div className="ba-line">接下来，我们邀请你填写入学申请。期待你的加入！</div>
         </div>
         <div className="ba-sub-tips">填写须知</div>
