@@ -120,7 +120,7 @@ export default class RisePay extends React.Component<any, any> {
   }
 
   redirect() {
-    window.location.href = `https://${window.location.hostname}/rise/static/business/apply/start`
+    window.location.href = `https://${window.location.hostname}/pay/bsstart`
   }
 
   handlePayedBefore() {

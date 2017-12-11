@@ -1,0 +1,71 @@
+@import "../../../components/CommonStyle";
+@import "../../../style/variable";
+
+.business-apply {
+  min-height: 100vh;
+  position: relative;
+  background: url(@imgBusinessBackground) repeat-y center top/100% auto;
+  //overflow: hidden;
+  .ba-header {
+    padding-top: 3.5rem;
+    .ba-header-msg {
+      padding: 0 5rem;
+      .linear-gradient();
+    }
+    .ba-header-pic {
+      text-align: center;
+      padding: 2.5rem 0;
+      img {
+        width: 10rem;
+      }
+    }
+  }
+  > .pay-tips-mask {
+    .pay-tips-mask();
+  }
+  .ba-main-body {
+    padding: 0 3rem 0.5rem;
+    font-size: 1.5rem;
+    color: @color_white;
+    font-weight: 300;
+    line-height: 2.0rem;
+    .ba-line {
+      margin-bottom: 3.0rem;
+    }
+  }
+  .ba-sub-tips {
+    margin: 0 3rem 0.5rem;
+    color: #ffb200;
+    font-size: 12px;
+    line-height: 16px;
+    text-indent: 20px;
+    background: url('../../../../assets/icons/readme.png') no-repeat left center/13px 15px;
+  }
+  .ba-sub-body {
+    padding: 0 3rem 6rem;
+    color: #cccccc;
+    font-size: 1.2rem;
+
+  }
+  .qrcode {
+    display: block;
+    margin: 0 auto;
+    width: 15rem;
+    height: 15rem;
+    padding: 1rem 0 5rem;
+  }
+  &.submit-success {
+    .ba-main-body {
+      padding: 0 3rem 5rem;
+      text-align: center;
+      line-height: 2rem;
+    }
+    .ba-sub-tips {
+      text-align: center;
+      line-height: 2rem;
+      font-size: 1.5rem;
+      text-indent: 0;
+      background: none;
+    }
+  }
+}
