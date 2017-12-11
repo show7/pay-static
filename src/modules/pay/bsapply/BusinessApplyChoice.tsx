@@ -289,6 +289,9 @@ export default class BusinessApplyChoice extends Component<any, any> {
       } else if(currentIndex === seriesCount - 1) {
         return (
           <FooterButton btnArray={[ {
+            click: () => this.prevStep(),
+            text: '上一步'
+          }, {
             click: () => this.handleClickSubmit(),
             text: '提交'
           } ]}/>
@@ -448,7 +451,7 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
     }, []);
 
     const renderPickerQuestion = (questionInfo) => {
-      const { question, type, sequence, request, preChoiceId, id, series, tips, choices, chosenId,placeholder } = questionInfo;
+      const { question, type, sequence, request, preChoiceId, id, series, tips, choices, chosenId, placeholder } = questionInfo;
       let userData = {
         id: chosenId,
       }

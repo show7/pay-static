@@ -38,7 +38,8 @@ export default class PreacherPage extends React.Component<any, any> {
   }
 
   handleClickGoApply() {
-    window.location.href = `https://${window.location.hostname}/rise/static/business/apply/start`
+    window.location.href = `https://${window.location.hostname}/pay/bsstart`
+    // window.location.href = `https://${window.location.hostname}/rise/static/business/apply/start`
   }
 
   render() {

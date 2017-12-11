@@ -187,7 +187,7 @@ export default class ApplySuccess extends React.Component<any, any> {
         <div className="button-footer">
           <MarkBlock module={'打点'} func={'申请成功页面'} action={'点击宣讲课按钮'} memo={'申请未过期'}
                      className="footer-left" onClick={() => this.handleClickAudition()}>
-            <span className="audition">抢先了解</span>
+            <span className="audition">预约直播</span>
           </MarkBlock>
           <MarkBlock module={'打点'} func={'申请成功页面'} action={'点击入学按钮'}
                      memo={this.state.data ? this.state.data.buttonStr : ''}
@@ -203,7 +203,7 @@ export default class ApplySuccess extends React.Component<any, any> {
         <div className="button-footer">
           <MarkBlock module={'打点'} func={'申请成功页面'} action={'点击宣讲课按钮'} memo={'申请过期'}
                      className="footer-left" onClick={() => this.handleClickAudition()}>
-            <span className="audition">抢先了解</span>
+            <div className="audition">预约直播</div>
           </MarkBlock>
           <MarkBlock module={'打点'} func={'申请成功页面'} action={'申请商学院'} memo={'申请过期'}
                      className="footer-btn" onClick={() => this.redirect()}>

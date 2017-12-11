@@ -22,7 +22,7 @@
     }
   }
   > .pay-page {
-    > .button-footer {
+    .button-footer {
       box-shadow: 0 0 8px 4px rgba(0, 0, 0, 0.04);
       display: block;
       position: fixed;
@@ -35,28 +35,16 @@
       color: #fff;
       background-color: #fff;
       z-index: 10;
-      > .footer-left {
+      .footer-left {
         height: 100%;
         position: relative;
         width: 30%;
         top: 1px;
         font-size: 15px;
-        color: rgb(166, 148, 101);
+        color: #5b3f00;
         float: left;
-        .audition {
-          color: #5b3f00;
-        }
-        .audition:before {
-          content: '';
-          display: inline-block;
-          vertical-align: text-top;
-          margin-right: 5px;
-          width: 22px;
-          height: 16px;
-          background: url('../../../../assets/icons/rise_icon_audition.png') no-repeat center top/100% auto;
-        }
       }
-      > .guest-footer-btn {
+      .guest-footer-btn {
         height: 40px;
         margin: 0 6%;
         position: absolute;
@@ -82,7 +70,7 @@
           }
         }
       }
-      > .footer-btn {
+      .footer-btn {
         height: 100%;
         position: relative;
         font-size: 20px;
@@ -96,11 +84,17 @@
             dominant-baseline: middle; /* 文本垂直居中 */
           }
         }
+        .audition{
+          display: inline-block;
+          text-indent: 30px;
+          background: url('../../../../assets/icons/rise_icon_audition.png') no-repeat left center/22px 16px;
+        }
+
       }
     }
   }
 
-  >.share-tip {
+  > .share-tip {
     position: fixed;
     background-color: rgba(0, 0, 0, 0.7);
     left: 0;
@@ -114,7 +108,7 @@
       right: 0;
     }
   }
-  .weui_dialog_ft{
+  .weui_dialog_ft {
     display: none;
   }
 
