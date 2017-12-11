@@ -289,6 +289,9 @@ export default class BusinessApplyChoice extends Component<any, any> {
       } else if(currentIndex === seriesCount - 1) {
         return (
           <FooterButton btnArray={[ {
+            click: () => this.prevStep(),
+            text: '上一步'
+          }, {
             click: () => this.handleClickSubmit(),
             text: '提交'
           } ]}/>
@@ -448,7 +451,7 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
     }, []);
 
     const renderPickerQuestion = (questionInfo) => {
-      const { question, type, sequence, request, preChoiceId, id, series, tips, choices, chosenId,placeholder } = questionInfo;
+      const { question, type, sequence, request, preChoiceId, id, series, tips, choices, chosenId, placeholder } = questionInfo;
       let userData = {
         id: chosenId,
       }
@@ -522,7 +525,7 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
           <div className="check-code-wrapper">
             <span className="code-send-label">验证码：</span>
           </div>
-          <div className="question-blank" style={{margin:'0 0 20px'}}>
+          <div className="question-blank" style={{ margin: '0 0 20px' }}>
             <input type="text" placeholder='请填写验证码' value={phoneCheckCode}
                    onChange={(e) => this.commonHandleValueChange(questionInfo, e.target.value, 'phoneCheckCode')}/>
           </div>
