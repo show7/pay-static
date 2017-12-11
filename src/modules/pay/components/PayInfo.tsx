@@ -563,12 +563,12 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       )
     } else {
       // <!--  非安卓4.3 -->
-      return (<div className={`pay-info ${show ? 'show' : ''} ${hasCoupons ? 'hasCoupons' : ''}`}>
-        {show ? <div className={`close ${hasCoupons ? 'hasCoupons' : ''}`} onClick={() => this.handleClickClose()}>
+      return (<div className={`pay-info ${show ? 'show' : ''} ${hasCoupons ? 'hasCoupons' : ''} ${!!startTime && !!endTime ? 'hasTime':''}`}>
+        {show ? <div className={`close ${hasCoupons ? 'hasCoupons' : ''} ${!!startTime && !!endTime ? 'hasTime':''}`} onClick={() => this.handleClickClose()}>
             <Icon type="white_close_btn" size="40px"/>
           </div> : null}
 
-        <div className={`main-container ${hasCoupons ? 'hasCoupons' : ''} ${show ? 'show' : ''}`}>
+        <div className={`main-container ${hasCoupons ? 'hasCoupons' : ''} ${show ? 'show' : ''} ${!!startTime && !!endTime ? 'hasTime':''}`}>
           <div className={`header ${openCoupon ? 'openCoupon' : ''}`}>
             {header || name}
           </div>

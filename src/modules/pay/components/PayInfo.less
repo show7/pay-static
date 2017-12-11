@@ -1,5 +1,7 @@
 @payInfoHasCouponHeight: 370px;
+@payInfoHasCouponNoTimeHeight: 300px;
 @payInfoNoCouponHeight: 300px;
+@payInfoNoCouponNoTimeHeight: 230px;
 @couponHeight: 77px;
 @halfCouponHeight: 38px;
 @hiddenHeight: -220px;
@@ -211,9 +213,15 @@
 
   > .close {
     &.hasCoupons {
-      bottom: @payInfoHasCouponHeight;
+      &.hasTime {
+        bottom: @payInfoHasCouponHeight;
+      }
+      bottom: @payInfoHasCouponNoTimeHeight;
     }
-    bottom: @payInfoNoCouponHeight;
+    &.hasTime {
+      bottom: @payInfoNoCouponHeight;
+    }
+    bottom: @payInfoNoCouponNoTimeHeight;
     position: fixed;
     z-index: 500;
     right: 10px;
@@ -221,9 +229,18 @@
 
   > .main-container {
     background-color: rgb(245, 245, 245);
-    height: @payInfoNoCouponHeight;
+    &.hasTime {
+      height: @payInfoNoCouponHeight;
+    }
+
+    height: @payInfoNoCouponNoTimeHeight;
+
     &.hasCoupons {
-      height: @payInfoHasCouponHeight;
+      &.hasTime {
+        height: @payInfoHasCouponHeight;
+      }
+      height: @payInfoHasCouponNoTimeHeight;
+
     }
     &.show {
       display: block;
