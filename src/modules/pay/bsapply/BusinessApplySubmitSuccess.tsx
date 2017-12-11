@@ -39,7 +39,7 @@ export default class BusinessApplySubmitSuccess extends Component<any, any> {
           </div>
         </div>
         <div className="ba-main-body">
-          我们会在两个工作日内,根据您留下的手机/微信联系方式，对您进行远程面试。
+          我们会在两个工作日内，根据您留下的手机/微信联系方式，对您进行远程面试。
         </div>
         <div className="ba-sub-tips">
           如有疑问，请添加圈外助手进行咨询<br/>
