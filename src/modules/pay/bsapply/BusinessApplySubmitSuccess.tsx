@@ -39,7 +39,7 @@ export default class BusinessApplySubmitSuccess extends Component<any, any> {
           </div>
         </div>
         <div className="ba-main-body">
-          我们会在两个工作日内，根据您留下的手机/微信联系方式，对您进行远程面试。
+          招生委员会将在两个工作日内，在你选择的时间段和你沟通。你可以整理自己的职业发展现状，为电话面试做好准备。
         </div>
         <div className="ba-sub-tips">
           如有疑问，请添加圈外助手进行咨询<br/>
