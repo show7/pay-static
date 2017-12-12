@@ -167,7 +167,9 @@ export default class ApplySuccess extends React.Component<any, any> {
 
   redirect() {
     mark({ module: '打点', function: '商学院会员', action: '申请商学院' }).then(res => {
-      window.location.href = `https://${window.location.hostname}/pay/bsstart`
+      this.context.router.push({
+        pathname: '/pay/bsstart'
+      })
     })
   }
 

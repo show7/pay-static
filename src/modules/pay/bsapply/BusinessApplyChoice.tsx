@@ -6,15 +6,19 @@ import * as _ from 'lodash';
 import { pget, ppost, mark } from "utils/request"
 import { loadBusinessApplyQuestion, submitApply, sendValidCode, validSMSCode } from './async';
 import DropDownList from "../../../components/form/DropDownList";
-import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
 import $ from 'jquery';
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
+import { getRiseMember, checkRiseMember } from '../async'
+import { config } from '../../helpers/JsConfig'
+import { getGoodsType } from '../../../utils/helpers'
+import PayInfo from '../components/PayInfo'
 
 @connect(state => state)
 export default class BusinessApplyChoice extends Component<any, any> {
   constructor() {
     super();
     this.state = {
+      showId: 7,
       questionGroup: [],
       seriesCount: 0,
       currentIndex: 0,
@@ -27,6 +31,35 @@ export default class BusinessApplyChoice extends Component<any, any> {
 
   componentWillMount() {
     const { dispatch, region, location } = this.props;
+    // ios／安卓微信支付兼容性
+    if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href) {
+      ppost('/b/mark', {
+        module: 'RISE',
+        function: '打点',
+        action: '刷新支付页面',
+        memo: window.ENV.configUrl + '++++++++++' + window.location.href
+      })
+      window.location.href = window.location.href
+      return
+    }
+
+    // 查询订单信息
+    getRiseMember(this.state.showId).then(res => {
+      dispatch(endLoad())
+      if(res.code === 200) {
+        //是否已经付款
+        if(res.msg.entry) {
+          dispatch(alertMsg('审核进行中，请耐心等待'))
+        } else {
+          this.setState({ memberType: res.msg.memberType })
+        }
+      } else {
+        dispatch(alertMsg(res.msg))
+      }
+    }).catch((err) => {
+      dispatch(endLoad())
+      dispatch(alertMsg(err))
+    })
 
     mark({ module: "打点", function: "商学院审核", action: "进入填写报名信息页面" });
 
@@ -105,22 +138,6 @@ export default class BusinessApplyChoice extends Component<any, any> {
   handleClickSubmit() {
     const { dispatch, region } = this.props;
     const { questionGroup, currentIndex, seriesCount, } = this.state
-    const userChoices = this.calculateUserChoices(questionGroup);
-
-    for(let i = 0; i < questionGroup.length; i++) {
-      let group = questionGroup[ i ];
-      let questions = group.questions;
-      for(let y = 0; y < questions.length; y++) {
-        let checkResult = this.checkQuestionComplete(questions[ y ], userChoices);
-        if(!checkResult) {
-          console.log(questions[ y ]);
-          dispatch(alertMsg("完成所有必填项后才能提交哦"));
-          return;
-        }
-      }
-    }
-    // 检测通过，开始提交
-    // 先拼装用户的提交记录
 
     let result = _.reduce(questionGroup, (submitList, nextGroup) => {
       let subParam = _.reduce(nextGroup.questions, (tempList, question) => {
@@ -143,55 +160,17 @@ export default class BusinessApplyChoice extends Component<any, any> {
           default:
           // ignore
         }
-        tempList.push(subTempParam);
+        if(!_.isEmpty(subTempParam)){
+          tempList.push(subTempParam);
+        }
+
         return tempList;
       }, []);
       submitList = submitList.concat(subParam);
       return submitList;
     }, []);
 
-    // 特殊检查电话
-    let phoneQuestions = _.reduce(questionGroup, (questionList, nextGroup) => {
-      let subQuestion = _.find(nextGroup.questions, { type: QuestionType.PHONE });
-      if(!!subQuestion) {
-        questionList.push(subQuestion);
-      }
-      return questionList;
-    }, []);
-
-    let phoneInfo = _.get(phoneQuestions, '[0]');
-    const { preChoiceId, userValue, phoneCheckCode } = phoneInfo;
-    let hasPhone = true;
-    if(!!phoneInfo) {
-      // 有电话题目
-      if(!!preChoiceId) {
-        // 如果有前置选项，并且前置选项没有选，则不渲染这个
-        if(_.indexOf(userChoices, preChoiceId) === -1) {
-          hasPhone = false;
-        }
-      }
-    }
-    if(hasPhone) {
-      if(!phoneCheckCode) {
-        dispatch(alertMsg('请输入验证码'));
-        return;
-      }
-
-      dispatch(startLoad());
-      validSMSCode({ phone: userValue, code: phoneCheckCode }).then(res => {
-        if(res.code === 200) {
-          this.submitApplyAPI({ userSubmits: result });
-        } else {
-          dispatch(endLoad());
-          dispatch(alertMsg(res.msg));
-        }
-      }).catch(ex => {
-        dispatch(alertMsg(ex));
-      })
-    } else {
-      dispatch(startLoad());
-      this.submitApplyAPI({ userSubmits: result });
-    }
+    this.submitApplyAPI({userSubmits:result})
   }
 
   submitApplyAPI(param) {
@@ -246,6 +225,54 @@ export default class BusinessApplyChoice extends Component<any, any> {
         return;
       }
     }
+
+    // 特殊检查电话
+    let phoneQuestions = _.reduce(questionGroup, (questionList, nextGroup) => {
+      let subQuestion = _.find(nextGroup.questions, { type: QuestionType.PHONE });
+      if(!!subQuestion) {
+        questionList.push(subQuestion);
+      }
+      return questionList;
+    }, []);
+
+    let phoneInfo = _.get(phoneQuestions, '[0]');
+    const { preChoiceId, userValue, phoneCheckCode } = phoneInfo;
+    let hasPhone = true;
+    if(!!phoneInfo) {
+      // 有电话题目
+      if(!!preChoiceId) {
+        // 如果有前置选项，并且前置选项没有选，则不渲染这个
+        if(_.indexOf(userChoices, preChoiceId) === -1) {
+          hasPhone = false;
+        }
+      }
+    }
+    if(hasPhone) {
+      if(!phoneCheckCode) {
+        dispatch(alertMsg('请输入验证码'));
+        return;
+      }
+
+      dispatch(startLoad());
+      validSMSCode({ phone: userValue, code: phoneCheckCode }).then(res => {
+        dispatch(endLoad());
+        if(res.code !== 200) {
+          dispatch(alertMsg('验证码错误，请重新输入'));
+          return;
+        }else{
+          this.nextStep()
+        }
+      }).catch(ex => {
+        dispatch(alertMsg(ex));
+      })
+    }else{
+      this.nextStep()
+    }
+  }
+
+  nextStep(){
+    const { questionGroup, currentIndex, } = this.state
+    let group = questionGroup[ currentIndex ];
     this.setState({ group: group }, () => {
       $('.question-group').animateCss('fadeOutLeft', () => {
         this.setState({ currentIndex: currentIndex + 1 }, () => {
@@ -270,8 +297,79 @@ export default class BusinessApplyChoice extends Component<any, any> {
     })
   }
 
-  render() {
+  handlePayedDone() {
+    mark({ module: '打点', function: '商学院申请', action: '支付成功' })
+    this.handleClickSubmit()
+  }
+
+  /** 处理支付失败的状态 */
+  handlePayedError(res) {
+    let param = _.get(res, 'err_desc', _.get(res, 'errMsg', ''))
+
+    if(param.indexOf('跨公众号发起') != -1) {
+      // 跨公众号
+      this.setState({ showCodeErr: true })
+    } else {
+      this.setState({ showErr: true })
+    }
+  }
+
+  /** 处理取消支付的状态 */
+  handlePayedCancel(res) {
+    this.setState({ showErr: true })
+  }
+
+  /**
+   * 打开支付窗口
+   * @param showId 会员类型id
+   */
+  handleClickOpenPayInfo() {
+    this.reConfig()
+    const { dispatch } = this.props
     const { questionGroup, currentIndex, seriesCount, } = this.state
+
+    let group = questionGroup[ currentIndex ];
+    let questions = group.questions;
+    const userChoices = this.calculateUserChoices(questionGroup);
+    for(let i = 0; i < questions.length; i++) {
+      let checkResult = this.checkQuestionComplete(questions[ i ], userChoices);
+      if(!checkResult) {
+        dispatch(alertMsg("完成必填项后再点下一步哦"));
+        return;
+      }
+    }
+
+    dispatch(startLoad())
+    // 先检查是否能够支付
+    checkRiseMember(this.state.showId).then(res => {
+      dispatch(endLoad())
+      if(res.code === 200) {
+        // 查询是否还在报名
+        this.refs.payInfo.handleClickOpen()
+      } else {
+        dispatch(alertMsg(res.msg))
+      }
+    }).catch(ex => {
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
+    })
+    mark({ module: '打点', function: '商学院申请', action: '点击加入按钮' })
+  }
+
+  handlePayedBefore() {
+    mark({ module: '打点', function: '商学院申请', action: '点击付费' })
+  }
+
+  /**
+   * 重新注册页面签名
+   */
+  reConfig() {
+    config([ 'chooseWXPay' ])
+  }
+
+  render() {
+    const { questionGroup, currentIndex, seriesCount, showErr, showCodeErr, memberType, showId } = this.state
+
     const isSelected = (choices, choice) => {
       return !_.isEmpty(_.find(choices, {
         id: choice.id, choice: true
@@ -289,11 +387,8 @@ export default class BusinessApplyChoice extends Component<any, any> {
       } else if(currentIndex === seriesCount - 1) {
         return (
           <FooterButton btnArray={[ {
-            click: () => this.prevStep(),
-            text: '上一步'
-          }, {
-            click: () => this.handleClickSubmit(),
-            text: '提交'
+            click: () => this.handleClickOpenPayInfo(),
+            text: '支付面试费用'
           } ]}/>
         )
       } else {
@@ -313,7 +408,9 @@ export default class BusinessApplyChoice extends Component<any, any> {
       <div className="apply-choice" style={{ minHeight: window.innerHeight }}>
         <div className="apply-container">
           <div className="apply-page-header">圈外商学院入学申请</div>
-          <div className="apply_rate">{(currentIndex / (seriesCount - 1)).toFixed(2) * 100}%</div>
+          <div className="apply_rate">
+            <img src="https://static.iqycamp.com/images/progress_bar2.png?imageslim" width={'100%'}/>
+          </div>
           <div className="apply-progress">
             <div className="apply-progress-bar"
                  style={{ width: (window.innerWidth - 90) * (currentIndex / (seriesCount - 1)) }}/>
@@ -323,6 +420,38 @@ export default class BusinessApplyChoice extends Component<any, any> {
         </div>
         <div style={{ height: '65px', width: '100%' }}/>
         {renderButtons()}
+
+        {showErr ? <div className="pay-tips-mask" onClick={() => this.setState({ showErr: false })}>
+            <div className="tips">
+              出现问题的童鞋看这里<br/>
+              1如果显示“URL未注册”，请重新刷新页面即可<br/>
+              2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
+            </div>
+            <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
+          </div> : null}
+        {showCodeErr ? <div className="pay-tips-mask" onClick={() => this.setState({ showCodeErr: false })}>
+            <div className="tips">
+              糟糕，支付不成功<br/>
+              原因：微信不支持跨公众号支付<br/>
+              怎么解决：<br/>
+              1，长按下方二维码，保存到相册；<br/>
+              2，打开微信扫一扫，点击右上角相册，选择二维码图片；<br/>
+              3，在新开的页面完成支付即可<br/>
+            </div>
+            <img className="xiaoQ" style={{ width: '50%' }}
+                 src="https://static.iqycamp.com/images/pay_camp_code.png?imageslim"/>
+          </div> : null}
+        {memberType && <PayInfo ref="payInfo"
+                               dispatch={this.props.dispatch}
+                               goodsType={getGoodsType(memberType.id)}
+                               goodsId={memberType.id}
+                               header={memberType.name}
+                               priceTips={'若通过面试，将作为奖学金抵扣学费;若未通过面试，将退回您的账户。'}
+                               payedDone={(goodsId) => this.handlePayedDone()}
+                               payedCancel={(res) => this.handlePayedCancel(res)}
+                               payedError={(res) => this.handlePayedError(res)}
+                               payedBefore={() => this.handlePayedBefore()}
+          /> }
       </div>
     )
   }
@@ -337,11 +466,12 @@ interface QuestionGroupProps {
 
 enum QuestionType {
   PICKER = 1,
-  RADIO,
-  BLANK,
-  MULTI_BLANK,
-  AREA,
-  PHONE,
+  RADIO = 2,
+  BLANK = 3,
+  MULTI_BLANK = 4,
+  AREA = 5,
+  PHONE = 6,
+  PIC = 7
 }
 
 @connect(state => state)
@@ -391,7 +521,6 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
     const { phoneCheckCode, userValue } = questionInfo;
     const { codeTimeRemain = 0 } = this.state;
     const { dispatch } = this.props;
-    console.log('phone', questionInfo);
     if(codeTimeRemain !== 0) {
       dispatch(alertMsg(`请${codeTimeRemain}秒稍后再试`));
       return;
@@ -431,8 +560,8 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
   }
 
   render() {
-    const { group = {}, allGroup = [], region, location } = this.props;
-    const { questions = [] } = group;
+    const { group = {}, allGroup = [], region, location } = this.props
+    const { questions = [] } = group
 
     const provinceList = _.get(region, "provinceList");
     const cityList = _.get(region, "cityList");
@@ -578,6 +707,19 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
       )
     }
 
+    const renderPic = (questionInfo) => {
+      const { question } = questionInfo;
+
+      return (
+        <div className="question-pic">
+          <div className="question-pic-text">
+            你将会在以上时间收到招生委员会的电话/语音面试。委员会由圈外创始人团队、投资人、CEO教练和顶级公司HR等权威专家构成。
+          </div>
+          <img src={question} width={'100%'} height={'100%'} style={{display:'block'}}/>
+        </div>
+      )
+    }
+
     return (
       <div className='question-group'>
         {questions ? questions.map((item, key) => {
@@ -601,6 +743,8 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
               return renderMultiBlankQuestion(item);
             case QuestionType.PHONE:
               return renderPhoneQuestion(item);
+            case QuestionType.PIC:
+              return renderPic(item);
             default:
               return null;
           }
