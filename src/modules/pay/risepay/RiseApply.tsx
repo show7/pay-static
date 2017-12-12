@@ -39,9 +39,7 @@ export default class RiseApply extends React.Component<any, any> {
 
   redirect() {
     mark({ module: '打点', function: '商学院guest', action: '申请商学院' }).then(res => {
-      this.context.router.push({
-        pathname: '/pay/bsstart'
-      })
+      window.location.href = `https://${window.location.hostname}/pay/bsstart`
     })
   }
 
