@@ -6,6 +6,7 @@ import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { config, configShare } from 'modules/helpers/JsConfig'
 import { SaleBody } from './components/SaleBody'
 import { MarkBlock } from '../components/markblock/MarkBlock'
+import { loadProfile, loadRiseId } from './async'
 
 @connect(state => state)
 export default class RiseShare extends React.Component<any, any> {
@@ -26,11 +27,20 @@ export default class RiseShare extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    configShare(
-      `圈外商学院--你负责努力，我们负责帮你赢`,
-      `https://${window.location.hostname}/pay/static/rise`,
-      'https://static.iqycamp.com/images/rise_share.jpg?imageslim',
-      '最实用的竞争力提升课程，搭建最优质的人脉圈，解决最困扰的职场难题')
+    const { dispatch } = this.props
+    dispatch(startLoad())
+    //获得riseId
+    loadRiseId().then(res => {
+      dispatch(endLoad())
+      if (res.code === 200) {
+        configShare(
+          `圈外商学院--你负责努力，我们负责帮你赢`,
+          `https://${window.location.hostname}/pay/static/rise?riseId=${res.msg}`,
+          'https://static.iqycamp.com/images/rise_share.jpg?imageslim',
+          '最实用的竞争力提升课程，搭建最优质的人脉圈，解决最困扰的职场难题')
+
+      }
+    })
   }
 
   handleShare() {
