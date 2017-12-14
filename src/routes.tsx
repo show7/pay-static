@@ -14,8 +14,7 @@ import AuditionSuccess from 'modules/pay/AuditionSuccess'
 import ApplySuccess from 'modules/pay/risepay/ApplySuccess'
 import MemberPaySuccess from 'modules/pay/MemberPaySuccess'
 import BusinessApplySubmitSuccess from './modules/pay/bsapply/BusinessApplySubmitSuccess'
-
-
+import Subscribe from './modules/subscribe/Subscribe'
 
 const routes = (
   <Route path="/">
@@ -23,6 +22,8 @@ const routes = (
            onChange={() => {
              config(['chooseWXPay'])
            }}>
+
+      <Route path="subscribe" component={Subscribe}/>
       <Route path="pay/camp/success" component={CampPaySuccess}/>
       <Route path="pay/member/success" component={MemberPaySuccess}/>
       <Route path="pay/audition/success" component={AuditionSuccess}/>
