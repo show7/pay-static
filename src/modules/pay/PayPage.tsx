@@ -196,7 +196,7 @@ export default class SignUp extends React.Component<any, any> {
     })
     switch(id) {
       case 5:
-        // 小课训练营
+        // 训练营
         window.location.href = 'http://mp.weixin.qq.com/s/oPyne7M3mGFMzUymTGHLdQ'
         break
       default:
@@ -241,7 +241,7 @@ export default class SignUp extends React.Component<any, any> {
             <div className={`page member2`}>
               <div className={`dot ${showId === 5 ? 'show' : ''}`} onClick={() => this.sliderTo(5)}/>
               <div className="str">
-                小课训练营
+                训练营
               </div>
             </div>
           </div>
@@ -266,7 +266,7 @@ export default class SignUp extends React.Component<any, any> {
                 </div>
                 <img src="https://static.iqycamp.com/images/rise-member-1-icon.png?imageslim" className="member-icon"/>
                 <ul>
-                  <li style={this.state.fontSize.showMember.big}>36门精华小课，含12门主题课</li>
+                  <li style={this.state.fontSize.showMember.big}>36门精华课程，含12门主题课</li>
                   <li style={this.state.fontSize.showMember.big}>训练营模式，和同学组队学习</li>
                   <li style={this.state.fontSize.showMember.big}>圈外重点班，100+场学习活动</li>
                   <li style={this.state.fontSize.showMember.big}>专属教练点评，免费线下活动</li>
@@ -285,11 +285,11 @@ export default class SignUp extends React.Component<any, any> {
             <div className="swiper-slide">
               <div className="member-show member2">
                 <div className="name" style={this.state.fontSize.showMember.name}>
-                  《认识自己》小课训练营
+                  《认识自己》训练营
                 </div>
                 <img src="https://static.iqycamp.com/images/rise-member-2-icon.png?imageslim" className="member-icon"/>
                 <ul>
-                  <li style={this.state.fontSize.showMember.big}>一门精华小课，含8节课程</li>
+                  <li style={this.state.fontSize.showMember.big}>一门精华课程，含8节课程</li>
                   <li style={this.state.fontSize.showMember.big}>一场大咖直播，含各种干货内容</li>
                   <li style={this.state.fontSize.showMember.big}>21天密集训练营和同学组队学习</li>
                   <li style={this.state.fontSize.showMember.big}>教练每周班内答疑和专属教练点评</li>
@@ -298,7 +298,7 @@ export default class SignUp extends React.Component<any, any> {
               </div>
               <div onClick={() => this.goTips(showMember.id)}
                    className={`normal-tips member2`}>
-                <span>小课训练营功能详情</span>
+                <span>训练营功能详情</span>
               </div>
             </div>
           )
@@ -328,7 +328,7 @@ export default class SignUp extends React.Component<any, any> {
         case 5: {
           return (
             <div className={`member-menu member2`} onClick={() => this.handleClickOpenPayInfo(showMember.id)}>
-              <span>报名小课训练营（¥{showMember.fee ? numeral(showMember.fee).format('0.00') : null}）</span>
+              <span>报名训练营（¥{showMember.fee ? numeral(showMember.fee).format('0.00') : null}）</span>
             </div>
           )
         }

@@ -40,9 +40,9 @@ export default class PointTip extends React.Component<any,any> {
           【圈外同学】针对职场最值钱的几种能力，如：思考能力、沟通能力等，教你套路，并带你刻意练习、提升竞争力：
           <img className="pic" src="https://static.iqycamp.com/images/CreamMoreMsgImg4.png"
                onClick={() => preview("https://static.iqycamp.com/images/CreamMoreMsgImg4.png", ["https://static.iqycamp.com/images/CreamMoreMsgImg4.png"])}/><br/>
-          <b>1. 一年可在所有课程中选择36门小课学习，针对职场最值钱的几种能力来学习，以提升竞争</b>课程精炼了圈圈等大牛9年6个行业50家公司总结出的方法，让你用顶级公司的方法培养自己。
+          <b>1. 一年可在所有课程中选择36门课程学习，针对职场最值钱的几种能力来学习，以提升竞争</b>课程精炼了圈圈等大牛9年6个行业50家公司总结出的方法，让你用顶级公司的方法培养自己。
           <br/>
-          <br/><b>2. 【小课训练营】的学习模式：你将与20位小伙伴形成小组、并肩战斗，有教练带着你手把手深度学习，</b>50%以上的学习都是互动、举例，而非枯燥讲解。
+          <br/><b>2. 【训练营】的学习模式：你将与20位小伙伴形成小组、并肩战斗，有教练带着你手把手深度学习，</b>50%以上的学习都是互动、举例，而非枯燥讲解。
           <br/>
           <br/><b>3. 全年不间断、超过100场的学习活动，建立自己的学习圈子。</b>包括：各领域大咖直播、案例吊打、线下工作坊、各种资源分享会…… 帮你搭建BAT、世界500强等高质量职场资源
           <br/>
@@ -56,8 +56,8 @@ export default class PointTip extends React.Component<any,any> {
           <br/>
           <br/><b>5. 为什么说这个产品让你值回票价？</b>
           <br/>——精英版的一年学习中，你将获得：
-          <br/>24门自选小课
-          <br/>12门训练营必修小课（共36门）
+          <br/>24门自选课程
+          <br/>12门训练营必修课程（共36门）
           <br/>12次大咖直播
           <br/>60次案例吊打学习活动
           <br/>获优秀学员与圈圈1V1沟通的机会
