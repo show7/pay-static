@@ -203,7 +203,7 @@ router.get("/signup/rise/member", (req, res) => {
         }, {
           "id": 5,
           "fee": 299.0,
-          "name": "小课训练营",
+          "name": "课程训练营",
           "description": "小课训练营",
           "openMonth": 1,
           "startTime": "2017.11.12",
