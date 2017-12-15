@@ -46,7 +46,7 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
   }
 
   goLearnPage() {
-    window.location.href = `/rise/static/plan/main`
+    window.location.href = `/rise/static/camp`
   }
 
   render() {
