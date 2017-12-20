@@ -26,7 +26,7 @@
       display: block;
       width: 100%;
     }
-    > .button-footer {
+    .button-footer {
       box-shadow: 0 0 8px 4px rgba(0, 0, 0, 0.04);
       display: block;
       position: fixed;
@@ -39,7 +39,16 @@
       color: #fff;
       background-color: #fff;
       z-index: 10;
-      > .footer-btn {
+      .footer-left {
+        height: 100%;
+        position: relative;
+        width: 30%;
+        top: 1px;
+        font-size: 15px;
+        color: #5b3f00;
+        float: left;
+      }
+      .guest-footer-btn {
         height: 40px;
         margin: 0 6%;
         position: absolute;
@@ -51,10 +60,11 @@
         -ms-transform: translateY(-50%);
         -o-transform: translateY(-50%);
         transform: translateY(-50%);
-        background: url('https://static.iqycamp.com/images/fragment/camp_promotion_button_01_1.png?imageslim') center center/100% 100%;
+        background: url('../../../../assets/icons/pay_btn_bg.png') center center/100% 100%;
+        //background-color: #e3ca65;
         border-radius: 20px;
         font-size: 20px;
-        color: #84705C;
+        color: #5b3f00;
         line-height: 40px;
         overflow: hidden;
         > svg {
@@ -63,6 +73,27 @@
             dominant-baseline: middle; /* 文本垂直居中 */
           }
         }
+      }
+      .footer-btn {
+        height: 100%;
+        position: relative;
+        font-size: 20px;
+        color: #5b3f00;
+        line-height: 50px;
+        overflow: hidden;
+        background: #fbe452;
+        > svg {
+          > text {
+            text-anchor: middle; /* 文本水平居中 */
+            dominant-baseline: middle; /* 文本垂直居中 */
+          }
+        }
+        .audition{
+          display: inline-block;
+          text-indent: 30px;
+          background: url('../../../../assets/icons/rise_icon_audition.png') no-repeat left center/22px 16px;
+        }
+
       }
     }
   }
