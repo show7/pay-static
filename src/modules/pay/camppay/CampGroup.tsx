@@ -20,6 +20,14 @@ export default class CampPay extends React.Component<any, any> {
     super()
     this.state = {
       data: {},
+      alert: {
+        buttons: [
+          {
+            label: '关闭',
+            onClick: ()=>this.setState({show:false})
+          }
+        ]
+      },
     }
   }
 
@@ -34,7 +42,7 @@ export default class CampPay extends React.Component<any, any> {
     const { dispatch } = this.props
     dispatch(startLoad())
     // 先检查是否能够支付
-    let res = await isFollowing()
+    let res = await isFollowing(groupCode)
     if(res.code === 200) {
       res = await joinCampGroup(groupCode)
       dispatch(endLoad())
@@ -43,9 +51,12 @@ export default class CampPay extends React.Component<any, any> {
       } else {
         dispatch(alertMsg(res.msg))
       }
-    } else {
+    } else if(res.code === 201){
       dispatch(endLoad())
-      this.context.router.push(`/subscribe?qrCode=groupPromotion_${groupCode}`)
+      this.setState({url:res.msg.replace('\\n', ''), show:true})
+    } else{
+      dispatch(endLoad())
+      dispatch(alertMsg(res.msg))
     }
   }
 
@@ -61,7 +72,7 @@ export default class CampPay extends React.Component<any, any> {
           <MarkBlock module={'打点'} func={'小课训练营'}
                      action={'点击参团按钮'}
                      className='button-footer' onClick={() => this.handleJoinGroup(groupCode)}>
-            <div className="footer-btn">参团</div>
+            <div className="footer-btn">立即领取</div>
           </MarkBlock>
         </div>
       )
@@ -71,6 +82,11 @@ export default class CampPay extends React.Component<any, any> {
       <div className="camp-pay-container">
         <PicLoading show={loading}/>
         {renderPay()}
+
+        <Alert {...this.state.alert} show={this.state.show}>
+          <div>长按关注圈外同学，和好友一起组团学习，免费领取168元7天学习资格</div>
+          <div style={{marginTop:20}}><img src={this.state.url} width={150} height={150}></img></div>
+        </Alert>
       </div>
     )
   }

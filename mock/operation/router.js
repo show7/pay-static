@@ -16,7 +16,7 @@ router.get("/rise/operation/group/following", (req, res) => {
   setTimeout(() =>
 res.status(200).json(
   {
-    "msg": "ok", "code": 200
+    "msg": "ok", "code": 201
   }
 ), Math.random() * 1500)
 });

@@ -13,6 +13,9 @@ import { signupCamp, createCampGroup } from './async'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
 import { MarkBlock } from '../components/markblock/MarkBlock'
 
+import { Dialog } from "react-weui"
+const { Alert } = Dialog
+
 @connect(state => state)
 export default class CampPay extends React.Component<any, any> {
 
@@ -29,6 +32,14 @@ export default class CampPay extends React.Component<any, any> {
       showCodeErr: false,
       loading: true,
       data: {},
+      alert: {
+        buttons: [
+          {
+            label: '关闭',
+            onClick: ()=>this.setState({show:false})
+          }
+        ]
+      },
     }
   }
 
@@ -114,9 +125,10 @@ export default class CampPay extends React.Component<any, any> {
     dispatch(endLoad())
     if(res.code === 200) {
       let groupCode = res.msg
-      configShare('组队打怪', `https://${window.location.hostname}/pay/static/camp/group?groupCode=${groupCode}`,
+      configShare('我在和好友互评眼中的ta，你在我眼中一直……', `https://${window.location.hostname}/pay/static/camp/group?groupCode=${groupCode}`,
         'https://static.iqycamp.com/images/rise_share.jpg?imageslim',
         '组队打怪描述')
+      this.setState({show:true})
     } else {
       dispatch(alertMsg(res.msg))
     }
@@ -134,7 +146,7 @@ export default class CampPay extends React.Component<any, any> {
   }
 
   render() {
-    const { data, showId, timeOut, showErr, showCodeErr, loading, groupCode } = this.state
+    const { data, showId, timeOut, showErr, showCodeErr, loading, showTip } = this.state
     const { memberType } = data
 
     const renderPay = () => {
@@ -157,7 +169,7 @@ export default class CampPay extends React.Component<any, any> {
               </MarkBlock>
               <MarkBlock module={'打点'} func={'小课训练营'} action={'创建团队'}
                          className={'footer-btn'} onClick={() => this.handleGroup()}>
-                组队模式
+                领取学习资格
               </MarkBlock>
             </div>
           }
@@ -209,6 +221,12 @@ export default class CampPay extends React.Component<any, any> {
                                 payedError={(res) => this.handlePayedError(res)}
                                 payedBefore={() => this.handlePayedBefore()}
         /> }
+
+        <Alert {...this.state.alert} show={this.state.show}>
+          <div style={{textAlign:'left'}}>·邀请2位好友加入，3人免费领取168元7天学习；</div>
+          <div style={{textAlign:'left'}}>·点击右上角分享给好友，邀请好友参加学习；</div>
+          <div style={{textAlign:'left'}}>·邀请成功后，和好友互评你眼中的ta。</div>
+        </Alert>
       </div>
     )
   }

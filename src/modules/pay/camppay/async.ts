@@ -8,8 +8,8 @@ export function createCampGroup(){
   return ppost('/rise/operation/group/create')
 }
 
-export function isFollowing(){
-  return pget('/rise/operation/group/following')
+export function isFollowing(groupCode){
+  return pget(`/rise/operation/group/following?groupCode=${groupCode}`)
 }
 
 export function joinCampGroup(groupCode){
