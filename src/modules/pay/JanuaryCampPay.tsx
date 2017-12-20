@@ -151,7 +151,7 @@ export default class JanuaryCampPay extends React.Component<any, any> {
     }
 
     return (
-      <div className="january-camp-pay-container">
+      <div className="jan-camp-pay-container">
         <PicLoading show={loading}/>
         {renderPay()}
         {renderKefu()}
