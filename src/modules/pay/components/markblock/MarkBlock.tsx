@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { mark } from '../../../../utils/request'
+import { mark } from 'utils/request'
 
 interface MarkBlockProps {
   module: string,

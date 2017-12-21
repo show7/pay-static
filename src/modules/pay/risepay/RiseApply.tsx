@@ -6,7 +6,7 @@ import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { configShare } from '../../helpers/JsConfig'
 import { Dialog } from 'react-weui'
 import { MarkBlock } from '../components/markblock/MarkBlock'
-import { mark } from '../../../utils/request'
+import { mark } from 'utils/request'
 import { addUserRecommendation } from './async'
 
 const { Alert } = Dialog
@@ -48,9 +48,7 @@ export default class RiseApply extends React.Component<any, any> {
   }
 
   redirect() {
-    mark({ module: '打点', function: '商学院guest', action: '申请商学院' }).then(res => {
-      window.location.href = `/pay/bsstart`
-    })
+    window.location.href = `/pay/bsstart`
   }
 
   handleClickAudition() {

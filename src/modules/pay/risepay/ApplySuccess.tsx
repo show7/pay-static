@@ -7,7 +7,6 @@ import { config } from 'modules/helpers/JsConfig'
 import './ApplySuccess.less'
 import { getGoodsType } from 'utils/helpers'
 import PayInfo from '../components/PayInfo'
-import { mark } from '../../../utils/request'
 import { SaleBody } from './components/SaleBody'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
 import { getRiseMember } from '../async'
@@ -166,10 +165,8 @@ export default class ApplySuccess extends React.Component<any, any> {
   }
 
   redirect() {
-    mark({ module: '打点', function: '商学院会员', action: '申请商学院' }).then(res => {
-      this.context.router.push({
-        pathname: '/pay/bsstart'
-      })
+    this.context.router.push({
+      pathname: '/pay/bsstart'
     })
   }
 
