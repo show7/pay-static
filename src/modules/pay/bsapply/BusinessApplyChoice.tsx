@@ -12,6 +12,7 @@ import { getRiseMember, checkRiseMember } from '../async'
 import { config } from '../../helpers/JsConfig'
 import { getGoodsType } from '../../../utils/helpers'
 import PayInfo from '../components/PayInfo'
+import { UploadComponent } from '../../../components/form/UploadComponent';
 
 @connect(state => state)
 export default class BusinessApplyChoice extends Component<any, any> {
@@ -124,6 +125,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
       case QuestionType.BLANK:
       case QuestionType.MULTI_BLANK:
       case QuestionType.PHONE:
+      case QuestionType.UPLOAD_PIC:
         return !!userValue;
       case QuestionType.AREA:
         return !!oneId && !!twoId;
@@ -160,7 +162,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
           default:
           // ignore
         }
-        if(!_.isEmpty(subTempParam)){
+        if(!_.isEmpty(subTempParam)) {
           tempList.push(subTempParam);
         }
 
@@ -170,7 +172,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
       return submitList;
     }, []);
 
-    this.submitApplyAPI({userSubmits:result})
+    this.submitApplyAPI({ userSubmits: result })
   }
 
   submitApplyAPI(param) {
@@ -259,18 +261,18 @@ export default class BusinessApplyChoice extends Component<any, any> {
         if(res.code !== 200) {
           dispatch(alertMsg('验证码错误，请重新输入'));
           return;
-        }else{
+        } else {
           this.nextStep()
         }
       }).catch(ex => {
         dispatch(alertMsg(ex));
       })
-    }else{
+    } else {
       this.nextStep()
     }
   }
 
-  nextStep(){
+  nextStep() {
     const { questionGroup, currentIndex, } = this.state
     let group = questionGroup[ currentIndex ];
     this.setState({ group: group }, () => {
@@ -422,36 +424,36 @@ export default class BusinessApplyChoice extends Component<any, any> {
         {renderButtons()}
 
         {showErr ? <div className="pay-tips-mask" onClick={() => this.setState({ showErr: false })}>
-            <div className="tips">
-              出现问题的童鞋看这里<br/>
-              1如果显示“URL未注册”，请重新刷新页面即可<br/>
-              2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
-            </div>
-            <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
-          </div> : null}
+          <div className="tips">
+            出现问题的童鞋看这里<br/>
+            1如果显示“URL未注册”，请重新刷新页面即可<br/>
+            2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
+          </div>
+          <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
+        </div> : null}
         {showCodeErr ? <div className="pay-tips-mask" onClick={() => this.setState({ showCodeErr: false })}>
-            <div className="tips">
-              糟糕，支付不成功<br/>
-              原因：微信不支持跨公众号支付<br/>
-              怎么解决：<br/>
-              1，长按下方二维码，保存到相册；<br/>
-              2，打开微信扫一扫，点击右上角相册，选择二维码图片；<br/>
-              3，在新开的页面完成支付即可<br/>
-            </div>
-            <img className="xiaoQ" style={{ width: '50%' }}
-                 src="https://static.iqycamp.com/images/pay_camp_code.png?imageslim"/>
-          </div> : null}
+          <div className="tips">
+            糟糕，支付不成功<br/>
+            原因：微信不支持跨公众号支付<br/>
+            怎么解决：<br/>
+            1，长按下方二维码，保存到相册；<br/>
+            2，打开微信扫一扫，点击右上角相册，选择二维码图片；<br/>
+            3，在新开的页面完成支付即可<br/>
+          </div>
+          <img className="xiaoQ" style={{ width: '50%' }}
+               src="https://static.iqycamp.com/images/pay_camp_code.png?imageslim"/>
+        </div> : null}
         {memberType && <PayInfo ref="payInfo"
-                               dispatch={this.props.dispatch}
-                               goodsType={getGoodsType(memberType.id)}
-                               goodsId={memberType.id}
-                               header={memberType.name}
-                               priceTips={'若通过面试，将作为奖学金抵扣学费；若未通过面试，将退回您的账户。'}
-                               payedDone={(goodsId) => this.handlePayedDone()}
-                               payedCancel={(res) => this.handlePayedCancel(res)}
-                               payedError={(res) => this.handlePayedError(res)}
-                               payedBefore={() => this.handlePayedBefore()}
-          /> }
+                                dispatch={this.props.dispatch}
+                                goodsType={getGoodsType(memberType.id)}
+                                goodsId={memberType.id}
+                                header={memberType.name}
+                                priceTips={'若通过面试，将作为奖学金抵扣学费；若未通过面试，将退回您的账户。'}
+                                payedDone={(goodsId) => this.handlePayedDone()}
+                                payedCancel={(res) => this.handlePayedCancel(res)}
+                                payedError={(res) => this.handlePayedError(res)}
+                                payedBefore={() => this.handlePayedBefore()}
+        />}
       </div>
     )
   }
@@ -560,6 +562,24 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
 
   }
 
+  handleUploadError(msg) {
+    const { dispatch } = this.props;
+    dispatch(endLoad());
+    dispatch(alertMsg(msg));
+  }
+
+  handleUploadStart(msg) {
+    const { dispatch } = this.props;
+    dispatch(startLoad());
+  }
+
+  handleUploadSuccess(msg, questionInfo) {
+    const { dispatch } = this.props;
+    dispatch(endLoad());
+    // 上传成功
+    this.commonHandleValueChange(questionInfo, msg, 'userValue')
+  }
+
   render() {
     const { group = {}, allGroup = [], region, location } = this.props
     const { questions = [] } = group
@@ -616,10 +636,10 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
             <span dangerouslySetInnerHTML={{ __html: question }}/>
             {request ? <span style={{ color: 'red' }}>*</span> : null}
           </div>
-          {QuestionDom}
           {tips ? <div className="question-tips">
             {tips}
           </div> : null}
+          {QuestionDom}
         </div>
       )
     }
@@ -655,7 +675,7 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
           <div className="check-code-wrapper">
             <span className="code-send-label">验证码：</span>
           </div>
-          <div className="send-phone-blank" style={{margin:'0 0 20px'}}>
+          <div className="send-phone-blank" style={{ margin: '0 0 20px' }}>
             <input type="text" placeholder='请填写验证码' value={phoneCheckCode}
                    onChange={(e) => this.commonHandleValueChange(questionInfo, e.target.value, 'phoneCheckCode')}/>
           </div>
@@ -716,19 +736,23 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
           <div className="question-pic-text">
             你将会在以上时间收到招生委员会的电话/语音面试。委员会由圈外创始人团队、投资人、CEO教练和顶级公司HR等权威专家构成。
           </div>
-          <img src={question} width={'100%'} height={'100%'} style={{display:'block'}}/>
+          <img src={question} width={'100%'} height={'100%'} style={{ display: 'block' }}/>
         </div>
       )
     }
 
     const renderUploadPic = (questionInfo) => {
-        const { question, type, sequence, request, preChoiceId, id, series, tips, choices, chosenId, oneId, twoId } = questionInfo;
+      const { question, type, sequence, request, preChoiceId, id, series, tips, choices, chosenId, oneId, twoId } = questionInfo;
 
-        return mixQuestionDom(questionInfo,
-            <div className="picker-box">
-
-            </div>
-        )
+      return mixQuestionDom(questionInfo,
+        <div className='upload-image'>
+          <UploadComponent handleUploadError={(msg) => this.handleUploadError(msg, questionInfo)}
+                           handleUploadStart={(msg) => this.handleUploadStart(msg, questionInfo)}
+                           handleUploadSuccess={(msg) => this.handleUploadSuccess(msg, questionInfo)}
+                           successIcon={true}
+          />
+        </div>
+      )
     }
 
     return (
