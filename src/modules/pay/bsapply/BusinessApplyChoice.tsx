@@ -134,10 +134,10 @@ export default class BusinessApplyChoice extends Component<any, any> {
    */
   async handleClickSubmit() {
     const { dispatch, region } = this.props;
-    const { questionGroup, currentIndex} = this.state
+    const { questionGroup, currentIndex } = this.state
 
     let msg = await this.checkChoice(questionGroup, currentIndex)
-    if(msg){
+    if(msg) {
       dispatch(alertMsg(msg))
       return
     }
@@ -218,10 +218,9 @@ export default class BusinessApplyChoice extends Component<any, any> {
    */
   async handleClickNextStep() {
     const { dispatch } = this.props;
-    const { questionGroup, currentIndex, } = this.state
-
+    const { questionGroup, currentIndex } = this.state
     let msg = await this.checkChoice(questionGroup, currentIndex)
-    if(msg){
+    if(msg) {
       dispatch(alertMsg(msg))
       return
     }
@@ -229,7 +228,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
     this.nextStep()
   }
 
-  async checkChoice(questionGroup, currentIndex){
+  async checkChoice(questionGroup, currentIndex) {
     const userChoices = this.calculateUserChoices(questionGroup);
     let group = questionGroup[ currentIndex ];
     let questions = group.questions;
@@ -278,13 +277,62 @@ export default class BusinessApplyChoice extends Component<any, any> {
   nextStep() {
     const { questionGroup, currentIndex, } = this.state
     let group = questionGroup[ currentIndex ];
+    let nextIndex = this.findNextVisibleIndex(questionGroup, currentIndex);
     this.setState({ group: group }, () => {
       $('.question-group').animateCss('fadeOutLeft', () => {
-        this.setState({ currentIndex: currentIndex + 1 }, () => {
+        this.setState({ currentIndex: nextIndex }, () => {
           $('.question-group').animateCss('fadeInRight')
         })
       })
     })
+  }
+
+  findPreVisibleIndex(questionGroup, currentIndex) {
+    let wannaIndex = currentIndex - 1;
+    const userChoices = this.calculateUserChoices(questionGroup);
+
+    if(questionGroup.length <= wannaIndex) {
+      return wannaIndex
+    } else {
+      // 开始查找
+      for(let i = wannaIndex; i > 0; i--) {
+        let group = questionGroup[ i ];
+        // 可以显示的题目
+        let filterGroup = _.filter(group.questions, item => {
+          // 没有前置选项 || 有，但是满足
+          return !item.preChoiceId || _.indexOf(userChoices, item.preChoiceId) !== -1;
+        })
+        if(!_.isEmpty(filterGroup)) {
+          return i;
+        }
+      }
+      // 如果一个也找不到，就return第一个
+      return 0;
+    }
+  }
+
+  findNextVisibleIndex(questionGroup, currentIndex) {
+    let wannaIndex = currentIndex + 1;
+    const userChoices = this.calculateUserChoices(questionGroup);
+
+    if(questionGroup.length <= wannaIndex) {
+      return wannaIndex
+    } else {
+      // 开始查找
+      for(let i = wannaIndex; i < questionGroup.length; i++) {
+        let group = questionGroup[ i ];
+        // 可以显示的题目
+        let filterGroup = _.filter(group.questions, item => {
+          // 没有前置选项 || 有，但是满足
+          return !item.preChoiceId || _.indexOf(userChoices, item.preChoiceId) !== -1;
+        })
+        if(!_.isEmpty(filterGroup)) {
+          return i;
+        }
+      }
+      // 如果一个也找不到，就return最后一组
+      return questionGroup.length - 1;
+    }
   }
 
   /**
@@ -292,9 +340,9 @@ export default class BusinessApplyChoice extends Component<any, any> {
    */
   prevStep() {
     const { questionGroup, currentIndex, seriesCount, } = this.state
-
+    let preIndex = this.findPreVisibleIndex(questionGroup, currentIndex);
     $('.question-group').animateCss('fadeOutRight', () => {
-      this.setState({ currentIndex: currentIndex - 1 },
+      this.setState({ currentIndex: preIndex },
         () => {
           $('.question-group').animateCss('fadeInLeft');
         }
