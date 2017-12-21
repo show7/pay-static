@@ -57,6 +57,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
     // })
 
     mark({ module: "打点", function: "商学院审核", action: "进入填写报名信息页面" });
+    mark({ module: "打点", function: "商学院审核", action: "翻页", memo: "1" });
 
     dispatch(startLoad());
     loadBusinessApplyQuestion().then(res => {
@@ -179,6 +180,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
 
   submitApplyAPI(param) {
     const { dispatch } = this.props;
+    mark({ module: "打点", function: "商学院审核", action: "提交申请"});
     // 开始提交
     submitApply(param).then(res => {
       dispatch(endLoad());
@@ -281,6 +283,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
     this.setState({ group: group }, () => {
       $('.question-group').animateCss('fadeOutLeft', () => {
         this.setState({ currentIndex: nextIndex }, () => {
+          mark({ module: "打点", function: "商学院审核", action: "翻页", memo: questionGroup[ nextIndex ].series + "" });
           $('.question-group').animateCss('fadeInRight')
         })
       })
