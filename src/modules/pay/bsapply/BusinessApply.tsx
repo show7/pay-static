@@ -29,12 +29,6 @@ export default class BusinessApply extends Component<any, any> {
   componentWillMount() {
     // // ios／安卓微信支付兼容性
     // if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href) {
-    //   ppost('/b/mark', {
-    //     module: 'RISE',
-    //     function: '打点',
-    //     action: '刷新支付页面',
-    //     memo: window.ENV.configUrl + '++++++++++' + window.location.href
-    //   })
     //   window.location.href = window.location.href
     //   return
     // }
@@ -72,8 +66,8 @@ export default class BusinessApply extends Component<any, any> {
         </div>
         <div className="ba-main-body">
           <div className="ba-line">欢迎申请圈外商学院！</div>
-          <div className="ba-line">每个月我们会收到数以千计的申请，招生委员会将通过<b>电话面试</b>，了解申请人的工作现状和发展目标，综合考虑后做出录取和奖学金发放的决定，为最具潜力的申请人的职业发展助力！</div>
-          {/*<div className="ba-line">招生委员会由圈外创始人团队和顶级公司HR等权威专家构成，电话面试的同时，也会帮助申请人梳理职业发展问题，给出学习和提升的建议。因此我们会收取¥99的面试费用，若通过面试，将作为奖学金抵扣学费。若未通过面试，将退回您的账户。</div>*/}
+          {/*<div className="ba-line">每个月我们会收到数以千计的申请，招生委员会将通过<b>电话面试</b>，了解申请人的工作现状和发展目标，综合考虑后做出录取和奖学金发放的决定，为最具潜力的申请人的职业发展助力！</div>*/}
+          <div className="ba-line">每个月我们会收到数以千计的申请，招生委员会将根据申请人的学历背景，工作经验和申请理由，挑选出最具有潜力的申请人，为他们的职业发展助力！</div>
           <div className="ba-line">接下来，我们邀请你填写入学申请。期待你的加入！</div>
         </div>
         <div className="ba-sub-tips">填写须知</div>

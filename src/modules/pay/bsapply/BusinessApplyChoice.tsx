@@ -33,12 +33,6 @@ export default class BusinessApplyChoice extends Component<any, any> {
     const { dispatch, region, location } = this.props;
     // ios／安卓微信支付兼容性
     if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href) {
-      ppost('/b/mark', {
-        module: 'RISE',
-        function: '打点',
-        action: '刷新支付页面',
-        memo: window.ENV.configUrl + '++++++++++' + window.location.href
-      })
       window.location.href = window.location.href
       return
     }
@@ -326,7 +320,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
   handleClickOpenPayInfo() {
     this.reConfig()
     const { dispatch } = this.props
-    const { questionGroup, currentIndex, seriesCount, } = this.state
+    const { questionGroup, currentIndex, } = this.state
 
     let group = questionGroup[ currentIndex ];
     let questions = group.questions;
@@ -386,9 +380,13 @@ export default class BusinessApplyChoice extends Component<any, any> {
         )
       } else if(currentIndex === seriesCount - 1) {
         return (
+          // <FooterButton btnArray={[ {
+          //   click: () => this.handleClickOpenPayInfo(),
+          //   text: '支付面试费用'
+          // } ]}/>
           <FooterButton btnArray={[ {
-            click: () => this.handleClickOpenPayInfo(),
-            text: '支付面试费用'
+            click: () => this.handleClickSubmit(),
+            text: '提交'
           } ]}/>
         )
       } else {
@@ -408,9 +406,9 @@ export default class BusinessApplyChoice extends Component<any, any> {
       <div className="apply-choice" style={{ minHeight: window.innerHeight }}>
         <div className="apply-container">
           <div className="apply-page-header">圈外商学院入学申请</div>
-          <div className="apply_rate">
-            <img src="https://static.iqycamp.com/images/progress_bar2.png?imageslim" width={'100%'}/>
-          </div>
+          {/*<div className="apply_rate">*/}
+            {/*<img src="https://static.iqycamp.com/images/progress_bar2.png?imageslim" width={'100%'}/>*/}
+          {/*</div>*/}
           <div className="apply-progress">
             <div className="apply-progress-bar"
                  style={{ width: (window.innerWidth - 90) * (currentIndex / (seriesCount - 1)) }}/>
@@ -722,7 +720,7 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
 
     return (
       <div className='question-group'>
-        {questions ? questions.map((item, key) => {
+        {questions && questions.map((item, key) => {
           const { type, request, preChoiceId } = item;
           if(!!preChoiceId) {
             // 如果有前置选项，并且前置选项没有选，则不渲染这个
@@ -748,7 +746,7 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
             default:
               return null;
           }
-        }) : null}
+        }) }
       </div>
     )
   }
