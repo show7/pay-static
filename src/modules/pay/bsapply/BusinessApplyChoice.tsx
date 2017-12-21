@@ -102,8 +102,6 @@ export default class BusinessApplyChoice extends Component<any, any> {
   checkQuestionComplete(question, userChoices) {
     const { type, chosenId, preChoiceId, userValue, oneId, twoId, request, phoneCheckCode } = question;
 
-    console.log(userChoices)
-    console.log(question)
     if(!!preChoiceId) {
       if(_.indexOf(userChoices, preChoiceId) === -1) {
         // 不满足前置条件，则不检查
@@ -134,9 +132,15 @@ export default class BusinessApplyChoice extends Component<any, any> {
   /**
    * 点击提交按钮
    */
-  handleClickSubmit() {
+  async handleClickSubmit() {
     const { dispatch, region } = this.props;
-    const { questionGroup, currentIndex, seriesCount, } = this.state
+    const { questionGroup, currentIndex} = this.state
+
+    let msg = await this.checkChoice(questionGroup, currentIndex)
+    if(msg){
+      dispatch(alertMsg(msg))
+      return
+    }
 
     let result = _.reduce(questionGroup, (submitList, nextGroup) => {
       let subParam = _.reduce(nextGroup.questions, (tempList, question) => {
@@ -211,21 +215,30 @@ export default class BusinessApplyChoice extends Component<any, any> {
   /**
    * 点击下一步
    */
-  handleClickNextStep() {
+  async handleClickNextStep() {
     const { dispatch } = this.props;
-    const { questionGroup, currentIndex, seriesCount, } = this.state
+    const { questionGroup, currentIndex, } = this.state
+
+    let msg = await this.checkChoice(questionGroup, currentIndex)
+    if(msg){
+      dispatch(alertMsg(msg))
+      return
+    }
+
+    this.nextStep()
+  }
+
+  async checkChoice(questionGroup, currentIndex){
+    const userChoices = this.calculateUserChoices(questionGroup);
     let group = questionGroup[ currentIndex ];
     let questions = group.questions;
-    const userChoices = this.calculateUserChoices(questionGroup);
 
     for(let i = 0; i < questions.length; i++) {
       let checkResult = this.checkQuestionComplete(questions[ i ], userChoices);
       if(!checkResult) {
-        dispatch(alertMsg("完成必填项后再点下一步哦"));
-        return;
+        return '完成必填项后再点下一步哦'
       }
     }
-
     // 特殊检查电话
     let phoneQuestions = _.reduce(questionGroup, (questionList, nextGroup) => {
       let subQuestion = _.find(nextGroup.questions, { type: QuestionType.PHONE });
@@ -249,25 +262,16 @@ export default class BusinessApplyChoice extends Component<any, any> {
     }
     if(hasPhone) {
       if(!phoneCheckCode) {
-        dispatch(alertMsg('请输入验证码'));
-        return;
+        return '请输入验证码'
       }
 
-      dispatch(startLoad());
-      validSMSCode({ phone: userValue, code: phoneCheckCode }).then(res => {
-        dispatch(endLoad());
-        if(res.code !== 200) {
-          dispatch(alertMsg('验证码错误，请重新输入'));
-          return;
-        } else {
-          this.nextStep()
-        }
-      }).catch(ex => {
-        dispatch(alertMsg(ex));
-      })
-    } else {
-      this.nextStep()
+      let res = await validSMSCode({ phone: userValue, code: phoneCheckCode })
+      if(res.code !== 200) {
+        return '验证码错误，请重新输入'
+      }
     }
+
+    return ''
   }
 
   nextStep() {
