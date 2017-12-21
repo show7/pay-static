@@ -692,9 +692,7 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
             <span dangerouslySetInnerHTML={{ __html: question }}/>
             {request ? <span style={{ color: 'red' }}>*</span> : null}
           </div>
-          {tips ? <div className="question-tips">
-            {tips}
-          </div> : null}
+          {tips ? <div className="question-tips" dangerouslySetInnerHTML={{ __html: tips }}/> : null}
           {QuestionDom}
         </div>
       )
