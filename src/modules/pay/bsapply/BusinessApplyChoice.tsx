@@ -149,6 +149,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
           case QuestionType.BLANK:
           case QuestionType.MULTI_BLANK:
           case QuestionType.PHONE:
+          case QuestionType.UPLOAD_PIC:
             _.merge(subTempParam, { questionId: question.id, userValue: question.userValue });
             break;
           case QuestionType.AREA:
@@ -413,7 +414,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
         <div className="apply-container">
           <div className="apply-page-header">圈外商学院入学申请</div>
           {/*<div className="apply_rate">*/}
-            {/*<img src="https://static.iqycamp.com/images/progress_bar2.png?imageslim" width={'100%'}/>*/}
+          {/*<img src="https://static.iqycamp.com/images/progress_bar2.png?imageslim" width={'100%'}/>*/}
           {/*</div>*/}
           <div className="apply-progress">
             <div className="apply-progress-bar"
@@ -501,6 +502,7 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
     const { questions = [] } = group;
     let key = _.findIndex(questions, { id: question.id });
     let result = _.set(_.cloneDeep(group), `questions[${key}]`, _.set(_.cloneDeep(question), keyName, value));
+    console.log(result);
     this.props.onGroupChanged(result);
   }
 
@@ -751,6 +753,7 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
           <UploadComponent handleUploadError={(msg) => this.handleUploadError(msg, questionInfo)}
                            handleUploadStart={(msg) => this.handleUploadStart(msg, questionInfo)}
                            handleUploadSuccess={(msg) => this.handleUploadSuccess(msg, questionInfo)}
+                           uploadedUrl={questionInfo.userValue}
                            successIcon={true}
           />
         </div>
@@ -787,7 +790,7 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
             default:
               return null;
           }
-        }) }
+        })}
       </div>
     )
   }
