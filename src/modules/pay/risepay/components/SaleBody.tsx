@@ -3,6 +3,7 @@ import './SaleBody.less'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { CustomerEvaluate } from './CustomerEvaluate'
 import { unScrollToBorder } from '../../../../utils/helpers'
+import { CustomerService } from '../../../../components/customerservice/CustomerService'
 
 export class SaleBody extends React.Component {
 
@@ -20,15 +21,18 @@ export class SaleBody extends React.Component {
   clickUserProtocol = () => {
     this.setState({
       showModel: true
+    }, () => {
+      document.getElementById('usiness-school-intro-pic-container').style.overflow = 'scroll'
     })
-    window.document.body.style.overflow = 'hidden'
   }
 
   disableUserProtocol() {
     this.setState({
       showModel: false
+    }, () => {
+      document.getElementById('usiness-school-intro-pic-container').style.overflow = 'hidden'
     })
-    window.document.body.style.overflow = 'scroll'
+
   }
 
   render() {
@@ -70,7 +74,8 @@ export class SaleBody extends React.Component {
                 <p>
                   未经相关权利人的明确书面授权，任何公司、媒体、网站及个人不得向任何自然人或单位提供营销、出售、出版，或出于播放或发布目的而改写或再发行，或者被用于其他任何商业目的。已经得到许可的，使用时必须注明“转载自圈外同学”。
                   圈外同学不就由上述资料产生或在传送或递交全部或部分上述资料过程中产生的延误、不准确、错误和遗漏或从中产生或由此产生的任何损害赔偿, 以任何形式, 向用户或任何第三方负责。
-                  知识产权</p>
+                  知识产权
+                </p>
                 <p>圈外同学尊重和鼓励圈外同学用户创作的内容，承诺将保护知识产权作为圈外同学运营的基本原则之一。</p>
 
                 <p>1、用户在圈外同学上发表的原创内容，著作权均归用户本人所有。用户可授权第三方以任何方式使用，不需要得到圈外同学的同意。</p>
@@ -101,7 +106,6 @@ export class SaleBody extends React.Component {
                 <p>造谣、诽谤：发布内容中指名道姓（包括自然人和企业）的直接谩骂、侮辱、虚构中伤、恶意诽谤等；</p>
                 <p>商业侵权：泄露企业商业机密及其他根据保密协议不能公开讨论的内容。</p>
                 <p>3、举报条件</p>
-
                 <p>
                   如果个人或单位发现圈外同学上存在侵犯自身合法权益的内容，请与圈外同学取得联系（邮箱：iquanwai@vip.163.com）。为了保证问题能够及时有效地处理，请务必提交真实有效、完整清晰的材料，否则不予受理。请使用以下格式（包括各条款的序号）：</p>
                 <p>A、权利人对涉嫌侵权内容拥有商标权、著作权和/或其他依法可以行使权利的权属证明；如果举报人非权利人，请举报人提供代表企业进行举报的书面授权证明。</p>
@@ -140,8 +144,14 @@ export class SaleBody extends React.Component {
       )
     }
 
+    const renderKefu = () => {
+      return (
+        <CustomerService image="https://static.iqycamp.com/images/kefu.png?imageslim"/>
+      )
+    }
+
     return (
-      <div className="business-school-intro-pic-container"
+      <div className="business-school-intro-pic-container" ref={'pic-contaniner'}
            id="business-school-intro-pic-container">
         <img
           className="pic-part1"
@@ -149,7 +159,7 @@ export class SaleBody extends React.Component {
           style={{ width: '100%' }}
           onLoad={() => this.setState({ loading: false })}/>
         {
-          loading ? null : <CustomerEvaluate/>
+          !loading && <CustomerEvaluate/>
         }
         <img className="pic-part2" src="https://static.iqycamp.com/images/pay_rise_part2_6.png?imageslim"
              style={{ width: '100%' }}/>
@@ -167,6 +177,7 @@ export class SaleBody extends React.Component {
           </div>
         }
         {showModel && showUserProtocol()}
+        {renderKefu()}
       </div>
     )
   }
