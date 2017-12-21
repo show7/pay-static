@@ -31,6 +31,7 @@
     "@types/redux-thunk": "^2.1.28",
     "animate.css": "^3.5.2",
     "autoprefixer": "^7.1.6",
+    "es6-promise": "^3.3.1",
     "axios": "0.15.3",
     "fbjs": "0.8.9",
     "iosselect": "^1.1.3",
