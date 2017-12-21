@@ -73,8 +73,7 @@ export class UploadComponent extends Component<UploadProps, any> {
     } else {
       return (
         <div className="upload-wrapper" onClick={() => this.handleClickUpload()}>
-          <input type="file" ref='image' onChange={(e) => this.handleChange(e)}
-                 accept="image/gif,image/jpeg,image/jpg,image/png,image/svg"/>
+          <input type="file" ref='image' onChange={(e) => this.handleChange(e)}/>
           <Icon type='upload_icon' size='100%'/>
         </div>
       )
