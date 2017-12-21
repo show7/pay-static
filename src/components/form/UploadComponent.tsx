@@ -9,23 +9,21 @@ interface UploadProps {
   handleUploadStart?: any,
   handleUploadSuccess?: any,
   successIcon?: boolean,
+  uploadedUrl?: any,
+  limitSize?: any
 }
 
 export class UploadComponent extends Component<UploadProps, any> {
   constructor() {
     super();
-    this.state = {
-      limitSize: 10,
-      uploadSuccess: false
-    };
+    this.state = {};
   }
 
-  componentWillMount(nextProps) {
-    this.setState(_.merge(this.state, nextProps || this.props));
+  componentWillMount() {
   }
 
   upload(file) {
-    const { filed = 'file', handleUploadStart = () => {}, handleUploadSuccess = () => {}, handleUploadError = () => {} } = this.state;
+    const { filed = 'file', handleUploadStart = () => {}, handleUploadSuccess = () => {}, handleUploadError = () => {} } = this.props;
     var formData = new FormData();
     formData.append(filed, file);
     handleUploadStart();
@@ -44,11 +42,11 @@ export class UploadComponent extends Component<UploadProps, any> {
   }
 
   handleChange(e) {
-    const { limitSize, handleUploadErr = () => {} } = this.state;
+    const { limitSize, handleUploadErr = () => {} } = this.props;
     var file = e.target.files[ 0 ];
     e.target.value = '';
     if(Math.ceil(file.size / 1024 / 1024) > limitSize) {
-      handleUploadErr();
+      this.handleUploadErr();
       return;
     }
     this.upload(file);
@@ -61,8 +59,8 @@ export class UploadComponent extends Component<UploadProps, any> {
   }
 
   render() {
-    const { uploadSuccess, successIcon = true } = this.state;
-    if(successIcon && uploadSuccess) {
+    const { showSuccessIcon = true, uploadedUrl } = this.props;
+    if(showSuccessIcon && !!uploadedUrl) {
       // 渲染上传成功的icon
       return (
         <div className="upload-wrapper">
