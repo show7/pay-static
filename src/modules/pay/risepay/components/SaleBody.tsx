@@ -154,8 +154,8 @@ export class SaleBody extends React.Component {
                 </div>
                 <div className="interval"></div>
               </div>
-              <div className="submitbutton-component">
-                <div className="submit-btn" onClick={() => this.disableUserProtocol()}>确认</div>
+              <div className="user-submitbutton-component">
+                <div className="user-submit-btn" onClick={() => this.disableUserProtocol()}>确认</div>
               </div>
             </div>
           </div> : null}
