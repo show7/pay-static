@@ -471,7 +471,8 @@ enum QuestionType {
   MULTI_BLANK = 4,
   AREA = 5,
   PHONE = 6,
-  PIC = 7
+  PIC = 7,
+  UPLOAD_PIC = 8
 }
 
 @connect(state => state)
@@ -720,6 +721,16 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
       )
     }
 
+    const renderUploadPic = (questionInfo) => {
+        const { question, type, sequence, request, preChoiceId, id, series, tips, choices, chosenId, oneId, twoId } = questionInfo;
+
+        return mixQuestionDom(questionInfo,
+            <div className="picker-box">
+
+            </div>
+        )
+    }
+
     return (
       <div className='question-group'>
         {questions ? questions.map((item, key) => {
@@ -745,6 +756,8 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
               return renderPhoneQuestion(item);
             case QuestionType.PIC:
               return renderPic(item);
+            case QuestionType.UPLOAD_PIC:
+              return renderUploadPic(item);
             default:
               return null;
           }
