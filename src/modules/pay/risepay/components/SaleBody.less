@@ -1,5 +1,6 @@
 .business-school-intro-pic-container{
   width: 100%;
+  z-index:60;
   //height: ~"calc(100vh - 50px)";
   //overflow: scroll;
   //-webkit-overflow-scrolling: touch;
@@ -13,6 +14,25 @@
     display: block;
 
   }
+
+  .pic-part3{
+    display: block;
+
+  }
+
+  .protocol-container{
+    margin-left:3rem;
+    font-size: 1.5rem;
+
+    .click_text{
+      color:#041932;
+    }
+    .protocol{
+      color:#0a5bff;
+    }
+
+  }
+
   .pic-loading-container{
     position: fixed;
     left: 0;
@@ -25,6 +45,109 @@
       width:300px;
       display: block;
       margin: 0 auto;
+    }
+  }
+
+  .shadow-container {
+    position: fixed;
+    z-index: 333;
+    width: 100%;
+    height: 100%;
+    left:0;
+    right:0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+
+    .user-protocol {
+      position: fixed;
+      margin:  auto;
+      left: 10%;
+      right: 10%;
+      top: 10%;
+      bottom: 10%;
+      width: 80%;
+      height: 400px;
+      background-color: white;
+      z-index: 999;
+      overflow: auto;
+
+      .relative-position {
+        position: relative;
+        height: 350px;
+        overflow: auto;
+        .title {
+          margin-top: 40px;
+          font-size: 22px;
+          font-weight: bolder;
+          color: #2c2c2c;
+          border: none;
+          margin-left: 1.5rem;
+          margin-bottom: 20px;
+        }
+
+        .welcome {
+          margin-left: 1.5rem;
+          font-size: 15px;
+          color: #333;
+          line-height: 175%;
+          margin-bottom: 20px;
+        }
+
+        .content {
+          font-size: 15px;
+          color: #333;
+          margin: 0 1.5rem;
+          line-height: 175%;
+          &.user-protocol {
+            p {
+              margin-bottom: 20px;
+            }
+          }
+          > .q {
+            font-weight: bolder;
+            color: #2C2C2C;
+          }
+          > .mg {
+            margin-top: 10px;
+          }
+          > .serverCode {
+            margin: 10px auto;
+            img {
+              height: 100%;
+              width: 100%;
+            }
+          }
+        }
+
+        .interval {
+          height: 60px;
+        }
+        .user-protocol-component {
+          background: #FFFFFF;
+          box-shadow: 0 0 8px 4px rgba(0, 0, 0, .04);
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          height: 50px;
+          .submit-btn {
+            height: 40px;
+            margin: 0 6%;
+            position: relative;
+            left: 0;
+            bottom: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgb(251, 228, 82);
+            border-radius: 20px;
+            font-size: 20px;
+            color: #333;
+            line-height: 40px;
+            text-align: center;
+          }
+        }
+      }
     }
   }
 }
