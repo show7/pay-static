@@ -5,7 +5,7 @@ import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { Button, ButtonArea } from 'react-weui'
 import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
 import { loadPreacherNumber } from './async'
-import { mark } from '../../../utils/request'
+import { mark } from 'utils/request'
 import { MarkBlock } from '../components/markblock/MarkBlock'
 
 @connect(state => state)

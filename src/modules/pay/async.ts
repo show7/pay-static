@@ -43,10 +43,6 @@ export function entryRiseMember(riseMember){
   return pget(`/signup/rise/member/entry/${riseMember}`);
 }
 
-export function mark(param) {
-  return ppost('/rise/b/mark', param);
-}
-
 /**
  * 加载商品信息
  * @param goodsType 商品类型

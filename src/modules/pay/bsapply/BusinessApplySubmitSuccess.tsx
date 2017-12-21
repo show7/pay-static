@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import './BusinessApply.less';
 import { set, startLoad, endLoad, alertMsg } from "redux/actions"
 import * as _ from 'lodash';
-import { mark } from "../../../utils/request"
+import { mark } from "utils/request"
 import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
 import { checkSubmitApply } from './async';
 import { closeWindow } from '../../helpers/JsConfig'

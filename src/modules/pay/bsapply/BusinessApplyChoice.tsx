@@ -38,22 +38,22 @@ export default class BusinessApplyChoice extends Component<any, any> {
     }
 
     // 查询订单信息
-    getRiseMember(this.state.showId).then(res => {
-      dispatch(endLoad())
-      if(res.code === 200) {
-        //是否已经付款
-        if(res.msg.entry) {
-          dispatch(alertMsg('审核进行中，请耐心等待'))
-        } else {
-          this.setState({ memberType: res.msg.memberType })
-        }
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch((err) => {
-      dispatch(endLoad())
-      dispatch(alertMsg(err))
-    })
+    // getRiseMember(this.state.showId).then(res => {
+    //   dispatch(endLoad())
+    //   if(res.code === 200) {
+    //     //是否已经付款
+    //     if(res.msg.entry) {
+    //       dispatch(alertMsg('审核进行中，请耐心等待'))
+    //     } else {
+    //       this.setState({ memberType: res.msg.memberType })
+    //     }
+    //   } else {
+    //     dispatch(alertMsg(res.msg))
+    //   }
+    // }).catch((err) => {
+    //   dispatch(endLoad())
+    //   dispatch(alertMsg(err))
+    // })
 
     mark({ module: "打点", function: "商学院审核", action: "进入填写报名信息页面" });
 
@@ -100,6 +100,9 @@ export default class BusinessApplyChoice extends Component<any, any> {
    */
   checkQuestionComplete(question, userChoices) {
     const { type, chosenId, preChoiceId, userValue, oneId, twoId, request, phoneCheckCode } = question;
+
+    console.log(userChoices)
+    console.log(question)
     if(!!preChoiceId) {
       if(_.indexOf(userChoices, preChoiceId) === -1) {
         // 不满足前置条件，则不检查
@@ -212,6 +215,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
     let group = questionGroup[ currentIndex ];
     let questions = group.questions;
     const userChoices = this.calculateUserChoices(questionGroup);
+
     for(let i = 0; i < questions.length; i++) {
       let checkResult = this.checkQuestionComplete(questions[ i ], userChoices);
       if(!checkResult) {

@@ -6,8 +6,9 @@ import * as _ from 'lodash'
 const numeral = require('numeral')
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import {
-  afterPayDone, logPay, mark, loadGoodsInfo, loadPaymentParam, calculateCoupons
+  afterPayDone, logPay, loadGoodsInfo, loadPaymentParam, calculateCoupons
 } from '../async'
+import { mark } from 'utils/request'
 
 import { pay } from '../../helpers/JsConfig'
 import { CouponCategory, GoodsType } from '../../../utils/helpers'
@@ -322,7 +323,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       // 取消选择
       chose.couponsIdGroup = _.remove(chose.couponsIdGroup, (item) => item != coupon.id);
     } else {
-      if(!multiCoupons){
+      if(!multiCoupons) {
         chose.couponsIdGroup = []
       }
       chose.couponsIdGroup.push(coupon.id);
@@ -534,7 +535,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                 {renderPrice(fee, final, free)}
               </div>
               {!!startTime && !!endTime ? <div className="open-time item">
-                  有效时间：{startTime} - {endTime}
+                  学习时间：{startTime} - {endTime}
                 </div> : null}
               <div className={`coupon item`}>
                 {coupons && chose && chose.used ? `优惠券：¥${numeral(chose.total).format('0.00')}元` : '选择优惠券'}
@@ -563,12 +564,15 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       )
     } else {
       // <!--  非安卓4.3 -->
-      return (<div className={`pay-info ${show ? 'show' : ''} ${hasCoupons ? 'hasCoupons' : ''} ${!!startTime && !!endTime ? 'hasTime':''}`}>
-        {show ? <div className={`close ${hasCoupons ? 'hasCoupons' : ''} ${!!startTime && !!endTime ? 'hasTime':''}`} onClick={() => this.handleClickClose()}>
+      return (<div
+        className={`pay-info ${show ? 'show' : ''} ${hasCoupons ? 'hasCoupons' : ''} ${!!startTime && !!endTime ? 'hasTime':''}`}>
+        {show ?<div className={`close ${hasCoupons ? 'hasCoupons' : ''} ${!!startTime && !!endTime ? 'hasTime':''}`}
+                    onClick={() => this.handleClickClose()}>
             <Icon type="white_close_btn" size="40px"/>
           </div> : null}
 
-        <div className={`main-container ${hasCoupons ? 'hasCoupons' : ''} ${show ? 'show' : ''} ${!!startTime && !!endTime ? 'hasTime':''}`}>
+        <div
+          className={`main-container ${hasCoupons ? 'hasCoupons' : ''} ${show ? 'show' : ''} ${!!startTime && !!endTime ? 'hasTime':''}`}>
           <div className={`header ${openCoupon ? 'openCoupon' : ''}`}>
             {header || name}
           </div>
@@ -577,7 +581,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
               {renderPrice(fee, final, free, initPrice)}
             </div>
             {!!startTime && !!endTime ? <div className="open-time item">
-                有效时间：{startTime} - {endTime}
+                学习时间：{startTime} - {endTime}
               </div> : null}
             {hasCoupons ?
               <div

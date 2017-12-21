@@ -2,15 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './BusinessApply.less';
 import { set, startLoad, endLoad, alertMsg } from "redux/actions"
-import { mark } from "../../../utils/request"
+import { mark } from "utils/request"
 import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
 import { checkSubmitApply } from './async';
 import Icon from '../../../components/Icon'
-import { getGoodsType } from '../../../utils/helpers'
-import { getRiseMember, checkRiseMember } from '../async'
 
-import { config } from '../../helpers/JsConfig'
-import * as _ from 'lodash';
 
 @connect(state => state)
 export default class BusinessApply extends Component<any, any> {
