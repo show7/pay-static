@@ -506,7 +506,6 @@ export default class BusinessApplyChoice extends Component<any, any> {
                                 goodsType={getGoodsType(memberType.id)}
                                 goodsId={memberType.id}
                                 header={memberType.name}
-                                priceTips={'若通过面试，将作为奖学金抵扣学费；若未通过面试，将退回您的账户。'}
                                 payedDone={(goodsId) => this.handlePayedDone()}
                                 payedCancel={(res) => this.handlePayedCancel(res)}
                                 payedError={(res) => this.handlePayedError(res)}
