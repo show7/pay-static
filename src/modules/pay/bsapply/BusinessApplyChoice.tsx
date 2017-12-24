@@ -38,23 +38,23 @@ export default class BusinessApplyChoice extends Component<any, any> {
       return
     }
 
-    // 查询订单信息
-    // getRiseMember(this.state.showId).then(res => {
-    //   dispatch(endLoad())
-    //   if(res.code === 200) {
-    //     //是否已经付款
-    //     if(res.msg.entry) {
-    //       dispatch(alertMsg('审核进行中，请耐心等待'))
-    //     } else {
-    //       this.setState({ memberType: res.msg.memberType })
-    //     }
-    //   } else {
-    //     dispatch(alertMsg(res.msg))
-    //   }
-    // }).catch((err) => {
-    //   dispatch(endLoad())
-    //   dispatch(alertMsg(err))
-    // })
+    //查询订单信息
+    getRiseMember(this.state.showId).then(res => {
+      dispatch(endLoad())
+      if(res.code === 200) {
+        //是否已经付款
+        if(res.msg.entry) {
+          dispatch(alertMsg('审核进行中，请耐心等待'))
+        } else {
+          this.setState({ memberType: res.msg.memberType })
+        }
+      } else {
+        dispatch(alertMsg(res.msg))
+      }
+    }).catch((err) => {
+      dispatch(endLoad())
+      dispatch(alertMsg(err))
+    })
 
     mark({ module: "打点", function: "商学院审核", action: "进入填写报名信息页面" });
     mark({ module: "打点", function: "商学院审核", action: "翻页", memo: "1" });
@@ -442,14 +442,14 @@ export default class BusinessApplyChoice extends Component<any, any> {
         )
       } else if(currentIndex === seriesCount - 1) {
         return (
-          // <FooterButton btnArray={[ {
-          //   click: () => this.handleClickOpenPayInfo(),
-          //   text: '支付面试费用'
-          // } ]}/>
           <FooterButton btnArray={[ {
-            click: () => this.handleClickSubmit(),
-            text: '提交'
+            click: () => this.handleClickOpenPayInfo(),
+            text: '支付面试费用'
           } ]}/>
+          // <FooterButton btnArray={[ {
+          //   click: () => this.handleClickSubmit(),
+          //   text: '提交'
+          // } ]}/>
         )
       } else {
         return (
@@ -468,9 +468,9 @@ export default class BusinessApplyChoice extends Component<any, any> {
       <div className="apply-choice" style={{ minHeight: window.innerHeight }}>
         <div className="apply-container">
           <div className="apply-page-header">圈外商学院入学申请</div>
-          {/*<div className="apply_rate">*/}
-          {/*<img src="https://static.iqycamp.com/images/progress_bar2.png?imageslim" width={'100%'}/>*/}
-          {/*</div>*/}
+          <div className="apply_rate">
+            <img src="https://static.iqycamp.com/images/progress_bar2.png?imageslim" width={'100%'}/>
+          </div>
           <div className="apply-progress">
             <div className="apply-progress-bar"
                  style={{ width: (window.innerWidth - 90) * (currentIndex / (seriesCount - 1)) }}/>
