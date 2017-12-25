@@ -36,7 +36,7 @@ export default class CampPay extends React.Component<any, any> {
         buttons: [
           {
             label: '关闭',
-            onClick: ()=>this.setState({show:false})
+            onClick: () => this.setState({ show: false })
           }
         ]
       },
@@ -128,7 +128,7 @@ export default class CampPay extends React.Component<any, any> {
       configShare('我在和好友互评眼中的ta，你在我眼中一直……', `https://${window.location.hostname}/pay/static/camp/group?groupCode=${groupCode}`,
         'https://static.iqycamp.com/images/rise_share.jpg?imageslim',
         '组队打怪描述')
-      this.setState({show:true})
+      this.setState({ show: true })
     } else {
       dispatch(alertMsg(res.msg))
     }
@@ -146,7 +146,7 @@ export default class CampPay extends React.Component<any, any> {
   }
 
   render() {
-    const { data, showId, timeOut, showErr, showCodeErr, loading, showTip } = this.state
+    const { data, showId, timeOut, showErr, showCodeErr, loading, show } = this.state
     const { memberType } = data
 
     const renderPay = () => {
@@ -222,11 +222,17 @@ export default class CampPay extends React.Component<any, any> {
                                 payedBefore={() => this.handlePayedBefore()}
         /> }
 
-        <Alert {...this.state.alert} show={this.state.show}>
-          <div style={{textAlign:'left'}}>·通过学习和游戏，认清自我天赋优势，人生抉择不再迷茫；</div>
-          <div style={{textAlign:'left'}}>·邀请2位好友加入，3人免费解锁前7天实验；</div>
-          <div style={{textAlign:'left'}}>·点击右上角分享给好友,即可邀请好友加入。</div>
-        </Alert>
+        { show &&
+          <div className="alert-container">
+            <Alert {...this.state.alert} show={show}>
+              <ul>
+                <li>通过学习和游戏，认清自我天赋优势，人生抉择不再迷茫；</li>
+                <li>邀请2位好友加入，3人免费解锁前7天实验；</li>
+                <li>点击右上角分享给好友，即可邀请好友加入。</li>
+              </ul>
+            </Alert>
+          </div>
+        }
       </div>
     )
   }

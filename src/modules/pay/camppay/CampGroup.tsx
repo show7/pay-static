@@ -24,7 +24,7 @@ export default class CampPay extends React.Component<any, any> {
         buttons: [
           {
             label: '关闭',
-            onClick: ()=>this.setState({show:false})
+            onClick: () => this.setState({ show: false })
           }
         ]
       },
@@ -51,17 +51,17 @@ export default class CampPay extends React.Component<any, any> {
       } else {
         dispatch(alertMsg(res.msg))
       }
-    } else if(res.code === 201){
+    } else if(res.code === 201) {
       dispatch(endLoad())
-      this.setState({url:res.msg.replace('\\n', ''), show:true})
-    } else{
+      this.setState({ url: res.msg.replace('\\n', ''), show: true })
+    } else {
       dispatch(endLoad())
       dispatch(alertMsg(res.msg))
     }
   }
 
   render() {
-    const { loading, groupCode } = this.state
+    const { loading, groupCode, show } = this.state
 
     const renderPay = () => {
       return (
@@ -82,11 +82,16 @@ export default class CampPay extends React.Component<any, any> {
       <div className="camp-pay-container">
         <PicLoading show={loading}/>
         {renderPay()}
-        <Alert {...this.state.alert} show={this.state.show}>
-          <div>长按关注圈外同学，和好友组队解锁前7天实验。</div>
-          <div>通过学习和游戏，挖掘天赋优势，人生选择不再迷茫。</div>
-          <div style={{marginTop:20}}><img src={this.state.url} width={150} height={150}></img></div>
-        </Alert>
+        {show &&
+          <div className="alert-container">
+            <Alert {...this.state.alert} show={show}>
+              <div style={{textAlign:'left'}}>长按关注圈外同学，和好友组队解锁前7天实验。</div>
+              <div style={{textAlign:'left'}}>通过学习和游戏，挖掘天赋优势，人生选择不再迷茫。</div>
+              <div style={{marginTop:20}}><img src={this.state.url} width={150} height={150}></img></div>
+            </Alert>
+          </div>
+        }
+
       </div>
     )
   }

@@ -18,11 +18,11 @@ export class SaleBody extends React.Component {
     unScrollToBorder('#business-school-intro-pic-container')
   }
 
-  clickUserProtocol = () => {
+  clickUserProtocol() {
     this.setState({
       showModel: true
     }, () => {
-      document.getElementById('usiness-school-intro-pic-container').style.overflow = 'scroll'
+      document.getElementById('business-school-intro-pic-container').style.overflow = 'scroll'
     })
   }
 
@@ -30,7 +30,7 @@ export class SaleBody extends React.Component {
     this.setState({
       showModel: false
     }, () => {
-      document.getElementById('usiness-school-intro-pic-container').style.overflow = 'hidden'
+      document.getElementById('business-school-intro-pic-container').style.overflow = 'hidden'
     })
 
   }
@@ -151,7 +151,7 @@ export class SaleBody extends React.Component {
     }
 
     return (
-      <div className="business-school-intro-pic-container" ref={'pic-contaniner'}
+      <div className="business-school-intro-pic-container"
            id="business-school-intro-pic-container">
         <img
           className="pic-part1"
