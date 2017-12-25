@@ -30,7 +30,7 @@ export class MarkBlock extends React.Component<MarkBlockProps, any> {
     })
   }
 
-  handleClickMarkBlock(onClickFunc) {
+  async handleClickMarkBlock(onClickFunc) {
     const { module, func, action, memo = '' } = this.state
     let param = {
       module: module,
@@ -38,20 +38,19 @@ export class MarkBlock extends React.Component<MarkBlockProps, any> {
       action: action,
       memo: memo
     }
-    mark(param).then(res => {
-      if(res.code === 200) {
-        onClickFunc()
-      } else {
-        console.error(res.msg)
-      }
-    }).catch(er => console.error(er))
+    let res = await mark(param)
+    if(res.code === 200) {
+      onClickFunc()
+    } else {
+      console.error(res.msg)
+    }
   }
 
   render() {
-    const { onClick = () => {} } = this.props
+    const { module, func, action, memo, onClick = () => {}, ...other } = this.props
 
     return (
-      <div {...this.props}
+      <div {...other}
            onClick={() => {
              this.handleClickMarkBlock(onClick)
            }}>
