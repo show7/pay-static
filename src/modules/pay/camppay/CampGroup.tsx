@@ -24,7 +24,10 @@ export default class CampPay extends React.Component<any, any> {
         buttons: [
           {
             label: '关闭',
-            onClick: () => this.setState({ show: false })
+            onClick: () => {
+              this.setState({ show: false })
+              document.querySelector('.camp-pay-container').style.overflow = 'scroll'
+            }
           }
         ]
       },
@@ -54,6 +57,7 @@ export default class CampPay extends React.Component<any, any> {
     } else if(res.code === 201) {
       dispatch(endLoad())
       this.setState({ url: res.msg.replace('\\n', ''), show: true })
+      document.querySelector('.camp-pay-container').style.overflow = 'hidden'
     } else {
       dispatch(endLoad())
       dispatch(alertMsg(res.msg))

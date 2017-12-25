@@ -129,6 +129,7 @@ export default class CampPay extends React.Component<any, any> {
         'https://static.iqycamp.com/images/rise_share.jpg?imageslim',
         '组队打怪描述')
       this.setState({ show: true })
+      document.querySelector('.camp-pay-container').style.overflow = 'hidden'
     } else {
       dispatch(alertMsg(res.msg))
     }
