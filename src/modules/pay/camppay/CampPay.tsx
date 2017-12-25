@@ -169,7 +169,7 @@ export default class CampPay extends React.Component<any, any> {
               </MarkBlock>
               <MarkBlock module={'打点'} func={'小课训练营'} action={'创建团队'}
                          className={'footer-btn'} onClick={() => this.handleGroup()}>
-                领取学习资格
+                自我认知实验室
               </MarkBlock>
             </div>
           }
@@ -223,9 +223,9 @@ export default class CampPay extends React.Component<any, any> {
         /> }
 
         <Alert {...this.state.alert} show={this.state.show}>
-          <div style={{textAlign:'left'}}>·邀请2位好友加入，3人免费领取168元7天学习；</div>
-          <div style={{textAlign:'left'}}>·点击右上角分享给好友，邀请好友参加学习；</div>
-          <div style={{textAlign:'left'}}>·邀请成功后，和好友互评你眼中的ta。</div>
+          <div style={{textAlign:'left'}}>·通过学习和游戏，认清自我天赋优势，人生抉择不再迷茫；</div>
+          <div style={{textAlign:'left'}}>·邀请2位好友加入，3人免费解锁前7天实验；</div>
+          <div style={{textAlign:'left'}}>·点击右上角分享给好友,即可邀请好友加入。</div>
         </Alert>
       </div>
     )

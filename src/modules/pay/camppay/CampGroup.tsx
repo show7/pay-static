@@ -72,7 +72,7 @@ export default class CampPay extends React.Component<any, any> {
           <MarkBlock module={'打点'} func={'小课训练营'}
                      action={'点击参团按钮'}
                      className='button-footer' onClick={() => this.handleJoinGroup(groupCode)}>
-            <div className="footer-btn">立即领取</div>
+            <div className="footer-btn">加入自我认识实验</div>
           </MarkBlock>
         </div>
       )
@@ -82,9 +82,9 @@ export default class CampPay extends React.Component<any, any> {
       <div className="camp-pay-container">
         <PicLoading show={loading}/>
         {renderPay()}
-
         <Alert {...this.state.alert} show={this.state.show}>
-          <div>长按关注圈外同学，和好友一起组团学习，免费领取168元7天学习资格</div>
+          <div>长按关注圈外同学，和好友组队解锁前7天实验。</div>
+          <div>通过学习和游戏，挖掘天赋优势，人生选择不再迷茫。</div>
           <div style={{marginTop:20}}><img src={this.state.url} width={150} height={150}></img></div>
         </Alert>
       </div>
