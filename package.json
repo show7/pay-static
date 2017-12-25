@@ -10,6 +10,7 @@
     "dev": "PROXY=http://0.0.0.0:3000/ npm start",
     "dist": "NODE_ENV=production webpack",
     "ftp": "NODE_ENV=production webpack; gulp ftp",
+    "beta": "NODE_ENV=production webpack; gulp beta",
     "test": "echo \"Error: no test specified\" && exit 1",
     "local": "PROXY=http://0.0.0.0:8080/ npm start",
     "two": "RISE_PROXY=http://0.0.0.0:8081/ PROXY=http://0.0.0.0:8080/ npm start"
@@ -30,6 +31,7 @@
     "@types/redux-thunk": "^2.1.28",
     "animate.css": "^3.5.2",
     "autoprefixer": "^7.1.6",
+    "es6-promise": "^3.3.1",
     "axios": "0.15.3",
     "fbjs": "0.8.9",
     "iosselect": "^1.1.3",

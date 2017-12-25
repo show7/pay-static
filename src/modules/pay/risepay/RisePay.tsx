@@ -9,7 +9,6 @@ import { config, configShare } from 'modules/helpers/JsConfig'
 import PayInfo from '../components/PayInfo'
 import { getRiseMember } from '../async'
 import { SaleBody } from './components/SaleBody'
-import { CustomerService } from '../../../components/customerservice/CustomerService'
 import { MarkBlock } from '../components/markblock/MarkBlock'
 
 @connect(state => state)
@@ -161,7 +160,7 @@ export default class RisePay extends React.Component<any, any> {
                     {buttonStr}
                   </MarkBlock>
                   <MarkBlock module={'打点'} func={'商学院会员'} action={'点击宣讲课按钮'}
-                         className={'footer-btn'} onClick={() => this.handleClickAudition()}>
+                             className={'footer-btn'} onClick={() => this.handleClickAudition()}>
                     <div className="audition">{auditionStr}</div>
                   </MarkBlock>
                 </div> :
@@ -179,16 +178,16 @@ export default class RisePay extends React.Component<any, any> {
           <div className="button-footer">
             {
               auditionStr ?
-              <div>
-                <MarkBlock module={`打点`} func={`商学院会员`} action={`申请商学院`}
-                           className={`footer-left`} onClick={() => this.redirect()}>
-                  申请商学院
-                </MarkBlock>
-                <MarkBlock module={'打点'} func={'商学院会员'} action={'点击宣讲课按钮'}
-                         className={'footer-btn'} onClick={() => this.handleClickAudition()}>
-                  <div className="audition">{auditionStr}</div>
-                </MarkBlock>
-              </div> :
+                <div>
+                  <MarkBlock module={`打点`} func={`商学院会员`} action={`申请商学院`}
+                             className={`footer-left`} onClick={() => this.redirect()}>
+                    申请商学院
+                  </MarkBlock>
+                  <MarkBlock module={'打点'} func={'商学院会员'} action={'点击宣讲课按钮'}
+                             className={'footer-btn'} onClick={() => this.handleClickAudition()}>
+                    <div className="audition">{auditionStr}</div>
+                  </MarkBlock>
+                </div> :
                 <MarkBlock module={`打点`} func={`商学院会员`} action={`申请商学院`}
                            className={`footer-btn`} onClick={() => this.redirect()}>
                   申请商学院
@@ -201,19 +200,12 @@ export default class RisePay extends React.Component<any, any> {
 
     }
 
-    const renderKefu = () => {
-      return (
-        <CustomerService image="https://static.iqycamp.com/images/kefu.png?imageslim"/>
-      )
-    }
-
     return (
       <div className="rise-pay-container">
         <div className="pay-page">
           <SaleBody/>
           {renderPay()}
         </div>
-        {renderKefu()}
         {
           timeOut &&
           <div className="mask" onClick={() => {window.history.back()}}

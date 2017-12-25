@@ -12,6 +12,7 @@ import { getRiseMember, checkRiseMember } from '../async'
 import { config } from '../../helpers/JsConfig'
 import { getGoodsType } from '../../../utils/helpers'
 import PayInfo from '../components/PayInfo'
+import { UploadComponent } from '../../../components/form/UploadComponent';
 
 @connect(state => state)
 export default class BusinessApplyChoice extends Component<any, any> {
@@ -33,17 +34,11 @@ export default class BusinessApplyChoice extends Component<any, any> {
     const { dispatch, region, location } = this.props;
     // ios／安卓微信支付兼容性
     if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href) {
-      ppost('/b/mark', {
-        module: 'RISE',
-        function: '打点',
-        action: '刷新支付页面',
-        memo: window.ENV.configUrl + '++++++++++' + window.location.href
-      })
       window.location.href = window.location.href
       return
     }
 
-    // 查询订单信息
+    //查询订单信息
     getRiseMember(this.state.showId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
@@ -62,6 +57,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
     })
 
     mark({ module: "打点", function: "商学院审核", action: "进入填写报名信息页面" });
+    mark({ module: "打点", function: "商学院审核", action: "翻页", memo: "1" });
 
     dispatch(startLoad());
     loadBusinessApplyQuestion().then(res => {
@@ -106,6 +102,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
    */
   checkQuestionComplete(question, userChoices) {
     const { type, chosenId, preChoiceId, userValue, oneId, twoId, request, phoneCheckCode } = question;
+
     if(!!preChoiceId) {
       if(_.indexOf(userChoices, preChoiceId) === -1) {
         // 不满足前置条件，则不检查
@@ -124,6 +121,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
       case QuestionType.BLANK:
       case QuestionType.MULTI_BLANK:
       case QuestionType.PHONE:
+      case QuestionType.UPLOAD_PIC:
         return !!userValue;
       case QuestionType.AREA:
         return !!oneId && !!twoId;
@@ -135,9 +133,15 @@ export default class BusinessApplyChoice extends Component<any, any> {
   /**
    * 点击提交按钮
    */
-  handleClickSubmit() {
+  async handleClickSubmit() {
     const { dispatch, region } = this.props;
-    const { questionGroup, currentIndex, seriesCount, } = this.state
+    const { questionGroup, currentIndex } = this.state
+
+    let msg = await this.checkChoice(questionGroup, currentIndex)
+    if(msg) {
+      dispatch(alertMsg(msg))
+      return
+    }
 
     let result = _.reduce(questionGroup, (submitList, nextGroup) => {
       let subParam = _.reduce(nextGroup.questions, (tempList, question) => {
@@ -150,6 +154,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
           case QuestionType.BLANK:
           case QuestionType.MULTI_BLANK:
           case QuestionType.PHONE:
+          case QuestionType.UPLOAD_PIC:
             _.merge(subTempParam, { questionId: question.id, userValue: question.userValue });
             break;
           case QuestionType.AREA:
@@ -160,7 +165,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
           default:
           // ignore
         }
-        if(!_.isEmpty(subTempParam)){
+        if(!_.isEmpty(subTempParam)) {
           tempList.push(subTempParam);
         }
 
@@ -170,11 +175,12 @@ export default class BusinessApplyChoice extends Component<any, any> {
       return submitList;
     }, []);
 
-    this.submitApplyAPI({userSubmits:result})
+    this.submitApplyAPI({ userSubmits: result })
   }
 
   submitApplyAPI(param) {
     const { dispatch } = this.props;
+    mark({ module: "打点", function: "商学院审核", action: "提交申请"});
     // 开始提交
     submitApply(param).then(res => {
       dispatch(endLoad());
@@ -212,20 +218,29 @@ export default class BusinessApplyChoice extends Component<any, any> {
   /**
    * 点击下一步
    */
-  handleClickNextStep() {
+  async handleClickNextStep() {
     const { dispatch } = this.props;
-    const { questionGroup, currentIndex, seriesCount, } = this.state
+    const { questionGroup, currentIndex } = this.state
+    let msg = await this.checkChoice(questionGroup, currentIndex)
+    if(msg) {
+      dispatch(alertMsg(msg))
+      return
+    }
+
+    this.nextStep()
+  }
+
+  async checkChoice(questionGroup, currentIndex) {
+    const userChoices = this.calculateUserChoices(questionGroup);
     let group = questionGroup[ currentIndex ];
     let questions = group.questions;
-    const userChoices = this.calculateUserChoices(questionGroup);
+
     for(let i = 0; i < questions.length; i++) {
       let checkResult = this.checkQuestionComplete(questions[ i ], userChoices);
       if(!checkResult) {
-        dispatch(alertMsg("完成必填项后再点下一步哦"));
-        return;
+        return '完成必填项后再点下一步哦'
       }
     }
-
     // 特殊检查电话
     let phoneQuestions = _.reduce(questionGroup, (questionList, nextGroup) => {
       let subQuestion = _.find(nextGroup.questions, { type: QuestionType.PHONE });
@@ -249,37 +264,78 @@ export default class BusinessApplyChoice extends Component<any, any> {
     }
     if(hasPhone) {
       if(!phoneCheckCode) {
-        dispatch(alertMsg('请输入验证码'));
-        return;
+        return '请输入验证码'
       }
 
-      dispatch(startLoad());
-      validSMSCode({ phone: userValue, code: phoneCheckCode }).then(res => {
-        dispatch(endLoad());
-        if(res.code !== 200) {
-          dispatch(alertMsg('验证码错误，请重新输入'));
-          return;
-        }else{
-          this.nextStep()
-        }
-      }).catch(ex => {
-        dispatch(alertMsg(ex));
-      })
-    }else{
-      this.nextStep()
+      let res = await validSMSCode({ phone: userValue, code: phoneCheckCode })
+      if(res.code !== 200) {
+        return '验证码错误，请重新输入'
+      }
     }
+
+    return ''
   }
 
-  nextStep(){
+  nextStep() {
     const { questionGroup, currentIndex, } = this.state
     let group = questionGroup[ currentIndex ];
+    let nextIndex = this.findNextVisibleIndex(questionGroup, currentIndex);
     this.setState({ group: group }, () => {
       $('.question-group').animateCss('fadeOutLeft', () => {
-        this.setState({ currentIndex: currentIndex + 1 }, () => {
+        this.setState({ currentIndex: nextIndex }, () => {
+          mark({ module: "打点", function: "商学院审核", action: "翻页", memo: questionGroup[ nextIndex ].series + "" });
           $('.question-group').animateCss('fadeInRight')
         })
       })
     })
+  }
+
+  findPreVisibleIndex(questionGroup, currentIndex) {
+    let wannaIndex = currentIndex - 1;
+    const userChoices = this.calculateUserChoices(questionGroup);
+
+    if(questionGroup.length <= wannaIndex) {
+      return wannaIndex
+    } else {
+      // 开始查找
+      for(let i = wannaIndex; i > 0; i--) {
+        let group = questionGroup[ i ];
+        // 可以显示的题目
+        let filterGroup = _.filter(group.questions, item => {
+          // 没有前置选项 || 有，但是满足
+          return !item.preChoiceId || _.indexOf(userChoices, item.preChoiceId) !== -1;
+        })
+        if(!_.isEmpty(filterGroup)) {
+          return i;
+        }
+      }
+      // 如果一个也找不到，就return第一个
+      return 0;
+    }
+  }
+
+  findNextVisibleIndex(questionGroup, currentIndex) {
+    let wannaIndex = currentIndex + 1;
+    const userChoices = this.calculateUserChoices(questionGroup);
+
+    if(questionGroup.length <= wannaIndex) {
+      return wannaIndex
+    } else {
+      // 开始查找
+      for(let i = wannaIndex; i < questionGroup.length; i++) {
+        let group = questionGroup[ i ];
+        // 可以显示的题目
+        let filterGroup = _.filter(group.questions, item => {
+          // 没有前置选项 || 有，但是满足
+          return !item.preChoiceId || _.indexOf(userChoices, item.preChoiceId) !== -1;
+        })
+        if(!_.isEmpty(filterGroup)) {
+          return i;
+        }
+      }
+      // 如果一个也找不到，就return最后一组
+      return questionGroup.length - 1;
+    }
   }
 
   /**
@@ -287,9 +343,9 @@ export default class BusinessApplyChoice extends Component<any, any> {
    */
   prevStep() {
     const { questionGroup, currentIndex, seriesCount, } = this.state
-
+    let preIndex = this.findPreVisibleIndex(questionGroup, currentIndex);
     $('.question-group').animateCss('fadeOutRight', () => {
-      this.setState({ currentIndex: currentIndex - 1 },
+      this.setState({ currentIndex: preIndex },
         () => {
           $('.question-group').animateCss('fadeInLeft');
         }
@@ -326,7 +382,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
   handleClickOpenPayInfo() {
     this.reConfig()
     const { dispatch } = this.props
-    const { questionGroup, currentIndex, seriesCount, } = this.state
+    const { questionGroup, currentIndex, } = this.state
 
     let group = questionGroup[ currentIndex ];
     let questions = group.questions;
@@ -390,6 +446,10 @@ export default class BusinessApplyChoice extends Component<any, any> {
             click: () => this.handleClickOpenPayInfo(),
             text: '支付面试费用'
           } ]}/>
+          // <FooterButton btnArray={[ {
+          //   click: () => this.handleClickSubmit(),
+          //   text: '提交'
+          // } ]}/>
         )
       } else {
         return (
@@ -422,36 +482,35 @@ export default class BusinessApplyChoice extends Component<any, any> {
         {renderButtons()}
 
         {showErr ? <div className="pay-tips-mask" onClick={() => this.setState({ showErr: false })}>
-            <div className="tips">
-              出现问题的童鞋看这里<br/>
-              1如果显示“URL未注册”，请重新刷新页面即可<br/>
-              2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
-            </div>
-            <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
-          </div> : null}
+          <div className="tips">
+            出现问题的童鞋看这里<br/>
+            1如果显示“URL未注册”，请重新刷新页面即可<br/>
+            2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
+          </div>
+          <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
+        </div> : null}
         {showCodeErr ? <div className="pay-tips-mask" onClick={() => this.setState({ showCodeErr: false })}>
-            <div className="tips">
-              糟糕，支付不成功<br/>
-              原因：微信不支持跨公众号支付<br/>
-              怎么解决：<br/>
-              1，长按下方二维码，保存到相册；<br/>
-              2，打开微信扫一扫，点击右上角相册，选择二维码图片；<br/>
-              3，在新开的页面完成支付即可<br/>
-            </div>
-            <img className="xiaoQ" style={{ width: '50%' }}
-                 src="https://static.iqycamp.com/images/pay_camp_code.png?imageslim"/>
-          </div> : null}
+          <div className="tips">
+            糟糕，支付不成功<br/>
+            原因：微信不支持跨公众号支付<br/>
+            怎么解决：<br/>
+            1，长按下方二维码，保存到相册；<br/>
+            2，打开微信扫一扫，点击右上角相册，选择二维码图片；<br/>
+            3，在新开的页面完成支付即可<br/>
+          </div>
+          <img className="xiaoQ" style={{ width: '50%' }}
+               src="https://static.iqycamp.com/images/pay_camp_code.png?imageslim"/>
+        </div> : null}
         {memberType && <PayInfo ref="payInfo"
-                               dispatch={this.props.dispatch}
-                               goodsType={getGoodsType(memberType.id)}
-                               goodsId={memberType.id}
-                               header={memberType.name}
-                               priceTips={'若通过面试，将作为奖学金抵扣学费；若未通过面试，将退回您的账户。'}
-                               payedDone={(goodsId) => this.handlePayedDone()}
-                               payedCancel={(res) => this.handlePayedCancel(res)}
-                               payedError={(res) => this.handlePayedError(res)}
-                               payedBefore={() => this.handlePayedBefore()}
-          /> }
+                                dispatch={this.props.dispatch}
+                                goodsType={getGoodsType(memberType.id)}
+                                goodsId={memberType.id}
+                                header={memberType.name}
+                                payedDone={(goodsId) => this.handlePayedDone()}
+                                payedCancel={(res) => this.handlePayedCancel(res)}
+                                payedError={(res) => this.handlePayedError(res)}
+                                payedBefore={() => this.handlePayedBefore()}
+        />}
       </div>
     )
   }
@@ -471,7 +530,8 @@ enum QuestionType {
   MULTI_BLANK = 4,
   AREA = 5,
   PHONE = 6,
-  PIC = 7
+  PIC = 7,
+  UPLOAD_PIC = 8
 }
 
 @connect(state => state)
@@ -496,6 +556,7 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
     const { questions = [] } = group;
     let key = _.findIndex(questions, { id: question.id });
     let result = _.set(_.cloneDeep(group), `questions[${key}]`, _.set(_.cloneDeep(question), keyName, value));
+    console.log(result);
     this.props.onGroupChanged(result);
   }
 
@@ -559,6 +620,24 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
 
   }
 
+  handleUploadError(msg) {
+    const { dispatch } = this.props;
+    dispatch(endLoad());
+    dispatch(alertMsg(msg));
+  }
+
+  handleUploadStart(msg) {
+    const { dispatch } = this.props;
+    dispatch(startLoad());
+  }
+
+  handleUploadSuccess(msg, questionInfo) {
+    const { dispatch } = this.props;
+    dispatch(endLoad());
+    // 上传成功
+    this.commonHandleValueChange(questionInfo, msg, 'userValue')
+  }
+
   render() {
     const { group = {}, allGroup = [], region, location } = this.props
     const { questions = [] } = group
@@ -615,10 +694,8 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
             <span dangerouslySetInnerHTML={{ __html: question }}/>
             {request ? <span style={{ color: 'red' }}>*</span> : null}
           </div>
+          {tips ? <div className="question-tips" dangerouslySetInnerHTML={{ __html: tips }}/> : null}
           {QuestionDom}
-          {tips ? <div className="question-tips">
-            {tips}
-          </div> : null}
         </div>
       )
     }
@@ -654,7 +731,7 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
           <div className="check-code-wrapper">
             <span className="code-send-label">验证码：</span>
           </div>
-          <div className="send-phone-blank" style={{margin:'0 0 20px'}}>
+          <div className="send-phone-blank" style={{ margin: '0 0 20px' }}>
             <input type="text" placeholder='请填写验证码' value={phoneCheckCode}
                    onChange={(e) => this.commonHandleValueChange(questionInfo, e.target.value, 'phoneCheckCode')}/>
           </div>
@@ -715,14 +792,29 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
           <div className="question-pic-text">
             你将会在以上时间收到招生委员会的电话/语音面试。委员会由圈外创始人团队、投资人、CEO教练和顶级公司HR等权威专家构成。
           </div>
-          <img src={question} width={'100%'} height={'100%'} style={{display:'block'}}/>
+          <img src={question} width={'100%'} height={'100%'} style={{ display: 'block' }}/>
+        </div>
+      )
+    }
+
+    const renderUploadPic = (questionInfo) => {
+      const { question, type, sequence, request, preChoiceId, id, series, tips, choices, chosenId, oneId, twoId } = questionInfo;
+
+      return mixQuestionDom(questionInfo,
+        <div className='upload-image'>
+          <UploadComponent handleUploadError={(msg) => this.handleUploadError(msg, questionInfo)}
+                           handleUploadStart={(msg) => this.handleUploadStart(msg, questionInfo)}
+                           handleUploadSuccess={(msg) => this.handleUploadSuccess(msg, questionInfo)}
+                           uploadedUrl={questionInfo.userValue}
+                           successIcon={true}
+          />
         </div>
       )
     }
 
     return (
       <div className='question-group'>
-        {questions ? questions.map((item, key) => {
+        {questions && questions.map((item, key) => {
           const { type, request, preChoiceId } = item;
           if(!!preChoiceId) {
             // 如果有前置选项，并且前置选项没有选，则不渲染这个
@@ -745,10 +837,12 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
               return renderPhoneQuestion(item);
             case QuestionType.PIC:
               return renderPic(item);
+            case QuestionType.UPLOAD_PIC:
+              return renderUploadPic(item);
             default:
               return null;
           }
-        }) : null}
+        })}
       </div>
     )
   }
