@@ -6,8 +6,8 @@ import { set, startLoad, endLoad, alertMsg } from '../../../redux/actions'
 import PicLoading from '../components/PicLoading'
 import { joinCampGroup, isFollowing } from './async'
 import { MarkBlock } from '../components/markblock/MarkBlock'
-import { FooterButton } from '../../../components/submitbutton/FooterButton'
 import { configShare } from '../../helpers/JsConfig'
+import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
 
 @connect(state => state)
 export default class CampPay extends React.Component<any, any> {
@@ -76,10 +76,7 @@ export default class CampPay extends React.Component<any, any> {
                onLoad={() => this.setState({ loading: false })}/>
           <MarkBlock module={'打点'} func={'小课训练营'}
                      action={'点击参团按钮'}>
-            <FooterButton btnArray={[ {
-              click: () => this.handleJoinGroup(groupCode),
-              text: '加入自我认识实验'
-            } ]} />
+            <SubmitButton clickFunc={()=>this.handleJoinGroup(groupCode)} buttonText={'加入自我认识实验'} />
           </MarkBlock>
         </div>
       )
