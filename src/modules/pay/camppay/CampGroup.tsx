@@ -6,8 +6,6 @@ import { set, startLoad, endLoad, alertMsg } from '../../../redux/actions'
 import PicLoading from '../components/PicLoading'
 import { joinCampGroup, isFollowing } from './async'
 import { MarkBlock } from '../components/markblock/MarkBlock'
-import { Dialog } from "react-weui"
-const { Alert } = Dialog
 
 @connect(state => state)
 export default class CampPay extends React.Component<any, any> {
@@ -20,24 +18,13 @@ export default class CampPay extends React.Component<any, any> {
     super()
     this.state = {
       data: {},
-      alert: {
-        buttons: [
-          {
-            label: '关闭',
-            onClick: () => {
-              this.setState({ show: false })
-              document.querySelector('.camp-pay-container').style.overflow = 'scroll'
-            }
-          }
-        ]
-      },
     }
   }
 
   async componentWillMount() {
     const { dispatch, location } = this.props
-    const { groupCode } = location.query
-    this.setState({ groupCode })
+    const { groupCode, share } = location.query
+    this.setState({ groupCode, share })
     mark({ module: '打点', function: '小课训练营', action: '参团', memo: groupCode })
   }
 
@@ -66,6 +53,8 @@ export default class CampPay extends React.Component<any, any> {
 
   render() {
     const { loading, groupCode, show } = this.state
+    const { location } = this.props
+    const { share } = location.query
 
     const renderPay = () => {
       return (
@@ -87,12 +76,18 @@ export default class CampPay extends React.Component<any, any> {
         <PicLoading show={loading}/>
         {renderPay()}
         {show &&
+          <div className="alert-container" onClick={()=>this.setState({show:false})}>
+            <div className="subscribe-modal">
+              <div className="subscribe-qrcode"><img src={this.state.url} width={110} height={110}></img></div>
+            </div>
+          </div>
+        }
+
+        {share &&
           <div className="alert-container">
-            <Alert {...this.state.alert} show={show}>
-              <div style={{textAlign:'left'}}>长按关注圈外同学，和好友组队解锁前7天实验。</div>
-              <div style={{textAlign:'left'}}>通过学习和游戏，挖掘天赋优势，人生选择不再迷茫。</div>
-              <div style={{marginTop:20}}><img src={this.state.url} width={150} height={150}></img></div>
-            </Alert>
+            <div style={{marginLeft:(window.innerWidth-290)/2}}>
+              <img src="https://static.iqycamp.com/images/promotion_camp_1_1.png?imageslim" width={311}></img>
+            </div>
           </div>
         }
 

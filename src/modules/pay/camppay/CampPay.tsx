@@ -13,9 +13,6 @@ import { signupCamp, createCampGroup } from './async'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
 import { MarkBlock } from '../components/markblock/MarkBlock'
 
-import { Dialog } from "react-weui"
-const { Alert } = Dialog
-
 @connect(state => state)
 export default class CampPay extends React.Component<any, any> {
 
@@ -32,14 +29,6 @@ export default class CampPay extends React.Component<any, any> {
       showCodeErr: false,
       loading: true,
       data: {},
-      alert: {
-        buttons: [
-          {
-            label: '关闭',
-            onClick: () => this.setState({ show: false })
-          }
-        ]
-      },
     }
   }
 
@@ -125,9 +114,9 @@ export default class CampPay extends React.Component<any, any> {
     dispatch(endLoad())
     if(res.code === 200) {
       let groupCode = res.msg
-      configShare('我在和好友互评眼中的ta，你在我眼中一直……', `https://${window.location.hostname}/pay/static/camp/group?groupCode=${groupCode}`,
+      configShare('我想找2个人，和我一起做一次自我认知实验……', `https://${window.location.hostname}/pay/static/camp/group?groupCode=${groupCode}`,
         'https://static.iqycamp.com/images/rise_share.jpg?imageslim',
-        '组队打怪描述')
+        '2018年，我要做一个全新的自己')
       this.setState({ show: true })
       document.querySelector('.camp-pay-container').style.overflow = 'hidden'
     } else {
@@ -224,14 +213,10 @@ export default class CampPay extends React.Component<any, any> {
         /> }
 
         { show &&
-          <div className="alert-container">
-            <Alert {...this.state.alert} show={show}>
-              <ul>
-                <li>通过学习和游戏，认清自我天赋优势，人生抉择不再迷茫；</li>
-                <li>邀请2位好友加入，3人免费解锁前7天实验；</li>
-                <li>点击右上角分享给好友，即可邀请好友加入。</li>
-              </ul>
-            </Alert>
+          <div className="alert-container" onClick={()=>this.setState({show:false})}>
+            <div style={{marginLeft:(window.innerWidth-290)/2}}>
+              <img src="https://static.iqycamp.com/images/promotion_camp_1_1.png?imageslim" width={311}></img>
+            </div>
           </div>
         }
       </div>
