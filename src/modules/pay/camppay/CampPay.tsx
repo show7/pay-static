@@ -12,8 +12,8 @@ import { getRiseMember, checkRiseMember } from '../async'
 import { signupCamp, createCampGroup } from './async'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
 import { MarkBlock } from '../components/markblock/MarkBlock'
-
 import { Dialog } from "react-weui"
+import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
 const { Alert } = Dialog
 
 @connect(state => state)
@@ -125,9 +125,11 @@ export default class CampPay extends React.Component<any, any> {
     dispatch(endLoad())
     if(res.code === 200) {
       let groupCode = res.msg
-      configShare('我在和好友互评眼中的ta，你在我眼中一直……', `https://${window.location.hostname}/pay/static/camp/group?groupCode=${groupCode}`,
-        'https://static.iqycamp.com/images/rise_share.jpg?imageslim',
-        '组队打怪描述')
+        configShare(
+          '我想和你一起，做一次自我认知实验', `https://${window.location.hostname}/pay/static/camp/group?groupCode=${groupCode}`,
+          'https://static.iqycamp.com/images/team_promotion_share.jpg?imageslim',
+          '2018年，我要做一个全新的自己'
+        )
       this.setState({show:true})
     } else {
       dispatch(alertMsg(res.msg))
@@ -155,24 +157,21 @@ export default class CampPay extends React.Component<any, any> {
           <img className="sale-pic" style={{ width: '100%' }}
                src="https://static.iqycamp.com/images/fragment/camp_promotion_01_6.png?imageslim"
                onLoad={() => this.setState({ loading: false })}/>
-          {/*<MarkBlock module={'打点'} func={'小课训练营'}*/}
-          {/*action={'点击加入按钮'} memo={this.state.currentCampMonth}*/}
-          {/*className='button-footer' onClick={() => this.handleClickOpenPayInfo(showId)}>*/}
-          {/*<div className="footer-btn">加入训练营</div>*/}
-          {/*</MarkBlock>*/}
-          {
-            <div className="button-footer">
-              <MarkBlock module={'打点'} func={'小课训练营'}
-                         action={'点击加入按钮'} memo={this.state.currentCampMonth}
-                         className='footer-left' onClick={() => this.handleClickOpenPayInfo(showId)}>
-                加入训练营
-              </MarkBlock>
-              <MarkBlock module={'打点'} func={'小课训练营'} action={'创建团队'}
-                         className={'footer-btn'} onClick={() => this.handleGroup()}>
-                领取学习资格
-              </MarkBlock>
-            </div>
-          }
+          <MarkBlock module={'打点'} func={'小课训练营'}
+            action={'点击加入按钮'} memo={this.state.currentCampMonth}
+            className='button-footer' onClick={() => this.handleClickOpenPayInfo(showId)}>
+            <SubmitButton className="footer-btn">加入训练营</SubmitButton>
+          </MarkBlock>
+          {/*{*/}
+            {/*<div>*/}
+              {/*<MarkBlock module={'打点'} func={'小课训练营'} action={'点击加入按钮'} memo={this.state.currentCampMonth}>*/}
+                {/*<FooterButton clickFunc={() => this.handleClickOpenPayInfo(showId)} buttonText="￥498 购买课程"/>*/}
+              {/*</MarkBlock>*/}
+              {/*<MarkBlock module={'打点'} func={'小课训练营'} action={'创建团队'}>*/}
+                {/*<FooterButton clickFunc={() => this.handleGroup()} buttonText="自我认知实验室"/>*/}
+              {/*</MarkBlock>*/}
+            {/*</div>*/}
+          {/*}*/}
         </div>
       )
     }

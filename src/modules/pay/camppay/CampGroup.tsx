@@ -6,6 +6,7 @@ import { set, startLoad, endLoad, alertMsg } from '../../../redux/actions'
 import PicLoading from '../components/PicLoading'
 import { joinCampGroup, isFollowing } from './async'
 import { MarkBlock } from '../components/markblock/MarkBlock'
+import { FooterButton } from '../../../components/submitbutton/FooterButton'
 import { configShare } from '../../helpers/JsConfig'
 
 @connect(state => state)
@@ -28,7 +29,7 @@ export default class CampPay extends React.Component<any, any> {
     setTimeout(() => {
       if(share) {
         configShare(
-          '我想找2个人，和我一起做一次自我认知实验……', `https://${window.location.hostname}/pay/static/camp/group?groupCode=${groupCode}`,
+          '我想和你一起，做一次自我认知实验', `https://${window.location.hostname}/pay/static/camp/group?groupCode=${groupCode}`,
           'https://static.iqycamp.com/images/team_promotion_share.jpg?imageslim',
           '2018年，我要做一个全新的自己'
         )
@@ -74,9 +75,11 @@ export default class CampPay extends React.Component<any, any> {
                src="https://static.iqycamp.com/images/fragment/camp_promotion_01_6.png?imageslim"
                onLoad={() => this.setState({ loading: false })}/>
           <MarkBlock module={'打点'} func={'小课训练营'}
-                     action={'点击参团按钮'}
-                     className='button-footer' onClick={() => this.handleJoinGroup(groupCode)}>
-            <div className="footer-btn">加入自我认识实验</div>
+                     action={'点击参团按钮'}>
+            <FooterButton btnArray={[ {
+              click: () => this.handleJoinGroup(groupCode),
+              text: '加入自我认识实验'
+            } ]} />
           </MarkBlock>
         </div>
       )
