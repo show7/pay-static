@@ -29,7 +29,7 @@ export default class CampPay extends React.Component<any, any> {
       if(share) {
         configShare(
           '我想找2个人，和我一起做一次自我认知实验……', `https://${window.location.hostname}/pay/static/camp/group?groupCode=${groupCode}`,
-          'https://static.iqycamp.com/images/rise_share.jpg?imageslim',
+          'https://static.iqycamp.com/images/team_promotion_share.jpg?imageslim',
           '2018年，我要做一个全新的自己'
         )
       }

@@ -28,7 +28,7 @@ export default class CampPay extends React.Component<any, any> {
       showErr: false,
       showCodeErr: false,
       loading: true,
-      data: {},
+      data: {}
     }
   }
 
@@ -114,9 +114,11 @@ export default class CampPay extends React.Component<any, any> {
     dispatch(endLoad())
     if(res.code === 200) {
       let groupCode = res.msg
-      configShare('我想找2个人，和我一起做一次自我认知实验……', `https://${window.location.hostname}/pay/static/camp/group?groupCode=${groupCode}`,
-        'https://static.iqycamp.com/images/rise_share.jpg?imageslim',
-        '2018年，我要做一个全新的自己')
+      configShare(
+        '我想找2个人，和我一起做一次自我认知实验……', `https://${window.location.hostname}/pay/static/camp/group?groupCode=${groupCode}`,
+        'https://static.iqycamp.com/images/team_promotion_share.jpg?imageslim',
+        '2018年，我要做一个全新的自己'
+      )
       this.setState({ show: true })
       document.querySelector('.camp-pay-container').style.overflow = 'hidden'
     } else {
@@ -132,7 +134,7 @@ export default class CampPay extends React.Component<any, any> {
    * 重新注册页面签名
    */
   reConfig() {
-    config([ 'chooseWXPay' ])
+    config(['chooseWXPay'])
   }
 
   render() {
@@ -180,7 +182,7 @@ export default class CampPay extends React.Component<any, any> {
         {renderKefu()}
         {timeOut && <div className="mask" onClick={() => {window.history.back()}}
                          style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}>
-        </div> }
+        </div>}
         {showErr && <div className="mask" onClick={() => this.setState({ showErr: false })}>
           <div className="tips">
             出现问题的童鞋看这里<br/>
@@ -188,7 +190,7 @@ export default class CampPay extends React.Component<any, any> {
             2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
           </div>
           <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
-        </div> }
+        </div>}
         {showCodeErr && <div className="mask" onClick={() => this.setState({ showCodeErr: false })}>
           <div className="tips">
             糟糕，支付不成功<br/>
@@ -200,7 +202,7 @@ export default class CampPay extends React.Component<any, any> {
           </div>
           <img className="xiaoQ" style={{ width: '50%' }}
                src="https://static.iqycamp.com/images/pay_camp_code.png?imageslim"/>
-        </div> }
+        </div>}
         {memberType && <PayInfo ref="payInfo"
                                 dispatch={this.props.dispatch}
                                 goodsType={getGoodsType(memberType.id)}
@@ -210,14 +212,14 @@ export default class CampPay extends React.Component<any, any> {
                                 payedCancel={(res) => this.handlePayedCancel(res)}
                                 payedError={(res) => this.handlePayedError(res)}
                                 payedBefore={() => this.handlePayedBefore()}
-        /> }
+        />}
 
-        { show &&
-          <div className="alert-container" onClick={()=>this.setState({show:false})}>
-            <div style={{marginLeft:(window.innerWidth-290)/2}}>
-              <img src="https://static.iqycamp.com/images/promotion_camp_1_1.png?imageslim" width={311}></img>
-            </div>
+        {show &&
+        <div className="alert-container" onClick={() => this.setState({ show: false })}>
+          <div style={{ marginLeft: (window.innerWidth - 290) / 2 }}>
+            <img src="https://static.iqycamp.com/images/promotion_camp_1_1.png?imageslim" width={311}></img>
           </div>
+        </div>
         }
       </div>
     )
