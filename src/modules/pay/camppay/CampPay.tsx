@@ -155,7 +155,7 @@ export default class CampPay extends React.Component<any, any> {
               <MarkBlock module={'打点'} func={'小课训练营'}
                          action={'点击加入按钮'} memo={this.state.currentCampMonth}
                          className='footer-left' onClick={() => this.handleClickOpenPayInfo(showId)}>
-                加入训练营
+                ￥498 购买课程
               </MarkBlock>
               <MarkBlock module={'打点'} func={'小课训练营'} action={'创建团队'}
                          className={'footer-btn'} onClick={() => this.handleGroup()}>
