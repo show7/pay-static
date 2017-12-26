@@ -12,6 +12,7 @@ import { getRiseMember, checkRiseMember } from '../async'
 import { signupCamp, createCampGroup } from './async'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
 import { MarkBlock } from '../components/markblock/MarkBlock'
+import { FooterButton } from '../../../components/submitbutton/FooterButton'
 
 @connect(state => state)
 export default class CampPay extends React.Component<any, any> {
@@ -93,6 +94,7 @@ export default class CampPay extends React.Component<any, any> {
     const { dispatch } = this.props
     dispatch(startLoad())
     // 先检查是否能够支付
+    mark({function: '小课训练营', module:'打点', action:'点击加入按钮'})
     let res = await checkRiseMember(showId)
     dispatch(endLoad())
     if(res.code === 200) {
@@ -107,6 +109,7 @@ export default class CampPay extends React.Component<any, any> {
 
   //TODO: 活动结束后删除
   async handleGroup() {
+    mark({function: '小课训练营', module:'打点', action:'创建团队'})
     const { dispatch } = this.props
     dispatch(startLoad())
     // 先检查是否能够支付
@@ -115,7 +118,7 @@ export default class CampPay extends React.Component<any, any> {
     if(res.code === 200) {
       let groupCode = res.msg
       configShare(
-        '我想找2个人，和我一起做一次自我认知实验……', `https://${window.location.hostname}/pay/static/camp/group?groupCode=${groupCode}`,
+        '我想和你一起，做一次自我认知实验', `https://${window.location.hostname}/pay/static/camp/group?groupCode=${groupCode}`,
         'https://static.iqycamp.com/images/team_promotion_share.jpg?imageslim',
         '2018年，我要做一个全新的自己'
       )
@@ -153,17 +156,13 @@ export default class CampPay extends React.Component<any, any> {
           {/*<div className="footer-btn">加入训练营</div>*/}
           {/*</MarkBlock>*/}
           {
-            <div className="button-footer">
-              <MarkBlock module={'打点'} func={'小课训练营'}
-                         action={'点击加入按钮'} memo={this.state.currentCampMonth}
-                         className='footer-left' onClick={() => this.handleClickOpenPayInfo(showId)}>
-                ￥498 购买课程
-              </MarkBlock>
-              <MarkBlock module={'打点'} func={'小课训练营'} action={'创建团队'}
-                         className={'footer-btn'} onClick={() => this.handleGroup()}>
-                自我认知实验室
-              </MarkBlock>
-            </div>
+            <FooterButton btnArray={[ {
+              click: () => () => this.handleClickOpenPayInfo(showId),
+              text: '￥498 购买课程'
+            },{
+              click: () => () => this.handleGroup(),
+              text: '自我认知实验室'
+            } ]} />
           }
         </div>
       )
