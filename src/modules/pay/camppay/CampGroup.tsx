@@ -6,6 +6,7 @@ import { set, startLoad, endLoad, alertMsg } from '../../../redux/actions'
 import PicLoading from '../components/PicLoading'
 import { joinCampGroup, isFollowing } from './async'
 import { MarkBlock } from '../components/markblock/MarkBlock'
+import { configShare } from '../../helpers/JsConfig'
 
 @connect(state => state)
 export default class CampPay extends React.Component<any, any> {
@@ -17,13 +18,23 @@ export default class CampPay extends React.Component<any, any> {
   constructor() {
     super()
     this.state = {
-      data: {},
+      data: {}
     }
   }
 
   async componentWillMount() {
     const { dispatch, location } = this.props
     const { groupCode, share } = location.query
+    setTimeout(() => {
+      if(share) {
+        configShare(
+          '我想找2个人，和我一起做一次自我认知实验……', `https://${window.location.hostname}/pay/static/camp/group?groupCode=${groupCode}`,
+          'https://static.iqycamp.com/images/rise_share.jpg?imageslim',
+          '2018年，我要做一个全新的自己'
+        )
+      }
+    }, 0)
+
     this.setState({ groupCode, share })
     mark({ module: '打点', function: '小课训练营', action: '参团', memo: groupCode })
   }
@@ -75,22 +86,22 @@ export default class CampPay extends React.Component<any, any> {
       <div className="camp-pay-container">
         <PicLoading show={loading}/>
         {renderPay()}
-        {show &&
-          <div className="alert-container" onClick={()=>this.setState({show:false})}>
+        {
+          show &&
+          <div className="alert-container" onClick={() => this.setState({ show: false })}>
             <div className="subscribe-modal">
               <div className="subscribe-qrcode"><img src={this.state.url} width={110} height={110}></img></div>
             </div>
           </div>
         }
-
-        {share &&
+        {
+          share &&
           <div className="alert-container">
-            <div style={{marginLeft:(window.innerWidth-290)/2}}>
+            <div style={{ marginLeft: (window.innerWidth - 290) / 2 }}>
               <img src="https://static.iqycamp.com/images/promotion_camp_1_1.png?imageslim" width={311}></img>
             </div>
           </div>
         }
-
       </div>
     )
   }
