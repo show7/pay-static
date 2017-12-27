@@ -116,9 +116,9 @@ export default class CampPay extends React.Component<any, any> {
     if(res.code === 200) {
       let groupCode = res.msg
       configShare(
-        '我想和你一起，做一次自我认知实验', `https://${window.location.hostname}/pay/static/camp/group?groupCode=${groupCode}`,
+        '我想邀请你一起，用7天时间分析出真正的自己', `https://${window.location.hostname}/pay/static/camp/group?groupCode=${groupCode}`,
         'https://static.iqycamp.com/images/team_promotion_share.jpg?imageslim',
-        '2018年，我要做一个全新的自己'
+        ''
       )
       this.setState({ show: true })
       document.querySelector('.camp-pay-container').style.overflow = 'hidden'
@@ -161,7 +161,7 @@ export default class CampPay extends React.Component<any, any> {
               </MarkBlock>
               <MarkBlock module={'打点'} func={'小课训练营'} action={'创建团队'}
                          className={'footer-btn'} onClick={() => this.handleGroup()}>
-                自我认知实验室
+                7天试学
               </MarkBlock>
             </div>
           }
@@ -216,9 +216,7 @@ export default class CampPay extends React.Component<any, any> {
 
         {show &&
         <div className="alert-container" onClick={() => this.setState({ show: false })}>
-          <div style={{ marginLeft: (window.innerWidth - 290) / 2 }}>
-            <img src="https://static.iqycamp.com/images/promotion_camp_1_1.png?imageslim" width={311}></img>
-          </div>
+            <img src="https://static.iqycamp.com/images/promotion_camp_1_2.png?imageslim" width={'100%'}></img>
         </div>
         }
       </div>

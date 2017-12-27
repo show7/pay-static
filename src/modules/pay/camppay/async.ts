@@ -16,3 +16,7 @@ export function joinCampGroup(groupCode){
   return ppost(`/rise/operation/group/participate?groupCode=${groupCode}`)
 }
 
+export function getLeaderInfo(groupCode){
+  return pget(`/rise/operation/group/leader?groupCode=${groupCode}`)
+}
+
