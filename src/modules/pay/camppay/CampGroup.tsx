@@ -36,13 +36,11 @@ export default class CampPay extends React.Component<any, any> {
       dispatch(alertMsg(msg))
     }
 
-    if(share) {
-      configShare(
-        '我想邀请你一起，用7天时间分析出真正的自己', `https://${window.location.hostname}/pay/static/camp/group?groupCode=${groupCode}`,
-        'https://static.iqycamp.com/images/team_promotion_share.jpg?imageslim',
-        ''
-      )
-    }
+    configShare(
+      '我想邀请你一起，用7天时间重新认识自己', `https://${window.location.hostname}/pay/static/camp/group?groupCode=${groupCode}`,
+      'https://static.iqycamp.com/images/team_promotion_share.jpg?imageslim',
+      '揭晓价值观和能力的隐藏区'
+    )
 
     this.setState({ groupCode, share })
     mark({ module: '打点', function: '小课训练营', action: '参团', memo: groupCode })
@@ -93,10 +91,7 @@ export default class CampPay extends React.Component<any, any> {
             《认识自己|用冰山模型，分析出真实的你》
           </div>
           <div className="rule-words">
-            <ul>
-              <li>7天免费试学，名额有限，报满为止，结束后可以选择是否付费继续参加课程。</li>
-              <li>如果好奇，就快和优秀的朋友相约，一起挖掘隐藏优势，认识另一个自己</li>
-            </ul>
+            7天免费试学，名额有限，报满为止，结束后可以选择是否付费继续参加课程。
           </div>
         </div>
       )
