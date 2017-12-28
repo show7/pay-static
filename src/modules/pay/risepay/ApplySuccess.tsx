@@ -10,7 +10,6 @@ import PayInfo from '../components/PayInfo'
 import { SaleBody } from './components/SaleBody'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
 import { getRiseMember } from '../async'
-import { chooseAuditionCourse, getRiseMember } from '../async'
 import Icon from '../../../components/Icon'
 import { MarkBlock } from '../components/markblock/MarkBlock'
 

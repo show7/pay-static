@@ -29,10 +29,9 @@ export default class RiseApply extends React.Component<any, any> {
   componentWillMount() {
     const id = this.props.location.query.riseId
     //表示是分享点击进入
-    if(id !== undefined) {
+    if(id) {
       mark({ module: '打点', function: '商学院guest', action: '购买商学院会员', memo: '通过分享途径' })
-      addUserRecommendation(id).then(res => {
-      })
+      addUserRecommendation(id)
     }
     else {
       mark({ module: '打点', function: '商学院guest', action: '购买商学院会员' })

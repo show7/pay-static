@@ -3,7 +3,8 @@ import { config } from 'modules/helpers/JsConfig'
 import { Route } from 'react-router'
 import Base from 'modules/base/Base'
 import RisePay from 'modules/pay/risepay/RisePay'
-import CampPay from 'modules/pay/CampPay'
+import CampPay from 'modules/pay/camppay/CampPay'
+import CampGroup from 'modules/pay/camppay/CampGroup'
 import RiseApply from 'modules/pay/risepay/RiseApply'
 import RiseShare from 'modules/pay/risepay/RiseShare'
 import BusinessApply from './modules/pay/bsapply/BusinessApply'
@@ -15,6 +16,7 @@ import ApplySuccess from 'modules/pay/risepay/ApplySuccess'
 import MemberPaySuccess from 'modules/pay/MemberPaySuccess'
 import BusinessApplySubmitSuccess from './modules/pay/bsapply/BusinessApplySubmitSuccess'
 import Subscribe from './modules/subscribe/Subscribe'
+import JanuaryCampPay from './modules/pay/JanuaryCampPay'
 
 const routes = (
   <Route path="/">
@@ -29,8 +31,10 @@ const routes = (
       <Route path="pay/audition/success" component={AuditionSuccess}/>
       <Route path="pay/rise" component={RisePay}/>
       <Route path="pay/camp" component={CampPay}/>
+      <Route path="pay/camp/jan" component={JanuaryCampPay}  />
       <Route path="pay/static/rise" component={RiseApply}/>
       <Route path="pay/static/share" component={RiseShare}/>
+      <Route path="pay/static/camp/group" component={CampGroup}/>
       <Route path="pay/apply" component={ApplySuccess}/>
       <Route path="pay/pay" component={RisePay}/>
       <Route path="pay/preacher" component={PreacherPage}/>

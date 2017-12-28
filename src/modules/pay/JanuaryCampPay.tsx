@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as _ from 'lodash'
-import './CampPay.less'
+import './JanuaryCampPay.less'
 import { connect } from 'react-redux'
 import { ppost, pget, mark } from 'utils/request'
 import { getGoodsType } from 'utils/helpers'
@@ -14,7 +14,7 @@ import { CustomerService } from '../../components/customerservice/CustomerServic
 import { MarkBlock } from './components/markblock/MarkBlock'
 
 @connect(state => state)
-export default class CampPay extends React.Component<any, any> {
+export default class JanuaryCampPay extends React.Component<any, any> {
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
@@ -151,7 +151,7 @@ export default class CampPay extends React.Component<any, any> {
     }
 
     return (
-      <div className="camp-pay-container">
+      <div className="jan-camp-pay-container">
         <PicLoading show={loading}/>
         {renderPay()}
         {renderKefu()}

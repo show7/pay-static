@@ -20,14 +20,14 @@ export class FooterButton extends React.Component<SubmitButtonProps, SubmitButto
     if(btnArray.length === 1) {
       const { click, text } = btnArray[ 0 ];
       return (
-        <div className="ft-button-wrapper button-footer">
+        <div className="ft-button-wrapper button-footer-component">
           <div className="submit-btn" onClick={() => click()}>{text}</div>
         </div>
       )
     } else {
       //if(btnArray.length === 2)
       return (
-        <div className="ft-button-wrapper button-footer two-buttons">
+        <div className="ft-button-wrapper button-footer-component two-buttons">
           {btnArray.map((btn, idx) => {
             const { click, text } = btn;
             return (

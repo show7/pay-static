@@ -71,7 +71,7 @@ export default class RiseShare extends React.Component<any, any> {
           showTip &&
           <div className="share-tip" onClick={() => this.setState({ showTip: false })}>
             <div className="tip-pic">
-              <img src="https://static.iqycamp.com/images/share_pic1.png" width={247}/>
+              <img src="https://static.iqycamp.com/images/share_pic1.png?imageslim" width={247}/>
             </div>
           </div>
         }
