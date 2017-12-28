@@ -4,7 +4,6 @@ import { Route } from 'react-router'
 import Base from 'modules/base/Base'
 import RisePay from 'modules/pay/risepay/RisePay'
 import CampPay from 'modules/pay/camppay/CampPay'
-import CampTempPay from 'modules/pay/camppay/CampTempPay'
 import CampGroup from 'modules/pay/camppay/CampGroup'
 import RiseApply from 'modules/pay/risepay/RiseApply'
 import RiseShare from 'modules/pay/risepay/RiseShare'
@@ -31,8 +30,7 @@ const routes = (
       <Route path="pay/member/success" component={MemberPaySuccess}/>
       <Route path="pay/audition/success" component={AuditionSuccess}/>
       <Route path="pay/rise" component={RisePay}/>
-      <Route path="pay/camp" component={CampTempPay}/>
-      <Route path="pay/camp/promotion" component={CampTempPay}/>
+      <Route path="pay/camp" component={CampPay}/>
       <Route path="pay/camp/jan" component={JanuaryCampPay}  />
       <Route path="pay/static/rise" component={RiseApply}/>
       <Route path="pay/static/share" component={RiseShare}/>

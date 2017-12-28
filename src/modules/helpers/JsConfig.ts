@@ -22,8 +22,8 @@ export function hideOptionMenu(current, picList) {
   wx.hideOptionMenu();
 }
 
-export function configShare(title, url, imgUrl, desc){
-  JsConfigService.configShare(title, url, imgUrl, desc);
+export function configShare(title, url, imgUrl, desc, apiList = []){
+  JsConfigService.configShare(title, url, imgUrl, desc, apiList);
 }
 
 
