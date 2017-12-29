@@ -10,7 +10,6 @@ import { MarkBlock } from '../components/markblock/MarkBlock'
 import { configShare } from '../../helpers/JsConfig'
 import { getGoodsType } from '../../../utils/helpers'
 import PayInfo from '../components/PayInfo'
-import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
 
 @connect(state => state)
 export default class CampPay extends React.Component<any, any> {
@@ -194,14 +193,14 @@ export default class CampPay extends React.Component<any, any> {
           show &&
           <div className="alert-container" onClick={() => this.setState({ show: false })}>
             <div className="subscribe-modal">
-              <div className="subscribe-qrcode"><img src={this.state.url} width={110} height={110}></img></div>
+              <div className="subscribe-qrcode"><img src={this.state.url} width={150} height={150}></img></div>
             </div>
           </div>
         }
         {
           share &&
           <div className="alert-container">
-            <img src="https://static.iqycamp.com/images/promotion_camp_1_3.png?imageslim" width={'100%'}></img>
+            <img src="https://static.iqycamp.com/images/promotion_camp_1_4.png?imageslim" width={'100%'}></img>
           </div>
         }
 
