@@ -35,7 +35,7 @@ export default class BusinessApplySubmitSuccess extends Component<any, any> {
         <div className="ba-header">
           <div className="ba-header-msg">感谢提交圈外商学院申请</div>
           <div className="ba-header-pic">
-            <Icon type="white_book_black_bg" width='100px'/>
+            <Icon type="phone_interview_ok" width='100px'/>
           </div>
         </div>
         <div className="ba-main-body">
