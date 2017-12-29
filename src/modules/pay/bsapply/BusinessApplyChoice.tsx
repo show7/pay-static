@@ -424,7 +424,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
   }
 
   render() {
-    const { questionGroup, currentIndex, seriesCount, showErr, showCodeErr, memberType, showId } = this.state
+    const { questionGroup, currentIndex, seriesCount, showErr, showCodeErr, memberType } = this.state
 
     const isSelected = (choices, choice) => {
       return !_.isEmpty(_.find(choices, {
@@ -444,7 +444,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
         return (
           <FooterButton btnArray={[ {
             click: () => this.handleClickOpenPayInfo(),
-            text: '支付面试费用'
+            text: '1元预约'
           } ]}/>
           // <FooterButton btnArray={[ {
           //   click: () => this.handleClickSubmit(),
@@ -467,14 +467,15 @@ export default class BusinessApplyChoice extends Component<any, any> {
     return (
       <div className="apply-choice" style={{ minHeight: window.innerHeight }}>
         <div className="apply-container">
-          <div className="apply-page-header">圈外商学院入学申请</div>
-          <div className="apply_rate">
-            <img src="https://static.iqycamp.com/images/progress_bar2.png?imageslim" width={'100%'}/>
-          </div>
+          <div className="apply-page-header">圈外商学院入学沟通预约</div>
+          {/*<div className="apply_rate">*/}
+            {/*<img src="https://static.iqycamp.com/images/progress_bar2.png?imageslim" width={'100%'}/>*/}
+          {/*</div>*/}
           <div className="apply-progress">
             <div className="apply-progress-bar"
                  style={{ width: (window.innerWidth - 90) * (currentIndex / (seriesCount - 1)) }}/>
           </div>
+          <div className="apply-progress-page-index">{currentIndex+1} / {questionGroup.length}</div>
           <QuestionGroup group={questionGroup[ currentIndex ]} allGroup={questionGroup} region={this.props.region}
                          onGroupChanged={(group) => this.handleGroupChanged(group, currentIndex)}/>
         </div>

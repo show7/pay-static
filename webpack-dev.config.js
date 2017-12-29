@@ -1,6 +1,7 @@
 var path = require("path")
 var webpack = require("webpack")
 var ip = require("ip")
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = {
 	devtool: "eval", // 增加开发速度
@@ -19,7 +20,8 @@ module.exports = {
 		new webpack.DefinePlugin({
 			"process.env.NODE_ENV": JSON.stringify("development")
 		}),
-		new webpack.HotModuleReplacementPlugin()
+		new webpack.HotModuleReplacementPlugin(),
+    new BundleAnalyzerPlugin(),
 	],
   	resolve: {
     		root: path.resolve("./src"),
