@@ -473,7 +473,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
           {/*</div>*/}
           <div className="apply-progress">
             <div className="apply-progress-bar"
-                 style={{ width: (window.innerWidth - 90) * (currentIndex / (seriesCount - 1)) }}/>
+                 style={{ width: (window.innerWidth - 90 - 35) * (currentIndex / (seriesCount - 1)) }}/>
           </div>
           <div className="apply-progress-page-index">{currentIndex+1} / {questionGroup.length}</div>
           <QuestionGroup group={questionGroup[ currentIndex ]} allGroup={questionGroup} region={this.props.region}

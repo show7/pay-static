@@ -57,7 +57,7 @@ export default class BusinessApply extends Component<any, any> {
         <div className="ba-header">
           <div className="ba-header-msg">圈外商学院入学沟通预约</div>
           <div className="ba-header-pic">
-            <Icon type="white_book_yellow_bg" width='10rem'/>
+            <Icon type="phone_interview" width='10rem'/>
           </div>
         </div>
         <div className="ba-main-body">
