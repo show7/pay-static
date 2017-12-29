@@ -9,8 +9,6 @@ import { MarkBlock } from '../components/markblock/MarkBlock'
 import { mark } from 'utils/request'
 import { addUserRecommendation } from './async'
 
-const { Alert } = Dialog
-
 @connect(state => state)
 export default class RiseApply extends React.Component<any, any> {
 
@@ -78,9 +76,9 @@ export default class RiseApply extends React.Component<any, any> {
 
     return (
       <div className="rise-pay-container" onClick={() => this.setState({ show: false })}>
-        <Alert show={show} title="扫码关注，完成预约">
+        <Dialog show={show} title="扫码关注，完成预约">
           <img src="https://www.iqycamp.com/images/qrcode/audition_signup.jpeg" style={{ width: 160, height: 160 }}/>
-        </Alert>
+        </Dialog>
         {renderPay()}
       </div>
     )
