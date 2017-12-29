@@ -21,7 +21,7 @@ module.exports = {
 			"process.env.NODE_ENV": JSON.stringify("development")
 		}),
 		new webpack.HotModuleReplacementPlugin(),
-    new BundleAnalyzerPlugin(),
+    // new BundleAnalyzerPlugin(),
 	],
   	resolve: {
     		root: path.resolve("./src"),
