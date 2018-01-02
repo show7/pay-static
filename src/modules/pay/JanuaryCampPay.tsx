@@ -117,7 +117,7 @@ export default class JanuaryCampPay extends React.Component<any, any> {
       })
     } else {
       dispatch(endLoad())
-      dispatch(alertMsg)
+      dispatch(alertMsg(response.msg))
     }
   }
 
