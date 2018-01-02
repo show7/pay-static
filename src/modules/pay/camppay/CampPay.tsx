@@ -216,7 +216,7 @@ export default class CampPay extends React.Component<any, any> {
 
         {show &&
         <div className="alert-container" onClick={() => this.setState({ show: false })}>
-          <img src="https://static.iqycamp.com/images/promotion_camp_1_3.png?imageslim" width={'100%'}></img>
+          <img src="https://static.iqycamp.com/images/promotion_camp_1_4.png?imageslim" width={'100%'}></img>
         </div>
         }
       </div>

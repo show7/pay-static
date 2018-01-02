@@ -1,6 +1,5 @@
 import * as React from "react";
 import "./PicLoading.less"
-import { Toast, Dialog } from "react-weui"
 
 export default class PicLoading extends React.Component<any, any> {
   static contextTypes = {

@@ -7,7 +7,6 @@ import { config } from "../helpers/JsConfig"
 const P = "base"
 const LOAD_KEY = `${P}.loading`
 const SHOW_MODAL_KEY = `${P}.showModal`
-const { Alert } = Dialog
 import UA from "ua-device";
 import {toLower,get} from "lodash";
 import $ from 'jquery';
@@ -58,12 +57,12 @@ export default class Main extends React.Component<any, any> {
 			<div>
 				{this.props.children}
 				<Toast show={isPending(this.props, LOAD_KEY)} icon="loading">
-					加载中...
+					<div style={{fontSize: 12, marginTop: -4}}>加载中...</div>
 				</Toast>
-				<Alert { ...this.state.alert }
+				<Dialog { ...this.state.alert }
 					show={this.props.base.showModal}>
           <pre className="global-pre">{this.props.base.alertMsg}</pre>
-				</Alert>
+				</Dialog>
 			</div>
 		)
 	}
