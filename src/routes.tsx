@@ -17,6 +17,7 @@ import MemberPaySuccess from 'modules/pay/MemberPaySuccess'
 import BusinessApplySubmitSuccess from './modules/pay/bsapply/BusinessApplySubmitSuccess'
 import Subscribe from './modules/subscribe/Subscribe'
 import JanuaryCampPay from './modules/pay/JanuaryCampPay'
+import CampPayGuest from './modules/pay/camppay/CampPayGuest'
 
 const routes = (
   <Route path="/">
@@ -30,6 +31,7 @@ const routes = (
       <Route path="pay/member/success" component={MemberPaySuccess}/>
       <Route path="pay/audition/success" component={AuditionSuccess}/>
       <Route path="pay/rise" component={RisePay}/>
+      <Route path="pay/static/camp" component={CampPayGuest}/>
       <Route path="pay/camp" component={CampPay}/>
       <Route path="pay/camp/jan" component={JanuaryCampPay}  />
       <Route path="pay/static/rise" component={RiseApply}/>
