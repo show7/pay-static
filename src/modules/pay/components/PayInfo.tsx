@@ -133,7 +133,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     if(!goodsId || !goodsType) {
       dispatch(alertMsg('支付信息错误，请联系管理员'))
     }
-    let param = { goodsId: goodsId, goodsType: goodsType }
+    let param = { goodsId: goodsId, goodsType: goodsType, payType: 2 }
     if(chose) {
       if(!_.isEmpty(chose.couponsIdGroup)) {
         param = _.merge({}, param, { couponsIdGroup: chose.couponsIdGroup })
@@ -151,10 +151,13 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
         }
         if(free && numeral(fee).format('0.00') === '0.00') {
           // 免费
-          this.handlePayDone()
+          this.handlePayDone();
         } else {
+          // 调用阿里支付
+          console.log(signParams);
+          window.location.href = signParams.alipayUrl;
           // 收费，调微信支付
-          this.handleH5Pay(signParams)
+          // this.handleH5Pay(signParams)
         }
         if(_.isFunction(this.props.payedBefore)) {
           this.props.payedBefore();
@@ -535,26 +538,26 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                 {renderPrice(fee, final, free)}
               </div>
               {!!startTime && !!endTime ? <div className="open-time item">
-                  学习时间：{startTime} - {endTime}
-                </div> : null}
+                学习时间：{startTime} - {endTime}
+              </div> : null}
               <div className={`coupon item`}>
                 {coupons && chose && chose.used ? `优惠券：¥${numeral(chose.total).format('0.00')}元` : '选择优惠券'}
               </div>
             </div>
             <ul className={`coupon-list`}>
               {coupons ? coupons.map((item, seq) => {
-                  return (
-                    <li className="coupon" key={seq}>
-                      ¥{numeral(item.amount).format('0.00')}元
-                      <span className="describe">{item.description ? item.description : ''}</span>
-                      <span className="expired">{item.expired}过期</span>
-                      <div className={`btn ${couponChosen(item) ? 'chose' : ''}`}
-                           onClick={() => this.handleClickChooseCoupon(item)}>
-                        选择
-                      </div>
-                    </li>
-                  )
-                }) : null}
+                return (
+                  <li className="coupon" key={seq}>
+                    ¥{numeral(item.amount).format('0.00')}元
+                    <span className="describe">{item.description ? item.description : ''}</span>
+                    <span className="expired">{item.expired}过期</span>
+                    <div className={`btn ${couponChosen(item) ? 'chose' : ''}`}
+                         onClick={() => this.handleClickChooseCoupon(item)}>
+                      选择
+                    </div>
+                  </li>
+                )
+              }) : null}
             </ul>
           </div>
           <div className="btn-container">
@@ -565,14 +568,14 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     } else {
       // <!--  非安卓4.3 -->
       return (<div
-        className={`pay-info ${show ? 'show' : ''} ${hasCoupons ? 'hasCoupons' : ''} ${!!startTime && !!endTime ? 'hasTime':''}`}>
-        {show ?<div className={`close ${hasCoupons ? 'hasCoupons' : ''} ${!!startTime && !!endTime ? 'hasTime':''}`}
-                    onClick={() => this.handleClickClose()}>
-            <Icon type="white_close_btn" size="40px"/>
-          </div> : null}
+        className={`pay-info ${show ? 'show' : ''} ${hasCoupons ? 'hasCoupons' : ''} ${!!startTime && !!endTime ? 'hasTime' : ''}`}>
+        {show ? <div className={`close ${hasCoupons ? 'hasCoupons' : ''} ${!!startTime && !!endTime ? 'hasTime' : ''}`}
+                     onClick={() => this.handleClickClose()}>
+          <Icon type="white_close_btn" size="40px"/>
+        </div> : null}
 
         <div
-          className={`main-container ${hasCoupons ? 'hasCoupons' : ''} ${show ? 'show' : ''} ${!!startTime && !!endTime ? 'hasTime':''}`}>
+          className={`main-container ${hasCoupons ? 'hasCoupons' : ''} ${show ? 'show' : ''} ${!!startTime && !!endTime ? 'hasTime' : ''}`}>
           <div className={`header ${openCoupon ? 'openCoupon' : ''}`}>
             {header || name}
           </div>
@@ -581,8 +584,8 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
               {renderPrice(fee, final, free, initPrice)}
             </div>
             {!!startTime && !!endTime ? <div className="open-time item">
-                学习时间：{startTime} - {endTime}
-              </div> : null}
+              学习时间：{startTime} - {endTime}
+            </div> : null}
             {hasCoupons ?
               <div
                 className={`coupon item  ${openCoupon && multiCoupons ? 'no-arrow' : ''} ${openCoupon ? 'open' : ''}`}
@@ -596,45 +599,45 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
           </div>
           <ul className={`coupon-list ${openCoupon ? 'open' : ''}`}>
             {multiCoupons ? (
-                <div className="choose-all-wrapper">
-                  <div className="choose-area">
-                    <div className="choose-all-tips">全选</div>
-                    <div className={`choose-all ${chooseAll ? 'chose' : ''}`}
-                         onClick={() => this.handleClickChooseAll()}>
-                      <div className="btn">
-                      </div>
-                      <div className="mask">
-                      </div>
+              <div className="choose-all-wrapper">
+                <div className="choose-area">
+                  <div className="choose-all-tips">全选</div>
+                  <div className={`choose-all ${chooseAll ? 'chose' : ''}`}
+                       onClick={() => this.handleClickChooseAll()}>
+                    <div className="btn">
+                    </div>
+                    <div className="mask">
                     </div>
                   </div>
                 </div>
-              ) : null}
+              </div>
+            ) : null}
             {coupons ? coupons.map((item, seq) => {
-                return (
-                  <li className="coupon" key={seq}>
-                    <div className="coupon-left">
-                      <div className="coupon-price">
-                        ¥{numeral(item.amount).format('0.00')}元
-                      </div>
-                      <div className="coupon-desc">
-                        <span className="describe">{item.description ? item.description : ''}</span>
-                        <span className="expired">{item.expired}过期</span>
-                      </div>
+              return (
+                <li className="coupon" key={seq}>
+                  <div className="coupon-left">
+                    <div className="coupon-price">
+                      ¥{numeral(item.amount).format('0.00')}元
                     </div>
-                    <div className="shuxian">
+                    <div className="coupon-desc">
+                      <span className="describe">{item.description ? item.description : ''}</span>
+                      <span className="expired">{item.expired}过期</span>
                     </div>
-                    <div
-                      className={`
+                  </div>
+                  <div className="shuxian">
+                  </div>
+                  <div
+                    className={`
                        coupon-btn ${multiCoupons ? 'multiCoupons' : ''} ${couponChosen(item) ? 'chose' : ''}`}
-                      onClick={() => this.handleClickChooseCoupon(item)}>
-                      <div className={`btn ${multiCoupons ? 'multiCoupons' : ''} `}>
-                      </div>
-                      <div className={`mask ${multiCoupons ? 'multiCoupons' : ''} `}>
-                      </div>
+                    onClick={() => this.handleClickChooseCoupon(item)}>
+                    <div className={`btn ${multiCoupons ? 'multiCoupons' : ''} `}>
                     </div>
-                  </li>
-                )
-              }) : null}
+                    <div className={`mask ${multiCoupons ? 'multiCoupons' : ''} `}>
+                    </div>
+                  </div>
+                </li>
+              )
+            }) : null}
           </ul>
         </div>
         <div className={`btn-container ${openCoupon ? 'openCoupon' : ''}`}>
