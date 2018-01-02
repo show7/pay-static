@@ -9,7 +9,7 @@ import { Button, ButtonArea } from 'react-weui'
 import { config } from 'modules/helpers/JsConfig'
 import PayInfo from './components/PayInfo'
 import PicLoading from './components/PicLoading'
-import { getRiseMember, checkRiseMember } from './async'
+import { getRiseMember, checkRiseMember, checkPromotionOrAnnual } from './async'
 import { CustomerService } from '../../components/customerservice/CustomerService'
 import { MarkBlock } from './components/markblock/MarkBlock'
 
@@ -93,25 +93,32 @@ export default class JanuaryCampPay extends React.Component<any, any> {
    * 打开支付窗口
    * @param showId 会员类型id
    */
-  handleClickOpenPayInfo(showId) {
+  async handleClickOpenPayInfo(showId) {
     this.reConfig()
     const { dispatch } = this.props
     dispatch(startLoad())
-    // 先检查是否能够支付
-    checkRiseMember(showId).then(res => {
+
+    let response = await checkPromotionOrAnnual()
+    if (response.code === 200) {
+       // 先检查是否能够支付
+      checkRiseMember(showId).then(res => {
+        dispatch(endLoad())
+        if(res.code === 200) {
+          // 查询是否还在报名
+          this.refs.payInfo.handleClickOpen()
+        } else if (res.code === 214) {
+          this.setState({ timeOut: true })
+        } else {
+          dispatch(alertMsg(res.msg))
+        }
+      }).catch(ex => {
+        dispatch(endLoad())
+        dispatch(alertMsg(ex))
+      })
+    } else {
       dispatch(endLoad())
-      if(res.code === 200) {
-        // 查询是否还在报名
-        this.refs.payInfo.handleClickOpen()
-      } else if(res.code === 214) {
-        this.setState({ timeOut: true })
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-    })
+      dispatch(alertMsg)
+    }
   }
 
   handlePayedBefore() {
