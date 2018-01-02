@@ -40,7 +40,6 @@ const routes = (
       <Route path="pay/apply" component={ApplySuccess}/>
       <Route path="pay/pay" component={RisePay}/>
       <Route path="pay/preacher" component={PreacherPage}/>
-
       <Route path="pay/bsstart" component={BusinessApply}/>
       <Route path="pay/applychoice" component={BusinessApplyChoice}/>
       <Route path="pay/applysubmit" component={BusinessApplySubmitSuccess}/>

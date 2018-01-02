@@ -13,6 +13,7 @@ import { signupCamp, createCampGroup } from './async'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
 import { MarkBlock } from '../components/markblock/MarkBlock'
 import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
+import Icon from '../../../components/Icon'
 
 @connect(state => state)
 export default class CampPayGuest extends React.Component<any, any> {
@@ -38,25 +39,29 @@ export default class CampPayGuest extends React.Component<any, any> {
     }
   }
 
+  handleClickOpenPayInfo() {
+    window.location.href = "/pay/redirect/camp/pay"
+  }
+
   render() {
-    const { data, showId, timeOut, showErr, showCodeErr, loading, show } = this.state
+    const { campPaymentImage, markSellingMemo } = this.state
     const { memberType } = data
 
     const renderPay = () => {
       return (
         <div className="pay-page">
           <img className="sale-pic" style={{ width: '100%' }}
-               src="https://static.iqycamp.com/images/fragment/camp_promotion_01_9.png?imageslim"
+               src={campPaymentImage}
                onLoad={() => this.setState({ loading: false })}/>
           {
             <div className="button-footer">
-              <MarkBlock module={'打点'} func={'小课训练营'}
-                         action={'点击加入按钮'} memo={this.state.currentCampMonth}
-                         className='footer-left' onClick={() => this.handleClickOpenPayInfo(showId)}>
+              <MarkBlock module={'打点'} func={'小课训练营-未关注'}
+                         action={'点击加入按钮'} memo={markSellingMemo}
+                         className='footer-left' onClick={() => this.handleClickOpenPayInfo()}>
                 单人模式(¥498)
               </MarkBlock>
               <MarkBlock module={'打点'} func={'小课训练营'} action={'创建团队'}
-                         className={'footer-btn'} onClick={() => this.handleGroup()}>
+                         className={'footer-btn'}>
                 互助模式（7天免费）
               </MarkBlock>
             </div>
