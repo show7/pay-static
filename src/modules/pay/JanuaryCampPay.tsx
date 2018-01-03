@@ -55,8 +55,8 @@ export default class JanuaryCampPay extends React.Component<any, any> {
     })
 
     pget(`/signup/current/camp/month`).then(res => {
-      this.setState({ currentCampMonth: _.get(res, 'msg.marKSellingMemo', 'error') }, () => {
-        mark({ module: '打点', function: '小课训练营', action: '购买小课训练营', memo: _.get(res, 'msg.marKSellingMemo', 'error') })
+      this.setState({ currentCampMonth: _.get(res, 'msg.markSellingMemo', 'error') }, () => {
+        mark({ module: '打点', function: '小课训练营', action: '购买小课训练营', memo: _.get(res, 'msg.markSellingMemo', 'error') })
       })
     })
   }
