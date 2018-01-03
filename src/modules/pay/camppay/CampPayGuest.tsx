@@ -9,7 +9,7 @@ import { config, configShare } from '../../helpers/JsConfig'
 import PayInfo from '../components/PayInfo'
 import PicLoading from '../components/PicLoading'
 import { getRiseMember, checkRiseMember } from '../async'
-import { signupCamp, createCampGroup } from './async'
+import { signupCamp, createCampGroup, getCampPageInfo } from './async'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
 import { MarkBlock } from '../components/markblock/MarkBlock'
 import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
@@ -24,7 +24,9 @@ export default class CampPayGuest extends React.Component<any, any> {
 
   constructor() {
     super()
-    this.state = {}
+    this.state = {
+      loading: true,
+    }
   }
 
   async componentWillMount() {
@@ -32,6 +34,7 @@ export default class CampPayGuest extends React.Component<any, any> {
     const { dispatch } = this.props
     dispatch(startLoad())
     let res = await getCampPageInfo();
+    dispatch(endLoad())
     if(res.code === 200) {
       this.setState(res.msg);
     } else {
@@ -44,15 +47,17 @@ export default class CampPayGuest extends React.Component<any, any> {
   }
 
   render() {
-    const { campPaymentImage, markSellingMemo } = this.state
-    const { memberType } = data
+    const { campPaymentImage, markSellingMemo, loading } = this.state
 
     const renderPay = () => {
       return (
         <div className="pay-page">
           <img className="sale-pic" style={{ width: '100%' }}
                src={campPaymentImage}
-               onLoad={() => this.setState({ loading: false })}/>
+               onLoad={() => {
+                 console.log("load end")
+                 this.setState({ loading: false })
+               }}/>
           {
             <div className="button-footer">
               <MarkBlock module={'打点'} func={'小课训练营-未关注'}
