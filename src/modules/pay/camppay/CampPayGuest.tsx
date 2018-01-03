@@ -43,11 +43,16 @@ export default class CampPayGuest extends React.Component<any, any> {
   }
 
   handleClickOpenPayInfo() {
-    window.location.href = "/pay/redirect/camp/pay"
+    let _fk = _.get(this.props.location, 'query._fk');
+    if(!!_fk) {
+      // 如果没有获取fk，则取默认fk
+      _fk = 'camp_guest';
+    }
+    window.location.href = `/pay/camp?_fk=${_fk}`;
   }
 
   render() {
-    const { campPaymentImage, markSellingMemo, loading } = this.state
+    const { campPaymentImage, markSellingMemo, loading,currentCampMonth } = this.state
 
     const renderPay = () => {
       return (
@@ -59,15 +64,11 @@ export default class CampPayGuest extends React.Component<any, any> {
                  this.setState({ loading: false })
                }}/>
           {
+
             <div className="button-footer">
               <MarkBlock module={'打点'} func={'小课训练营-未关注'}
-                         action={'点击加入按钮'} memo={markSellingMemo}
-                         className='footer-left' onClick={() => this.handleClickOpenPayInfo()}>
-                单人模式(¥498)
-              </MarkBlock>
-              <MarkBlock module={'打点'} func={'小课训练营'} action={'创建团队'}
-                         className={'footer-btn'}>
-                互助模式（7天免费）
+                         action={'点击加入按钮'} memo={currentCampMonth}>
+                <SubmitButton clickFunc={() => this.handleClickOpenPayInfo()} buttonText={'加入训练营'}/>
               </MarkBlock>
             </div>
           }
