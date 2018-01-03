@@ -30,13 +30,13 @@ export default class CampPayGuest extends React.Component<any, any> {
   }
 
   async componentWillMount() {
-    mark({ module: '打点', function: '小课训练营', action: '购买小课训练营', memo: _.get(res, 'msg.markSellingMemo', 'error') })
     const { dispatch } = this.props
     dispatch(startLoad())
     let res = await getCampPageInfo();
     dispatch(endLoad())
     if(res.code === 200) {
       this.setState(res.msg);
+      mark({ module: '打点', function: '小课训练营-未关注', action: '购买小课训练营', memo: _.get(res, 'msg.markSellingMemo', 'error') })
     } else {
       dispatch(alertMsg(res.msg))
     }
@@ -44,7 +44,7 @@ export default class CampPayGuest extends React.Component<any, any> {
 
   handleClickOpenPayInfo() {
     let _fk = _.get(this.props.location, 'query._fk');
-    if(!!_fk) {
+    if(!_fk) {
       // 如果没有获取fk，则取默认fk
       _fk = 'camp_guest';
     }
@@ -60,7 +60,6 @@ export default class CampPayGuest extends React.Component<any, any> {
           <img className="sale-pic" style={{ width: '100%' }}
                src={campPaymentImage}
                onLoad={() => {
-                 console.log("load end")
                  this.setState({ loading: false })
                }}/>
           {
