@@ -33,7 +33,8 @@ export default class FebCampPay extends React.Component<any, any> {
 
   handleAppointment() {
     const { dispatch } = this.props
-    dispatch(alertMsg('预约成功'))
+    dispatch(alertMsg('恭喜你已预约成功\n' +
+      '敬请留意开始提醒'))
   }
 
   render() {

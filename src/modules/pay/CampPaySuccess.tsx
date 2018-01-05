@@ -98,7 +98,7 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
         </div>
         {renderWelComeTips()}
         <img src="https://static.iqycamp.com/images/xiaohei_code_1109.jpeg?imageslim" alt="小黑" className="qrcode"/>
-        <div className="close-button" onClick={() => this.goLearnPage()}>已入群，开始学习</div>
+        {/*<div className="close-button" onClick={() => this.goLearnPage()}>已入群，开始学习</div>*/}
       </div>
     )
   }
