@@ -129,7 +129,7 @@ export default class PreacherPage extends React.Component<any, any> {
           <img src="https://static.iqycamp.com/images/qrcode_xiaoy_20171117.jpeg?imageslim"
                className="qrcode"/>
         </div>
-        <div style={{ height: '60px' }}/>
+        <div style={{ height: '64px' }}/>
         <MarkBlock module={'打点'} func={'宣讲课页面'} action={'申请商学院'}>
           <SubmitButton clickFunc={() => this.handleClickGoApply()} buttonText="申请商学院"/>
         </MarkBlock>
