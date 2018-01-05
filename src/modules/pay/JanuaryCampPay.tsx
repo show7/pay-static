@@ -102,6 +102,10 @@ export default class JanuaryCampPay extends React.Component<any, any> {
       dispatch(endLoad())
       if(res.code === 200) {
         this.refs.payInfo.handleClickOpen()
+      } else if(res.code == 222) {
+        dispatch(alertMsg('报名已结束\n' +
+          '\n' +
+          '你可以去预约下期的深度思考专项课哦！'))
       } else {
         dispatch(alertMsg(res.msg))
       }
