@@ -60,5 +60,6 @@ export function chooseAuditionCourse() {
  * 检查当前用户是否是一带二或者年终回顾用户
  */
 export function checkPromotionOrAnnual() {
-  return pget(`/rise/operation/prize/pay/check`)
+  return pget(`/rise/prize/jan/pay/check`)
 }
+

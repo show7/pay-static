@@ -97,27 +97,15 @@ export default class JanuaryCampPay extends React.Component<any, any> {
     const { dispatch } = this.props
     dispatch(startLoad())
 
-    let response = await checkPromotionOrAnnual()
-    if (response.code === 200) {
-       // 先检查是否能够支付
-      checkRiseMember(showId).then(res => {
-        dispatch(endLoad())
-        if(res.code === 200) {
-          // 查询是否还在报名
-          this.refs.payInfo.handleClickOpen()
-        } else if (res.code === 214) {
-          this.setState({ timeOut: true })
-        } else {
-          dispatch(alertMsg(res.msg))
-        }
-      }).catch(ex => {
-        dispatch(endLoad())
-        dispatch(alertMsg(ex))
-      })
-    } else {
+    //查询是否有付费资格（只有参加一带二活动或者礼品卡活动的人才能进行复购）
+    checkPromotionOrAnnual().then(res => {
       dispatch(endLoad())
-      dispatch(alertMsg(response.msg))
-    }
+      if(res.code === 200) {
+        this.refs.payInfo.handleClickOpen()
+      } else {
+        dispatch(alertMsg(res.msg))
+      }
+    })
   }
 
   handlePayedBefore() {
