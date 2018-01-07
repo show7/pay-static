@@ -44,7 +44,7 @@ export default class FebCampPay extends React.Component<any, any> {
       return (
         <div className="pay-page">
           <img className="sale-pic" style={{ width: '100%' }}
-               src="https://static.iqycamp.com/images/fragment/camp_promotion_01_8.png?imageslim"
+               src="https://static.iqycamp.com/images/fragment/camp_promotion_02_1.png?imageslim"
                onLoad={() => this.setState({ loading: false })}/>
           <MarkBlock module={'打点'} func={'小课训练营'}
                      action={'点击预约按钮'} memo= "2月"
