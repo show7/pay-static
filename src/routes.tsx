@@ -24,6 +24,7 @@ const routes = (
     <Route component={Base}
            onChange={() => {
              config(['chooseWXPay'])
+             window.scrollTo(0, 0)
            }}>
 
       <Route path="subscribe" component={Subscribe}/>
@@ -33,7 +34,7 @@ const routes = (
       <Route path="pay/rise" component={RisePay}/>
       <Route path="pay/static/camp" component={CampPayGuest}/>
       <Route path="pay/camp" component={CampPay}/>
-      <Route path="pay/camp/jan" component={JanuaryCampPay}  />
+      <Route path="pay/camp/jan" component={JanuaryCampPay}/>
       <Route path="pay/static/rise" component={RiseApply}/>
       <Route path="pay/static/share" component={RiseShare}/>
       <Route path="pay/static/camp/group" component={CampGroup}/>
