@@ -9,7 +9,7 @@ import { config, configShare } from '../../helpers/JsConfig'
 import PayInfo from '../components/PayInfo'
 import PicLoading from '../components/PicLoading'
 import { getRiseMember, checkRiseMember } from '../async'
-import { signupCamp, createCampGroup } from './async'
+import { signupCamp, createCampGroup, getCampPageInfo } from './async'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
 import { MarkBlock } from '../components/markblock/MarkBlock'
 import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
@@ -51,11 +51,16 @@ export default class CampPay extends React.Component<any, any> {
     } else {
       dispatch(alertMsg(res.msg))
     }
-
     res = await signupCamp()
-    this.setState({ currentCampMonth: _.get(res, 'msg.marKSellingMemo', 'error') }, () => {
-      mark({ module: '打点', function: '小课训练营', action: '购买小课训练营', memo: _.get(res, 'msg.marKSellingMemo', 'error') })
+    this.setState({ currentCampMonth: _.get(res, 'msg.markSellingMemo', 'error') }, () => {
+      mark({ module: '打点', function: '小课训练营', action: '购买小课训练营', memo: _.get(res, 'msg.markSellingMemo', 'error') })
     })
+    res = await getCampPageInfo();
+    if(res.code === 200) {
+      this.setState({ campPaymentImage: res.msg.campPaymentImage })
+    } else {
+      dispatch(alertMsg(res.msg))
+    }
   }
 
   handlePayedDone() {
@@ -106,26 +111,26 @@ export default class CampPay extends React.Component<any, any> {
     }
   }
 
-  //TODO: 活动结束后删除
-  async handleGroup() {
-    const { dispatch } = this.props
-    dispatch(startLoad())
-    // 先检查是否能够支付
-    let res = await createCampGroup()
-
-    if(res.code === 200) {
-      let groupCode = res.msg
-      configShare(
-        '我想邀请你一起，用7天时间重新认识自己', `https://${window.location.hostname}/pay/static/camp/group?groupCode=${groupCode}`,
-        'https://static.iqycamp.com/images/team_promotion_share.jpg?imageslim',
-        '揭晓价值观和能力的隐藏区',['chooseWXPay']
-      )
-      this.setState({ show: true })
-    } else {
-      dispatch(alertMsg(res.msg))
-    }
-    dispatch(endLoad())
-  }
+  // //TODO: 活动结束后删除
+  // async handleGroup() {
+  //   const { dispatch } = this.props
+  //   dispatch(startLoad())
+  //   // 先检查是否能够支付
+  //   let res = await createCampGroup()
+  //
+  //   if(res.code === 200) {
+  //     let groupCode = res.msg
+  //     configShare(
+  //       '我想邀请你一起，用7天时间重新认识自己', `https://${window.location.hostname}/pay/static/camp/group?groupCode=${groupCode}`,
+  //       'https://static.iqycamp.com/images/team_promotion_share.jpg?imageslim',
+  //       '揭晓价值观和能力的隐藏区', [ 'chooseWXPay' ]
+  //     )
+  //     this.setState({ show: true })
+  //   } else {
+  //     dispatch(alertMsg(res.msg))
+  //   }
+  //   dispatch(endLoad())
+  // }
 
   handlePayedBefore() {
     mark({ module: '打点', function: '小课训练营', action: '点击付费', memo: this.state.currentCampMonth })
@@ -135,36 +140,39 @@ export default class CampPay extends React.Component<any, any> {
    * 重新注册页面签名
    */
   reConfig() {
-    config(['chooseWXPay', 'onMenuShareAppMessage', 'onMenuShareTimeline'])
+    // config([ 'chooseWXPay', 'onMenuShareAppMessage', 'onMenuShareTimeline' ])
+    config(['chooseWXPay'])
   }
 
   render() {
-    const { data, showId, timeOut, showErr, showCodeErr, loading, show } = this.state
+    const { data, showId, timeOut, showErr, showCodeErr, loading, show, campPaymentImage } = this.state
     const { memberType } = data
+
+    // src="https://static.iqycamp.com/images/fragment/camp_promotion_01_9.png?imageslim"
 
     const renderPay = () => {
       return (
         <div className="pay-page">
           <img className="sale-pic" style={{ width: '100%' }}
-               src="https://static.iqycamp.com/images/fragment/camp_promotion_01_9.png?imageslim"
+               src={campPaymentImage}
                onLoad={() => this.setState({ loading: false })}/>
-          {/*<MarkBlock module={'打点'} func={'小课训练营'}*/}
-          {/*action={'点击加入按钮'} memo={this.state.currentCampMonth}>*/}
-          {/*<SubmitButton clickFunc={()=>this.handleClickOpenPayInfo(showId)} buttonText={'加入训练营'} />*/}
-          {/*</MarkBlock>*/}
-          {
-            <div className="button-footer">
-              <MarkBlock module={'打点'} func={'小课训练营'}
-                         action={'点击加入按钮'} memo={this.state.currentCampMonth}
-                         className='footer-left' onClick={() => this.handleClickOpenPayInfo(showId)}>
-                单人模式(¥498)
-              </MarkBlock>
-              <MarkBlock module={'打点'} func={'小课训练营'} action={'创建团队'}
-                         className={'footer-btn'} onClick={() => this.handleGroup()}>
-                互助模式（7天免费）
-              </MarkBlock>
-            </div>
-          }
+          <MarkBlock module={'打点'} func={'小课训练营'}
+          action={'点击加入按钮'} memo={this.state.currentCampMonth}>
+          <SubmitButton clickFunc={()=>this.handleClickOpenPayInfo(showId)} buttonText={'加入训练营'} />
+          </MarkBlock>
+          {/*{*/}
+            {/*<div className="button-footer">*/}
+              {/*<MarkBlock module={'打点'} func={'小课训练营'}*/}
+                         {/*action={'点击加入按钮'} memo={this.state.currentCampMonth}*/}
+                         {/*className='footer-left' onClick={() => this.handleClickOpenPayInfo(showId)}>*/}
+                {/*单人模式(¥498)*/}
+              {/*</MarkBlock>*/}
+              {/*<MarkBlock module={'打点'} func={'小课训练营'} action={'创建团队'}*/}
+                         {/*className={'footer-btn'} onClick={() => this.handleGroup()}>*/}
+                {/*互助模式（7天免费）*/}
+              {/*</MarkBlock>*/}
+            {/*</div>*/}
+          {/*}*/}
         </div>
       )
     }
@@ -214,11 +222,11 @@ export default class CampPay extends React.Component<any, any> {
                                 payedBefore={() => this.handlePayedBefore()}
         />}
 
-        {show &&
-        <div className="alert-container" onClick={() => this.setState({ show: false })}>
-          <img src="https://static.iqycamp.com/images/promotion_camp_1_4.png?imageslim" width={'100%'}></img>
-        </div>
-        }
+        {/*{show &&*/}
+          {/*<div className="alert-container" onClick={() => this.setState({ show: false })}>*/}
+            {/*<img src="https://static.iqycamp.com/images/promotion_camp_1_4.png?imageslim" width={'100%'}></img>*/}
+          {/*</div>*/}
+        {/*}*/}
       </div>
     )
   }

@@ -8,7 +8,7 @@ import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { config } from 'modules/helpers/JsConfig'
 import PayInfo from './components/PayInfo'
 import PicLoading from './components/PicLoading'
-import { getRiseMember, checkRiseMember } from './async'
+import { getRiseMember, checkRiseMember, checkPromotionOrAnnual } from './async'
 import { CustomerService } from '../../components/customerservice/CustomerService'
 import { MarkBlock } from './components/markblock/MarkBlock'
 
@@ -55,8 +55,8 @@ export default class JanuaryCampPay extends React.Component<any, any> {
     })
 
     pget(`/signup/current/camp/month`).then(res => {
-      this.setState({ currentCampMonth: _.get(res, 'msg.marKSellingMemo', 'error') }, () => {
-        mark({ module: '打点', function: '小课训练营', action: '购买小课训练营', memo: _.get(res, 'msg.marKSellingMemo', 'error') })
+      this.setState({ currentCampMonth: _.get(res, 'msg.markSellingMemo', 'error') }, () => {
+        mark({ module: '打点', function: '小课训练营', action: '购买小课训练营', memo: _.get(res, 'msg.markSellingMemo', 'error') })
       })
     })
   }
@@ -92,24 +92,23 @@ export default class JanuaryCampPay extends React.Component<any, any> {
    * 打开支付窗口
    * @param showId 会员类型id
    */
-  handleClickOpenPayInfo(showId) {
+  async handleClickOpenPayInfo(showId) {
     this.reConfig()
     const { dispatch } = this.props
     dispatch(startLoad())
-    // 先检查是否能够支付
-    checkRiseMember(showId).then(res => {
+
+    //查询是否有付费资格（只有参加一带二活动或者礼品卡活动的人才能进行复购）
+    checkPromotionOrAnnual().then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        // 查询是否还在报名
         this.refs.payInfo.handleClickOpen()
-      } else if(res.code === 214) {
-        this.setState({ timeOut: true })
+      } else if(res.code == 222) {
+        dispatch(alertMsg('报名已结束\n' +
+          '\n' +
+          '你可以去预约下期的深度思考专项课哦！'))
       } else {
         dispatch(alertMsg(res.msg))
       }
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
     })
   }
 
@@ -132,7 +131,7 @@ export default class JanuaryCampPay extends React.Component<any, any> {
       return (
         <div className="pay-page">
           <img className="sale-pic" style={{ width: '100%' }}
-               src="https://static.iqycamp.com/images/fragment/camp_promotion_01_8.png?imageslim"
+               src="https://static.iqycamp.com/images/camp_promotion_0103_4.png?imageslim"
                onLoad={() => this.setState({ loading: false })}/>
           <MarkBlock module={'打点'} func={'小课训练营'}
                      action={'点击加入按钮'} memo={this.state.currentCampMonth}

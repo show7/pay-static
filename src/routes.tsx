@@ -17,12 +17,15 @@ import MemberPaySuccess from 'modules/pay/MemberPaySuccess'
 import BusinessApplySubmitSuccess from './modules/pay/bsapply/BusinessApplySubmitSuccess'
 import Subscribe from './modules/subscribe/Subscribe'
 import JanuaryCampPay from './modules/pay/JanuaryCampPay'
+import CampPayGuest from './modules/pay/camppay/CampPayGuest'
+import FebCampPay from './modules/pay/FebCampPay'
 
 const routes = (
   <Route path="/">
     <Route component={Base}
            onChange={() => {
              config(['chooseWXPay'])
+             window.scrollTo(0, 0)
            }}>
 
       <Route path="subscribe" component={Subscribe}/>
@@ -30,15 +33,15 @@ const routes = (
       <Route path="pay/member/success" component={MemberPaySuccess}/>
       <Route path="pay/audition/success" component={AuditionSuccess}/>
       <Route path="pay/rise" component={RisePay}/>
-      <Route path="pay/camp" component={CampPay}/>
-      <Route path="pay/camp/jan" component={JanuaryCampPay}  />
+      <Route path="pay/static/camp" component={CampPayGuest}/>
+      <Route path="pay/camp" component={FebCampPay}/>
+      <Route path="pay/jan" component={JanuaryCampPay}/>
       <Route path="pay/static/rise" component={RiseApply}/>
       <Route path="pay/static/share" component={RiseShare}/>
       <Route path="pay/static/camp/group" component={CampGroup}/>
       <Route path="pay/apply" component={ApplySuccess}/>
       <Route path="pay/pay" component={RisePay}/>
       <Route path="pay/preacher" component={PreacherPage}/>
-
       <Route path="pay/bsstart" component={BusinessApply}/>
       <Route path="pay/applychoice" component={BusinessApplyChoice}/>
       <Route path="pay/applysubmit" component={BusinessApplySubmitSuccess}/>
