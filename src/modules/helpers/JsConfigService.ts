@@ -1,7 +1,6 @@
 import { pget, mark } from "utils/request"
 import * as _ from "lodash";
 
-
 /**
  * 调用微信支付的config参数
  */
@@ -26,11 +25,15 @@ class ConfigBean {
   }
 }
 
+let whiteList = [
+  'pay/alipay/rise'
+];
+
 /**
  * 微信JS SDK签名服务
  */
 class JsConfigService {
-  private configList: [ConfigBean]; // url签名参数缓存队列
+  private configList: [ ConfigBean ]; // url签名参数缓存队列
   static MAX_CONFIG_SIZE = 10; // url签名参数缓存的最大数量
 
   constructor() {
@@ -114,7 +117,7 @@ class JsConfigService {
     if(!_.isNull(configBean)) {
       wx.config(_.merge({
         debug: false,
-        jsApiList: [ 'hideOptionMenu', 'showOptionMenu', 'onMenuShareAppMessage', 'onMenuShareTimeline','closeWindow' ].concat(apiList),
+        jsApiList: [ 'hideOptionMenu', 'showOptionMenu', 'onMenuShareAppMessage', 'onMenuShareTimeline', 'closeWindow' ].concat(apiList),
       }, configBean.configParam));
       wx.error((e) => {
         let url = this.getUrl();
@@ -122,12 +125,21 @@ class JsConfigService {
         this.setConfigParamError(url, e, apiList, callback);
       })
       wx.ready(() => {
-        // 隐藏分享按钮
-        wx.hideOptionMenu({
-          fail: (e) => {
-            // alert("hide error："+JSON.stringify(e))
+        let hideMenu = true;
+        for(let i = 0; i < whiteList.length; i++) {
+          let url = whiteList[ i ];
+          if(url.indexOf(window.location.pathname) !== -1) {
+            hideMenu = false;
+            break;
           }
-        });
+        }
+        if(hideMenu){
+          // 隐藏分享按钮
+          wx.hideOptionMenu();
+        } else {
+          // 显示分享按钮
+          wx.showOptionMenu();
+        }
         if(callback && _.isFunction(callback)) {
           callback();
         }
@@ -181,41 +193,40 @@ class JsConfigService {
     }
   }
 
-
   public configShare(title, url, imgUrl, desc, apiList = []) {
     pget(`/wx/js/signature?url=${encodeURIComponent(window.location.href)}`).then(res => {
-    if (res.code === 200) {
-      wx.config(_.merge({
-        debug: false,
-        jsApiList: ['onMenuShareAppMessage', 'onMenuShareTimeline'].concat(apiList),
-      }, res.msg))
-      wx.ready(() => {
-        setTimeout(()=>{
-          wx.showOptionMenu();
-        },1500)
-        // hideOptionMenu()
-        wx.onMenuShareTimeline({
-          title: title, // 分享标题
-          link: url, // 分享链接
-          imgUrl: imgUrl, // 分享图标
-        });
-        // 获取“分享给朋友”按钮点击状态及自定义分享内容接口
-        wx.onMenuShareAppMessage({
-          title: title, // 分享标题
-          desc: desc, // 分享描述
-          link: url, // 分享链接
-          imgUrl: imgUrl, // 分享图标
-          type: 'link', // 分享类型,music、video或link，不填默认为link
-        });
-      })
-      wx.error(function (e) {
-        console.log(e)
-      })
-    } else {
-    }
-  }).catch((err) => {
-  })
-}
+      if(res.code === 200) {
+        wx.config(_.merge({
+          debug: false,
+          jsApiList: [ 'onMenuShareAppMessage', 'onMenuShareTimeline' ].concat(apiList),
+        }, res.msg))
+        wx.ready(() => {
+          setTimeout(() => {
+            wx.showOptionMenu();
+          }, 1500)
+          // hideOptionMenu()
+          wx.onMenuShareTimeline({
+            title: title, // 分享标题
+            link: url, // 分享链接
+            imgUrl: imgUrl, // 分享图标
+          });
+          // 获取“分享给朋友”按钮点击状态及自定义分享内容接口
+          wx.onMenuShareAppMessage({
+            title: title, // 分享标题
+            desc: desc, // 分享描述
+            link: url, // 分享链接
+            imgUrl: imgUrl, // 分享图标
+            type: 'link', // 分享类型,music、video或link，不填默认为link
+          });
+        })
+        wx.error(function(e) {
+          console.log(e)
+        })
+      } else {
+      }
+    }).catch((err) => {
+    })
+  }
 }
 
 export default new JsConfigService();

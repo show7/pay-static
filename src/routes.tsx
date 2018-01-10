@@ -46,7 +46,7 @@ const routes = (
       <Route path="pay/bsstart" component={BusinessApply}/>
       <Route path="pay/applychoice" component={BusinessApplyChoice}/>
       <Route path="pay/applysubmit" component={BusinessApplySubmitSuccess}/>
-      <Route path="pay/static/rise/alipay" component={RiseAlipay}/>
+      <Route path="pay/alipay/rise" component={RiseAlipay}/>
     </Route>
   </Route>
 )
