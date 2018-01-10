@@ -132,7 +132,7 @@ export default class RisePay extends React.Component<any, any> {
    * 重新注册页面签名
    */
   reConfig() {
-    config(['chooseWXPay'])
+    config([ 'chooseWXPay' ])
   }
 
   handleClickAudition() {
@@ -145,6 +145,8 @@ export default class RisePay extends React.Component<any, any> {
   render() {
     const { data, showId, timeOut, showErr, showCodeErr } = this.state
     const { privilege, buttonStr, auditionStr, memberType, tip } = data
+    const { location } = this.props;
+    let payType = _.get(location, 'query.paytype');
 
     const renderPay = () => {
       if(!memberType) return null
@@ -250,7 +252,7 @@ export default class RisePay extends React.Component<any, any> {
                    payedCancel={(res) => this.handlePayedCancel(res)}
                    payedError={(res) => this.handlePayedError(res)}
                    payedBefore={() => this.handlePayedBefore()}
-                   payType={PayType.ALIPAY}
+                   payType={paytype || PayType.WECHAT}
           />
         }
       </div>
