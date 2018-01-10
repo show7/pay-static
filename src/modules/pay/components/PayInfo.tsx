@@ -11,7 +11,7 @@ import {
 import { mark } from 'utils/request'
 
 import { pay } from '../../helpers/JsConfig'
-import { CouponCategory, GoodsType } from '../../../utils/helpers'
+import { CouponCategory, GoodsType, PayType } from '../../../utils/helpers'
 
 interface CouponProps {
   description?: string,
@@ -42,6 +42,7 @@ interface PayInfoProps {
   dispatch: any,
   mutilCoupon?: boolean,
   priceTips?: string,
+  payType?: number,
 }
 
 export default class PayInfo extends React.Component<PayInfoProps, any> {
@@ -128,12 +129,12 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
    */
   handleClickPay() {
     // this.props.pay()
-    const { dispatch, goodsType, goodsId } = this.props
+    const { dispatch, goodsType, goodsId, payType = PayType.WECHAT } = this.props
     const { chose, final, free, multiCoupons } = this.state
     if(!goodsId || !goodsType) {
       dispatch(alertMsg('支付信息错误，请联系管理员'))
     }
-    let param = { goodsId: goodsId, goodsType: goodsType, payType: 2 }
+    let param = { goodsId: goodsId, goodsType: goodsType, payType: payType }
     if(chose) {
       if(!_.isEmpty(chose.couponsIdGroup)) {
         param = _.merge({}, param, { couponsIdGroup: chose.couponsIdGroup })
@@ -153,11 +154,14 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
           // 免费
           this.handlePayDone();
         } else {
-          // 调用阿里支付
-          console.log(signParams);
-          window.location.href = signParams.alipayUrl;
-          // 收费，调微信支付
-          // this.handleH5Pay(signParams)
+          if(payType === PayType.WECHAT) {
+            // 收费，调微信支付
+            this.handleH5Pay(signParams)
+          } else if(payType === PayType.ALIPAY) {
+            // 调用阿里支付
+            window.location.href = `/pay/static/rise/alipay?goto=${encodeURIComponent(signParams.alipayUrl)}`;
+            // console.log(signParams.alipayUrl);
+          }
         }
         if(_.isFunction(this.props.payedBefore)) {
           this.props.payedBefore();

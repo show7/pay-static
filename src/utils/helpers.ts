@@ -30,6 +30,11 @@ export class GoodsType {
   public static BS_APPLICATION = 'bs_application'
 }
 
+export class PayType {
+  public static WECHAT = 1;
+  public static ALIPAY = 2;
+}
+
 export class CouponCategory {
   /**
    * 只能用来购买会员
