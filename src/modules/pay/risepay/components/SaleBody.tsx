@@ -161,7 +161,7 @@ export class SaleBody extends React.Component {
         {
           !loading && <CustomerEvaluate/>
         }
-        <img className="pic-part2" src="https://static.iqycamp.com/images/pay_rise_part2_8.png?imageslim"
+        <img className="pic-part2" src="https://static.iqycamp.com/images/pay_rise_part2_9.png?imageslim"
              style={{ width: '100%' }}/>
         <div className="protocol-container">
           <span className="click_text">点击查看</span>
