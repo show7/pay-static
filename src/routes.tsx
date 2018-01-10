@@ -19,6 +19,7 @@ import Subscribe from './modules/subscribe/Subscribe'
 import JanuaryCampPay from './modules/pay/JanuaryCampPay'
 import CampPayGuest from './modules/pay/camppay/CampPayGuest'
 import FebCampPay from './modules/pay/FebCampPay'
+import RiseAlipay from './modules/pay/risepay/RiseAlipay'
 
 const routes = (
   <Route path="/">
@@ -45,6 +46,7 @@ const routes = (
       <Route path="pay/bsstart" component={BusinessApply}/>
       <Route path="pay/applychoice" component={BusinessApplyChoice}/>
       <Route path="pay/applysubmit" component={BusinessApplySubmitSuccess}/>
+      <Route path="pay/static/rise/alipay" component={RiseAlipay}/>
     </Route>
   </Route>
 )
