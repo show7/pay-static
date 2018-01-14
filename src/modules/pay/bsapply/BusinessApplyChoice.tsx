@@ -30,48 +30,13 @@ export default class BusinessApplyChoice extends Component<any, any> {
     router: React.PropTypes.object.isRequired
   }
 
-  componentWillMount() {
+  async componentWillMount() {
     const { dispatch, region, location } = this.props;
     // ios／安卓微信支付兼容性
     if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href) {
       window.location.href = window.location.href
       return
     }
-
-    //查询订单信息
-    getRiseMember(this.state.showId).then(res => {
-      dispatch(endLoad())
-      if(res.code === 200) {
-        //是否已经付款
-        if(res.msg.entry) {
-          dispatch(alertMsg('审核进行中，请耐心等待'))
-        } else {
-          this.setState({ memberType: res.msg.memberType })
-        }
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch((err) => {
-      dispatch(endLoad())
-      dispatch(alertMsg(err))
-    })
-
-    mark({ module: "打点", function: "商学院审核", action: "进入填写报名信息页面" });
-    mark({ module: "打点", function: "商学院审核", action: "翻页", memo: "1" });
-
-    dispatch(startLoad());
-    loadBusinessApplyQuestion().then(res => {
-      dispatch(endLoad());
-      if(res.code === 200) {
-        this.setState({ questionGroup: res.msg, seriesCount: res.msg.length });
-      } else {
-        dispatch(alertMsg(res.msg));
-      }
-    }).catch(ex => {
-      dispatch(endLoad());
-      dispatch(alertMsg(ex));
-    });
-
     if(!region) {
       pget('/rise/customer/region').then(res => {
         if(res.code === 200) {
@@ -81,6 +46,34 @@ export default class BusinessApplyChoice extends Component<any, any> {
         }
       }).catch(err => dispatch(alertMsg(err.msg)));
     }
+
+    dispatch(startLoad())
+    let questionRes = await loadBusinessApplyQuestion();
+    if(questionRes.code === 200) {
+      const { questions, payApplyFlag } = questionRes.msg;
+      if(payApplyFlag) {
+        //查询订单信息
+        let orderRes = await getRiseMember(this.state.showId);
+        if(orderRes.code === 200) {
+          //是否已经付款
+          if(orderRes.msg.entry) {
+            dispatch(alertMsg('审核进行中，请耐心等待'))
+          } else {
+            this.setState({ memberType: orderRes.msg.memberType });
+          }
+        } else {
+          dispatch(alertMsg(orderRes.msg));
+        }
+      }
+      dispatch(endLoad())
+      this.setState({ questionGroup: questions, seriesCount: questions.length, payApplyFlag: payApplyFlag });
+    } else {
+      dispatch(endLoad());
+      dispatch(alertMsg(questionRes.msg));
+    }
+
+    mark({ module: "打点", function: "商学院审核", action: "进入填写报名信息页面" });
+    mark({ module: "打点", function: "商学院审核", action: "翻页", memo: "1" });
   }
 
   /**
@@ -180,7 +173,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
 
   submitApplyAPI(param) {
     const { dispatch } = this.props;
-    mark({ module: "打点", function: "商学院审核", action: "提交申请"});
+    mark({ module: "打点", function: "商学院审核", action: "提交申请" });
     // 开始提交
     submitApply(param).then(res => {
       dispatch(endLoad());
@@ -424,7 +417,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
   }
 
   render() {
-    const { questionGroup, currentIndex, seriesCount, showErr, showCodeErr, memberType } = this.state
+    const { questionGroup, currentIndex, seriesCount, showErr, showCodeErr, memberType, payApplyFlag } = this.state
 
     const isSelected = (choices, choice) => {
       return !_.isEmpty(_.find(choices, {
@@ -441,16 +434,21 @@ export default class BusinessApplyChoice extends Component<any, any> {
           } ]}/>
         )
       } else if(currentIndex === seriesCount - 1) {
-        return (
-          <FooterButton btnArray={[ {
-            click: () => this.handleClickOpenPayInfo(),
-            text: '1元预约'
-          } ]}/>
-          // <FooterButton btnArray={[ {
-          //   click: () => this.handleClickSubmit(),
-          //   text: '提交'
-          // } ]}/>
-        )
+        if(!!payApplyFlag) {
+          return (
+            <FooterButton btnArray={[ {
+              click: () => this.handleClickOpenPayInfo(),
+              text: '1元预约'
+            } ]}/>
+          )
+        } else {
+          return (
+            <FooterButton btnArray={[ {
+              click: () => this.handleClickSubmit(),
+              text: '提交'
+            } ]}/>
+          )
+        }
       } else {
         return (
           <FooterButton btnArray={[ {
@@ -469,13 +467,13 @@ export default class BusinessApplyChoice extends Component<any, any> {
         <div className="apply-container">
           <div className="apply-page-header">圈外商学院入学沟通预约</div>
           {/*<div className="apply_rate">*/}
-            {/*<img src="https://static.iqycamp.com/images/progress_bar2.png?imageslim" width={'100%'}/>*/}
+          {/*<img src="https://static.iqycamp.com/images/progress_bar2.png?imageslim" width={'100%'}/>*/}
           {/*</div>*/}
           <div className="apply-progress">
             <div className="apply-progress-bar"
                  style={{ width: (window.innerWidth - 90 - 38) * (currentIndex / (seriesCount - 1)) }}/>
           </div>
-          <div className="apply-progress-page-index">{currentIndex+1} / {questionGroup.length}</div>
+          <div className="apply-progress-page-index">{currentIndex + 1} / {questionGroup.length}</div>
           <QuestionGroup group={questionGroup[ currentIndex ]} allGroup={questionGroup} region={this.props.region}
                          onGroupChanged={(group) => this.handleGroupChanged(group, currentIndex)}/>
         </div>
