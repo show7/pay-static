@@ -26,7 +26,7 @@ class ConfigBean {
 }
 
 let whiteList = [
-  'pay/alipay/rise'
+  '/pay/alipay/rise'
 ];
 
 /**

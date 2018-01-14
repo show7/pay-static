@@ -252,7 +252,7 @@ export default class RisePay extends React.Component<any, any> {
                    payedCancel={(res) => this.handlePayedCancel(res)}
                    payedError={(res) => this.handlePayedError(res)}
                    payedBefore={() => this.handlePayedBefore()}
-                   payType={paytype || PayType.WECHAT}
+                   payType={payType || PayType.WECHAT}
           />
         }
       </div>
