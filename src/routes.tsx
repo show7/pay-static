@@ -35,7 +35,7 @@ const routes = (
       <Route path="pay/audition/success" component={AuditionSuccess}/>
       <Route path="pay/rise" component={RisePay}/>
       <Route path="pay/static/camp" component={CampPayGuest}/>
-      <Route path="pay/camp" component={FebCampPay}/>
+      <Route path="pay/camp" component={CampPay}/>
       <Route path="pay/jan" component={JanuaryCampPay}/>
       <Route path="pay/static/rise" component={RiseApply}/>
       <Route path="pay/static/share" component={RiseShare}/>
