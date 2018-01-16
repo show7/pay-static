@@ -20,8 +20,7 @@ export default class RiseAlipay extends React.Component<any, any> {
   constructor() {
     super()
     this.state = {
-      subscribe: true,
-      show: false
+
     }
   }
 
@@ -49,7 +48,6 @@ export default class RiseAlipay extends React.Component<any, any> {
 
   render() {
     const { isWechat, imageUrl } = this.state;
-    const { location } = this.props;
     if(isWechat) {
       return (
         <div style={{ padding: '4rem' }}>
