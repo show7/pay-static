@@ -26,36 +26,44 @@ export default class RiseAlipay extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
+    const { dispatch, location } = this.props;
     dispatch(startLoad());
     let interval = setInterval(() => {
       console.log(window.ENV.Detected.browser.name);
       if(!!window.ENV.Detected.browser.name) {
         dispatch(endLoad());
         clearInterval(interval);
-        this.setState({ isWechat: window.ENV.Detected.browser.name === '微信' })
+        if(window.ENV.Detected.browser.name === '微信') {
+          this.setState({
+            isWechat: true,
+            imageUrl: window.ENV.osName === 'ios' ? 'https://www.iqycamp.com/images/fragment/bg_go_ali_ios1.png'
+              : 'https://www.iqycamp.com/images/fragment/bg_go_ali_android.png'
+          })
+        } else {
+          window.location.href = _.get(location, 'query.goto');
+        }
       }
     }, 100);
     this.setState({ interval: interval });
   }
 
   render() {
-    const { isWechat } = this.state;
+    const { isWechat, imageUrl } = this.state;
     const { location } = this.props;
     if(isWechat) {
       return (
-        <div className="rise-alipay">
-          请在浏览器里打开
+        <div style={{ padding: '4rem' }}>
+          <img src={imageUrl} style={{
+            width: '100%',
+            height: 'auto',
+            display: 'block'
+          }}/>
         </div>
       )
     } else {
       return (
-        <div className="rise-alipay">
-          支付链接：{_.get(location, 'query.goto')}
-          <br/>
-          <a href={_.get(location, 'query.goto')}>
-            去支付
-          </a>
+        <div>
+          跳转中......
         </div>
       )
     }

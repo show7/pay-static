@@ -51,7 +51,7 @@ export default class RiseApply extends React.Component<any, any> {
   handleClickAudition() {
     this.context.router.push({
       pathname: '/pay/preacher'
-    })
+    });
   }
 
   render() {
