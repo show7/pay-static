@@ -2,6 +2,7 @@ import * as React from 'react'
 import './PayInfo.less'
 import Icon from '../../../components/Icon'
 import * as _ from 'lodash'
+import classnames from 'classnames';
 
 const numeral = require('numeral')
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
@@ -40,8 +41,11 @@ interface PayInfoProps {
   goodsType: string,
   /** dispatch */
   dispatch: any,
+  /** 是否可以使用多个优惠券 */
   mutilCoupon?: boolean,
+  /** 价格提示 */
   priceTips?: string,
+  /** 支付类型 */
   payType?: number,
 }
 
@@ -52,11 +56,13 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       coupons: [],
       fee: this.props.fee,
       show: false,
+      openPayType: false,
       chose: {
         used: false,
         total: 0,
         couponsIdGroup: [],
-      }
+      },
+      payType: this.props.payType || PayType.WECHAT
     }
   }
 
@@ -129,8 +135,8 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
    */
   handleClickPay() {
     // this.props.pay()
-    const { dispatch, goodsType, goodsId, payType = PayType.WECHAT } = this.props
-    const { chose, final, free, multiCoupons } = this.state
+    const { dispatch, goodsType, goodsId, } = this.props
+    const { chose, final, free, multiCoupons, payType = PayType.WECHAT } = this.state
     if(!goodsId || !goodsType) {
       dispatch(alertMsg('支付信息错误，请联系管理员'))
     }
@@ -481,8 +487,34 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     }
   }
 
+  choosePayType(payType) {
+    const { openPayType } = this.state;
+    if(payType == PayType.ALIPAY) {
+      this.setState({ payType: PayType.ALIPAY, openPayType: false })
+      setTimeout(() => {
+        this.setState({ hiddenCoupon: false })
+      }, 500)
+    } else if(payType == PayType.WECHAT) {
+      this.setState({ payType: PayType.WECHAT, openPayType: false })
+      setTimeout(() => {
+        this.setState({ hiddenCoupon: false })
+      }, 500)
+    } else {
+      if(openPayType) {
+        // 要关闭
+        this.setState({ openPayType: false })
+        setTimeout(() => {
+          this.setState({ hiddenCoupon: false })
+        }, 500)
+      } else {
+        // 要打开
+        this.setState({ openPayType: true, hiddenCoupon: true })
+      }
+    }
+  }
+
   render() {
-    const { openCoupon, final, fee, chose, free, show, name, startTime, endTime, activity, multiCoupons, chooseAll, initPrice } = this.state
+    const { openCoupon, final, fee, chose, free, show, name, startTime, endTime, activity, multiCoupons, openPayType, chooseAll, initPrice, payType, hiddenCoupon = false } = this.state
     const { header, goodsId, goodsType } = this.props
     let coupons = _.get(this.state, 'coupons', [])
     coupons = this.filterCoupons(coupons, goodsType)
@@ -530,7 +562,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       // <!-- 安卓4.3 以下 -->
       return (
         <div className={`simple-pay-info ${show ? 'show' : ''}`}>
-          <div className="close" onClick={() => this.handleClickClose()}>
+          <div className="pi-close" onClick={() => this.handleClickClose()}>
             关闭
           </div>
           <div className="main-container">
@@ -541,9 +573,9 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
               <div className={`price item ${this.props.priceTips ? 'show-tips' : ''}`}>
                 {renderPrice(fee, final, free)}
               </div>
-              {!!startTime && !!endTime ? <div className="open-time item">
+              {(!!startTime && !!endTime ) && <div className="open-time item">
                 学习时间：{startTime} - {endTime}
-              </div> : null}
+              </div>}
               <div className={`coupon item`}>
                 {coupons && chose && chose.used ? `优惠券：¥${numeral(chose.total).format('0.00')}元` : '选择优惠券'}
               </div>
@@ -571,86 +603,138 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       )
     } else {
       // <!--  非安卓4.3 -->
-      return (<div
-        className={`pay-info ${show ? 'show' : ''} ${hasCoupons ? 'hasCoupons' : ''} ${!!startTime && !!endTime ? 'hasTime' : ''}`}>
-        {show ? <div className={`close ${hasCoupons ? 'hasCoupons' : ''} ${!!startTime && !!endTime ? 'hasTime' : ''}`}
-                     onClick={() => this.handleClickClose()}>
-          <Icon type="white_close_btn" size="40px"/>
-        </div> : null}
-
-        <div
-          className={`main-container ${hasCoupons ? 'hasCoupons' : ''} ${show ? 'show' : ''} ${!!startTime && !!endTime ? 'hasTime' : ''}`}>
-          <div className={`header ${openCoupon ? 'openCoupon' : ''}`}>
-            {header || name}
-          </div>
-          <div className={`content ${openCoupon ? 'openCoupon' : ''}`}>
-            <div className={`price item ${this.props.priceTips ? 'show-tips' : ''}`}>
-              {renderPrice(fee, final, free, initPrice)}
+      return (
+        <div className={classnames('pay-info', {
+          'show': show, 'hasCoupons': hasCoupons, 'hasTime': !!startTime && !!endTime
+        })}>
+          {show &&
+          <div className={classnames('pi-close', { 'hasCoupons': hasCoupons, 'hasTime': !!startTime && !!endTime })}
+               onClick={() => this.handleClickClose()}>
+            <Icon type="white_close_btn" size="40px"/>
+          </div>}
+          <div className={classnames('main-container', {
+            'hasCoupons': hasCoupons, 'show': show, 'hasTime': !!startTime && !!endTime
+          })}>
+            <div className={classnames('header', { 'openCoupon': openCoupon || openPayType })}>
+              {header || name}
             </div>
-            {!!startTime && !!endTime ? <div className="open-time item">
-              学习时间：{startTime} - {endTime}
-            </div> : null}
-            {hasCoupons ?
-              <div
-                className={`coupon item  ${openCoupon && multiCoupons ? 'no-arrow' : ''} ${openCoupon ? 'open' : ''}`}
-                onClick={() => this.setState({ openCoupon: !this.state.openCoupon })}>
+            <div className={classnames('content', { 'openCoupon': openCoupon || openPayType })}>
+              {(!!startTime && !!endTime) && <div className="open-time item">
+                学习时间：<span className="right-float">{startTime} - {endTime}</span>
+              </div>}
+              <div className={classnames('price', 'item', { 'show-tips': this.props.priceTips })}>
+                {renderPrice(fee, final, free, initPrice)}
+              </div>
+              {hasCoupons &&
+              <div className={classnames('has-arrow', 'coupon', 'item', {
+                'open': openCoupon, 'hidden': openPayType
+              })} onClick={() => this.setState({ openCoupon: !this.state.openCoupon })}>
                 {chose && chose.used ? `优惠券：¥${numeral(chose.total).format('0.00')}元` : `选择优惠券`}
-                {openCoupon && multiCoupons ?
-                  <div className="coupon-manual-close">
-                    确认
-                  </div> : null}
-              </div> : null}
-          </div>
-          <ul className={`coupon-list ${openCoupon ? 'open' : ''}`}>
-            {multiCoupons ? (
-              <div className="choose-all-wrapper">
-                <div className="choose-area">
-                  <div className="choose-all-tips">全选</div>
-                  <div className={`choose-all ${chooseAll ? 'chose' : ''}`}
-                       onClick={() => this.handleClickChooseAll()}>
-                    <div className="btn">
-                    </div>
-                    <div className="mask">
+                {(openCoupon && multiCoupons) &&
+                <div className="coupon-manual-close">
+                  确认
+                </div>}
+              </div>}
+
+              <div
+                className={classnames('has-arrow', 'pay-type', 'item', { 'open': openPayType, 'hidden': openCoupon })}
+                onClick={() => this.choosePayType()}>
+                支付方式
+                {(openCoupon && multiCoupons) &&
+                <div className="coupon-manual-close">
+                  确认
+                </div>}
+              </div>
+            </div>
+            <ul className={classnames('coupon-list', { 'open': openCoupon, 'hidden': hiddenCoupon })}>
+              {multiCoupons && (
+                <div className="choose-all-wrapper">
+                  <div className="choose-area">
+                    <div className="choose-all-tips">全选</div>
+                    <div className={classnames('choose-all', { 'chose': chooseAll })}
+                         onClick={() => this.handleClickChooseAll()}>
+                      <div className="btn">
+                      </div>
+                      <div className="mask">
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ) : null}
-            {coupons ? coupons.map((item, seq) => {
-              return (
-                <li className="coupon" key={seq}>
-                  <div className="coupon-left">
-                    <div className="coupon-price">
-                      ¥{numeral(item.amount).format('0.00')}元
+              )}
+              {coupons && coupons.map((item, seq) => {
+                return (
+                  <li className="coupon" key={seq}>
+                    <div className="coupon-left">
+                      <div className="coupon-price">
+                        ¥{numeral(item.amount).format('0.00')}元
+                      </div>
+                      <div className="coupon-desc">
+                        <span className="describe">{item.description ? item.description : ''}</span>
+                        <span className="expired">{item.expired}过期</span>
+                      </div>
                     </div>
-                    <div className="coupon-desc">
-                      <span className="describe">{item.description ? item.description : ''}</span>
-                      <span className="expired">{item.expired}过期</span>
+                    <div className="shuxian">
                     </div>
+                    <div className={classnames('chose-btn', {
+                      'multi-chooses': multiCoupons, 'chose': couponChosen(item)
+                    })}
+                         onClick={() => this.handleClickChooseCoupon(item)}>
+                      <div className={classnames('btn', { 'multi-chooses': multiCoupons })}>
+                      </div>
+                      <div className={classnames('mask', { 'multi-chooses': multiCoupons })}>
+                      </div>
+                    </div>
+                  </li>
+                )
+              })}
+            </ul>
+
+            <ul className={classnames('pay-list', { 'open': openPayType, 'hidden': openCoupon })}>
+              <li className="pay-type-item">
+                <div className="pay-type-info">
+                  <div className="pay-icon">
+                    <Icon type='pay_type_icon_wechat'/>
                   </div>
-                  <div className="shuxian">
+                  <div className="pay-type-name">微信支付</div>
+                </div>
+                <div className={classnames('chose-btn', {
+                  'chose': payType == PayType.WECHAT
+                })}
+                     onClick={() => this.choosePayType(PayType.WECHAT)}>
+                  <div className='btn'>
                   </div>
-                  <div
-                    className={`
-                       coupon-btn ${multiCoupons ? 'multiCoupons' : ''} ${couponChosen(item) ? 'chose' : ''}`}
-                    onClick={() => this.handleClickChooseCoupon(item)}>
-                    <div className={`btn ${multiCoupons ? 'multiCoupons' : ''} `}>
-                    </div>
-                    <div className={`mask ${multiCoupons ? 'multiCoupons' : ''} `}>
-                    </div>
+                  <div className='mask'>
                   </div>
-                </li>
-              )
-            }) : null}
-          </ul>
-        </div>
-        <div className={`btn-container ${openCoupon ? 'openCoupon' : ''}`}>
-          <div className="btn" onClick={() => this.handleClickPay()}>
-            确认支付
+                </div>
+              </li>
+
+              <li className="pay-type-item">
+                <div className="pay-type-info">
+                  <div className="pay-icon">
+                    <Icon type='pay_type_icon_ali'/>
+                  </div>
+                  <div className="pay-type-name">支付宝</div>
+                </div>
+                <div className={classnames('chose-btn', {
+                  'chose': payType == PayType.ALIPAY
+                })}
+                     onClick={() => this.choosePayType(PayType.ALIPAY)}>
+                  <div className='btn'>
+                  </div>
+                  <div className='mask'>
+                  </div>
+                </div>
+              </li>
+
+            </ul>
           </div>
-        </div>
-        {show ? <div className="mask"/> : null}
-      </div>)
+          <div className={classnames('btn-container', { 'openCoupon': openCoupon || openPayType })}>
+            <div className="btn" onClick={() => this.handleClickPay()}>
+              确认支付
+            </div>
+          </div>
+          {show && <div className="mask"/>}
+        </div>)
     }
   }
 }
