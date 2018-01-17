@@ -81,6 +81,9 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     if(!goodsId || !goodsType) {
       return
     }
+    this.setState({
+      justOpenPayType: goodsId == 7 && GoodsType.BS_APPLICATION == goodsType
+    })
     loadGoodsInfo(goodsType, goodsId).then(res => {
       if(res.code === 200) {
         this.setState(res.msg, () => {
@@ -514,7 +517,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
   }
 
   render() {
-    const { openCoupon, final, fee, chose, free, show, name, startTime, endTime, activity, multiCoupons, openPayType, chooseAll, initPrice, payType, hiddenCoupon = false } = this.state
+    const { openCoupon, final, fee, chose, free, show, name, startTime, endTime, activity, multiCoupons, openPayType, chooseAll, initPrice, payType, hiddenCoupon = false, justOpenPayType } = this.state
     const { header, goodsId, goodsType } = this.props
     let coupons = _.get(this.state, 'coupons', [])
     coupons = this.filterCoupons(coupons, goodsType)
@@ -615,10 +618,14 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
           <div className={classnames('main-container', {
             'hasCoupons': hasCoupons, 'show': show, 'hasTime': !!startTime && !!endTime
           })}>
-            <div className={classnames('header', { 'openCoupon': openCoupon || openPayType })}>
+            <div className={classnames('header', {
+              'openCoupon': openCoupon || openPayType, 'just-open-pay-type': justOpenPayType
+            })}>
               {header || name}
             </div>
-            <div className={classnames('content', { 'openCoupon': openCoupon || openPayType })}>
+            <div className={classnames('content', {
+              'openCoupon': openCoupon || openPayType, 'just-open-pay-type': justOpenPayType
+            })}>
               {(!!startTime && !!endTime) && <div className="open-time item">
                 学习时间：<span className="right-float">{startTime} - {endTime}</span>
               </div>}
@@ -627,7 +634,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
               </div>
               {hasCoupons &&
               <div className={classnames('has-arrow', 'coupon', 'item', {
-                'open': openCoupon, 'hidden': openPayType
+                'open': openCoupon, 'hidden': openPayType, 'just-open-pay-type': justOpenPayType
               })} onClick={() => this.setState({ openCoupon: !this.state.openCoupon })}>
                 {chose && chose.used ? `优惠券：¥${numeral(chose.total).format('0.00')}元` : `选择优惠券`}
                 {(openCoupon && multiCoupons) &&
@@ -637,16 +644,22 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
               </div>}
 
               <div
-                className={classnames('has-arrow', 'pay-type', 'item', { 'open': openPayType, 'hidden': openCoupon })}
+                className={classnames('has-arrow', 'pay-type', 'item', {
+                  'open': openPayType, 'hidden': openCoupon, 'just-open-pay-type': justOpenPayType
+                })}
                 onClick={() => this.choosePayType()}>
                 支付方式
-                {(openCoupon && multiCoupons) &&
-                <div className="coupon-manual-close">
-                  确认
-                </div>}
+                {!openPayType &&
+                <div className="small-pay-type-info">
+                  <div className="pay-icon">
+                    <Icon type={`pay_type_icon_${payType == PayType.WECHAT ? 'wechat' : 'ali'}`}/>
+                  </div>
+                  <div className="pay-type-name">{payType == PayType.WECHAT ? '微信支付' : '支付宝'}</div>
+                </div>
+                }
               </div>
             </div>
-            <ul className={classnames('coupon-list', { 'open': openCoupon, 'hidden': hiddenCoupon })}>
+            <ul className={classnames('coupon-list', { 'open': openCoupon, 'hidden': hiddenCoupon,'just-open-pay-type': justOpenPayType })}>
               {multiCoupons && (
                 <div className="choose-all-wrapper">
                   <div className="choose-area">
@@ -689,7 +702,9 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
               })}
             </ul>
 
-            <ul className={classnames('pay-list', { 'open': openPayType, 'hidden': openCoupon })}>
+            <ul className={classnames('pay-list', {
+              'open': openPayType, 'hidden': openCoupon, 'just-open-pay-type': justOpenPayType
+            })}>
               <li className="pay-type-item">
                 <div className="pay-type-info">
                   <div className="pay-icon">

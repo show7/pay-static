@@ -257,6 +257,9 @@
     > .header {
       &.openCoupon {
         .translateY(@hiddenHeight);
+        &.just-open-pay-type {
+          .translateY(@justOpenPayType);
+        }
       }
       .translateY(0);
       text-align: center;
@@ -274,6 +277,9 @@
     > .content {
       &.openCoupon {
         .translateY(@hiddenHeight);
+        &.just-open-pay-type {
+          .translateY(@justOpenPayType);
+        }
       }
       .translateY(0);
       font-size: 16px;
@@ -365,6 +371,26 @@
         }
       }
       .pay-type {
+        .small-pay-type-info {
+          position: absolute;
+          top: 0;
+          right: 50px;
+          > .pay-icon {
+            width: 24px;
+            height: 24px;
+            display: inline-block;
+            line-height: 0;
+            vertical-align: middle;
+            margin-right: 15px;
+            img {
+              width: 100%;
+              height: auto;
+            }
+          }
+          > .pay-type-name {
+            display: inline-block;
+          }
+        }
       }
     }
     > ul {
@@ -429,7 +455,9 @@
       -webkit-overflow-scrolling: touch;
       &.open {
         .translateY(@hiddenHeight);
-
+        &.just-open-pay-type {
+          .translateY(@justOpenPayType);
+        }
       }
       &.hidden {
         display: none;
@@ -462,7 +490,7 @@
           -ms-transform: translateY(-50%);
           -o-transform: translateY(-50%);
           transform: translateY(-50%);
-          .pay-icon {
+          > .pay-icon {
             display: inline-block;
             width: 24px;
             height: 24px;
@@ -489,6 +517,9 @@
       -webkit-overflow-scrolling: touch;
       &.open {
         .translateY(@hiddenHeight);
+        &.just-open-pay-type {
+          .translateY(@justOpenPayType);
+        }
       }
 
       &.hidden {
