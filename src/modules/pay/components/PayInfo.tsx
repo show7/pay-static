@@ -492,13 +492,9 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
 
   choosePayType(payType) {
     const { openPayType } = this.state;
-    if(payType == PayType.ALIPAY) {
-      this.setState({ payType: PayType.ALIPAY, openPayType: false })
-      setTimeout(() => {
-        this.setState({ hiddenCoupon: false })
-      }, 500)
-    } else if(payType == PayType.WECHAT) {
-      this.setState({ payType: PayType.WECHAT, openPayType: false })
+    if(!!payType) {
+      // 有payType
+      this.setState({ payType: payType, openPayType: false })
       setTimeout(() => {
         this.setState({ hiddenCoupon: false })
       }, 500)
@@ -659,7 +655,9 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                 }
               </div>
             </div>
-            <ul className={classnames('coupon-list', { 'open': openCoupon, 'hidden': hiddenCoupon,'just-open-pay-type': justOpenPayType })}>
+            <ul className={classnames('coupon-list', {
+              'open': openCoupon, 'hidden': hiddenCoupon, 'just-open-pay-type': justOpenPayType
+            })}>
               {multiCoupons && (
                 <div className="choose-all-wrapper">
                   <div className="choose-area">
