@@ -27,7 +27,6 @@ export default class RiseAlipay extends React.Component<any, any> {
     const { dispatch, location } = this.props;
     dispatch(startLoad());
     let interval = setInterval(() => {
-      console.log(window.ENV.Detected.browser.name);
       if(!!window.ENV.Detected.browser.name) {
         dispatch(endLoad());
         clearInterval(interval);
