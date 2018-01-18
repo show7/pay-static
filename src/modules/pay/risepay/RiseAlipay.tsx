@@ -9,6 +9,7 @@ import { MarkBlock } from '../components/markblock/MarkBlock'
 import { mark } from 'utils/request'
 import { addUserRecommendation } from './async'
 import * as _ from 'lodash';
+import AssetImg from '../../../components/AssetImg'
 
 @connect(state => state)
 export default class RiseAlipay extends React.Component<any, any> {
@@ -19,9 +20,7 @@ export default class RiseAlipay extends React.Component<any, any> {
 
   constructor() {
     super()
-    this.state = {
-
-    }
+    this.state = {}
   }
 
   componentDidMount() {
@@ -51,11 +50,7 @@ export default class RiseAlipay extends React.Component<any, any> {
     if(isWechat) {
       return (
         <div style={{ padding: '4rem' }}>
-          <img src={imageUrl} style={{
-            width: '100%',
-            height: 'auto',
-            display: 'block'
-          }}/>
+          <AssetImg src={imageUrl} width="100%"/>
         </div>
       )
     } else {
