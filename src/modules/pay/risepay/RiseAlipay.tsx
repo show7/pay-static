@@ -50,7 +50,7 @@ export default class RiseAlipay extends React.Component<any, any> {
     if(isWechat) {
       return (
         <div style={{ padding: '4rem' }}>
-          <AssetImg src={imageUrl} width="100%"/>
+          <AssetImg url={imageUrl} width="100%"/>
         </div>
       )
     } else {
