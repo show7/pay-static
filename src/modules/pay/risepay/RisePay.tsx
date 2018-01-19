@@ -3,7 +3,7 @@ import * as _ from 'lodash'
 import './RisePay.less'
 import { connect } from 'react-redux'
 import { pget, mark } from 'utils/request'
-import { getGoodsType } from 'utils/helpers'
+import { getGoodsType, PayType } from 'utils/helpers'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { config, configShare } from 'modules/helpers/JsConfig'
 import PayInfo from '../components/PayInfo'
@@ -132,7 +132,7 @@ export default class RisePay extends React.Component<any, any> {
    * 重新注册页面签名
    */
   reConfig() {
-    config(['chooseWXPay'])
+    config([ 'chooseWXPay' ])
   }
 
   handleClickAudition() {
@@ -145,6 +145,8 @@ export default class RisePay extends React.Component<any, any> {
   render() {
     const { data, showId, timeOut, showErr, showCodeErr } = this.state
     const { privilege, buttonStr, auditionStr, memberType, tip } = data
+    const { location } = this.props;
+    let payType = _.get(location, 'query.paytype');
 
     const renderPay = () => {
       if(!memberType) return null
@@ -250,6 +252,7 @@ export default class RisePay extends React.Component<any, any> {
                    payedCancel={(res) => this.handlePayedCancel(res)}
                    payedError={(res) => this.handlePayedError(res)}
                    payedBefore={() => this.handlePayedBefore()}
+                   payType={payType || PayType.WECHAT}
           />
         }
       </div>
