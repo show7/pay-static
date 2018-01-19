@@ -173,12 +173,18 @@ export default class BusinessApplyChoice extends Component<any, any> {
 
   submitApplyAPI(param) {
     const { dispatch } = this.props;
+    const { payApplyFlag } = this.state;
+
     mark({ module: "打点", function: "商学院审核", action: "提交申请" });
     // 开始提交
     submitApply(param).then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
-        this.context.router.push('/pay/applysubmit');
+        if(!!payApplyFlag) {
+          this.handleClickOpenPayInfo()
+        } else {
+          this.context.router.push('/pay/applysubmit');
+        }
       } else {
         dispatch(alertMsg(res.msg));
       }
@@ -348,7 +354,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
 
   handlePayedDone() {
     mark({ module: '打点', function: '商学院申请', action: '支付成功' })
-    this.handleClickSubmit()
+    // this.handleClickSubmit()
   }
 
   /** 处理支付失败的状态 */
@@ -377,16 +383,16 @@ export default class BusinessApplyChoice extends Component<any, any> {
     const { dispatch } = this.props
     const { questionGroup, currentIndex, } = this.state
 
-    let group = questionGroup[ currentIndex ];
-    let questions = group.questions;
-    const userChoices = this.calculateUserChoices(questionGroup);
-    for(let i = 0; i < questions.length; i++) {
-      let checkResult = this.checkQuestionComplete(questions[ i ], userChoices);
-      if(!checkResult) {
-        dispatch(alertMsg("完成必填项后再点下一步哦"));
-        return;
-      }
-    }
+    // let group = questionGroup[ currentIndex ];
+    // let questions = group.questions;
+    // const userChoices = this.calculateUserChoices(questionGroup);
+    // for(let i = 0; i < questions.length; i++) {
+    //   let checkResult = this.checkQuestionComplete(questions[ i ], userChoices);
+    //   if(!checkResult) {
+    //     dispatch(alertMsg("完成必填项后再点下一步哦"));
+    //     return;
+    //   }
+    // }
 
     dispatch(startLoad())
     // 先检查是否能够支付
@@ -437,7 +443,8 @@ export default class BusinessApplyChoice extends Component<any, any> {
         if(!!payApplyFlag) {
           return (
             <FooterButton btnArray={[ {
-              click: () => this.handleClickOpenPayInfo(),
+              click: () => this.handleClickSubmit(),
+              // this.handleClickOpenPayInfo(),
               text: '1元预约'
             } ]}/>
           )

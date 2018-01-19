@@ -3,6 +3,7 @@ import './RisePay.less'
 import { connect } from 'react-redux'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import * as _ from 'lodash';
+import AssetImg from '../../../components/AssetImg'
 import { queryOrderSuccess } from './async'
 import { GoodsType } from '../../../utils/helpers'
 import { mark } from '../../../utils/request'
@@ -23,7 +24,6 @@ export default class RiseAlipay extends React.Component<any, any> {
     const { dispatch, location } = this.props;
     dispatch(startLoad());
     let interval = setInterval(() => {
-      console.log(window.ENV.Detected.browser.name);
       if(!!window.ENV.Detected.browser.name) {
         dispatch(endLoad());
         clearInterval(interval);
@@ -62,9 +62,7 @@ export default class RiseAlipay extends React.Component<any, any> {
                 dispatch(alertMsg(ex));
               })
             }, 7000);
-
           })
-
         } else {
           window.location.href = _.get(location, 'query.goto');
         }
@@ -78,11 +76,7 @@ export default class RiseAlipay extends React.Component<any, any> {
     if(isWechat) {
       return (
         <div style={{ padding: '4rem' }}>
-          <img src={imageUrl} style={{
-            width: '100%',
-            height: 'auto',
-            display: 'block'
-          }}/>
+          <AssetImg url={imageUrl} width="100%"/>
         </div>
       )
     } else {
