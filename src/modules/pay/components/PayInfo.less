@@ -1,5 +1,5 @@
-@payInfoHasCouponHeight: 370px;
-@payInfoHasCouponNoTimeHeight: 300px;
+@payInfoHasCouponHeight: 368px;
+@payInfoHasCouponNoTimeHeight: 298px;
 @payInfoNoCouponHeight: 312px;
 @payInfoNoCouponNoTimeHeight: 256px;
 @couponHeight: 77px;
@@ -139,6 +139,8 @@
       z-index: 300;
       overflow: scroll;
       -webkit-overflow-scrolling: touch;
+      padding-top: 15px;
+      box-sizing: border-box;
 
       > li {
         height: 50px;
@@ -535,6 +537,8 @@
 
     > .coupon-list {
       -webkit-overflow-scrolling: touch;
+      padding-top: 15px;
+      box-sizing: border-box;
       &.open {
         .translateY(@hiddenHeight);
         &.just-open-pay-type {
@@ -556,13 +560,13 @@
       transition: transform 0.5s;
 
       .choose-all-wrapper {
-        height: 77px;
+        height: 65px;
         position: relative;
         width: 100%;
         .choose-area {
           float: right;
-          height: 77px;
-          line-height: 77px;
+          height: 65px;
+          line-height: 65px;
           .choose-all-tips {
             font-size: 12px;
             color: #333;
