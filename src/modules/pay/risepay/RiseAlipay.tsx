@@ -62,9 +62,7 @@ export default class RiseAlipay extends React.Component<any, any> {
                 dispatch(alertMsg(ex));
               })
             }, 7000);
-
           })
-
         } else {
           window.location.href = _.get(location, 'query.goto');
         }
