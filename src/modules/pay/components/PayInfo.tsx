@@ -556,7 +556,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     }
 
     // <!-- render内容如下：如果是安卓4.3以下版本的话，则渲染简化页面，否则渲染正常页面 -->
-    if(window.ENV.osName === 'android' && parseFloat(window.ENV.osVersion) <= 4.3 || true) {
+    if(window.ENV.osName === 'android' && parseFloat(window.ENV.osVersion) <= 4.3) {
 
       // <!-- 安卓4.3 以下 -->
       return (
