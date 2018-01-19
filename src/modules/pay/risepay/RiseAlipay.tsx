@@ -1,15 +1,12 @@
 import * as React from 'react'
 import './RisePay.less'
 import { connect } from 'react-redux'
-import { SaleBody } from './components/SaleBody'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
-import { configShare } from '../../helpers/JsConfig'
-import { Dialog } from 'react-weui'
-import { MarkBlock } from '../components/markblock/MarkBlock'
-import { mark } from 'utils/request'
-import { addUserRecommendation } from './async'
 import * as _ from 'lodash';
 import AssetImg from '../../../components/AssetImg'
+import { queryOrderSuccess } from './async'
+import { GoodsType } from '../../../utils/helpers'
+import { mark } from '../../../utils/request'
 
 @connect(state => state)
 export default class RiseAlipay extends React.Component<any, any> {
@@ -35,7 +32,39 @@ export default class RiseAlipay extends React.Component<any, any> {
             isWechat: true,
             imageUrl: window.ENV.osName === 'ios' ? 'https://www.iqycamp.com/images/fragment/bg_go_ali_ios1.png'
               : 'https://www.iqycamp.com/images/fragment/bg_go_ali_android.png'
+          }, () => {
+            let orderInterval = setInterval(() => {
+              queryOrderSuccess(_.get(location, 'query.orderId')).then(res => {
+                if(res.code === 200) {
+                  clearInterval(orderInterval);
+                  const { goodsId, goodsType } = res.msg;
+                  if(goodsType == GoodsType.FRAG_MEMBER) {
+                    mark({ module: '打点', function: '商学院会员', action: '支付成功' })
+                    this.context.router.push({
+                      pathname: '/pay/member/success',
+                      query: {
+                        memberTypeId: 3
+                      }
+                    })
+                  } else if(goodsType == GoodsType.BS_APPLICATION) {
+                    this.context.router.push('/pay/applysubmit');
+                  } else if(goodsType == GoodsType.FRAG_CAMP) {
+                    mark({ module: '打点', function: '小课训练营', action: '支付成功', memo: this.state.currentCampMonth })
+                    this.context.router.push({
+                      pathname: '/pay/camp/success',
+                      query: {
+                        memberTypeId: 5
+                      }
+                    })
+                  }
+                }
+              }).catch(ex => {
+                dispatch(alertMsg(ex));
+              })
+            }, 7000);
+
           })
+
         } else {
           window.location.href = _.get(location, 'query.goto');
         }

@@ -13,3 +13,7 @@ export function loadRiseId() {
 export function addUserRecommendation(id) {
   return pget(`/recommend/add/user/${id}`)
 }
+
+export function queryOrderSuccess(orderId) {
+  return pget(`/signup/order/success`, { orderId: orderId });
+}

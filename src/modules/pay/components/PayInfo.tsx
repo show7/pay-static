@@ -168,7 +168,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
             this.handleH5Pay(signParams)
           } else if(payType == PayType.ALIPAY) {
             // 调用阿里支付
-            window.location.href = `/pay/alipay/rise?goto=${encodeURIComponent(signParams.alipayUrl)}`;
+            window.location.href = `/pay/alipay/rise?orderId=${productId}&goto=${encodeURIComponent(signParams.alipayUrl)}`;
             // console.log(signParams.alipayUrl);
           }
         }
