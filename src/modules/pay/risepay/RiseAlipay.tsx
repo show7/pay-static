@@ -61,7 +61,7 @@ export default class RiseAlipay extends React.Component<any, any> {
               }).catch(ex => {
                 dispatch(alertMsg(ex));
               })
-            }, 5000);
+            }, 7000);
 
           })
 
