@@ -55,12 +55,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
         //查询订单信息
         let orderRes = await getRiseMember(this.state.showId);
         if(orderRes.code === 200) {
-          //是否已经付款
-          if(orderRes.msg.entry) {
-            dispatch(alertMsg('审核进行中，请耐心等待'))
-          } else {
-            this.setState({ memberType: orderRes.msg.memberType });
-          }
+          this.setState({ memberType: orderRes.msg.memberType });
         } else {
           dispatch(alertMsg(orderRes.msg));
         }
@@ -355,6 +350,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
   handlePayedDone() {
     mark({ module: '打点', function: '商学院申请', action: '支付成功' })
     // this.handleClickSubmit()
+    this.context.router.push('/pay/applysubmit');
   }
 
   /** 处理支付失败的状态 */
