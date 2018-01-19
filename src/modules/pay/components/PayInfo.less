@@ -69,9 +69,9 @@
         position: relative;
       }
       .price.item.show-tips {
-        line-height: 45px;
+        line-height: 35px;
         .price-tips {
-          bottom: 15px;
+          bottom: 8px;
         }
       }
       .price-tips {
@@ -113,6 +113,26 @@
         opacity: 1;
       }
       height: 222px;
+    }
+    > .pay-type-list {
+      padding-top: 10px;
+      > li {
+        &.choose {
+          background-color: #66ccff;
+        }
+        display: inline-block;
+        font-size: 12px;
+        height: 20px;
+        line-height: 20px;
+        border: 1px solid #d0d0d0;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+        padding: 5px 15px;
+      }
+      > li + li {
+        margin-left: 20px;
+      }
     }
     > .coupon-list {
       position: relative;

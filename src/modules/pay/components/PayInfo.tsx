@@ -556,7 +556,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     }
 
     // <!-- render内容如下：如果是安卓4.3以下版本的话，则渲染简化页面，否则渲染正常页面 -->
-    if(window.ENV.osName === 'android' && parseFloat(window.ENV.osVersion) <= 4.3) {
+    if(window.ENV.osName === 'android' && parseFloat(window.ENV.osVersion) <= 4.3 || true) {
 
       // <!-- 安卓4.3 以下 -->
       return (
@@ -593,6 +593,15 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                   </li>
                 )
               }) : null}
+            </ul>
+            <span style={{ paddingLeft: '15px', fontSize: '15px', color: '#333' }}>支付方式:</span><br/>
+            <ul className="pay-type-list">
+              <li className={classnames({ 'choose': payType == PayType.WECHAT })}
+                  onClick={() => this.setState({ payType: PayType.WECHAT })}>微信
+              </li>
+              <li className={classnames({ 'choose': payType == PayType.ALIPAY })}
+                  onClick={() => this.setState({ payType: PayType.ALIPAY })}>支付宝
+              </li>
             </ul>
           </div>
           <div className="btn-container">
