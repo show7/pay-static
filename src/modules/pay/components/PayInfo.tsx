@@ -573,7 +573,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                 {renderPrice(fee, final, free)}
               </div>
               {(!!startTime && !!endTime ) && <div className="open-time item">
-                学习时间：{startTime} - {endTime}
+                开课时间：{startTime} - {endTime}
               </div>}
               <div className={`coupon item`}>
                 {coupons && chose && chose.used ? `优惠券：¥${numeral(chose.total).format('0.00')}元` : '选择优惠券'}
@@ -632,7 +632,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
               'openCoupon': openCoupon || openPayType, 'just-open-pay-type': justOpenPayType
             })}>
               {(!!startTime && !!endTime) && <div className="open-time item">
-                学习时间：<span className="right-float">{startTime} - {endTime}</span>
+                开课时间：<span className="right-float">{startTime} - {endTime}</span>
               </div>}
               <div className={classnames('price', 'item', { 'show-tips': this.props.priceTips })}>
                 {renderPrice(fee, final, free, initPrice)}
