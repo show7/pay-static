@@ -2,6 +2,8 @@ import qs from "qs"
 import { get, post } from "axios"
 import * as $ from "jquery";
 
+axios.defaults.headers.platform = "we_mobile"
+
 export function appendQs(query: Object): string {
 	return !query ? "" : `?${qs.stringify(query)}`
 }
