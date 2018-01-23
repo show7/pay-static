@@ -1,5 +1,6 @@
 import qs from "qs"
 import { get, post } from "axios"
+import * as axios from 'axios'
 import * as $ from "jquery";
 
 axios.defaults.headers.platform = "we_mobile"
