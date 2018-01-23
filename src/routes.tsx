@@ -4,7 +4,6 @@ import { Route } from 'react-router'
 import Base from 'modules/base/Base'
 import RisePay from 'modules/pay/risepay/RisePay'
 import CampPay from 'modules/pay/camppay/CampPay'
-import CampGroup from 'modules/pay/camppay/CampGroup'
 import RiseApply from 'modules/pay/risepay/RiseApply'
 import RiseShare from 'modules/pay/risepay/RiseShare'
 import BusinessApply from './modules/pay/bsapply/BusinessApply'
@@ -18,7 +17,6 @@ import BusinessApplySubmitSuccess from './modules/pay/bsapply/BusinessApplySubmi
 import Subscribe from './modules/subscribe/Subscribe'
 import JanuaryCampPay from './modules/pay/JanuaryCampPay'
 import CampPayGuest from './modules/pay/camppay/CampPayGuest'
-import FebCampPay from './modules/pay/FebCampPay'
 import RiseAlipay from './modules/pay/risepay/RiseAlipay'
 import AlipayReturn from './modules/pay/risepay/AlipayReturn'
 
@@ -40,7 +38,6 @@ const routes = (
       <Route path="pay/jan" component={JanuaryCampPay}/>
       <Route path="pay/static/rise" component={RiseApply}/>
       <Route path="pay/static/share" component={RiseShare}/>
-      <Route path="pay/static/camp/group" component={CampGroup}/>
       <Route path="pay/apply" component={ApplySuccess}/>
       <Route path="pay/pay" component={RisePay}/>
       <Route path="pay/preacher" component={PreacherPage}/>
