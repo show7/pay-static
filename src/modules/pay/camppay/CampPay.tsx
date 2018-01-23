@@ -160,19 +160,6 @@ export default class CampPay extends React.Component<any, any> {
           action={'点击加入按钮'} memo={this.state.currentCampMonth}>
           <SubmitButton clickFunc={()=>this.handleClickOpenPayInfo(showId)} buttonText={'加入训练营'} />
           </MarkBlock>
-          {/*{*/}
-            {/*<div className="button-footer">*/}
-              {/*<MarkBlock module={'打点'} func={'小课训练营'}*/}
-                         {/*action={'点击加入按钮'} memo={this.state.currentCampMonth}*/}
-                         {/*className='footer-left' onClick={() => this.handleClickOpenPayInfo(showId)}>*/}
-                {/*单人模式(¥498)*/}
-              {/*</MarkBlock>*/}
-              {/*<MarkBlock module={'打点'} func={'小课训练营'} action={'创建团队'}*/}
-                         {/*className={'footer-btn'} onClick={() => this.handleGroup()}>*/}
-                {/*互助模式（7天免费）*/}
-              {/*</MarkBlock>*/}
-            {/*</div>*/}
-          {/*}*/}
         </div>
       )
     }

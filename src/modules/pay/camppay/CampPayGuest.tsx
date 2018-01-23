@@ -67,7 +67,7 @@ export default class CampPayGuest extends React.Component<any, any> {
             <div className="button-footer">
               <MarkBlock module={'打点'} func={'小课训练营-未关注'}
                          action={'点击加入按钮'} memo={currentCampMonth}>
-                <SubmitButton clickFunc={() => this.handleClickOpenPayInfo()} buttonText={'加入训练营'}/>
+                <SubmitButton clickFunc={() => this.handleClickOpenPayInfo()} buttonText={'加入专项课'}/>
               </MarkBlock>
             </div>
           }
