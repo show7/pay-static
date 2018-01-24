@@ -146,7 +146,7 @@ export class SaleBody extends React.Component {
 
     const renderKefu = () => {
       return (
-        <CustomerService image="https://static.iqycamp.com/images/kefu.png?imageslim"/>
+        <CustomerService image="https://static.iqycamp.com/images/kefu_2.png?imageslim"/>
       )
     }
 
