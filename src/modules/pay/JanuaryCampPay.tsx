@@ -136,7 +136,7 @@ export default class JanuaryCampPay extends React.Component<any, any> {
           <MarkBlock module={'打点'} func={'小课训练营'}
                      action={'点击加入按钮'} memo={this.state.currentCampMonth}
                      className='button-footer' onClick={() => this.handleClickOpenPayInfo(showId)}>
-            <div className="footer-btn">加入训练营</div>
+            <div className="footer-btn">加入专项课</div>
           </MarkBlock>
         </div>
       )

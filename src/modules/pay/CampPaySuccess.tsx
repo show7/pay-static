@@ -59,7 +59,7 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
                 Hi {window.ENV.userName}
               </div>
               <div className="welcome">
-                欢迎加入训练营
+                欢迎加入专项课
               </div>
               <div className="tips">
                 扫码加小哥哥微信，回复入群密令<br/>
