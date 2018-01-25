@@ -77,7 +77,7 @@ export default class CampPayGuest extends React.Component<any, any> {
 
     const renderKefu = () => {
       return (
-        <CustomerService image="https://static.iqycamp.com/images/kefu.png?imageslim"/>
+        <CustomerService/>
       )
     }
 

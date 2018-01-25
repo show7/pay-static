@@ -4,9 +4,11 @@ import './CustomerService.less'
 interface CustomerServiceProps {
   image: string
 }
+
 interface CustomerServiceState {
 
 }
+
 export class CustomerService extends React.Component<CustomerServiceProps, CustomerServiceState> {
 
   constructor() {
@@ -14,7 +16,7 @@ export class CustomerService extends React.Component<CustomerServiceProps, Custo
   }
 
   render() {
-    const { image } = this.props
+    const { image = 'https://static.iqycamp.com/images/kefu_2.png?imageslim' } = this.props
 
     return (
       <div className="customer-service-component">

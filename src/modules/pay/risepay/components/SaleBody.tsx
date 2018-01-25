@@ -146,7 +146,7 @@ export class SaleBody extends React.Component {
 
     const renderKefu = () => {
       return (
-        <CustomerService image="https://static.iqycamp.com/images/kefu.png?imageslim"/>
+        <CustomerService/>
       )
     }
 
@@ -155,7 +155,7 @@ export class SaleBody extends React.Component {
            id="business-school-intro-pic-container">
         <img
           className="pic-part1"
-          src="https://static.iqycamp.com/images/pay_rise_part1_11.png?imageslim"
+          src="https://static.iqycamp.com/images/pay_rise_part1_12.png?imageslim"
           style={{ width: '100%' }}
           onLoad={() => this.setState({ loading: false })}/>
         {
