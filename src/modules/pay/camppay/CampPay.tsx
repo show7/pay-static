@@ -14,6 +14,7 @@ import { CustomerService } from '../../../components/customerservice/CustomerSer
 import { MarkBlock } from '../components/markblock/MarkBlock'
 import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
 
+
 @connect(state => state)
 export default class CampPay extends React.Component<any, any> {
 
@@ -55,7 +56,7 @@ export default class CampPay extends React.Component<any, any> {
     this.setState({ currentCampMonth: _.get(res, 'msg.markSellingMemo', 'error') }, () => {
       mark({ module: '打点', function: '小课训练营', action: '购买小课训练营', memo: _.get(res, 'msg.markSellingMemo', 'error') })
     })
-    res = await getCampPageInfo();
+    res = await getCampPageInfo()
     if(res.code === 200) {
       this.setState({ campPaymentImage: res.msg.campPaymentImage })
     } else {
@@ -157,8 +158,8 @@ export default class CampPay extends React.Component<any, any> {
                src={campPaymentImage}
                onLoad={() => this.setState({ loading: false })}/>
           <MarkBlock module={'打点'} func={'小课训练营'}
-          action={'点击加入按钮'} memo={this.state.currentCampMonth}>
-          <SubmitButton clickFunc={()=>this.handleClickOpenPayInfo(showId)} buttonText={'加入训练营'} />
+                     action={'点击加入按钮'} memo={this.state.currentCampMonth}>
+            <SubmitButton clickFunc={() => this.handleClickOpenPayInfo(showId)} buttonText={'我要报名！'}/>
           </MarkBlock>
         </div>
       )
@@ -166,7 +167,7 @@ export default class CampPay extends React.Component<any, any> {
 
     const renderKefu = () => {
       return (
-        <CustomerService/>
+        <CustomerService  componentStyle="customer-camp-component"/>
       )
     }
 
@@ -202,7 +203,7 @@ export default class CampPay extends React.Component<any, any> {
                                 dispatch={this.props.dispatch}
                                 goodsType={getGoodsType(memberType.id)}
                                 goodsId={memberType.id}
-                                header={memberType.name}
+                                header={'2018 我能赢！'}
                                 payedDone={(goodsId) => this.handlePayedDone()}
                                 payedCancel={(res) => this.handlePayedCancel(res)}
                                 payedError={(res) => this.handlePayedError(res)}
@@ -210,9 +211,9 @@ export default class CampPay extends React.Component<any, any> {
         />}
 
         {/*{show &&*/}
-          {/*<div className="alert-container" onClick={() => this.setState({ show: false })}>*/}
-            {/*<img src="https://static.iqycamp.com/images/promotion_camp_1_4.png?imageslim" width={'100%'}></img>*/}
-          {/*</div>*/}
+        {/*<div className="alert-container" onClick={() => this.setState({ show: false })}>*/}
+        {/*<img src="https://static.iqycamp.com/images/promotion_camp_1_4.png?imageslim" width={'100%'}></img>*/}
+        {/*</div>*/}
         {/*}*/}
       </div>
     )
