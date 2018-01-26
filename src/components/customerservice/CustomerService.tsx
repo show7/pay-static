@@ -19,9 +19,7 @@ export class CustomerService extends React.Component<CustomerServiceProps, Custo
   componentDidUpdate() {
     const { componentStyle } = this.props
     if(componentStyle) {
-      if(this.refs.kefu_service) {
-        this.refs.kefu_service.classList.add(componentStyle)
-      }
+      this.refs.kefu_service.classList.add(componentStyle)
     }
   }
 
