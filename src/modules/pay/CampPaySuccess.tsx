@@ -62,7 +62,7 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
                 欢迎加入专项课
               </div>
               <div className="tips">
-                扫码加小哥哥微信，回复入群密令<br/>
+                扫码加小哥哥微信，回复学号<br/>
                 <span style={{ color: 'orange' }}>{entryCode}</span><br/>
                 让他拉你进班级群吧
               </div>
@@ -78,7 +78,7 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
                 欢迎加入商学院
               </div>
               <div className="tips">
-                扫码加小哥哥微信，回复入群密令<br/>
+                扫码加小哥哥微信，回复学号<br/>
                 <span style={{ color: 'orange' }}>{entryCode}</span><br/>
                 让他拉你进班级群吧
               </div>
@@ -98,7 +98,6 @@ export default class RiseMemberPaySuccess extends React.Component<any, any> {
         </div>
         {renderWelComeTips()}
         <img src="https://static.iqycamp.com/images/xiaohei_code_1109.jpeg?imageslim" alt="小黑" className="qrcode"/>
-        {/*<div className="close-button" onClick={() => this.goLearnPage()}>已入群，开始学习</div>*/}
       </div>
     )
   }
