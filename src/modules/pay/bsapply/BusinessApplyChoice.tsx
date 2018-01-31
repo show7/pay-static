@@ -33,7 +33,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
   async componentWillMount() {
     const { dispatch, region, location } = this.props;
     // ios／安卓微信支付兼容性
-    if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href) {
+    if(!_.isEmpty(window.ENV.configUrl) && window.ENV.configUrl !== window.location.href) {
       window.location.href = window.location.href
       return
     }
