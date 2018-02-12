@@ -1,43 +1,62 @@
-import qs from "qs"
-import { get, post } from "axios"
+import qs from 'qs'
+import { get, post } from 'axios'
 import * as axios from 'axios'
-import * as $ from "jquery";
 
-axios.defaults.headers.platform = "we_mobile"
+axios.defaults.headers.platform = 'we_mobile'
+axios.defaults.headers.post['Content-Type'] = 'application/json'
 
-export function appendQs(query: Object): string {
-	return !query ? "" : `?${qs.stringify(query)}`
+// 对于 700 返回，默认跳转登录页
+axios.interceptors.response.use(function(response) {
+  if(response.status === 700) {
+    window.location.href = decodeURI(`${window.location.protocol}//${window.location.host}/wx/oauth/auth?callbackUrl=${window.location.href}`)
+  } else {
+    return response
+  }
+}, function(error) {
+  console.error(error)
+})
+
+function pget(url: string, query?: Object) {
+  return get(`${url}${_appendQs(query)}`, {
+    validateStatus: function(status) {
+      return status >= 200 && status < 300 || status == 700
+    }
+  }).then((res) => res.data).catch(error => {
+    if(error.response) {
+      log(JSON.stringify(error.response), window.location ? window.location.href : null, JSON.stringify(_getBrowser()))
+    } else {
+      log(error.message, window.location ? window.location.href : null, JSON.stringify(_getBrowser()))
+    }
+  })
 }
 
-export function mark(param){
-  return ppost('/rise/b/mark',param);
-}
-
-export function pget(url: string, query?: Object) {
-	return get(`${url}${appendQs(query)}`).then((res) => res.data).catch(error => {
-		if (error.response) {
-      log(JSON.stringify(error.response), window.location ? window.location.href : null, JSON.stringify(getBrowser()));
-		} else {
-			log(error.message, window.location ? window.location.href : null, JSON.stringify(getBrowser()));
-		}
-	})
-}
-
-export function ppost(url: string, body: Object) {
-	return post(url, body).then((res) => res.data).catch(error => {
-		if (error.response) {
-      log(JSON.stringify(error.response), window.location ? window.location.href : null, JSON.stringify(getBrowser()));
+function ppost(url: string, body: Object) {
+  return post(url, body).then((res) => res.data).catch(error => {
+    if(error.response) {
+      log(JSON.stringify(error.response), window.location ? window.location.href : null, JSON.stringify(_getBrowser()))
 
     } else {
-      log(error.message, window.location ? window.location.href : null, JSON.stringify(getBrowser()));
+      log(error.message, window.location ? window.location.href : null, JSON.stringify(_getBrowser()))
     }
-	})
+  })
 }
 
-export function getBrowser(){
+function mark(param) {
+  return ppost('/rise/b/mark', param)
+}
+
+function log(msg, url, browser) {
+  return post('/b/log', JSON.stringify({ result: msg, cookie: document.cookie, url: url }))
+}
+
+function _appendQs(query: Object): string {
+  return !query ? '' : `?${qs.stringify(query)}`
+}
+
+function _getBrowser() {
   return {
-    versions: function () {
-      var u = navigator.userAgent, app = navigator.appVersion;
+    versions: function() {
+      var u = navigator.userAgent, app = navigator.appVersion
       return {//移动终端浏览器版本信息
         trident: u.indexOf('Trident') > -1, //IE内核
         presto: u.indexOf('Presto') > -1, //opera内核
@@ -49,28 +68,11 @@ export function getBrowser(){
         iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
         iPad: u.indexOf('iPad') > -1, //是否iPad
         webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
-      };
-    } (),
+      }
+    }(),
     language: (navigator.browserLanguage || navigator.language).toLowerCase()
   }
 }
 
-export function getPlatform(){
-  let browser = getBrowser();
-  if (browser.versions.iPhone || browser.versions.iPad || browser.versions.ios){
-    return "ios";
-  } else {
-    return "android";
-  }
-}
+export { pget, ppost, mark }
 
-export function log(msg,url,browser) {
-  $.ajax('/b/log',{
-    type: "POST",
-    contentType:"application/json",
-    data: JSON.stringify({ result: msg, cookie: document.cookie,url:url,browser:browser }),
-    dataType:"json",
-    success: function(e){console.log(e)},
-  });
-	// ppost('/b/log', { result: msg, cookie: document.cookie,url:url,browser:browser })
-}

@@ -23,12 +23,6 @@ export default class BusinessApply extends Component<any, any> {
   }
 
   componentWillMount() {
-    // // ios／安卓微信支付兼容性
-    // if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href) {
-    //   window.location.href = window.location.href
-    //   return
-    // }
-
     // 如果用户在审核中，则点击后提示已经在审核中
     mark({ module: "打点", function: "商学院审核", action: "进入申请开始页面" })
   }

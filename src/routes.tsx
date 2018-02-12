@@ -27,7 +27,6 @@ const routes = (
              config(['chooseWXPay'])
              window.scrollTo(0, 0)
            }}>
-
       <Route path="subscribe" component={Subscribe}/>
       <Route path="pay/camp/success" component={CampPaySuccess}/>
       <Route path="pay/member/success" component={MemberPaySuccess}/>
