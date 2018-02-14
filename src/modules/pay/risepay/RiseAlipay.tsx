@@ -30,8 +30,8 @@ export default class RiseAlipay extends React.Component<any, any> {
         if(window.ENV.Detected.browser.name === '微信') {
           this.setState({
             isWechat: true,
-            imageUrl: window.ENV.osName === 'ios' ? 'https://www.iqycamp.com/images/fragment/bg_go_ali_ios1.png'
-              : 'https://www.iqycamp.com/images/fragment/bg_go_ali_android.png'
+            imageUrl: window.ENV.osName === 'ios' ? 'https://static.iqycamp.com/images/fragment/bg_go_ali_ios1.png'
+              : 'https://static.iqycamp.com/images/fragment/bg_go_ali_android.png'
           }, () => {
             let orderInterval = setInterval(() => {
               queryOrderSuccess(_.get(location, 'query.orderId')).then(res => {
