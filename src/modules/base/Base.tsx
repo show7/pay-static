@@ -24,6 +24,8 @@ $.fn.extend({
   }
 })
 
+let notLoadInfoUrls = [ "pay/alipay/rise", "pay/alipay/return" ];
+
 @connect(state => state)
 export default class Main extends React.Component<any, any> {
 
@@ -47,21 +49,31 @@ export default class Main extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    pget('/rise/customer/info').then(res => {
-      if(res.code === 200) {
-        window.ENV.userName = res.msg.nickname
-        window.ENV.headImgUrl = res.msg.headimgurl
+    let loadInfo = true;
+    for(let i = 0; i < notLoadInfoUrls.length; i++) {
+      let url = notLoadInfoUrls[ i ];
+      if(url.indexOf(window.location.pathname) !== -1) {
+        loadInfo = false;
+        break;
       }
-      this.setState({showPage: true})
-    })
+    }
+    if(loadInfo) {
+      pget('/rise/customer/info').then(res => {
+        if(res.code === 200) {
+          window.ENV.userName = res.msg.nickname
+          window.ENV.headImgUrl = res.msg.headimgurl
+        }
+        this.setState({ showPage: true })
+      })
+    }
   }
 
   componentDidMount() {
-    config(['chooseWXPay'])
+    config([ 'chooseWXPay' ])
   }
 
   closeAnswer() {
-    const {dispatch} = this.props
+    const { dispatch } = this.props
     dispatch(set(SHOW_MODAL_KEY, false))
   }
 
@@ -74,7 +86,7 @@ export default class Main extends React.Component<any, any> {
       <div>
         {this.props.children}
         <Toast show={isPending(this.props, LOAD_KEY)} icon="loading">
-          <div style={{fontSize: 12, marginTop: -4}}>加载中...</div>
+          <div style={{ fontSize: 12, marginTop: -4 }}>加载中...</div>
         </Toast>
         <Dialog {...this.state.alert}
                 show={this.props.base.showModal}>
