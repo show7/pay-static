@@ -24,7 +24,7 @@ $.fn.extend({
   }
 })
 
-let notLoadInfoUrls = [ "pay/alipay/rise", "pay/alipay/return" ];
+let notLoadInfoUrls = [ "/pay/alipay/rise", "/pay/alipay/return" ];
 
 @connect(state => state)
 export default class Main extends React.Component<any, any> {
