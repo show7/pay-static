@@ -65,6 +65,8 @@ export default class Main extends React.Component<any, any> {
         }
         this.setState({ showPage: true })
       })
+    } else {
+      this.setState({ showPage: true })
     }
   }
 
