@@ -2,10 +2,10 @@ import * as React from 'react'
 import './MemberPaySuccess.less'
 import { connect } from 'react-redux'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
-import { entryRiseMember } from './async'
+import { entryRiseMember } from '../async'
 
 @connect(state => state)
-export default class MemberPaySuccess extends React.Component<any, any> {
+export default class CampPaySuccess extends React.Component<any, any> {
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
@@ -42,6 +42,10 @@ export default class MemberPaySuccess extends React.Component<any, any> {
     })
   }
 
+  goLearnPage() {
+    window.location.href = `/rise/static/camp`
+  }
+
   render() {
     const { entryCode } = this.state
 
@@ -50,7 +54,7 @@ export default class MemberPaySuccess extends React.Component<any, any> {
         <div className="gutter" style={{ height: `${this.topPd}px` }}/>
         <div className="success-header">报名成功</div>
         <div className="success-tips">
-          Hi, {window.ENV.userName}，欢迎加入商学院
+          Hi, {window.ENV.userName}，欢迎加入专项课
         </div>
         <div className="step-wrapper">
           <div className="content">
@@ -59,9 +63,9 @@ export default class MemberPaySuccess extends React.Component<any, any> {
               <div className="code">{entryCode}</div>
             </div>
             <div className="step step-2" data-step="2" style={{ paddingBottom: `${this.pd}px` }}>
-              扫码添加班主任
+              扫码添加小哥哥
               <div className="tip">工作日两小时內回复，请耐心等待</div>
-              <img src="https://static.iqycamp.com/images/banzhuren_code_1109.jpeg?imageslim" alt="班主任"
+              <img src="https://static.iqycamp.com/images/xiaohei_code_1109.jpeg?imageslim" alt="小黑"
                    className="qrcode"/>
             </div>
             <div className="step step-3" data-step="3">

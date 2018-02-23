@@ -1,8 +1,8 @@
 import * as React from 'react'
 import './AuditionSuccess.less'
 import { connect } from 'react-redux'
-import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
-import { chooseAuditionCourse } from './async'
+import { set, startLoad, endLoad, alertMsg } from '../../../redux/actions'
+import { chooseAuditionCourse } from '../async'
 
 @connect(state => state)
 export default class AuditionSuccess extends React.Component<any, any> {
