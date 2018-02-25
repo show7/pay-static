@@ -23,17 +23,17 @@ export default class PreacherPage extends React.Component<any, any> {
     mark({ module: '打点', function: '宣讲课页面', action: '进入宣讲课页面' })
     const { dispatch } = this.props
     dispatch(startLoad())
-    loadPreacherNumber().then(res => {
-      dispatch(endLoad())
-      if(res.code === 200) {
-        this.setState({ preacherNumber: res.msg })
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-    })
+    // loadPreacherNumber().then(res => {
+    //   dispatch(endLoad())
+    //   if(res.code === 200) {
+    //     this.setState({ preacherNumber: res.msg })
+    //   } else {
+    //     dispatch(alertMsg(res.msg))
+    //   }
+    // }).catch(ex => {
+    //   dispatch(endLoad())
+    //   dispatch(alertMsg(ex))
+    // })
   }
 
   handleClickGoApply() {
@@ -121,14 +121,14 @@ export default class PreacherPage extends React.Component<any, any> {
           </div>
         </div>
 
-        <div className="recently-tips white-bg">
-          下一期宣讲会预约，请扫码<br/>
-          并回复数字{preacherNumber}
-        </div>
-        <div className="img-wrapper white-bg">
-          <img src="https://static.iqycamp.com/images/qrcode_xiaoy_20171117.jpeg?imageslim"
-               className="qrcode"/>
-        </div>
+        {/*<div className="recently-tips white-bg">*/}
+          {/*下一期宣讲会预约，请扫码<br/>*/}
+          {/*并回复数字{preacherNumber}*/}
+        {/*</div>*/}
+        {/*<div className="img-wrapper white-bg">*/}
+          {/*<img src="https://static.iqycamp.com/images/qrcode_xiaoy_20171117.jpeg?imageslim"*/}
+               {/*className="qrcode"/>*/}
+        {/*</div>*/}
         <div style={{ height: '64px' }}/>
         <MarkBlock module={'打点'} func={'宣讲课页面'} action={'申请商学院'}>
           <SubmitButton clickFunc={() => this.handleClickGoApply()} buttonText="申请商学院"/>
