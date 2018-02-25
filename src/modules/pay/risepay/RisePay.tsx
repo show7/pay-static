@@ -159,11 +159,11 @@ export default class RisePay extends React.Component<any, any> {
           <div className="button-footer">
             {
               auditionStr ? <div>
-                <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'} memo={data ? buttonStr : ''}
-                           className="footer-left" onClick={() => this.handleClickOpenPayInfo(showId)}>
+                <MarkBlock module={'打点'} func={'商学院会员'} action={'点击宣讲课按钮'} memo={data ? buttonStr : ''}
+                           className="footer-left" onClick={() => this.handleClickAudition}>
                   {auditionStr}
-                </MarkBlock> <MarkBlock module={'打点'} func={'商学院会员'} action={'点击宣讲课按钮'} className={'footer-btn'}
-                                        onClick={() => this.handleClickAudition()}>
+                </MarkBlock> <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'} className={'footer-btn'}
+                                        onClick={() => this.handleClickOpenPayInfo(showId)}>
                 <div className="audition">{buttonStr}</div>
               </MarkBlock>
               </div> : <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'} memo={data ? buttonStr : ''}
@@ -181,10 +181,10 @@ export default class RisePay extends React.Component<any, any> {
             {
               auditionStr ? <div>
                 <MarkBlock module={`打点`} func={`商学院会员`} action={`申请商学院`} className={`footer-left`}
-                           onClick={() => this.redirect()}> {auditionStr} </MarkBlock> <MarkBlock module={'打点'} func={'商学院会员'}
+                           onClick={() => this.handleClickAudition()}> {auditionStr} </MarkBlock> <MarkBlock module={'打点'} func={'商学院会员'}
                                                                                           action={'点击宣讲课按钮'}
                                                                                           className={'footer-btn'}
-                                                                                          onClick={() => this.handleClickAudition()}>
+                                                                                          onClick={() => this.redirect()}>
                 <div className="audition">申请商学院</div>
               </MarkBlock>
               </div> : <MarkBlock module={`打点`} func={`商学院会员`} action={`申请商学院`} className={`footer-btn`}
