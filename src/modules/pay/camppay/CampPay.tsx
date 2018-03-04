@@ -13,6 +13,7 @@ import { signupCamp, createCampGroup, getCampPageInfo } from './async'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
 import { MarkBlock } from '../components/markblock/MarkBlock'
 import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
+import AssetImg from '../../../components/AssetImg'
 
 @connect(state => state)
 export default class CampPay extends React.Component<any, any> {
@@ -111,27 +112,6 @@ export default class CampPay extends React.Component<any, any> {
     }
   }
 
-  // //TODO: 活动结束后删除
-  // async handleGroup() {
-  //   const { dispatch } = this.props
-  //   dispatch(startLoad())
-  //   // 先检查是否能够支付
-  //   let res = await createCampGroup()
-  //
-  //   if(res.code === 200) {
-  //     let groupCode = res.msg
-  //     configShare(
-  //       '我想邀请你一起，用7天时间重新认识自己', `https://${window.location.hostname}/pay/static/camp/group?groupCode=${groupCode}`,
-  //       'https://static.iqycamp.com/images/team_promotion_share.jpg?imageslim',
-  //       '揭晓价值观和能力的隐藏区', [ 'chooseWXPay' ]
-  //     )
-  //     this.setState({ show: true })
-  //   } else {
-  //     dispatch(alertMsg(res.msg))
-  //   }
-  //   dispatch(endLoad())
-  // }
-
   handlePayedBefore() {
     mark({ module: '打点', function: '小课训练营', action: '点击付费', memo: this.state.currentCampMonth })
   }
@@ -140,15 +120,12 @@ export default class CampPay extends React.Component<any, any> {
    * 重新注册页面签名
    */
   reConfig() {
-    // config([ 'chooseWXPay', 'onMenuShareAppMessage', 'onMenuShareTimeline' ])
-    config(['chooseWXPay'])
+    config([ 'chooseWXPay' ])
   }
 
   render() {
     const { data, showId, timeOut, showErr, showCodeErr, loading, show, campPaymentImage } = this.state
     const { memberType } = data
-
-    // src="https://static.iqycamp.com/images/fragment/camp_promotion_01_9.png?imageslim"
 
     const renderPay = () => {
       return (
@@ -169,32 +146,38 @@ export default class CampPay extends React.Component<any, any> {
     }
 
     return (
-      <div className="camp-pay-container">
-        <PicLoading show={loading}/> {renderPay()} {renderKefu()} {timeOut &&
-      <div className="mask" onClick={() => {window.history.back()}}
-           style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}></div>} {showErr &&
-      <div className="mask" onClick={() => this.setState({ showErr: false })}>
-        <div className="tips">
-          出现问题的童鞋看这里<br/> 1如果显示“URL未注册”，请重新刷新页面即可<br/> 2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
-        </div>
-        <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
-      </div>} {showCodeErr && <div className="mask" onClick={() => this.setState({ showCodeErr: false })}>
-        <div className="tips">
-          糟糕，支付不成功<br/> 原因：微信不支持跨公众号支付<br/> 怎么解决：<br/> 1，长按下方二维码，保存到相册；<br/> 2，打开微信扫一扫，点击右上角相册，选择二维码图片；<br/> 3，在新开的页面完成支付即可<br/>
-        </div>
-        <img className="xiaoQ" style={{ width: '50%' }}
+      <div className="camp-pay-container" style={{background:'#d85a47'}}>
+        <AssetImg url="https://static.iqycamp.com/images/camp_close.jpeg" width={'100%'}/>
+        { /*
+        <PicLoading show={loading}/>
+        {renderPay()}
+        {renderKefu()}
+          {timeOut &&
+          <div className="mask" onClick={() => {window.history.back()}}
+               style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}></div>} {showErr &&
+          <div className="mask" onClick={() => this.setState({ showErr: false })}>
+            <div className="tips">
+              出现问题的童鞋看这里<br/> 1如果显示“URL未注册”，请重新刷新页面即可<br/> 2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
+            </div>
+            <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
+          </div>
+        }
+        {showCodeErr && <div className="mask" onClick={() => this.setState({ showCodeErr: false })}>
+          <div className="tips">
+            糟糕，支付不成功<br/> 原因：微信不支持跨公众号支付<br/> 怎么解决：<br/> 1，长按下方二维码，保存到相册；<br/> 2，打开微信扫一扫，点击右上角相册，选择二维码图片；<br/>
+            3，在新开的页面完成支付即可<br/>
+          </div>
+          <img className="xiaoQ" style={{ width: '50%' }}
              src="https://static.iqycamp.com/images/pay_camp_code.png?imageslim"/>
-      </div>} {memberType &&
-      <PayInfo ref="payInfo" dispatch={this.props.dispatch} goodsType={getGoodsType(memberType.id)}
+          </div>
+        }
+        {memberType &&
+          <PayInfo ref="payInfo" dispatch={this.props.dispatch} goodsType={getGoodsType(memberType.id)}
                goodsId={memberType.id} header={'2018 我能赢！'} payedDone={(goodsId) => this.handlePayedDone()}
                payedCancel={(res) => this.handlePayedCancel(res)} payedError={(res) => this.handlePayedError(res)}
-               payedBefore={() => this.handlePayedBefore()}/>}
-
-        {/*{show &&*/}
-        {/*<div className="alert-container" onClick={() => this.setState({ show: false })}>*/}
-        {/*<img src="https://static.iqycamp.com/images/promotion_camp_1_4.png?imageslim" width={'100%'}></img>*/}
-        {/*</div>*/}
-        {/*}*/}
+               payedBefore={() => this.handlePayedBefore()}/>
+        }
+      */}
       </div>
     )
   }
