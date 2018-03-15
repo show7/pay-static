@@ -7,7 +7,6 @@ import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
 import { checkSubmitApply } from './async';
 import Icon from '../../../components/Icon'
 
-
 @connect(state => state)
 export default class BusinessApply extends Component<any, any> {
   constructor() {
@@ -24,16 +23,16 @@ export default class BusinessApply extends Component<any, any> {
 
   componentWillMount() {
     // 如果用户在审核中，则点击后提示已经在审核中
-    mark({ module: "打点", function: "商学院审核", action: "进入申请开始页面" })
+    mark({ module: "打点", function: "商学院审核", action: "进入申请开始页面", memo: "申请开始页面" })
   }
 
   goApplySubmitPage() {
     const { dispatch } = this.props;
-    // mark({ module: "打点", function: "商学院审核", action: "点击开始申请商学院" })
     dispatch(startLoad());
     checkSubmitApply().then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
+        mark({ module: "打点", function: "商学院审核", action: "点击开始申请商学院", memo: "申请开始页面" })
         this.context.router.push('/pay/applychoice');
       } else {
         dispatch(alertMsg(res.msg));
@@ -43,7 +42,6 @@ export default class BusinessApply extends Component<any, any> {
       dispatch(alertMsg(ex));
     })
   }
-
 
   render() {
     return (
