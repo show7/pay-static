@@ -12,6 +12,7 @@ import { CustomerService } from '../../../components/customerservice/CustomerSer
 import { getRiseMember } from '../async'
 import Icon from '../../../components/Icon'
 import { MarkBlock } from '../components/markblock/MarkBlock'
+import { FooterButton } from '../../../components/submitbutton/FooterButton'
 
 @connect(state => state)
 export default class ApplySuccess extends React.Component<any, any> {
@@ -183,10 +184,10 @@ export default class ApplySuccess extends React.Component<any, any> {
     const renderPay = () => {
       return (
         <div className="button-footer">
-          <MarkBlock module={'打点'} func={'申请成功页面'} action={'点击宣讲课按钮'} memo={'申请未过期'}
-                     className="footer-left" onClick={() => this.handleClickAudition()}>
-            <span className="audition">预约直播</span>
-          </MarkBlock>
+          {/*<MarkBlock module={'打点'} func={'申请成功页面'} action={'点击宣讲课按钮'} memo={'申请未过期'}*/}
+                     {/*className="footer-left" onClick={() => this.handleClickAudition()}>*/}
+            {/*<span className="audition">预约直播</span>*/}
+          {/*</MarkBlock>*/}
           <MarkBlock module={'打点'} func={'申请成功页面'} action={'点击入学按钮'}
                      memo={this.state.data ? this.state.data.buttonStr : ''}
                      className="footer-btn" onClick={() => this.handleClickOpenPayInfo(showId)}>
@@ -199,10 +200,10 @@ export default class ApplySuccess extends React.Component<any, any> {
     const renderApply = () => {
       return (
         <div className="button-footer">
-          <MarkBlock module={'打点'} func={'申请成功页面'} action={'点击宣讲课按钮'} memo={'申请过期'}
+          {/*<MarkBlock module={'打点'} func={'申请成功页面'} action={'点击宣讲课按钮'} memo={'申请过期'}
                      className="footer-left" onClick={() => this.handleClickAudition()}>
             <div className="audition">预约直播</div>
-          </MarkBlock>
+          </MarkBlock>*/}
           <MarkBlock module={'打点'} func={'申请成功页面'} action={'申请商学院'} memo={'申请过期'}
                      className="footer-btn" onClick={() => this.redirect()}>
             申请商学院
@@ -317,7 +318,7 @@ export default class ApplySuccess extends React.Component<any, any> {
             <Icon type='apply_fail'/>
           </div>
           <div className="click-tips">
-            由于您未在申请通过后48小时内办理入学<br/>
+            由于您未在申请通过后24小时内办理入学<br/>
             入学资格已过期。
           </div>
           {renderApply()}
