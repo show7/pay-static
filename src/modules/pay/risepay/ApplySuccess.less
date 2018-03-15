@@ -6,6 +6,28 @@
   box-sizing: border-box;
   position: relative;
   background: url('https://static.iqycamp.com/images/bg_diwen.png?imageslim') repeat-y center top/100% auto;
+
+  > .mask {
+    position: fixed;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.6);
+    > .tips {
+      margin-top: 50px;
+      color: #FFFFFF;
+      text-align: center;
+      font-size: 16px;
+    }
+    > .xiaoQ {
+      display: block;
+      margin: 25px auto 0;
+      width: 70%;
+    }
+  }
+
   .apply-header {
     background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#feff1c), to(#FF7800));
     -webkit-background-clip: text;
