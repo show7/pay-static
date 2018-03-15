@@ -2,6 +2,49 @@ var Router = require("express").Router;
 
 var router = new Router();
 
+router.get("/rise/customer/info", (req, res) => {
+  setTimeout(() => {
+    res.status(200).json({
+      "msg": {
+        "id": 0,
+        "openid": null,
+        "nickname": "薛定谔的猫",
+        "city": null,
+        "country": null,
+        "province": null,
+        "headimgurl": "https://thirdwx.qlogo.cn/mmopen/Q3auHgzwzM7ZzH69MKticPuHia0BQrSp3urQbKuwAEvs7ibtYWOQxCrIOkZfkdBKzsNNsqHdo3V4NJN7pBpZYuON9hGt1uGtYMHZxgWoiasfHm4/132",
+        "headImgUrlCheckTime": null,
+        "mobileNo": null,
+        "email": null,
+        "industry": null,
+        "function": null,
+        "workingLife": null,
+        "realName": null,
+        "signature": null,
+        "point": null,
+        "isFull": null,
+        "riseId": null,
+        "openRise": null,
+        "unionid": null,
+        "expireDate": null,
+        "riseMember": null,
+        "openNavigator": null,
+        "openApplication": null,
+        "openConsolidation": null,
+        "openWelcome": null,
+        "learningNotify": null,
+        "requestCommentCount": null,
+        "role": null,
+        "address": null,
+        "workingYear": null,
+        "weixinId": null,
+        "receiver": null,
+        "married": null
+      }, "code": 200
+    })
+  }, Math.random() * 1500)
+})
+
 router.post("/signup/load/goods", (req, res) => {
   setTimeout(() => {
     res.status(200).json({
@@ -189,8 +232,8 @@ router.get("/signup/rise/member", (req, res) => {
         "memberType": null,
         "openId": null,
         "couponIdGroup": null,
-        "remainHour":0,
-        "remainMinute":0,
+        "remainHour": 0,
+        "remainMinute": 0,
         "memberTypes": [ {
           "id": 3,
           "fee": 2680.0,
@@ -523,21 +566,34 @@ router.get("/personal/province/load", (req, res) => {
 });
 router.get("/signup/rise/member/*", (req, res) => {
   setTimeout(() => {
-    res.status(200).json({
-      "msg": {
-        "id": 40,
-        "orderId": "ulszc4e7e79yyw0j",
-        "openId": "o5h6ywsiXYMcLlex2xt7DRAgQX-A",
-        "memberTypeId": 3,
-        "expireDate": "2017-10-18",
-        "expired": false,
-        "addTime": 1492521171000,
-        "startTime": "2017.04.18",
-        "endTime": "2017.10.17",
-        "name": "专业版（半年）",
-        "entryCode": 20171102
-      }, "code": 200
-    })
+    res.status(200).json(
+      {
+        "msg": {
+          "openId": null,
+          "couponIdGroup": null,
+          "memberTypes": null,
+          "memberType": {
+            "id": 3,
+            "fee": 0.02,
+            "initPrice": null,
+            "name": "入学商学院",
+            "description": "圈外商学院",
+            "openMonth": 12,
+            "startTime": "2018.03.15",
+            "endTime": "2019.03.14",
+            "del": false
+          },
+          "tip": "开学后7天内可全额退款",
+          "privilege": false,
+          "elite": null,
+          "buttonStr": "立即入学",
+          "auditionStr": "点击预约",
+          "remainHour": 21,
+          "remainMinute": 20,
+          "entry": false
+        }, "code": 200
+      }
+    )
   })
 })
 
@@ -557,7 +613,7 @@ router.get("/wx/js/signature", (req, res) => {
 
 router.post("/signup/payment/coupon/calculate", (req, res) => {
   setTimeout(() =>
-    res.status(200).json({"msg":2381.01,"code":200}), Math.random() * 1500
+    res.status(200).json({ "msg": 2381.01, "code": 200 }), Math.random() * 1500
   )
 })
 

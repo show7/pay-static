@@ -135,7 +135,7 @@ export default class RisePay extends React.Component<any, any> {
    * 重新注册页面签名
    */
   reConfig() {
-    config(['chooseWXPay'])
+    config([ 'chooseWXPay' ])
   }
 
   handleClickAudition() {
@@ -161,7 +161,7 @@ export default class RisePay extends React.Component<any, any> {
               auditionStr ? <div>
                 <MarkBlock module={'打点'} func={'商学院会员'} action={'点击宣讲课按钮'} memo={data ? buttonStr : ''}
                            className="footer-left" onClick={() => this.handleClickAudition}>
-                  {auditionStr}
+                  <span style={{ fontSize: '18px' }}>{auditionStr}</span>
                 </MarkBlock> <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'} className={'footer-btn'}
                                         onClick={() => this.handleClickOpenPayInfo(showId)}>
                 <div className="audition">{buttonStr}</div>
@@ -182,7 +182,8 @@ export default class RisePay extends React.Component<any, any> {
               auditionStr ?
                 <div>
                   <MarkBlock module={`打点`} func={`商学院会员`} action={`点击宣讲课按钮`} memo={'申请页面'} className={`footer-left`}
-                             onClick={() => this.handleClickAudition()}> {auditionStr} </MarkBlock>
+                             onClick={() => this.handleClickAudition()}> <span
+                    style={{ fontSize: '18px' }}>{auditionStr}</span> </MarkBlock>
                   <MarkBlock module={'打点'} func={'商学院会员'}
                              action={'申请商学院'} memo={'申请页面'}
                              className={'footer-btn'}
