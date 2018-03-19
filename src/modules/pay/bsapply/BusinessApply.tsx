@@ -33,7 +33,8 @@ export default class BusinessApply extends Component<any, any> {
       dispatch(endLoad());
       if(res.code === 200) {
         mark({ module: "打点", function: "商学院审核", action: "点击开始申请商学院", memo: "申请开始页面" })
-        this.context.router.push('/pay/applychoice');
+        window.location.href = '/pay/applychoice'
+        // this.context.router.push('/pay/applychoice');
       } else {
         dispatch(alertMsg(res.msg));
       }
