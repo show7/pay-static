@@ -46,9 +46,9 @@ export default class BusinessApplySubmitSuccess extends Component<any, any> {
           <div className="middle-words">
             即可获得:<br/>
 
-            1. 商学院全年课表<br/>
-            2. 奖学金政策说明<br/>
-            3. 面试指南<br/><br/>
+            1. 面试指南<br/>
+            2. 商学院全年课表<br/>
+            3. 奖学金政策说明<br/><br/>
           </div>
 
 
