@@ -41,7 +41,7 @@ router.get("/rise/customer/info", (req, res) => {
         "receiver": null,
         "married": null
       }, "code": 200
-    })
+    });
   }, Math.random() * 1500)
 })
 
@@ -49,28 +49,19 @@ router.post("/signup/load/goods", (req, res) => {
   setTimeout(() => {
     res.status(200).json({
       "msg": {
-        "goodsType": "fragment_member",
-        "fee": 2280.0,
-        "name": "会员购买",
-        "goodsId": 3,
-        "coupons": [ {
-          "id": 2043,
-          "openid": "oWo9HwuQCPN1u50fIcguiqIZGySE",
-          "profileId": 1,
-          "amount": 50.0,
-          "used": 0,
-          "cost": null,
-          "orderId": null,
-          "expiredDate": "2047-07-27",
-          "category": null,
-          "description": "奖学金",
-          "expired": "2047.07.27"
-        } ],
-        "startTime": "2017.09.18",
-        "endTime": "2018.09.30",
-        "activity": null
+        "goodsType": "bs_application",
+        "fee": 0.01,
+        "name": "电话面试预约",
+        "goodsId": 7,
+        "coupons": [],
+        "startTime": null,
+        "endTime": null,
+        "activity": null,
+        "initPrice": null,
+        "multiCoupons": false,
+        "autoCoupons": []
       }, "code": 200
-    })
+    });
   }, Math.random() * 1500)
 })
 
@@ -573,27 +564,27 @@ router.get("/signup/rise/member/*", (req, res) => {
           "couponIdGroup": null,
           "memberTypes": null,
           "memberType": {
-            "id": 3,
-            "fee": 0.02,
+            "id": 7,
+            "fee": 0.01,
             "initPrice": null,
-            "name": "入学商学院",
-            "description": "圈外商学院",
+            "name": "电话面试预约",
+            "description": "申请商学院费用",
             "openMonth": 12,
-            "startTime": "2018.03.15",
-            "endTime": "2019.03.14",
+            "startTime": "2018.03.19",
+            "endTime": "2019.03.18",
             "del": false
           },
-          "tip": "开学后7天内可全额退款",
+          "tip": null,
           "privilege": false,
           "elite": null,
           "buttonStr": "立即入学",
-          "auditionStr": "点击预约",
-          "remainHour": 21,
-          "remainMinute": 20,
-          "entry": false
+          "auditionStr": "预约体验",
+          "remainHour": 0,
+          "remainMinute": 0,
+          "entry": true
         }, "code": 200
       }
-    )
+    );
   })
 })
 

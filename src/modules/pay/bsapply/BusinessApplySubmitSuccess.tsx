@@ -39,14 +39,29 @@ export default class BusinessApplySubmitSuccess extends Component<any, any> {
           </div>
         </div>
         <div className="ba-main-body">
-          招生委员会将在两个工作日内，在你选择的时间段和你沟通。你可以整理自己的职业发展现状，为电话面试做好准备。
+          {/*<div className="top-words">*/}
+            扫码添加圈外招生委员会老师<br/>
+          {/*</div>*/}
+
+          <div className="middle-words">
+            即可获得:<br/>
+
+            1. 商学院全年课表<br/>
+            2. 面试指南<br/>
+            3. 奖学金政策说明<br/><br/>
+          </div>
+
+
           {/*您会在两个工作日内<br/>*/}
           {/*通过手机短信和微信公众号【圈外同学】 <br/>*/}
           {/*收取录取和奖学金审核结果*/}
         </div>
         <div className="ba-sub-tips">
-          如有疑问，请添加圈外助手进行咨询<br/>
-          <img src="https://static.iqycamp.com/images/qrcode_xiaoy_20171117.jpeg?imageslim"
+          <div className="small-tips">
+            工作时间<span style={{fontWeight:300}}>4</span>小时内回复<br/>
+            （周一到周五<span style={{fontWeight:300}}>10：00-20：00</span>）<br/><br/>
+          </div>
+          <img src="https://static.iqycamp.com/images/qrcode_qwzswyh.jpeg?imageslim"
                className="qrcode"/>
         </div>
         <SubmitButton clickFunc={() => this.handleClickClosePage()} buttonText="关闭"/>

@@ -122,9 +122,10 @@ export default class RisePay extends React.Component<any, any> {
   }
 
   redirect() {
-    this.context.router.push({
-      pathname: '/pay/bsstart'
-    })
+    // this.context.router.push({
+    //   pathname: '/pay/bsstart'
+    // })
+    window.location.href = '/pay/applychoice';
   }
 
   handlePayedBefore() {
