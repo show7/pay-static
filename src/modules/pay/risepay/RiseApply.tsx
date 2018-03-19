@@ -45,7 +45,8 @@ export default class RiseApply extends React.Component<any, any> {
   }
 
   redirect() {
-    window.location.href = `/pay/bsstart`
+    // window.location.href = `/pay/bsstart`
+    window.location.href = '/pay/applychoice';
   }
 
   handleClickAudition() {
