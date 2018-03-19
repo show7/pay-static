@@ -798,24 +798,24 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
             你将会在以上时间收到招生委员会的电话/语音面试。委员会由圈外创始人团队、投资人、CEO教练和顶级公司HR等权威专家构成。
           </div>
           <img src={question} width={'100%'} height={'100%'} style={{ display: 'block' }}/>
-          <div className="question-pic-text">
-            扫码添加圈外招生委员会老师，即可获得:<br/><br/>
+          {/*<div className="question-pic-text">*/}
+            {/*扫码添加圈外招生委员会老师，即可获得:<br/><br/>*/}
 
-            1. 商学院全年课表<br/>
-            2. 面试指南<br/>
-            3. 奖学金政策说明<br/><br/>
+            {/*1. 商学院全年课表<br/>*/}
+            {/*2. 面试指南<br/>*/}
+            {/*3. 奖学金政策说明<br/><br/>*/}
 
-            工作时间4小时内回复<br/>
-            （周一到周五10：00-20：00）<br/><br/>
+            {/*工作时间4小时内回复<br/>*/}
+            {/*（周一到周五10：00-20：00）<br/><br/>*/}
 
-            微信ID:iquanwai-iqw<br/>
-            二维码如下：
-            <AssetImg url="https://static.iqycamp.com/images/qrcode_qwzswyh.jpeg?imageslim" width={'60%'} style={{
-              display: 'block',
-              margin: '0 auto',
-              paddingTop: '20px'
-            }}/>
-          </div>
+            {/*微信ID:iquanwai-iqw<br/>*/}
+            {/*二维码如下：*/}
+            {/*<AssetImg url="https://static.iqycamp.com/images/qrcode_qwzswyh.jpeg?imageslim" width={'60%'} style={{*/}
+              {/*display: 'block',*/}
+              {/*margin: '0 auto',*/}
+              {/*paddingTop: '20px'*/}
+            {/*}}/>*/}
+          {/*</div>*/}
         </div>
       )
     }
