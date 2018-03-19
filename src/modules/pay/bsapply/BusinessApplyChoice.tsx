@@ -805,9 +805,11 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
             2. 面试指南<br/>
             3. 奖学金政策说明<br/><br/>
 
-            工作时间4小时内回复（周一到周五10：00-20：00）<br/><br/>
+            工作时间4小时内回复<br/>
+            （周一到周五10：00-20：00）<br/><br/>
 
             微信ID:iquanwai-iqw<br/>
+            二维码如下：
             <AssetImg url="https://static.iqycamp.com/images/qrcode_qwzswyh.jpeg?imageslim" width={'60%'} style={{
               display: 'block',
               margin: '0 auto',
@@ -836,8 +838,9 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
     return (
       <div className='question-group'>
         {currentIndex === 0 && <div className="welcome-area">
-          我们会在每月的千余名申请者中，通过电话面试确定合适的人选。<br/>
-          邀请你在电话沟通前完成以下选择题，期待你的加入！
+          <div className="line">感谢报名圈外商学院。</div>
+          <div className="line">招生委员会每月会通过电话面试，从千余名申请者中，确定合适的入学者。</div>
+          <div className="line">接下来的8道选择题，会帮助我们在面试中更好地为你提供发展建议，填写只需3分钟。</div>
         </div>}
         {questions && questions.map((item, key) => {
           const { type, request, preChoiceId } = item;
