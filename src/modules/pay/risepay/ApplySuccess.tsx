@@ -165,10 +165,9 @@ export default class ApplySuccess extends React.Component<any, any> {
   }
 
   redirect() {
-    window.location.href = '/pay/bsstart'
-    // this.context.router.push({
-    //   pathname: '/pay/bsstart'
-    // })
+    this.context.router.push({
+      pathname: '/pay/bsstart'
+    })
   }
 
   handleClickAudition() {
