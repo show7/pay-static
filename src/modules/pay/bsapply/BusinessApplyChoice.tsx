@@ -13,6 +13,7 @@ import { config } from '../../helpers/JsConfig'
 import { getGoodsType } from '../../../utils/helpers'
 import PayInfo from '../components/PayInfo'
 import { UploadComponent } from '../../../components/form/UploadComponent';
+import AssetImg from '../../../components/AssetImg'
 
 @connect(state => state)
 export default class BusinessApplyChoice extends Component<any, any> {
@@ -477,7 +478,8 @@ export default class BusinessApplyChoice extends Component<any, any> {
                  style={{ width: (window.innerWidth - 90 - 38) * (currentIndex / (seriesCount - 1)) }}/>
           </div>
           <div className="apply-progress-page-index">{currentIndex + 1} / {questionGroup.length}</div>
-          <QuestionGroup group={questionGroup[ currentIndex ]} allGroup={questionGroup} region={this.props.region}
+          <QuestionGroup currentIndex={currentIndex} group={questionGroup[ currentIndex ]} allGroup={questionGroup}
+                         region={this.props.region}
                          onGroupChanged={(group) => this.handleGroupChanged(group, currentIndex)}/>
         </div>
         <div style={{ height: '65px', width: '100%' }}/>
@@ -523,6 +525,7 @@ interface QuestionGroupProps {
   onGroupChanged?: any,
   allGroup: any,
   region?: any,
+  currentIndex: any,
 }
 
 enum QuestionType {
@@ -641,7 +644,7 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
   }
 
   render() {
-    const { group = {}, allGroup = [], region, location } = this.props
+    const { group = {}, allGroup = [], region, currentIndex } = this.props
     const { questions = [] } = group
 
     const provinceList = _.get(region, "provinceList");
@@ -795,6 +798,22 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
             你将会在以上时间收到招生委员会的电话/语音面试。委员会由圈外创始人团队、投资人、CEO教练和顶级公司HR等权威专家构成。
           </div>
           <img src={question} width={'100%'} height={'100%'} style={{ display: 'block' }}/>
+          <div className="question-pic-text">
+            扫码添加圈外招生委员会老师，即可获得:<br/><br/>
+
+            1. 商学院全年课表<br/>
+            2. 面试指南<br/>
+            3. 奖学金政策说明<br/><br/>
+
+            工作时间4小时内回复（周一到周五10：00-20：00）<br/><br/>
+
+            微信ID:iquanwai-iqw<br/>
+            <AssetImg url="https://static.iqycamp.com/images/qrcode_qwzswyh.jpeg?imageslim" width={'60%'} style={{
+              display: 'block',
+              margin: '0 auto',
+              paddingTop: '20px'
+            }}/>
+          </div>
         </div>
       )
     }
@@ -816,6 +835,10 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
 
     return (
       <div className='question-group'>
+        {currentIndex === 0 && <div className="welcome-area">
+          我们会在每月的千余名申请者中，通过电话面试确定合适的人选。<br/>
+          邀请你在电话沟通前完成以下选择题，期待你的加入！
+        </div>}
         {questions && questions.map((item, key) => {
           const { type, request, preChoiceId } = item;
           if(!!preChoiceId) {

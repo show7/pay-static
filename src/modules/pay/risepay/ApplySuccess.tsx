@@ -88,11 +88,11 @@ export default class ApplySuccess extends React.Component<any, any> {
         let tens = '0'
         // 小于等于0 按0算
         if(hourStr.length > 1) {
-          ones = hourStr[1]
-          tens = hourStr[0]
+          ones = hourStr[ 1 ]
+          tens = hourStr[ 0 ]
         } else {
           // 1位数
-          ones = hourStr[0]
+          ones = hourStr[ 0 ]
         }
         this.setState({ ones: ones, tens: tens, unit: '小时', expired: false })
       } else {
@@ -101,11 +101,11 @@ export default class ApplySuccess extends React.Component<any, any> {
         let tens = '0'
         // 小于等于0 按0算
         if(minuteStr.length > 1) {
-          ones = minuteStr[1]
-          tens = minuteStr[0]
+          ones = minuteStr[ 1 ]
+          tens = minuteStr[ 0 ]
         } else {
           // 1位数
-          ones = minuteStr[0]
+          ones = minuteStr[ 0 ]
         }
         this.setState({ ones: ones, tens: tens, unit: '分钟', expired: false })
       }
@@ -161,13 +161,14 @@ export default class ApplySuccess extends React.Component<any, any> {
    * 重新注册页面签名
    */
   reConfig() {
-    config(['chooseWXPay'])
+    config([ 'chooseWXPay' ])
   }
 
   redirect() {
-    this.context.router.push({
-      pathname: '/pay/bsstart'
-    })
+    // this.context.router.push({
+    //   pathname: '/pay/bsstart'
+    // })
+    window.location.href = '/pay/applychoice';
   }
 
   handleClickAudition() {
@@ -185,8 +186,8 @@ export default class ApplySuccess extends React.Component<any, any> {
       return (
         <div className="button-footer">
           {/*<MarkBlock module={'打点'} func={'申请成功页面'} action={'点击宣讲课按钮'} memo={'申请未过期'}*/}
-                     {/*className="footer-left" onClick={() => this.handleClickAudition()}>*/}
-            {/*<span className="audition">预约直播</span>*/}
+          {/*className="footer-left" onClick={() => this.handleClickAudition()}>*/}
+          {/*<span className="audition">预约直播</span>*/}
           {/*</MarkBlock>*/}
           <MarkBlock module={'打点'} func={'申请成功页面'} action={'点击入学按钮'}
                      memo={this.state.data ? this.state.data.buttonStr : ''}
