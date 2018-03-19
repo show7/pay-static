@@ -39,9 +39,13 @@ export default class BusinessApplySubmitSuccess extends Component<any, any> {
           </div>
         </div>
         <div className="ba-main-body">
-          扫码添加圈外招生委员会老师，即可获得:<br/><br/>
+          {/*<div className="top-words">*/}
+            扫码添加圈外招生委员会老师<br/>
+          {/*</div>*/}
 
           <div className="middle-words">
+            即可获得:<br/>
+
             1. 商学院全年课表<br/>
             2. 面试指南<br/>
             3. 奖学金政策说明<br/><br/>
@@ -54,8 +58,8 @@ export default class BusinessApplySubmitSuccess extends Component<any, any> {
         </div>
         <div className="ba-sub-tips">
           <div className="small-tips">
-            工作时间4小时内回复<br/>
-            （周一到周五10：00-20：00）<br/><br/>
+            工作时间<span style={{fontWeight:300}}>4</span>小时内回复<br/>
+            （周一到周五<span style={{fontWeight:300}}>10：00-20：00</span>）<br/><br/>
           </div>
           <img src="https://static.iqycamp.com/images/qrcode_qwzswyh.jpeg?imageslim"
                className="qrcode"/>
