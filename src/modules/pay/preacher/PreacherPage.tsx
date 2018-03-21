@@ -37,10 +37,9 @@ export default class PreacherPage extends React.Component<any, any> {
   }
 
   handleClickGoApply() {
-    // this.context.router.push({
-    //   pathname: '/pay/bsstart'
-    // })
-    window.location.href = '/pay/applychoice';
+    this.context.router.push({
+      pathname: '/pay/bsstart'
+    })
   }
 
   render() {
@@ -123,7 +122,7 @@ export default class PreacherPage extends React.Component<any, any> {
         {/*</div>*/}
 
         <div className="recently-tips white-bg">
-          商学院不定期组织精彩的体验活动<br/>预约名额有限<br/>请扫下方二维码<br/>回复“<b style={{ color: '#FFB200' }}>商学院</b>”预约
+          商学院不定期组织精彩的体验活动<br/>预约名额有限<br/>请扫下方二维码<br/>回复“<b style={{color:'#FFB200'}}>商学院</b>”预约
         </div>
         <div className="img-wrapper white-bg">
           <img src="https://static.iqycamp.com/images/qrcode_xiaoy_20171117.jpeg?imageslim"
