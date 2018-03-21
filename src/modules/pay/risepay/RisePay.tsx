@@ -182,9 +182,9 @@ export default class RisePay extends React.Component<any, any> {
             {
               auditionStr ?
                 <div>
-                  <MarkBlock module={`打点`} func={`商学院会员`} action={`点击宣讲课按钮`} memo={'申请页面'} className={`footer-left`}
-                             onClick={() => this.handleClickAudition()}> <span
-                    style={{ fontSize: '18px' }}>{auditionStr}</span> </MarkBlock>
+                  {/*<MarkBlock module={`打点`} func={`商学院会员`} action={`点击宣讲课按钮`} memo={'申请页面'} className={`footer-left`}*/}
+                             {/*onClick={() => this.handleClickAudition()}> <span*/}
+                    {/*style={{ fontSize: '18px' }}>{auditionStr}</span> </MarkBlock>*/}
                   <MarkBlock module={'打点'} func={'商学院会员'}
                              action={'申请商学院'} memo={'申请页面'}
                              className={'footer-btn'}
