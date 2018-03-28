@@ -62,7 +62,26 @@ export default class Main extends React.Component<any, any> {
         if(res.code === 200) {
           window.ENV.userName = res.msg.nickname
           window.ENV.headImgUrl = res.msg.headimgurl
+          window.ENV.riseId = res.msg.riseId;
+          window.ENV.className = res.msg.className;
+          window.ENV.groupId = res.msg.groupId;
+          window.ENV.roleName = res.msg.roleName;
         }
+
+        sa.init({
+          sdk_url: 'https://static.sensorsdata.cn/sdk/1.9.13/sensorsdata.min.js',
+          heatmap_url: 'https://static.sensorsdata.cn/sdk/1.9.13/heatmap.min.js',
+          name: 'sa',
+          web_url: 'https://quanwai.cloud.sensorsdata.cn/',
+          server_url: 'https://quanwai.cloud.sensorsdata.cn:4006/sa?token=0a145b5e1c9814f4',
+          heatmap: {},
+          is_single_page: true,
+        });
+        if(!!res.msg.riseId) {
+          sa.login(res.msg.riseId);
+        }
+        sa.quick('autoTrack');
+
         this.setState({ showPage: true })
       })
     } else {

@@ -25,6 +25,7 @@ const routes = (
            onChange={() => {
              config(['chooseWXPay'])
              window.scrollTo(0, 0)
+             sa.quick('autoTrackSinglePage');
            }}>
       <Route path="subscribe" component={Subscribe}/>
       <Route path="pay/camp/success" component={CampPaySuccess}/>
