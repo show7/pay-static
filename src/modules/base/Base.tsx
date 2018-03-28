@@ -9,9 +9,10 @@ const P = 'base'
 const LOAD_KEY = `${P}.loading`
 const SHOW_MODAL_KEY = `${P}.showModal`
 import UA from 'ua-device'
-import { toLower, get } from 'lodash'
+import { toLower, get, merge } from 'lodash'
 import $ from 'jquery'
 import { pget } from '../../utils/request'
+import sa from 'sa-sdk-javascript';
 
 $.fn.extend({
   animateCss: function(animationName, callback) {
@@ -80,6 +81,14 @@ export default class Main extends React.Component<any, any> {
         if(!!res.msg.riseId) {
           sa.login(res.msg.riseId);
         }
+        let props = { roleName: window.ENV.roleName };
+        if(!!window.ENV.className && !!window.ENV.groupId) {
+          merge(props, {
+            className: window.ENV.className,
+            groupId: window.ENV.groupId
+          });
+        }
+        sa.registerPage(props);
         sa.quick('autoTrack');
 
         this.setState({ showPage: true })

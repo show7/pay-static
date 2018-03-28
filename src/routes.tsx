@@ -18,12 +18,13 @@ import Subscribe from './modules/subscribe/Subscribe'
 import CampPayGuest from './modules/pay/camppay/CampPayGuest'
 import RiseAlipay from './modules/pay/risepay/RiseAlipay'
 import AlipayReturn from './modules/pay/risepay/AlipayReturn'
+import sa from 'sa-sdk-javascript';
 
 const routes = (
   <Route path="/">
     <Route component={Base}
            onChange={() => {
-             config(['chooseWXPay'])
+             config([ 'chooseWXPay' ])
              window.scrollTo(0, 0)
              sa.quick('autoTrackSinglePage');
            }}>
