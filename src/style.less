@@ -116,3 +116,45 @@ img {
   white-space: -o-pre-wrap;
   word-wrap: break-word;
 }
+
+
+.qr_dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 3000;
+  height: 100%;
+  width: 100%;
+  .qr_dialog_mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    height: 100%;
+    width: 100%;
+  }
+  .qr_dialog_content {
+    border-radius: 5px;
+    position: absolute;
+    top: 40%;
+    left: 10%;
+    width: 80%;
+    transform: translateY(-50%);
+    text-align: center;
+    background-color: #FFF;
+    .qr_code {
+      padding: 0 45px 40px;
+      img {
+        display: block;
+        width: 100%;
+      }
+    }
+    span {
+      font-size: 1.7rem;
+      padding: 40px .5rem 10px;
+      display: inline-block;
+      color: #333333;
+    }
+
+  }
+}
