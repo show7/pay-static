@@ -67,6 +67,7 @@ export default class Main extends React.Component<any, any> {
           window.ENV.className = res.msg.className;
           window.ENV.groupId = res.msg.groupId;
           window.ENV.roleName = res.msg.roleName;
+          window.ENV.isAsst = res.msg.isAsst;
         }
 
         sa.init({
@@ -79,7 +80,7 @@ export default class Main extends React.Component<any, any> {
         if(!!res.msg.riseId) {
           sa.login(res.msg.riseId);
         }
-        let props = { roleName: window.ENV.roleName };
+        let props = { roleName: window.ENV.roleName, isAsst: window.ENV.isAsst };
         if(!!window.ENV.className && !!window.ENV.groupId) {
           merge(props, {
             className: window.ENV.className,
