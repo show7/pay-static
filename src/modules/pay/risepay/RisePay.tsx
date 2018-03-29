@@ -10,6 +10,7 @@ import PayInfo from '../components/PayInfo'
 import { getRiseMember } from '../async'
 import { SaleBody } from './components/SaleBody'
 import { MarkBlock } from '../components/markblock/MarkBlock'
+import { addUserRecommendation } from './async'
 
 @connect(state => state)
 export default class RisePay extends React.Component<any, any> {
@@ -38,6 +39,13 @@ export default class RisePay extends React.Component<any, any> {
     }
     const { dispatch } = this.props
     dispatch(startLoad())
+
+    const id = this.props.location.query.riseId
+    //表示是分享点击进入
+    if(id) {
+      mark({ module: '打点', function: '商学院guest', action: '购买商学院会员', memo: '通过分享途径' })
+      addUserRecommendation(id)
+    }
 
     // 查询订单信息
     getRiseMember(this.state.showId).then(res => {
@@ -182,8 +190,8 @@ export default class RisePay extends React.Component<any, any> {
               auditionStr ?
                 <div>
                   {/*<MarkBlock module={`打点`} func={`商学院会员`} action={`点击宣讲课按钮`} memo={'申请页面'} className={`footer-left`}*/}
-                             {/*onClick={() => this.handleClickAudition()}> <span*/}
-                    {/*style={{ fontSize: '18px' }}>{auditionStr}</span> </MarkBlock>*/}
+                  {/*onClick={() => this.handleClickAudition()}> <span*/}
+                  {/*style={{ fontSize: '18px' }}>{auditionStr}</span> </MarkBlock>*/}
                   <MarkBlock module={'打点'} func={'商学院会员'}
                              action={'申请商学院'} memo={'申请页面'}
                              className={'footer-btn'}
