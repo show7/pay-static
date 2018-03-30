@@ -160,7 +160,8 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       if(res.code === 200) {
         sa.track('clickPayButton', {
           goodsType: this.props.goodsType,
-          goodsId: this.props.goodsId
+          goodsId: this.props.goodsId,
+          payType: payType
         });
         const { fee, free, signParams, productId } = res.msg
         this.setState({ productId: productId })
