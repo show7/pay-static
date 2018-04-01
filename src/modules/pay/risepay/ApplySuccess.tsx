@@ -38,7 +38,7 @@ export default class ApplySuccess extends React.Component<any, any> {
     mark({ module: '打点', function: '商学院会员', action: '购买商学院会员', memo: '申请成功页面' })
     sa.track('openPayPage', {
       goodsType: getGoodsType(3),
-      goodsId: 3
+      goodsId: '3'
     })
     // ios／安卓微信支付兼容性
     if(!_.isEmpty(window.ENV.configUrl) && window.ENV.configUrl !== window.location.href) {

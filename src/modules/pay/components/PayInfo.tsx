@@ -123,7 +123,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       }
       sa.track('clickPayDialogButton', {
         goodsType: this.props.goodsType,
-        goodsId: this.props.goodsId
+        goodsId: Number(this.props.goodsId).toString()
       });
     })
   }
@@ -160,7 +160,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       if(res.code === 200) {
         sa.track('clickPayButton', {
           goodsType: this.props.goodsType,
-          goodsId: this.props.goodsId,
+          goodsId: Number(this.props.goodsId).toString(),
           payType: payType
         });
         const { fee, free, signParams, productId } = res.msg
