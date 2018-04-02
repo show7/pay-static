@@ -89,7 +89,7 @@ export default class Main extends React.Component<any, any> {
         }
         if(!!res.msg.riseId) {
           merge(props, {
-            riseId: rise.msg.riseId
+            riseId: res.msg.riseId
           })
         }
         sa.registerPage(props);
