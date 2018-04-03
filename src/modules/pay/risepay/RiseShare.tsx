@@ -1,12 +1,12 @@
 import * as React from 'react'
 import './RisePay.less'
 import { connect } from 'react-redux'
-import { ppost, pget, mark } from 'utils/request'
+import { mark } from 'utils/request'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
-import { config, configShare } from 'modules/helpers/JsConfig'
+import { configShare } from 'modules/helpers/JsConfig'
 import { SaleBody } from './components/SaleBody'
 import { MarkBlock } from '../components/markblock/MarkBlock'
-import { loadProfile, loadRiseId } from './async'
+import { loadRiseId } from './async'
 
 @connect(state => state)
 export default class RiseShare extends React.Component<any, any> {
