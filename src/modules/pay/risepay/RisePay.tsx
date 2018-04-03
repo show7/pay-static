@@ -10,6 +10,7 @@ import PayInfo from '../components/PayInfo'
 import { getRiseMember } from '../async'
 import { SaleBody } from './components/SaleBody'
 import { MarkBlock } from '../components/markblock/MarkBlock'
+import sa from 'sa-sdk-javascript';
 import { addUserRecommendation } from './async'
 
 @connect(state => state)
@@ -54,9 +55,17 @@ export default class RisePay extends React.Component<any, any> {
         this.setState({ data: res.msg })
         const { privilege } = res.msg
         if(privilege) {
+          sa.track('openSalePayPage', {
+            goodsType: getGoodsType(3),
+            goodsId: '3'
+          });
           mark(
             { module: '打点', function: '商学院会员', action: '购买商学院会员', memo: '入学页面' })
         } else {
+          sa.track('openSaleApplyPage', {
+            goodsType: getGoodsType(3),
+            goodsId: '3'
+          });
           mark(
             { module: '打点', function: '商学院会员', action: '购买商学院会员', memo: '申请页面' })
         }
@@ -117,7 +126,7 @@ export default class RisePay extends React.Component<any, any> {
       dispatch(endLoad())
       if(res.code === 200) {
         // 查询是否还在报名
-        this.refs.payInfo.handleClickOpen()
+        this.refs.payInfo.handleClickOpen();
       } else if(res.code === 214) {
         this.setState({ timeOut: true })
       } else {
@@ -130,6 +139,7 @@ export default class RisePay extends React.Component<any, any> {
   }
 
   redirect() {
+    sa.track('clickApplyButton');
     this.context.router.push({
       pathname: '/pay/bsstart'
     })

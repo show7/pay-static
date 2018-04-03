@@ -6,6 +6,7 @@ import { mark } from "utils/request"
 import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
 import { checkSubmitApply } from './async';
 import Icon from '../../../components/Icon'
+import sa from 'sa-sdk-javascript';
 import RenderInBody from '../../../components/RenderInBody'
 
 @connect(state => state)
@@ -24,6 +25,7 @@ export default class BusinessApply extends Component<any, any> {
 
   componentWillMount() {
     // 如果用户在审核中，则点击后提示已经在审核中
+    sa.track('openApplyStartPage');
     mark({ module: "打点", function: "商学院审核", action: "进入申请开始页面", memo: "申请开始页面" })
   }
 
@@ -34,6 +36,7 @@ export default class BusinessApply extends Component<any, any> {
       dispatch(endLoad());
       if(res.code === 200) {
         if(res.msg == 'ok') {
+          sa.track('clickApplyStartButton');
           mark({ module: "打点", function: "商学院审核", action: "点击开始申请商学院", memo: "申请开始页面" })
           window.location.href = '/pay/applychoice'
         } else {
