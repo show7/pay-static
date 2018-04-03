@@ -13,6 +13,7 @@ import { mark } from 'utils/request'
 
 import { pay } from '../../helpers/JsConfig'
 import { CouponCategory, GoodsType, PayType } from '../../../utils/helpers'
+import sa from 'sa-sdk-javascript';
 
 interface CouponProps {
   description?: string,
@@ -120,6 +121,10 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       if(_.isFunction(this.props.afterShow)) {
         this.props.afterShow()
       }
+      sa.track('clickPayDialogButton', {
+        goodsType: this.props.goodsType,
+        goodsId: Number(this.props.goodsId).toString()
+      });
     })
   }
 
@@ -153,6 +158,11 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     loadPaymentParam(param).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
+        sa.track('clickPayButton', {
+          goodsType: this.props.goodsType,
+          goodsId: Number(this.props.goodsId).toString(),
+          payType: payType
+        });
         const { fee, free, signParams, productId } = res.msg
         this.setState({ productId: productId })
         if(!_.isNumber(fee)) {

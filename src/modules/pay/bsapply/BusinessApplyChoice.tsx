@@ -14,6 +14,8 @@ import { getGoodsType } from '../../../utils/helpers'
 import PayInfo from '../components/PayInfo'
 import { UploadComponent } from '../../../components/form/UploadComponent';
 import AssetImg from '../../../components/AssetImg'
+import sa from 'sa-sdk-javascript';
+
 
 @connect(state => state)
 export default class BusinessApplyChoice extends Component<any, any> {
@@ -68,6 +70,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
       dispatch(alertMsg(questionRes.msg));
     }
 
+    sa.track('openApplyChoicePage');
     mark({ module: "打点", function: "商学院审核", action: "进入填写报名信息页面" });
     mark({ module: "打点", function: "商学院审核", action: "翻页", memo: "1" });
   }
@@ -144,7 +147,9 @@ export default class BusinessApplyChoice extends Component<any, any> {
           case QuestionType.MULTI_BLANK:
           case QuestionType.PHONE:
           case QuestionType.UPLOAD_PIC:
-            _.merge(subTempParam, { questionId: question.id, userValue: question.userValue });
+            if(!_.isEmpty(question.userValue)) {
+              _.merge(subTempParam, { questionId: question.id, userValue: question.userValue });
+            }
             break;
           case QuestionType.AREA:
             const provinceName = _.find(_.get(region, "provinceList"), { id: question.oneId }).value;
