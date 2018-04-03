@@ -84,11 +84,11 @@ export default class BusinessApply extends Component<any, any> {
         <FooterButton second={true} btnArray={[
           {
             click: () => this.goExperience(),
-            text: '点击试听'
+            text: '申请体验'
           },
           {
             click: () => this.goApplySubmitPage(),
-            text: '开始预约'
+            text: '马上预约'
           }
         ]}/>
         {/*<SubmitButton clickFunc={() => this.goApplySubmitPage()} buttonText="开始预约"/>*/}
