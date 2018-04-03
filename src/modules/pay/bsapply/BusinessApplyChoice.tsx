@@ -144,7 +144,9 @@ export default class BusinessApplyChoice extends Component<any, any> {
           case QuestionType.MULTI_BLANK:
           case QuestionType.PHONE:
           case QuestionType.UPLOAD_PIC:
-            _.merge(subTempParam, { questionId: question.id, userValue: question.userValue });
+            if(!_.isEmpty(question.userValue)) {
+              _.merge(subTempParam, { questionId: question.id, userValue: question.userValue });
+            }
             break;
           case QuestionType.AREA:
             const provinceName = _.find(_.get(region, "provinceList"), { id: question.oneId }).value;
@@ -154,6 +156,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
           default:
           // ignore
         }
+        console.log(subTempParam)
         if(!_.isEmpty(subTempParam)) {
           tempList.push(subTempParam);
         }
