@@ -53,9 +53,9 @@ export default class BusinessApply extends Component<any, any> {
     })
   }
 
-  goTrial() {
+  goExperience() {
     this.context.router.push({
-      pathname: '/pay/preacher'
+      pathname: '/pay/experience/day'
     })
   }
 
@@ -83,7 +83,7 @@ export default class BusinessApply extends Component<any, any> {
         </div>
         <FooterButton second={true} btnArray={[
           {
-            click: () => this.goTrial(),
+            click: () => this.goExperience(),
             text: '点击试听'
           },
           {

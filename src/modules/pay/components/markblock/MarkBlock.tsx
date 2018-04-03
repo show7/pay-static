@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { mark } from 'utils/request'
+import sa from 'sa-sdk-javascript';
 
 interface MarkBlockProps {
   module: string,
@@ -40,6 +41,12 @@ export class MarkBlock extends React.Component<MarkBlockProps, any> {
     }
     let res = await mark(param)
     if(res.code === 200) {
+      sa.track('clickMarkBlock', {
+        module: module + '',
+        function: func + '',
+        action: action + '',
+        memo: memo + ''
+      });
       onClickFunc()
     } else {
       console.error(res.msg)

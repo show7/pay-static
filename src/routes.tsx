@@ -18,6 +18,7 @@ import Subscribe from './modules/subscribe/Subscribe'
 import CampPayGuest from './modules/pay/camppay/CampPayGuest'
 import RiseAlipay from './modules/pay/risepay/RiseAlipay'
 import AlipayReturn from './modules/pay/risepay/AlipayReturn'
+import ExperienceDay from './modules/pay/preacher/ExperienceDay'
 import sa from 'sa-sdk-javascript';
 
 const routes = (
@@ -41,6 +42,7 @@ const routes = (
       <Route path="pay/apply" component={ApplySuccess}/>
       <Route path="pay/pay" component={RisePay}/>
       <Route path="pay/preacher" component={PreacherPage}/>
+      <Route path="pay/experience/day" component={ExperienceDay}/>
       <Route path="pay/bsstart" component={BusinessApply}/>
       <Route path="pay/applychoice" component={BusinessApplyChoice}/>
       <Route path="pay/applysubmit" component={BusinessApplySubmitSuccess}/>
