@@ -156,7 +156,6 @@ export default class BusinessApplyChoice extends Component<any, any> {
           default:
           // ignore
         }
-        console.log(subTempParam)
         if(!_.isEmpty(subTempParam)) {
           tempList.push(subTempParam);
         }
