@@ -42,10 +42,10 @@ export class MarkBlock extends React.Component<MarkBlockProps, any> {
     let res = await mark(param)
     if(res.code === 200) {
       sa.track('clickMarkBlock', {
-        module: module + '',
-        function: func + '',
-        action: action + '',
-        memo: memo + ''
+        markModule: module + '',
+        markFunction: func + '',
+        markAction: action + '',
+        markMemo: memo + ''
       });
       onClickFunc()
     } else {
