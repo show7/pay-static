@@ -8,6 +8,7 @@ import { checkSubmitApply } from './async';
 import Icon from '../../../components/Icon'
 import sa from 'sa-sdk-javascript';
 import RenderInBody from '../../../components/RenderInBody'
+import { FooterButton } from '../../../components/submitbutton/FooterButton'
 
 @connect(state => state)
 export default class BusinessApply extends Component<any, any> {
@@ -52,6 +53,12 @@ export default class BusinessApply extends Component<any, any> {
     })
   }
 
+  goExperience() {
+    this.context.router.push({
+      pathname: '/pay/experience/day'
+    })
+  }
+
   render() {
     const { showQr, qrCode } = this.state;
     return (
@@ -74,7 +81,17 @@ export default class BusinessApply extends Component<any, any> {
         <div className="ba-sub-body">
           共8道选择题，约3分钟时间完成。
         </div>
-        <SubmitButton clickFunc={() => this.goApplySubmitPage()} buttonText="开始预约"/>
+        <FooterButton second={true} btnArray={[
+          {
+            click: () => this.goExperience(),
+            text: '申请体验'
+          },
+          {
+            click: () => this.goApplySubmitPage(),
+            text: '马上预约'
+          }
+        ]}/>
+        {/*<SubmitButton clickFunc={() => this.goApplySubmitPage()} buttonText="开始预约"/>*/}
         {!!showQr ? <RenderInBody>
           <div className="qr_dialog">
             <div className="qr_dialog_mask" onClick={() => {

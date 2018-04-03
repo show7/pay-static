@@ -1,4 +1,5 @@
 @import "../../style/variable";
+
 .button-footer-component {
   display: block;
   position: fixed;
@@ -12,6 +13,7 @@
   background-color: #fff;
   z-index: 10;
 }
+
 .ft-button-wrapper {
   background: #FFFFFF;
   box-shadow: 0 0 8px 4px rgba(0, 0, 0, .04);
@@ -34,6 +36,20 @@
   &.two-buttons {
     display: flex;
     flex-direction: row;
+    &.second {
+      .button {
+        flex: 2;
+        color: #5b3f00;
+        background: #fbe452;
+        font-size: 20px;
+      }
+      .button:first-of-type {
+        flex: 1;
+        color: #5b3f00;
+        font-size: 18px;
+        background: #FFF;
+      }
+    }
     .button {
       flex: 1;
       color: #041931;
