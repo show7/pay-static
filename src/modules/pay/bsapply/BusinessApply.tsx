@@ -7,6 +7,7 @@ import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
 import { checkSubmitApply } from './async';
 import Icon from '../../../components/Icon'
 import sa from 'sa-sdk-javascript';
+import RenderInBody from '../../../components/RenderInBody'
 
 @connect(state => state)
 export default class BusinessApply extends Component<any, any> {
@@ -34,10 +35,14 @@ export default class BusinessApply extends Component<any, any> {
     checkSubmitApply().then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
-        sa.track('clickApplyStartButton');
-        mark({ module: "打点", function: "商学院审核", action: "点击开始申请商学院", memo: "申请开始页面" })
-        window.location.href = '/pay/applychoice'
-        // this.context.router.push('/pay/applychoice');
+        if(res.msg == 'ok') {
+          sa.track('clickApplyStartButton');
+          mark({ module: "打点", function: "商学院审核", action: "点击开始申请商学院", memo: "申请开始页面" })
+          window.location.href = '/pay/applychoice'
+        } else {
+          this.setState({ qrCode: res.msg, showQr: true });
+          // this.context.router.push('/pay/applychoice');
+        }
       } else {
         dispatch(alertMsg(res.msg));
       }
@@ -48,6 +53,7 @@ export default class BusinessApply extends Component<any, any> {
   }
 
   render() {
+    const { showQr, qrCode } = this.state;
     return (
       <div className="business-apply">
         <div className="ba-header">
@@ -69,6 +75,20 @@ export default class BusinessApply extends Component<any, any> {
           共8道选择题，约3分钟时间完成。
         </div>
         <SubmitButton clickFunc={() => this.goApplySubmitPage()} buttonText="开始预约"/>
+        {!!showQr ? <RenderInBody>
+          <div className="qr_dialog">
+            <div className="qr_dialog_mask" onClick={() => {
+              this.setState({ showQr: false });
+            }}>
+            </div>
+            <div className="qr_dialog_content">
+              <span>扫码后可进行申请哦</span>
+              <div className="qr_code">
+                <img src={qrCode}/>
+              </div>
+            </div>
+          </div>
+        </RenderInBody> : null}
       </div>
     )
   }
