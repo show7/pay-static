@@ -1,4 +1,4 @@
-import { pget, mark } from "utils/request"
+import { pget, mark, log } from "utils/request"
 import * as _ from "lodash";
 
 /**
@@ -92,7 +92,7 @@ class JsConfigService {
         if(e) {
           memo = 'error:' + JSON.stringify(e) + ',' + memo;
         }
-        mark({
+        log(url, {
           module: "JSSDK",
           function: window.ENV.systemInfo,
           action: "签名失败",
@@ -133,7 +133,7 @@ class JsConfigService {
             break;
           }
         }
-        if(hideMenu){
+        if(hideMenu) {
           // 隐藏分享按钮
           wx.hideOptionMenu();
         } else {

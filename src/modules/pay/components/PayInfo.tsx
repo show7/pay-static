@@ -13,7 +13,7 @@ import { mark } from 'utils/request'
 
 import { pay } from '../../helpers/JsConfig'
 import { CouponCategory, GoodsType, PayType } from '../../../utils/helpers'
-import sa from 'sa-sdk-javascript';
+import { sa } from '../../../utils/helpers'
 
 interface CouponProps {
   description?: string,

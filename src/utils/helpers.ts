@@ -1,4 +1,6 @@
 import * as _ from 'lodash'
+import sa from 'sa-sdk-javascript';
+
 
 export function isPending(state, key): boolean {
   return _.get(state, '$view.$pending') ? _.get(state, '$view.$pending')[ key ] : false
@@ -78,3 +80,5 @@ export function unScrollToBorder(selector) {
     return () => {};
   }
 }
+
+export { sa }
