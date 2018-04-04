@@ -78,3 +78,14 @@ export function unScrollToBorder(selector) {
     return () => {};
   }
 }
+
+export function refreshForPay() {
+  // ios／安卓微信支付兼容性
+  if(!_.isEmpty(window.ENV.configUrl) &&
+    window.ENV.configUrl !== window.location.href) {
+    window.location.href = window.location.href
+    return true;
+  } else {
+    return false;
+  }
+}

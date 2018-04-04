@@ -3,7 +3,7 @@ import * as _ from 'lodash'
 import './RisePay.less'
 import { connect } from 'react-redux'
 import { pget, mark } from 'utils/request'
-import { getGoodsType, PayType } from 'utils/helpers'
+import { getGoodsType, PayType, refreshForPay } from 'utils/helpers'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { config, configShare } from 'modules/helpers/JsConfig'
 import PayInfo from '../components/PayInfo'
@@ -33,10 +33,8 @@ export default class RisePay extends React.Component<any, any> {
 
   componentWillMount() {
     // ios／安卓微信支付兼容性
-    if(!_.isEmpty(window.ENV.configUrl) &&
-      window.ENV.configUrl !== window.location.href) {
-      window.location.href = window.location.href
-      return
+    if(refreshForPay()) {
+      return;
     }
     const { dispatch } = this.props
     dispatch(startLoad())
