@@ -1,6 +1,7 @@
 import qs from 'qs'
 import { get, post } from 'axios'
 import * as axios from 'axios'
+import { sa } from './helpers'
 
 axios.defaults.headers.platform = 'we_mobile'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
@@ -42,6 +43,12 @@ function ppost(url: string, body: Object) {
 }
 
 function mark(param) {
+  sa.track("frontMark", {
+    module: param.module + "",
+    function: param.function + "",
+    action: param.action + "",
+    memo: param.memo + ""
+  });
   return ppost('/rise/b/mark', param)
 }
 

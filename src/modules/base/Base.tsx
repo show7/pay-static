@@ -12,7 +12,7 @@ import UA from 'ua-device'
 import { toLower, get, merge } from 'lodash'
 import $ from 'jquery'
 import { pget } from '../../utils/request'
-import sa from 'sa-sdk-javascript';
+import { sa } from '../../utils/helpers'
 
 $.fn.extend({
   animateCss: function(animationName, callback) {

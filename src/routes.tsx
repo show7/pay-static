@@ -19,7 +19,7 @@ import CampPayGuest from './modules/pay/camppay/CampPayGuest'
 import RiseAlipay from './modules/pay/risepay/RiseAlipay'
 import AlipayReturn from './modules/pay/risepay/AlipayReturn'
 import ExperienceDay from './modules/pay/preacher/ExperienceDay'
-import sa from 'sa-sdk-javascript';
+import { sa } from './utils/helpers'
 
 const routes = (
   <Route path="/">

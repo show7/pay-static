@@ -10,7 +10,6 @@ import PayInfo from '../components/PayInfo'
 import { getRiseMember } from '../async'
 import { SaleBody } from './components/SaleBody'
 import { MarkBlock } from '../components/markblock/MarkBlock'
-import sa from 'sa-sdk-javascript';
 import { addUserRecommendation } from './async'
 
 @connect(state => state)

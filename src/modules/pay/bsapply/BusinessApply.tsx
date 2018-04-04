@@ -6,7 +6,7 @@ import { mark } from "utils/request"
 import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
 import { checkSubmitApply } from './async';
 import Icon from '../../../components/Icon'
-import sa from 'sa-sdk-javascript';
+import { sa } from '../../../utils/helpers'
 import RenderInBody from '../../../components/RenderInBody'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 

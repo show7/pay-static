@@ -13,8 +13,7 @@ import { config } from '../../helpers/JsConfig'
 import { getGoodsType } from '../../../utils/helpers'
 import PayInfo from '../components/PayInfo'
 import { UploadComponent } from '../../../components/form/UploadComponent';
-import AssetImg from '../../../components/AssetImg'
-import sa from 'sa-sdk-javascript';
+import { sa } from '../../../utils/helpers'
 
 
 @connect(state => state)
