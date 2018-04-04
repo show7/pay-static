@@ -4,7 +4,7 @@ import * as axios from 'axios'
 import { sa } from './helpers'
 
 axios.defaults.headers.platform = 'we_mobile'
-axios.defaults.headers.post['Content-Type'] = 'application/json'
+axios.defaults.headers.post[ 'Content-Type' ] = 'application/json'
 
 // 对于 700 返回，默认跳转登录页
 axios.interceptors.response.use(function(response) {
@@ -81,5 +81,5 @@ function _getBrowser() {
   }
 }
 
-export { pget, ppost, mark }
+export { pget, ppost, mark, log }
 
