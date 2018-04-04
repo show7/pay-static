@@ -81,4 +81,14 @@ export function unScrollToBorder(selector) {
   }
 }
 
+export function lockWindow () {
+  document.body.style.height = '100vh'
+  document.body.style.overflow = 'hidden'
+}
+
+export function unlockWindow () {
+  document.body.style.height = 'inherit'
+  document.body.style.overflow = 'inherit'
+}
+
 export { sa }
