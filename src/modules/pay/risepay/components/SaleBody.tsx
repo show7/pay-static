@@ -155,7 +155,7 @@ export class SaleBody extends React.Component {
            id="business-school-intro-pic-container">
         <img
           className="pic-part1"
-          src="https://static.iqycamp.com/images/pay_rise_part1_15.jpg?imageslim"
+          src="https://static.iqycamp.com/images/pay_rise_part1_17.jpg?imageslim"
           style={{ width: '100%' }}
           onLoad={() => this.setState({ loading: false })}/>
         {
