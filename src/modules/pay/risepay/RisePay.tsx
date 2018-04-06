@@ -168,7 +168,7 @@ export default class RisePay extends React.Component<any, any> {
 
   render() {
     const { data, showId, timeOut, showErr, showCodeErr, subscribe } = this.state
-    const { privilege, buttonStr, memberType, tip } = data
+    const { privilege, buttonStr, auditionStr, memberType, tip } = data
     const { location } = this.props
     let payType = _.get(location, 'query.paytype')
 
@@ -179,7 +179,15 @@ export default class RisePay extends React.Component<any, any> {
         return (
           <div className="button-footer">
             {
-                <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'} memo={data ? buttonStr : ''}
+              auditionStr ? <div>
+                  <MarkBlock module={'打点'} func={'商学院会员'} action={'点击宣讲课按钮'} memo={data ? buttonStr : ''}
+                             className="footer-left" onClick={() => this.handleClickAudition}>
+                    <span style={{ fontSize: '18px' }}>{auditionStr}</span>
+                  </MarkBlock> <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'} className={'footer-btn'}
+                                          onClick={() => this.handleClickOpenPayInfo(showId)}>
+                  <div className="audition">{buttonStr}</div>
+                </MarkBlock>
+                </div> : <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'} memo={data ? buttonStr : ''}
                                     className="footer-btn" onClick={() => this.handleClickOpenPayInfo(
                 showId)}>
                   {buttonStr}
