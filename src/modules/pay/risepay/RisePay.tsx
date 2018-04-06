@@ -11,6 +11,7 @@ import { getRiseMember } from '../async'
 import { SaleBody } from './components/SaleBody'
 import { MarkBlock } from '../components/markblock/MarkBlock'
 import { addUserRecommendation } from './async'
+import { SubscribeAlert } from "./components/SubscribeAlert"
 
 @connect(state => state)
 export default class RisePay extends React.Component<any, any> {
@@ -26,6 +27,7 @@ export default class RisePay extends React.Component<any, any> {
       timeOut: false,
       showErr: false,
       showCodeErr: false,
+      subscribe: false,
       data: {}
     }
   }
@@ -139,9 +141,11 @@ export default class RisePay extends React.Component<any, any> {
 
   redirect() {
     sa.track('clickApplyButton');
-    this.context.router.push({
-      pathname: '/pay/bsstart'
-    })
+    // this.context.router.push({
+    //   pathname: '/pay/bsstart'
+    // })
+
+    this.setState({ subscribe: true })
   }
 
   handlePayedBefore() {
@@ -163,7 +167,7 @@ export default class RisePay extends React.Component<any, any> {
   }
 
   render() {
-    const { data, showId, timeOut, showErr, showCodeErr } = this.state
+    const { data, showId, timeOut, showErr, showCodeErr, subscribe } = this.state
     const { privilege, buttonStr, auditionStr, memberType, tip } = data
     const { location } = this.props
     let payType = _.get(location, 'query.paytype')
@@ -176,18 +180,18 @@ export default class RisePay extends React.Component<any, any> {
           <div className="button-footer">
             {
               auditionStr ? <div>
-                <MarkBlock module={'打点'} func={'商学院会员'} action={'点击宣讲课按钮'} memo={data ? buttonStr : ''}
-                           className="footer-left" onClick={() => this.handleClickAudition}>
-                  <span style={{ fontSize: '18px' }}>{auditionStr}</span>
-                </MarkBlock> <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'} className={'footer-btn'}
-                                        onClick={() => this.handleClickOpenPayInfo(showId)}>
-                <div className="audition">{buttonStr}</div>
-              </MarkBlock>
-              </div> : <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'} memo={data ? buttonStr : ''}
-                                  className="footer-btn" onClick={() => this.handleClickOpenPayInfo(
+                  <MarkBlock module={'打点'} func={'商学院会员'} action={'点击宣讲课按钮'} memo={data ? buttonStr : ''}
+                             className="footer-left" onClick={() => this.handleClickAudition}>
+                    <span style={{ fontSize: '18px' }}>{auditionStr}</span>
+                  </MarkBlock> <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'} className={'footer-btn'}
+                                          onClick={() => this.handleClickOpenPayInfo(showId)}>
+                  <div className="audition">{buttonStr}</div>
+                </MarkBlock>
+                </div> : <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'} memo={data ? buttonStr : ''}
+                                    className="footer-btn" onClick={() => this.handleClickOpenPayInfo(
                 showId)}>
-                {buttonStr}
-              </MarkBlock>
+                  {buttonStr}
+                </MarkBlock>
             }
 
           </div>
@@ -195,23 +199,10 @@ export default class RisePay extends React.Component<any, any> {
       } else {
         return (
           <div className="button-footer">
-            {
-              auditionStr ?
-                <div>
-                  {/*<MarkBlock module={`打点`} func={`商学院会员`} action={`点击宣讲课按钮`} memo={'申请页面'} className={`footer-left`}*/}
-                  {/*onClick={() => this.handleClickAudition()}> <span*/}
-                  {/*style={{ fontSize: '18px' }}>{auditionStr}</span> </MarkBlock>*/}
-                  <MarkBlock module={'打点'} func={'商学院会员'}
-                             action={'申请商学院'} memo={'申请页面'}
-                             className={'footer-btn'}
-                             onClick={() => this.redirect()}>
-                    <div className="audition">申请商学院</div>
-                  </MarkBlock>
-                </div> :
-                <MarkBlock module={`打点`} func={`商学院会员`} action={`申请商学院`} className={`footer-btn`}
-                           onClick={() => this.redirect()}> 申请商学院 </MarkBlock>
-            }
-
+            {/*<MarkBlock module={`打点`} func={`商学院会员`} action={`申请商学院`} className={`footer-btn`}*/}
+                       {/*onClick={() => this.redirect()}>申请商学院</MarkBlock>*/}
+            <MarkBlock module={`打点`} func={`商学院会员`} action={`预约商学院`} className={`footer-btn`}
+                       onClick={() => this.redirect()}>立即预约</MarkBlock>
           </div>
         )
       }
@@ -253,6 +244,9 @@ export default class RisePay extends React.Component<any, any> {
                  payedError={(res) => this.handlePayedError(res)} payedBefore={() => this.handlePayedBefore()}
                  payType={payType || PayType.WECHAT}/>
       }
+        {
+          subscribe && <SubscribeAlert closeFunc={() => this.setState({ subscribe: false })}/>
+        }
       </div>
     )
   }

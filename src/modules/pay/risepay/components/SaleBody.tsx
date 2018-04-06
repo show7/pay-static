@@ -155,13 +155,13 @@ export class SaleBody extends React.Component {
            id="business-school-intro-pic-container">
         <img
           className="pic-part1"
-          src="https://static.iqycamp.com/images/fragment/pay_rise_part1_14.png?imageslim"
+          src="https://static.iqycamp.com/images/pay_rise_part1_15.jpg?imageslim"
           style={{ width: '100%' }}
           onLoad={() => this.setState({ loading: false })}/>
         {
           !loading && <CustomerEvaluate/>
         }
-        <img className="pic-part2" src="https://static.iqycamp.com/images/fragment/pay_rise_part2_13.png?imageslim"
+        <img className="pic-part2" src="https://static.iqycamp.com/images/pay_rise_part2_15.jpg?imageslim"
              style={{ width: '100%' }}/>
         <div className="protocol-container">
           <span className="click_text">点击查看</span>
