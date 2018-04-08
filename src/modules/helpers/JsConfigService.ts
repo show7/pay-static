@@ -92,12 +92,12 @@ class JsConfigService {
         if(e) {
           memo = 'error:' + JSON.stringify(e) + ',' + memo;
         }
-        log(url, {
+        log({
           module: "JSSDK",
           function: window.ENV.systemInfo,
           action: "签名失败",
           memo: memo
-        });
+        }, url);
       } else {
         // 错误次数小于3次则再次调用config
         this.config(apiList, callback);
