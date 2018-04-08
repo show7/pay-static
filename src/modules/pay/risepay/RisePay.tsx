@@ -215,33 +215,39 @@ export default class RisePay extends React.Component<any, any> {
         {
           timeOut &&
           <div className="mask" onClick={() => {window.history.back()}}
-               style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}></div>
-        } {
-        showErr &&
-        <div className="mask" onClick={() => this.setState({ showErr: false })}>
-          <div className="tips">
-            出现问题的童鞋看这里<br/> 1如果显示“URL未注册”，请重新刷新页面即可<br/> 2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
+               style={{
+                 background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center' +
+                 ' center/100% 100%'
+               }}/>
+        }
+        {
+          showErr &&
+          <div className="mask" onClick={() => this.setState({ showErr: false })}>
+            <div className="tips">
+              出现问题的童鞋看这里<br/> 1如果显示“URL未注册”，请重新刷新页面即可<br/> 2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
+            </div>
+            <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
           </div>
-          <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
-        </div>
-      } {
-        showCodeErr &&
-        <div className="mask" onClick={() => this.setState({ showCodeErr: false })}>
-          <div className="tips">
-            糟糕，支付不成功<br/> 原因：微信不支持跨公众号支付<br/> 怎么解决：<br/> 1，长按下方二维码，保存到相册；<br/> 2，打开微信扫一扫，点击右上角相册，选择二维码图片；<br/>
-            3，在新开的页面完成支付即可<br/>
+        }
+        {
+          showCodeErr &&
+          <div className="mask" onClick={() => this.setState({ showCodeErr: false })}>
+            <div className="tips">
+              糟糕，支付不成功<br/> 原因：微信不支持跨公众号支付<br/> 怎么解决：<br/> 1，长按下方二维码，保存到相册；<br/> 2，打开微信扫一扫，点击右上角相册，选择二维码图片；<br/>
+              3，在新开的页面完成支付即可<br/>
+            </div>
+            <img className="xiaoQ" style={{ width: '50%' }}
+                 src="https://static.iqycamp.com/images/pay_rise_code.png?imageslim"/>
           </div>
-          <img className="xiaoQ" style={{ width: '50%' }}
-               src="https://static.iqycamp.com/images/pay_rise_code.png?imageslim"/>
-        </div>
-      } {
-        memberType &&
-        <PayInfo ref="payInfo" dispatch={this.props.dispatch} goodsType={getGoodsType(memberType.id)}
-                 goodsId={memberType.id} header={memberType.name} priceTips={tip}
-                 payedDone={(goodsId) => this.handlePayedDone()} payedCancel={(res) => this.handlePayedCancel(res)}
-                 payedError={(res) => this.handlePayedError(res)} payedBefore={() => this.handlePayedBefore()}
-                 payType={payType || PayType.WECHAT}/>
-      }
+        }
+        {
+          memberType &&
+          <PayInfo ref="payInfo" dispatch={this.props.dispatch} goodsType={getGoodsType(memberType.id)}
+                   goodsId={memberType.id} header={memberType.name} priceTips={tip}
+                   payedDone={(goodsId) => this.handlePayedDone()} payedCancel={(res) => this.handlePayedCancel(res)}
+                   payedError={(res) => this.handlePayedError(res)} payedBefore={() => this.handlePayedBefore()}
+                   payType={payType || PayType.WECHAT}/>
+        }
         {
           subscribe && <SubscribeAlert closeFunc={() => this.setState({ subscribe: false })}/>
         }
