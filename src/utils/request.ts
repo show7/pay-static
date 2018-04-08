@@ -53,7 +53,7 @@ function mark(param) {
 }
 
 function log(msg, url, browser) {
-  return post('/b/log', JSON.stringify({ result: msg, cookie: document.cookie, url: url }))
+  return post('/b/log', { result: !!msg ? JSON.stringify(msg) : '', cookie: document.cookie, url: url });
 }
 
 function _appendQs(query: Object): string {
