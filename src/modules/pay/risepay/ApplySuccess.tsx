@@ -5,15 +5,13 @@ import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { connect } from 'react-redux'
 import { config } from 'modules/helpers/JsConfig'
 import './ApplySuccess.less'
-import { getGoodsType } from 'utils/helpers'
+import { getGoodsType,sa } from 'utils/helpers'
 import PayInfo from '../components/PayInfo'
 import { SaleBody } from './components/SaleBody'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
 import { getRiseMember } from '../async'
 import Icon from '../../../components/Icon'
 import { MarkBlock } from '../components/markblock/MarkBlock'
-import { FooterButton } from '../../../components/submitbutton/FooterButton'
-import sa from 'sa-sdk-javascript';
 
 @connect(state => state)
 export default class ApplySuccess extends React.Component<any, any> {

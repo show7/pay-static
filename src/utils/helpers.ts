@@ -1,4 +1,6 @@
 import * as _ from 'lodash'
+import sa from 'sa-sdk-javascript';
+
 
 export function isPending(state, key): boolean {
   return _.get(state, '$view.$pending') ? _.get(state, '$view.$pending')[ key ] : false
@@ -78,6 +80,19 @@ export function unScrollToBorder(selector) {
     return () => {};
   }
 }
+
+export function lockWindow () {
+  document.body.style.height = '100vh'
+  document.body.style.overflow = 'hidden'
+}
+
+export function unlockWindow () {
+  document.body.style.height = 'inherit'
+  document.body.style.overflow = 'inherit'
+}
+
+export { sa }
+
 
 export function refreshForPay() {
   // ios／安卓微信支付兼容性
