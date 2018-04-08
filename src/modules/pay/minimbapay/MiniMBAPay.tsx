@@ -26,11 +26,24 @@ export default class PlusPay extends Component<any, any> {
     //表示是分享点击进入
     let res = await getRiseMember(this.state.showId)
     if(res.code === 200) {
-      this.setState({
-
-      })
+      const { privilege, memberType, tip, buttonStr, auditionStr, remainHour, remainMinute } = res.msg;
+      this.setState({ privilege, memberType, tip, buttonStr, auditionStr, remainHour, remainMinute })
+      if(privilege) {
+        sa.track('openSalePayPage', {
+          goodsType: getGoodsType(3),
+          goodsId: '3'
+        });
+        mark(
+          { module: '打点', function: '商学院会员', action: '购买商学院会员', memo: '入学页面' })
+      } else {
+        sa.track('openSaleApplyPage', {
+          goodsType: getGoodsType(3),
+          goodsId: '3'
+        });
+        mark(
+          { module: '打点', function: '商学院会员', action: '购买商学院会员', memo: '申请页面' })
+      }
     }
-
   }
 
   render() {

@@ -19,6 +19,7 @@ import CampPayGuest from './modules/pay/camppay/CampPayGuest'
 import RiseAlipay from './modules/pay/risepay/RiseAlipay'
 import AlipayReturn from './modules/pay/risepay/AlipayReturn'
 import ExperienceDay from './modules/pay/preacher/ExperienceDay'
+import MiniMBAPay from './modules/pay/minimbapay/MiniMBAPay'
 import sa from 'sa-sdk-javascript';
 
 const routes = (
@@ -33,6 +34,7 @@ const routes = (
       <Route path="pay/camp/success" component={CampPaySuccess}/>
       <Route path="pay/member/success" component={MemberPaySuccess}/>
       <Route path="pay/audition/success" component={AuditionSuccess}/>
+      <Route path="pay/minimba" component={MiniMBAPay}/>
       <Route path="pay/rise" component={RisePay}/>
       <Route path="pay/static/camp" component={CampPayGuest}/>
       <Route path="pay/camp" component={CampPay}/>
