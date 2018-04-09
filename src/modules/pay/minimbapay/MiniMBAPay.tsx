@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { pay } from '../../helpers/JsConfig'
 import './MiniMBAPay.less'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
-import { refreshForPay, sa } from '../../../utils/helpers'
-import { addUserRecommendation } from '../risepay/async'
+import { getGoodsType, refreshForPay, sa } from '../../../utils/helpers'
 import { getRiseMember } from '../async'
+import { SaleBody } from '../risepay/components/SaleBody'
+import { FooterButton } from '../../../components/submitbutton/FooterButton'
+import { mark } from '../../../utils/request'
 
 /**
  * 商业进阶课售卖页
@@ -19,16 +20,16 @@ export default class PlusPay extends Component<any, any> {
     };
   }
 
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
+
   async componentWillMount() {
     if(refreshForPay()) {
       return;
     }
-    const id = this.props.location.query.riseId
     //表示是分享点击进入
-    const { dispatch } = this.props;
-    dispatch(startLoad());
     let res = await getRiseMember(this.state.showId)
-    dispatch(endLoad());
     if(res.code === 200) {
       const { privilege, memberType, tip, buttonStr, auditionStr, remainHour, remainMinute } = res.msg;
       this.setState({ privilege, memberType, tip, buttonStr, auditionStr, remainHour, remainMinute })
@@ -49,8 +50,17 @@ export default class PlusPay extends Component<any, any> {
     }
   }
 
+  redirect() {
+    this.context.router.push({
+      pathname: '/pay/bsstart',
+      query: {
+        project: 2
+      }
+    })
+  }
+
   render() {
-    const { privilege, memberType, tip, buttonStr, auditionStr, remainHour, remainMinute } = this.state;
+    const { privilege } = this.state;
     const renderPay = () => {
       if(typeof(privilege) === 'undefined') {
         return null;
@@ -61,20 +71,20 @@ export default class PlusPay extends Component<any, any> {
             click: () => this.goApplySubmitPage(),
             text: '立即入学',
             module: '打点',
-            func: '',
-            action: '',
-            memo: ''
+            func: '进阶课程',
+            action: '点击立即入学',
+            memo: '入学页面'
           }
         ]}/>
       } else {
         return <FooterButton btnArray={[
           {
-            click: () => this.goApplySubmitPage(),
+            click: () => this.redirect(),
             text: '马上预约',
-            module: '',
-            func: '',
-            action: '',
-            memo: ''
+            module: '打点',
+            func: '进阶课程',
+            action: '点击马上预约',
+            memo: '申请页面'
           }
         ]}/>
       }
@@ -82,6 +92,7 @@ export default class PlusPay extends Component<any, any> {
 
     return (
       <div className="plus-pay">
+        <SaleBody/>
         {renderPay()}
 
       </div>

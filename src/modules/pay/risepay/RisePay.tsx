@@ -210,7 +210,8 @@ export default class RisePay extends React.Component<any, any> {
     return (
       <div className="rise-pay-container">
         <div className="pay-page">
-          <SaleBody/> {renderPay()}
+          <SaleBody/>
+          {renderPay()}
         </div>
         {
           timeOut &&
