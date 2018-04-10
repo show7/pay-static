@@ -5,13 +5,16 @@ import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { connect } from 'react-redux'
 import { config } from 'modules/helpers/JsConfig'
 import './ApplySuccess.less'
-import { getGoodsType,sa } from 'utils/helpers'
+import { getGoodsType, refreshForPay, sa } from 'utils/helpers'
 import PayInfo from '../components/PayInfo'
 import { SaleBody } from './components/SaleBody'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
 import { getRiseMember } from '../async'
 import Icon from '../../../components/Icon'
 import { MarkBlock } from '../components/markblock/MarkBlock'
+import AssetImg from '../../../components/AssetImg'
+import { FooterButton } from '../../../components/submitbutton/FooterButton'
+import RenderInBody from '../../../components/RenderInBody'
 
 @connect(state => state)
 export default class ApplySuccess extends React.Component<any, any> {
@@ -33,33 +36,44 @@ export default class ApplySuccess extends React.Component<any, any> {
   }
 
   componentWillMount() {
+    if(refreshForPay()) {
+      return;
+    }
+    const { goodsId = '3' } = this.props.location.query;
+
     mark({ module: '打点', function: '商学院会员', action: '购买商学院会员', memo: '申请成功页面' })
     sa.track('openPayPage', {
-      goodsType: getGoodsType(3),
-      goodsId: '3'
+      goodsType: getGoodsType(Number(goodsId)),
+      goodsId: goodsId
     })
-    // ios／安卓微信支付兼容性
-    if(!_.isEmpty(window.ENV.configUrl) && window.ENV.configUrl !== window.location.href) {
-      window.location.href = window.location.href
-      return
-    }
 
     const { dispatch } = this.props
     dispatch(startLoad())
+    this.setState({ showId: Number(goodsId) });
 
     // 查询订单信息
-    getRiseMember(this.state.showId).then(res => {
+    getRiseMember(goodsId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        this.countDown(res.msg.remainHour, res.msg.remainMinute)
-        this.setState({ data: res.msg })
+        this.setState({
+          data: res.msg, remainHour: res.msg.remainHour, remainMinute: res.msg.remainMinute,
+          remainSecond: (!res.msg.remainHour && !res.msg.remainMinute) ? 0 : 60
+        }, () => {
+          if(this.remainInterval) {
+            clearInterval(this.remainInterval);
+          } else {
+            setInterval(() => {
+              this.countDown();
+            }, 1000)
+          }
+        })
       } else {
         dispatch(alertMsg(res.msg))
       }
     }).catch((err) => {
       dispatch(endLoad())
       dispatch(alertMsg(err))
-    })
+    });
 
   }
 
@@ -68,7 +82,7 @@ export default class ApplySuccess extends React.Component<any, any> {
     this.context.router.push({
       pathname: '/pay/member/success',
       query: {
-        memberTypeId: 3
+        memberTypeId: this.state.showId
       }
     })
   }
@@ -77,40 +91,30 @@ export default class ApplySuccess extends React.Component<any, any> {
     this.setState({ more: true })
   }
 
-  countDown(remainHour, remainMinute) {
-    if(remainHour === 0 && remainMinute === 0) {
-      this.setState({ expired: true })
+  countDown() {
+    let { remainHour, remainMinute, remainSecond } = this.state;
+    if(remainHour === 0 && remainMinute === 0 && remainSecond <= 0) {
+      this.setState({ expired: true, remainHour: 0, remainMinute: 0, remainSecond: 0 }, () => {
+        if(this.remainInterval) {
+          clearInterval(this.remainInterval);
+        }
+      })
     } else {
-      if(remainHour !== 0) {
-        if(remainHour > 99) {
-          remainHour = 99
-        }
-        let hourStr = remainHour + ''
-        let ones = '0'
-        let tens = '0'
-        // 小于等于0 按0算
-        if(hourStr.length > 1) {
-          ones = hourStr[ 1 ]
-          tens = hourStr[ 0 ]
+      if(remainSecond <= 1) {
+        // 分钟减1
+        if(remainMinute <= 1) {
+          // 小时减1
+          remainHour = remainHour - 1;
+          remainMinute = 59;
+          remainSecond = 60;
         } else {
-          // 1位数
-          ones = hourStr[ 0 ]
+          remainMinute = remainMinute - 1;
+          remainSecond = 60;
         }
-        this.setState({ ones: ones, tens: tens, unit: '小时', expired: false })
       } else {
-        let minuteStr = remainMinute + ''
-        let ones = '0'
-        let tens = '0'
-        // 小于等于0 按0算
-        if(minuteStr.length > 1) {
-          ones = minuteStr[ 1 ]
-          tens = minuteStr[ 0 ]
-        } else {
-          // 1位数
-          ones = minuteStr[ 0 ]
-        }
-        this.setState({ ones: ones, tens: tens, unit: '分钟', expired: false })
+        remainSecond = remainSecond - 1;
       }
+      this.setState({ remainHour: remainHour, remainMinute: remainMinute, remainSecond: remainSecond });
     }
   }
 
@@ -185,17 +189,16 @@ export default class ApplySuccess extends React.Component<any, any> {
 
     const renderPay = () => {
       return (
-        <div className="button-footer">
-          {/*<MarkBlock module={'打点'} func={'申请成功页面'} action={'点击宣讲课按钮'} memo={'申请未过期'}*/}
-          {/*className="footer-left" onClick={() => this.handleClickAudition()}>*/}
-          {/*<span className="audition">预约直播</span>*/}
-          {/*</MarkBlock>*/}
-          <MarkBlock module={'打点'} func={'申请成功页面'} action={'点击入学按钮'}
-                     memo={this.state.data ? this.state.data.buttonStr : ''}
-                     className="footer-btn" onClick={() => this.handleClickOpenPayInfo(showId)}>
-            {buttonStr}
-          </MarkBlock>
-        </div>
+        <FooterButton btnArray={[
+          {
+            text: buttonStr,
+            click: () => this.handleClickOpenPayInfo(showId),
+            module: '打点',
+            func: showId,
+            action: '点击入学按钮',
+            memo: '申请成功页面'
+          }
+        ]}/>
       )
     }
 
@@ -220,47 +223,13 @@ export default class ApplySuccess extends React.Component<any, any> {
       )
     }
 
-    const renderCountdown = () => {
-      return (
+    return (
+      <div className="rise-pay-apply-container">
         <div>
-          <div className="apply-header">
-            {'恭喜你通过商学院申请!'}
-          </div>
-          <div className="header">
-            <div className="msg">离入学截止时间还剩</div>
-          </div>
-          <div className="remainder">
-            <div className="time">
-              <div className={`tens-place place ${unit == '小时' ? 'hour' : 'minute'}`}>
-                {tens}
-              </div>
-              <div className={`ones-place place ${unit == '小时' ? 'hour' : 'minute'}`}>
-                {ones}
-              </div>
-            </div>
-          </div>
-          <div className="click-tips">
-            请点击下方按钮，及时办理入学<br/>
-            过期后需再次申请
-          </div>
-          <div className="welcome-msg">
-            {memberType ? `友情提示：商学院学费即将升至¥${memberType.fee + 400}` : null}
-            <br/>
-            {memberType ? `请尽快办理入学` : null}
-          </div>
-          {
-            more ?
-              <div className="desc-container">
-                <SaleBody loading={false}/>
-              </div> :
-              <MarkBlock module={'打点'} func={'商学院会员'} action={'打开商学院介绍'}
-                         onClick={() => this.handleClickIntro()}>
-                商学院介绍
-              </MarkBlock>
-          }
+          <ApplySuccessCard remainHour={this.state.remainHour} remainMinute={this.state.remainMinute}
+                            remainSecond={this.state.remainSecond}/>
 
           {renderPay()}
-          {renderKefu()}
           {
             timeOut &&
             <div className="mask" onClick={() => {window.history.back()}}
@@ -306,36 +275,111 @@ export default class ApplySuccess extends React.Component<any, any> {
                      payedError={(res) => this.handlePayedError(res)}
                      payedBefore={() => this.handlePayedBefore()}/>
           }
+          {
+            expired ?
+              <RenderInBody>
+                <div className="global-apply-expired">
+                  您的申请已过期<br/>
+                  <button onClick={() => {
+                    if(this.state.showId == 3) {
+                      this.context.router.push({
+                        pathname: '/pay/bsstart',
+                        query: {
+                          goodsId: 9
+                        }
+                      })
+                    } else if(this.state.showId == 8) {
+                      this.context.router.push({
+                        pathname: '/pay/bsstart',
+                        query: {
+                          goodsId: 7
+                        }
+                      })
+                    } else {
+                      const { dispatch } = this.props;
+                      dispatch(alertMsg('项目id异常'))
+                    }
+                  }}>去申请
+                  </button>
+                </div>
+              </RenderInBody>
+              : null
+          }
         </div>
-      )
-    }
-
-    const renderExpired = () => {
-      return (
-        <div>
-          <div className="apply-header">
-            {'很抱歉，您的入学资格已过期!'}
-          </div>
-          <div className="apply-icon">
-            <Icon type='apply_fail'/>
-          </div>
-          <div className="click-tips">
-            由于您未在申请通过后24小时内办理入学<br/>
-            入学资格已过期。
-          </div>
-          {renderApply()}
-          {renderKefu()}
-          {timeOut ? <div className="mask" onClick={() => {window.history.back()}}
-                          style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}>
-          </div> : null}
-        </div>
-      )
-    }
-
-    return (
-      <div className="rise-pay-apply-container">
-        {expired ? renderExpired() : renderCountdown()}
       </div>
     )
   }
+}
+
+interface ApplySuccessCard {
+  remainHour: number,
+  remainMinute: number;
+  remainSecond: number
+}
+
+class ApplySuccessCard extends React.Component<ApplySuccessCard, any> {
+  constructor() {
+    super();
+    this.state = {};
+  }
+
+  render() {
+    const {} = this.props;
+    return (
+      <div className="apply-card-wrapper">
+        <div className="apply-card-container">
+          <div className="appy-card">
+            <div className="quanwai-logo">
+              <AssetImg url="https://static.iqycamp.com/images/fragment/logo-20180410.png?imageslim"/>
+            </div>
+            <div className="apply-title">
+              录取通知书
+            </div>
+            <div className="apply-username">
+              {window.ENV.userName}
+            </div>
+            <div className="apply-desc">
+              祝贺你被圈外商学院「核心能力项目」录取，掌握核心能力，成为未来社会不可替代的人！
+            </div>
+            <div className="quan-sign">
+              <div className="sign-pic">
+                <AssetImg url="https://static.iqycamp.com/images/fragment/quansign-0410.png?imageslim"/>
+                <div className="quanwai-tips">
+                  圈外同学创始人
+                </div>
+              </div>
+            </div>
+            <div className="remain-time-tips">
+              <span>离</span>
+              <span>入</span>
+              <span>学</span>
+              <span>截</span>
+              <span>止</span>
+              <span>时</span>
+              <span>间</span>
+              <span>还</span>
+              <span>剩</span>
+            </div>
+            <div className="remain-time-wrapper">
+              <div className="remain-time">
+                <div className="big-num">
+                  {this.props.remainHour}
+                </div>
+                <span className="unit">时</span>
+                <div className="big-num">
+                  {this.props.remainMinute}
+                </div>
+                <span className="unit">分</span>
+                <div className="big-num">
+                  {this.props.remainSecond}
+                </div>
+                <span className="unit">秒</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
 }

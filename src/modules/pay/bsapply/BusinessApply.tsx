@@ -26,25 +26,25 @@ export default class BusinessApply extends Component<any, any> {
 
   componentWillMount() {
     // 如果用户在审核中，则点击后提示已经在审核中
-    const { project = '1' } = this.props.location.query;
+    const { goodsId = '7' } = this.props.location.query;
     sa.track('openApplyStartPage', {
-      payProject: project
+      goodsId: goodsId
     });
-    mark({ module: "商学院审核", function: project, action: "进入申请开始页面", memo: "申请开始页面" })
+    mark({ module: "商学院审核", function: goodsId, action: "进入申请开始页面", memo: "申请开始页面" })
   }
 
   async goApplySubmitPage() {
     const { dispatch } = this.props;
-    const { project = '1' } = this.props.location.query;
+    const { goodsId = '7' } = this.props.location.query;
 
-    let res = await checkSubmitApply(project);
+    let res = await checkSubmitApply(goodsId);
     if(res.code === 200) {
       if(res.msg == 'ok') {
         sa.track('clickApplyStartButton', {
-          payProject: project
+          goodsId: goodsId
         });
-        mark({ module: "商学院审核", function: project, action: "点击开始申请商学院", memo: "申请开始页面" })
-        window.location.href = `/pay/applychoice?project=${project}`
+        mark({ module: "商学院审核", function: goodsId, action: "点击开始申请商学院", memo: "申请开始页面" })
+        window.location.href = `/pay/applychoice?goodsId=${goodsId}`
       } else {
         this.setState({ qrCode: res.msg, showQr: true });
       }

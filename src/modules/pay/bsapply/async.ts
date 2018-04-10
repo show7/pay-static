@@ -4,8 +4,8 @@ export function loadBusinessApplyQuestion() {
   return pget('/rise/business/load/questions');
 }
 
-export function checkSubmitApply(project) {
-  return pget('/rise/business/check/submit/apply', { project: project });
+export function checkSubmitApply(goodsId) {
+  return pget('/rise/business/check/submit/apply', { goodsId: goodsId });
 }
 
 export function submitApply(param) {
