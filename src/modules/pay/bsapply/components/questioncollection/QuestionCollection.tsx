@@ -12,7 +12,7 @@ import $ from 'jquery';
 
 
 interface QuestionCollectionProps {
-  project: string,
+  goodsId: string,
   handleClickOpenPayInfo: any,
 }
 
@@ -31,7 +31,7 @@ export default class QuestionCollection extends Component<QuestionCollectionProp
   }
 
   async componentDidMount() {
-    const { region, dispatch, project } = this.props;
+    const { region, dispatch, goodsId } = this.props;
     if(!region) {
       let res = await pget('/rise/customer/region');
       dispatch(set("region", res.msg));
@@ -40,8 +40,8 @@ export default class QuestionCollection extends Component<QuestionCollectionProp
     const { questions, payApplyFlag } = questionRes.msg;
 
     this.setState({ questionGroup: questions, seriesCount: questions.length, payApplyFlag: payApplyFlag });
-    mark({ module: "申请填写", function: project + '', action: "进入填写报名信息页面" });
-    mark({ module: "申请填写", function: project + '', action: "翻页", memo: "1" });
+    mark({ module: "申请填写", function: goodsId + '', action: "进入填写报名信息页面" });
+    mark({ module: "申请填写", function: goodsId + '', action: "翻页", memo: "1" });
   }
 
   /**
@@ -115,14 +115,14 @@ export default class QuestionCollection extends Component<QuestionCollectionProp
    * 点击下一步
    */
   nextStep() {
-    const { project } = this.props;
+    const { goodsId } = this.props;
     const { currentIndex, questionGroup } = this.state
     let group = questionGroup[ currentIndex ];
     let nextIndex = this.findNextVisibleIndex(questionGroup, currentIndex);
     this.setState({ group: group }, () => {
       $('.question-group').animateCss('fadeOutLeft', () => {
         this.setState({ currentIndex: nextIndex }, () => {
-          mark({ module: "申请填写", function: project, action: "翻页", memo: questionGroup[ nextIndex ].series + "" });
+          mark({ module: "申请填写", function: goodsId, action: "翻页", memo: questionGroup[ nextIndex ].series + "" });
           $('.question-group').animateCss('fadeInRight')
         })
       })
@@ -194,10 +194,10 @@ export default class QuestionCollection extends Component<QuestionCollectionProp
    * @param param 问卷内容
    */
   submitApplyAPI(param) {
-    const { dispatch, handleClickOpenPayInfo = () => {}, project } = this.props;
+    const { dispatch, handleClickOpenPayInfo = () => {}, goodsId } = this.props;
     const { payApplyFlag } = this.state;
 
-    mark({ module: "申请填写", function: project, action: "提交申请" });
+    mark({ module: "申请填写", function: goodsId, action: "提交申请" });
     // 开始提交
     dispatch(startLoad());
     submitApply(param).then(res => {
@@ -268,7 +268,7 @@ export default class QuestionCollection extends Component<QuestionCollectionProp
    * 点击提交按钮
    */
   async handleClickSubmit() {
-    const { dispatch, region, project } = this.props;
+    const { dispatch, region, goodsId } = this.props;
     const { questionGroup, currentIndex } = this.state
 
     // 检查本页是否提交完成
@@ -314,7 +314,7 @@ export default class QuestionCollection extends Component<QuestionCollectionProp
     }, []);
 
     // 调用提交api
-    this.submitApplyAPI({ userSubmits: result, project: project })
+    this.submitApplyAPI({ userSubmits: result, goodsId: goodsId })
   }
 
   /**

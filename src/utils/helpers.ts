@@ -1,7 +1,6 @@
 import * as _ from 'lodash'
 import sa from 'sa-sdk-javascript';
 
-
 export function isPending(state, key): boolean {
   return _.get(state, '$view.$pending') ? _.get(state, '$view.$pending')[ key ] : false
 }
@@ -56,6 +55,10 @@ export const getGoodsType = (id) => {
       return GoodsType.FRAG_CAMP
     case 7:
       return GoodsType.BS_APPLICATION
+    case 9:
+      return GoodsType.BS_APPLICATION
+    case 8:
+      return GoodsType.FRAG_MEMBER;
   }
 }
 
@@ -81,18 +84,17 @@ export function unScrollToBorder(selector) {
   }
 }
 
-export function lockWindow () {
+export function lockWindow() {
   document.body.style.height = '100vh'
   document.body.style.overflow = 'hidden'
 }
 
-export function unlockWindow () {
+export function unlockWindow() {
   document.body.style.height = 'inherit'
   document.body.style.overflow = 'inherit'
 }
 
 export { sa }
-
 
 export function refreshForPay() {
   // ios／安卓微信支付兼容性

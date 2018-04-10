@@ -27,21 +27,25 @@ export default class BusinessApplyChoice extends Component<any, any> {
     router: React.PropTypes.object.isRequired
   }
 
-  async componentWillMount() {
+  componentWillMount() {
+    const { goodsId } = this.props.location.query;
+    this.setState({ showId: goodsId });
+  }
+
+  async componentDidMount() {
     const { dispatch, region, location } = this.props;
     // ios／安卓微信支付兼容性
     if(refreshForPay()) {
       return
     }
-    const { project } = location.query;
+    const { goodsId } = location.query;
     //查询订单信息
     let orderRes = await getRiseMember(this.state.showId);
     this.setState({ memberType: orderRes.msg.memberType });
 
     sa.track('openApplyChoicePage', {
-      payProject: project
+      goodsId: goodsId
     });
-
   }
 
   handlePayedDone() {
@@ -104,11 +108,11 @@ export default class BusinessApplyChoice extends Component<any, any> {
 
   render() {
     const { showErr, showCodeErr, memberType } = this.state
-    const { project = '1' } = this.props.location.query;
+    const { goodsId = '7' } = this.props.location.query;
 
     return (
       <div className="apply-choice" style={{ minHeight: window.innerHeight }}>
-        <QuestionCollection project={project} handleClickOpenPayInfo={() => this.handleClickOpenPayInfo()}/>
+        <QuestionCollection goodsId={goodsId} handleClickOpenPayInfo={() => this.handleClickOpenPayInfo()}/>
         {showErr ? <div className="pay-tips-mask" onClick={() => this.setState({ showErr: false })}>
           <div className="tips">
             出现问题的童鞋看这里<br/>

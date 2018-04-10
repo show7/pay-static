@@ -47,7 +47,12 @@ export default class RiseAlipay extends React.Component<any, any> {
                       }
                     })
                   } else if(goodsType == GoodsType.BS_APPLICATION) {
-                    this.context.router.push('/pay/applysubmit');
+                    this.context.router.push({
+                      pathname: '/pay/applysubmit',
+                      query: {
+                        goodsId: goodsId
+                      }
+                    });
                   } else if(goodsType == GoodsType.FRAG_CAMP) {
                     mark({ module: '打点', function: '小课训练营', action: '支付成功', memo: this.state.currentCampMonth })
                     this.context.router.push({

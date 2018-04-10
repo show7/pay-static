@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import './QuestionGroup.less';
 import * as _ from 'lodash';
 import DropDownList from '../../../../../components/form/DropDownList'
-import { QuestionType } from '../../async'
+import { QuestionType,sendValidCode } from '../../async'
 
 interface QuestionGroupProps {
   group: any,
