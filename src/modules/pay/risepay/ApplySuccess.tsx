@@ -7,11 +7,7 @@ import { config } from 'modules/helpers/JsConfig'
 import './ApplySuccess.less'
 import { getGoodsType, refreshForPay, sa } from 'utils/helpers'
 import PayInfo from '../components/PayInfo'
-import { SaleBody } from './components/SaleBody'
-import { CustomerService } from '../../../components/customerservice/CustomerService'
 import { checkRiseMember, getRiseMember } from '../async'
-import Icon from '../../../components/Icon'
-import { MarkBlock } from '../components/markblock/MarkBlock'
 import AssetImg from '../../../components/AssetImg'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 import RenderInBody from '../../../components/RenderInBody'
@@ -176,12 +172,6 @@ export default class ApplySuccess extends React.Component<any, any> {
     config([ 'chooseWXPay' ])
   }
 
-  redirect() {
-    this.context.router.push({
-      pathname: '/pay/bsstart'
-    })
-  }
-
   handleClickAudition() {
     // 开试听课
     this.context.router.push({
@@ -208,26 +198,6 @@ export default class ApplySuccess extends React.Component<any, any> {
       )
     }
 
-    const renderApply = () => {
-      return (
-        <div className="button-footer">
-          {/*<MarkBlock module={'打点'} func={'申请成功页面'} action={'点击宣讲课按钮'} memo={'申请过期'}
-                     className="footer-left" onClick={() => this.handleClickAudition()}>
-            <div className="audition">预约直播</div>
-          </MarkBlock>*/}
-          <MarkBlock module={'打点'} func={'申请成功页面'} action={'申请商学院'} memo={'申请过期'}
-                     className="footer-btn" onClick={() => this.redirect()}>
-            申请商学院
-          </MarkBlock>
-        </div>
-      )
-    }
-
-    const renderKefu = () => {
-      return (
-        <CustomerService image="https://static.iqycamp.com/images/kefu_ruxuezixun.png?imageslim"/>
-      )
-    }
 
     return (
       <div className="rise-pay-apply-container">
