@@ -3,12 +3,11 @@ import { connect } from 'react-redux';
 import './BusinessApply.less';
 import { set, startLoad, endLoad, alertMsg } from "redux/actions"
 import { mark } from "utils/request"
-import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
-import { checkSubmitApply } from './async';
 import Icon from '../../../components/Icon'
 import { sa } from '../../../utils/helpers'
 import RenderInBody from '../../../components/RenderInBody'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
+import { checkRiseMember } from '../async'
 
 @connect(state => state)
 export default class BusinessApply extends Component<any, any> {
@@ -37,16 +36,23 @@ export default class BusinessApply extends Component<any, any> {
     const { dispatch } = this.props;
     const { goodsId = '7' } = this.props.location.query;
 
-    let res = await checkSubmitApply(goodsId);
+    let res = await checkRiseMember(goodsId);
     if(res.code === 200) {
-      if(res.msg == 'ok') {
-        sa.track('clickApplyStartButton', {
-          goodsId: goodsId
-        });
-        mark({ module: "商学院审核", function: goodsId, action: "点击开始申请商学院", memo: "申请开始页面" })
-        window.location.href = `/pay/applychoice?goodsId=${goodsId}`
+      const { qrCode, privilege, errorMsg, subscribe } = res.msg;
+      if(subscribe) {
+        // 关注
+        if(privilege) {
+          sa.track('clickApplyStartButton', {
+            goodsId: goodsId
+          });
+          mark({ module: "商学院审核", function: goodsId, action: "点击开始申请商学院", memo: "申请开始页面" })
+          window.location.href = `/pay/applychoice?goodsId=${goodsId}`
+        } else {
+          dispatch(alertMsg(errorMsg));
+        }
       } else {
-        this.setState({ qrCode: res.msg, showQr: true });
+        // 未关注
+        this.setState({ qrCode: qrCode, showQr: true });
       }
     } else {
       dispatch(alertMsg(res.msg));

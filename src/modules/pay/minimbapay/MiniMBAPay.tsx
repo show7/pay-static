@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import './MiniMBAPay.less'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { getGoodsType, PayType, refreshForPay, sa } from '../../../utils/helpers'
-import { getRiseMember } from '../async'
+import { checkRiseMember, getRiseMember } from '../async'
 import { SaleBody } from '../risepay/components/SaleBody'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 import { mark } from '../../../utils/request'
@@ -11,7 +11,6 @@ import * as _ from 'lodash';
 import PayInfo from '../components/PayInfo'
 import { config } from '../../helpers/JsConfig'
 import { pget, mark } from 'utils/request'
-
 
 /**
  * 商业进阶课售卖页
@@ -103,14 +102,20 @@ export default class PlusPay extends Component<any, any> {
     const { dispatch } = this.props
     dispatch(startLoad())
     // 先检查是否能够支付
-    pget(`/signup/rise/member/check/${showId}`).then(res => {
+    checkRiseMember(showId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        // 查询是否还在报名
-        this.refs.payInfo.handleClickOpen();
-      } else if(res.code === 214) {
-        this.setState({ timeOut: true })
-      } else {
+        const { qrCode, privilege, errorMsg } = res.msg;
+        if(privilege) {
+          this.refs.payInfo.handleClickOpen();
+        } else {
+          dispatch(alertMsg(errorMsg))
+        }
+      }
+      // else if(res.code === 214) {
+      //   this.setState({ timeOut: true })
+      // }
+      else {
         dispatch(alertMsg(res.msg))
       }
     }).catch(ex => {

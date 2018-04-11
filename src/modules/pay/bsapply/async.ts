@@ -4,12 +4,9 @@ export function loadBusinessApplyQuestion() {
   return pget('/rise/business/load/questions');
 }
 
-export function checkSubmitApply(goodsId) {
-  return pget('/rise/business/check/submit/apply', { goodsId: goodsId });
-}
-
 export function submitApply(param) {
-  return ppost('/rise/business/submit/apply', param);
+  // return ppost('/rise/business/submit/apply', param);
+  return ppost('/signup/submit/apply', param);
 }
 
 export function sendValidCode(phone) {

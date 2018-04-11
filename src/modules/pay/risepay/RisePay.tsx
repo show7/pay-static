@@ -7,7 +7,7 @@ import { getGoodsType, PayType, sa, refreshForPay } from 'utils/helpers'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { config, configShare } from 'modules/helpers/JsConfig'
 import PayInfo from '../components/PayInfo'
-import { getRiseMember } from '../async'
+import { checkRiseMember, getRiseMember } from '../async'
 import { SaleBody } from './components/SaleBody'
 import { MarkBlock } from '../components/markblock/MarkBlock'
 import { addUserRecommendation } from './async'
@@ -121,14 +121,20 @@ export default class RisePay extends React.Component<any, any> {
     const { dispatch } = this.props
     dispatch(startLoad())
     // 先检查是否能够支付
-    pget(`/signup/rise/member/check/${showId}`).then(res => {
+    checkRiseMember(showId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        // 查询是否还在报名
-        this.refs.payInfo.handleClickOpen();
-      } else if(res.code === 214) {
-        this.setState({ timeOut: true })
-      } else {
+        const { qrCode, privilege, errorMsg } = res.msg;
+        if(privilege) {
+          this.refs.payInfo.handleClickOpen();
+        } else {
+          dispatch(alertMsg(errorMsg))
+        }
+      }
+      // else if(res.code === 214) {
+      //   this.setState({ timeOut: true })
+      // }
+      else {
         dispatch(alertMsg(res.msg))
       }
     }).catch(ex => {

@@ -38,7 +38,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
     if(refreshForPay()) {
       return
     }
-    const { goodsId } = location.query;
+    const { goodsId = '7' } = location.query;
     //查询订单信息
     let orderRes = await getRiseMember(this.state.showId);
     this.setState({ memberType: orderRes.msg.memberType });
@@ -83,8 +83,12 @@ export default class BusinessApplyChoice extends Component<any, any> {
     checkRiseMember(this.state.showId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        // 查询是否还在报名
-        this.refs.payInfo.handleClickOpen()
+        const { qrCode, privilege, errorMsg } = res.msg;
+        if(privilege) {
+          this.refs.payInfo.handleClickOpen()
+        } else {
+          dispatch(alertMsg(errorMsg))
+        }
       } else {
         dispatch(alertMsg(res.msg))
       }
