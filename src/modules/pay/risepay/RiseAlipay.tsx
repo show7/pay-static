@@ -43,7 +43,7 @@ export default class RiseAlipay extends React.Component<any, any> {
                     this.context.router.push({
                       pathname: '/pay/member/success',
                       query: {
-                        memberTypeId: 3
+                        memberTypeId: goodsId
                       }
                     })
                   } else if(goodsType == GoodsType.BS_APPLICATION) {

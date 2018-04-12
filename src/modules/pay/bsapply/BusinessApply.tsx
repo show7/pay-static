@@ -67,6 +67,30 @@ export default class BusinessApply extends Component<any, any> {
 
   render() {
     const { showQr, qrCode } = this.state;
+    const { goodsId = '7' } = this.props.location.query;
+
+    const renderButtons = () => {
+      if(goodsId == 7) {
+        return <FooterButton second={true} btnArray={[
+          {
+            click: () => this.goExperience(),
+            text: '申请体验'
+          },
+          {
+            click: () => this.goApplySubmitPage(),
+            text: '马上预约'
+          }
+        ]}/>
+      } else {
+        return <FooterButton btnArray={[
+          {
+            click: () => this.goApplySubmitPage(),
+            text: '马上预约'
+          }
+        ]}/>
+      }
+
+    }
     return (
       <div className="business-apply">
         <div className="ba-header">
@@ -84,16 +108,7 @@ export default class BusinessApply extends Component<any, any> {
         <div className="ba-sub-body">
           共8道选择题，约3分钟时间完成。
         </div>
-        <FooterButton second={true} btnArray={[
-          {
-            click: () => this.goExperience(),
-            text: '申请体验'
-          },
-          {
-            click: () => this.goApplySubmitPage(),
-            text: '马上预约'
-          }
-        ]}/>
+        {renderButtons()}
         {!!showQr ? <RenderInBody>
           <div className="qr_dialog">
             <div className="qr_dialog_mask" onClick={() => {

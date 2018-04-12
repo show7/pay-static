@@ -207,14 +207,8 @@ export default class ApplySuccess extends React.Component<any, any> {
 
           {renderPay()}
           {
-            timeOut &&
-            <div className="mask" onClick={() => {window.history.back()}}
-                 style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}>
-            </div>
-          }
-          {
             showErr &&
-            <div className="mask" onClick={() => this.setState({ showErr: false })}>
+            <div className="dialog-mask" onClick={() => this.setState({ showErr: false })}>
               <div className="tips">
                 出现问题的童鞋看这里<br/>
                 1如果显示“URL未注册”，请重新刷新页面即可<br/>
@@ -225,7 +219,7 @@ export default class ApplySuccess extends React.Component<any, any> {
           }
           {
             showCodeErr &&
-            <div className="mask" onClick={() => this.setState({ showCodeErr: false })}>
+            <div className="dialog-mask" onClick={() => this.setState({ showCodeErr: false })}>
               <div className="tips">
                 糟糕，支付不成功<br/>
                 原因：微信不支持跨公众号支付<br/>
