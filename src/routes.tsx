@@ -20,7 +20,7 @@ import RiseAlipay from './modules/pay/risepay/RiseAlipay'
 import AlipayReturn from './modules/pay/risepay/AlipayReturn'
 import ExperienceDay from './modules/pay/preacher/ExperienceDay'
 import MiniMBAPay from './modules/pay/minimbapay/MiniMBAPay'
-import { sa } from './utils/helpers'
+import { notLoadInfoUrls, sa } from './utils/helpers'
 
 const routes = (
   <Route path="/">
@@ -28,7 +28,17 @@ const routes = (
            onChange={() => {
              config([ 'chooseWXPay' ])
              window.scrollTo(0, 0)
-             sa.quick('autoTrackSinglePage');
+             let loadInfo = true;
+             for(let i = 0; i < notLoadInfoUrls.length; i++) {
+               let url = notLoadInfoUrls[ i ];
+               if(url.indexOf(window.location.pathname) !== -1) {
+                 loadInfo = false;
+                 break;
+               }
+             }
+             if(loadInfo) {
+               sa.quick('autoTrackSinglePage');
+             }
            }}>
       <Route path="subscribe" component={Subscribe}/>
       <Route path="pay/camp/success" component={CampPaySuccess}/>

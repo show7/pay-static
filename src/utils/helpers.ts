@@ -94,7 +94,8 @@ export function unlockWindow() {
   document.body.style.overflow = 'inherit'
 }
 
-export { sa }
+const notLoadInfoUrls = [ "/pay/alipay/rise", "/pay/alipay/return" ];
+export { sa, notLoadInfoUrls }
 
 export function refreshForPay() {
   // ios／安卓微信支付兼容性
@@ -106,3 +107,4 @@ export function refreshForPay() {
     return false;
   }
 }
+
