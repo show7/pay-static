@@ -180,14 +180,14 @@ export default class ApplySuccess extends React.Component<any, any> {
   }
 
   render() {
-    const { data, showId, timeOut, showErr, showCodeErr, more, tens, ones, unit, expired } = this.state
-    const { memberType, buttonStr, tip } = data
+    const { data, showId, showErr, showCodeErr, expired, remainSecond, remainHour } = this.state
+    const { memberType, tip } = data
 
     const renderPay = () => {
       return (
         <FooterButton btnArray={[
           {
-            text: buttonStr,
+            text: '立即入学',
             click: () => this.handleClickOpenPayInfo(showId),
             module: '打点',
             func: showId,
@@ -198,12 +198,11 @@ export default class ApplySuccess extends React.Component<any, any> {
       )
     }
 
-
     return (
       <div className="rise-pay-apply-container">
         <div>
-          <ApplySuccessCard remainHour={this.state.remainHour} remainMinute={this.state.remainMinute}
-                            remainSecond={this.state.remainSecond}/>
+          <ApplySuccessCard remainHour={remainHour} remainMinute={emainMinute}
+                            remainSecond={remainSecond} name={memberType.description}/>
 
           {renderPay()}
           {
@@ -283,8 +282,9 @@ export default class ApplySuccess extends React.Component<any, any> {
 
 interface ApplySuccessCard {
   remainHour: number,
-  remainMinute: number;
-  remainSecond: number
+  remainMinute: number,
+  remainSecond: number,
+  name: string,
 }
 
 class ApplySuccessCard extends React.Component<ApplySuccessCard, any> {
@@ -294,7 +294,7 @@ class ApplySuccessCard extends React.Component<ApplySuccessCard, any> {
   }
 
   render() {
-    const {} = this.props;
+    const { name, remainSecond, remainHour, remainMinute } = this.props;
     return (
       <div className="apply-card-wrapper">
         <div className="apply-card-container">
@@ -309,7 +309,7 @@ class ApplySuccessCard extends React.Component<ApplySuccessCard, any> {
               {window.ENV.userName}
             </div>
             <div className="apply-desc">
-              祝贺你被圈外商学院「核心能力项目」录取，掌握核心能力，成为未来社会不可替代的人！
+              祝贺你被圈外商学院「{name}」录取，掌握核心能力，成为未来社会不可替代的人！
             </div>
             <div className="quan-sign">
               <div className="sign-pic">
@@ -333,15 +333,15 @@ class ApplySuccessCard extends React.Component<ApplySuccessCard, any> {
             <div className="remain-time-wrapper">
               <div className="remain-time">
                 <div className="big-num">
-                  {this.props.remainHour}
+                  {remainHour}
                 </div>
                 <span className="unit">时</span>
                 <div className="big-num">
-                  {this.props.remainMinute}
+                  {remainMinute}
                 </div>
                 <span className="unit">分</span>
                 <div className="big-num">
-                  {this.props.remainSecond}
+                  {remainSecond}
                 </div>
                 <span className="unit">秒</span>
               </div>
