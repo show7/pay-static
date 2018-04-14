@@ -7,7 +7,7 @@ import { config } from 'modules/helpers/JsConfig'
 import './ApplySuccess.less'
 import { getGoodsType, refreshForPay, sa } from 'utils/helpers'
 import PayInfo from '../components/PayInfo'
-import { checkRiseMember, getRiseMember } from '../async'
+import { checkRiseMember, getRiseMember, loadApplyProjectInfo } from '../async'
 import AssetImg from '../../../components/AssetImg'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 import RenderInBody from '../../../components/RenderInBody'
@@ -70,6 +70,13 @@ export default class ApplySuccess extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(err))
     });
+
+    loadApplyProjectInfo({ wannaGoodsId: goodsId }).then(res => {
+      if(res.code === 200) {
+        const { applyId, wannaGoodsId } = res.msg;
+        this.setState({ applyId: applyId, wannaGoodsId: wannaGoodsId });
+      }
+    })
 
   }
 
@@ -149,9 +156,6 @@ export default class ApplySuccess extends React.Component<any, any> {
           dispatch(alertMsg(errorMsg));
         }
       }
-      // else if(res.code === 214) {
-      //   this.setState({ timeOut: true })
-      // }
       else {
         dispatch(alertMsg(res.msg))
       }
@@ -180,8 +184,8 @@ export default class ApplySuccess extends React.Component<any, any> {
   }
 
   render() {
-    const { data, showId, showErr, showCodeErr, expired, remainSecond, remainHour } = this.state
-    const { memberType, tip } = data
+    const { data = {}, showId, showErr, showCodeErr, expired, remainSecond, remainHour, remainMinute } = this.state
+    const { memberType = {}, tip, privilege } = data
 
     const renderPay = () => {
       return (
@@ -201,7 +205,7 @@ export default class ApplySuccess extends React.Component<any, any> {
     return (
       <div className="rise-pay-apply-container">
         <div>
-          <ApplySuccessCard remainHour={remainHour} remainMinute={emainMinute}
+          <ApplySuccessCard privilege={privilege} remainHour={remainHour} remainMinute={remainMinute}
                             remainSecond={remainSecond} name={memberType.description}/>
 
           {renderPay()}
@@ -250,24 +254,12 @@ export default class ApplySuccess extends React.Component<any, any> {
                 <div className="global-apply-expired">
                   您的申请已过期<br/>
                   <button onClick={() => {
-                    if(this.state.showId == 3) {
-                      this.context.router.push({
-                        pathname: '/pay/bsstart',
-                        query: {
-                          goodsId: 9
-                        }
-                      })
-                    } else if(this.state.showId == 8) {
-                      this.context.router.push({
-                        pathname: '/pay/bsstart',
-                        query: {
-                          goodsId: 7
-                        }
-                      })
-                    } else {
-                      const { dispatch } = this.props;
-                      dispatch(alertMsg('项目id异常'))
-                    }
+                    this.context.router.push({
+                      pathname: '/pay/bsstart',
+                      query: {
+                        goodsId: this.state.applyId
+                      }
+                    });
                   }}>去申请
                   </button>
                 </div>
@@ -285,6 +277,7 @@ interface ApplySuccessCard {
   remainMinute: number,
   remainSecond: number,
   name: string,
+  privilege: boolean,
 }
 
 class ApplySuccessCard extends React.Component<ApplySuccessCard, any> {
@@ -294,7 +287,7 @@ class ApplySuccessCard extends React.Component<ApplySuccessCard, any> {
   }
 
   render() {
-    const { name, remainSecond, remainHour, remainMinute } = this.props;
+    const { name, remainSecond, remainHour, remainMinute, privilege } = this.props;
     return (
       <div className="apply-card-wrapper">
         <div className="apply-card-container">
@@ -333,15 +326,15 @@ class ApplySuccessCard extends React.Component<ApplySuccessCard, any> {
             <div className="remain-time-wrapper">
               <div className="remain-time">
                 <div className="big-num">
-                  {remainHour}
+                  {privilege ? remainHour : 0}
                 </div>
                 <span className="unit">时</span>
                 <div className="big-num">
-                  {remainMinute}
+                  {privilege ? remainMinute : 0}
                 </div>
                 <span className="unit">分</span>
                 <div className="big-num">
-                  {remainSecond}
+                  {privilege ? remainSecond : 0}
                 </div>
                 <span className="unit">秒</span>
               </div>

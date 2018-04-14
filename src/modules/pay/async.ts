@@ -63,3 +63,7 @@ export function checkPromotionOrAnnual() {
   return pget(`/rise/prize/jan/pay/check`)
 }
 
+export function loadApplyProjectInfo(param: { applyId, wannaGoodsId }) {
+  return pget('/signup/apply/project/mapping', param);
+}
+

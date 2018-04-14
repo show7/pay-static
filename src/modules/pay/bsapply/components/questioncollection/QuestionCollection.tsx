@@ -10,10 +10,10 @@ import { set, startLoad, endLoad, alertMsg } from "redux/actions"
 
 import $ from 'jquery';
 
-
 interface QuestionCollectionProps {
   goodsId: string,
   handleClickOpenPayInfo: any,
+  header: string,
 }
 
 @connect(state => state)
@@ -396,7 +396,7 @@ export default class QuestionCollection extends Component<QuestionCollectionProp
     return (
       <div className="question-collection">
         <div className="apply-container">
-          <div className="apply-page-header">圈外商学院入学沟通预约</div>
+          <div className="apply-page-header">{this.props.header}</div>
           <div className="apply-progress">
             <div className="apply-progress-bar"
                  style={{ width: (window.innerWidth - 90 - 38) * (currentIndex / (seriesCount - 1)) }}/>

@@ -4,7 +4,7 @@ import './BusinessApplyChoice.less';
 import { set, startLoad, endLoad, alertMsg } from "redux/actions"
 import * as _ from 'lodash';
 import { mark } from "utils/request"
-import { getRiseMember, checkRiseMember } from '../async'
+import { getRiseMember, checkRiseMember, loadApplyProjectInfo } from '../async'
 import { config } from '../../helpers/JsConfig'
 import { getGoodsType, refreshForPay } from '../../../utils/helpers'
 import PayInfo from '../components/PayInfo'
@@ -28,8 +28,6 @@ export default class BusinessApplyChoice extends Component<any, any> {
   }
 
   componentWillMount() {
-    const { goodsId } = this.props.location.query;
-    this.setState({ showId: goodsId });
   }
 
   async componentDidMount() {
@@ -40,18 +38,20 @@ export default class BusinessApplyChoice extends Component<any, any> {
     }
     const { goodsId = '7' } = location.query;
     //查询订单信息
-    let orderRes = await getRiseMember(this.state.showId);
+    let orderRes = await getRiseMember(goodsId);
     this.setState({ memberType: orderRes.msg.memberType });
-
     sa.track('openApplyChoicePage', {
       goodsId: goodsId
     });
   }
 
-  handlePayedDone() {
-    mark({ module: '打点', function: '商学院申请', action: '支付成功' })
+  handlePayedDone(goodsId) {
+    mark({ module: '打点', function: '商学院申请', action: '支付成功', memo: goodsId })
     // this.handleClickSubmit()
-    this.context.router.push('/pay/applysubmit');
+    this.context.router.push({
+      pathname: '/pay/applysubmit',
+      query: { goodsId: goodsId }
+    });
   }
 
   /** 处理支付失败的状态 */
@@ -67,7 +67,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
   }
 
   /** 处理取消支付的状态 */
-  handlePayedCancel(res) {
+  handlePayedCancel() {
     this.setState({ showErr: true })
   }
 
@@ -111,12 +111,12 @@ export default class BusinessApplyChoice extends Component<any, any> {
   }
 
   render() {
-    const { showErr, showCodeErr, memberType } = this.state
-    const { goodsId = '7' } = this.props.location.query;
+    const { showErr, showCodeErr, memberType = {} } = this.state
 
     return (
       <div className="apply-choice" style={{ minHeight: window.innerHeight }}>
-        <QuestionCollection goodsId={goodsId} handleClickOpenPayInfo={() => this.handleClickOpenPayInfo()}/>
+        <QuestionCollection header={memberType.name} goodsId={memberType.id}
+                            handleClickOpenPayInfo={() => this.handleClickOpenPayInfo()}/>
         {showErr ? <div className="pay-tips-mask" onClick={() => this.setState({ showErr: false })}>
           <div className="tips">
             出现问题的童鞋看这里<br/>
@@ -142,7 +142,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
                                 goodsType={getGoodsType(memberType.id)}
                                 goodsId={memberType.id}
                                 header={memberType.name}
-                                payedDone={(goodsId) => this.handlePayedDone()}
+                                payedDone={(goodsId) => this.handlePayedDone(goodsId)}
                                 payedCancel={(res) => this.handlePayedCancel(res)}
                                 payedError={(res) => this.handlePayedError(res)}
                                 payedBefore={() => this.handlePayedBefore()}

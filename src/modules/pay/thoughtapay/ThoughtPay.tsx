@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import './MiniMBAPay.less'
+import './ThoughtPay.less'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { getGoodsType, PayType, refreshForPay, sa } from '../../../utils/helpers'
 import { checkRiseMember, getRiseMember } from '../async'

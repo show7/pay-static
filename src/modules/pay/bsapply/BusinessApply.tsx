@@ -7,7 +7,8 @@ import Icon from '../../../components/Icon'
 import { sa } from '../../../utils/helpers'
 import RenderInBody from '../../../components/RenderInBody'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
-import { checkRiseMember } from '../async'
+import { checkRiseMember, getRiseMember, loadApplyProjectInfo } from '../async'
+import * as _ from 'lodash';
 
 @connect(state => state)
 export default class BusinessApply extends Component<any, any> {
@@ -23,9 +24,11 @@ export default class BusinessApply extends Component<any, any> {
     router: React.PropTypes.object.isRequired
   }
 
-  componentWillMount() {
+  async componentWillMount() {
     // 如果用户在审核中，则点击后提示已经在审核中
     const { goodsId = '7' } = this.props.location.query;
+    let res = await loadApplyProjectInfo(goodsId);
+    this.setState({ memberType: res.msg });
     sa.track('openApplyStartPage', {
       goodsId: goodsId
     });
@@ -66,7 +69,7 @@ export default class BusinessApply extends Component<any, any> {
   }
 
   render() {
-    const { showQr, qrCode } = this.state;
+    const { showQr, qrCode, memberType = {} } = this.state;
     const { goodsId = '7' } = this.props.location.query;
 
     const renderButtons = () => {
@@ -94,13 +97,13 @@ export default class BusinessApply extends Component<any, any> {
     return (
       <div className="business-apply">
         <div className="ba-header">
-          <div className="ba-header-msg">圈外商学院入学沟通预约</div>
+          <div className="ba-header-msg">{memberType.description}入学沟通预约</div>
           <div className="ba-header-pic">
             <Icon type="phone_interview" width='10rem'/>
           </div>
         </div>
         <div className="ba-main-body">
-          <div className="ba-line">欢迎申请圈外商学院！</div>
+          <div className="ba-line">欢迎申请{memberType.description}！</div>
           <div className="ba-line">我们每月会收到数以千计的入学申请，招生委员会将通过电话沟通，判断申请人是否符合入学要求，为最具潜力的申请人助力职业发展！</div>
           <div className="ba-line">接下来，我们邀请你完成若干选择题，以便了解你的情况，在电话沟通中，为你提供个性化的提升建议。期待你的加入！</div>
         </div>
