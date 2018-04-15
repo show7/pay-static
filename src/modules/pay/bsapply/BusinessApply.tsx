@@ -29,7 +29,6 @@ export default class BusinessApply extends Component<any, any> {
     const { goodsId = '7' } = this.props.location.query;
     let res = await loadApplyProjectInfo({ applyId: goodsId });
     const { apply, wannaGoods } = res.msg;
-    console.log(wannaGoods, apply)
     this.setState({ memberType: wannaGoods, apply: apply });
     sa.track('openApplyStartPage', {
       goodsId: goodsId
