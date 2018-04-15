@@ -25,10 +25,12 @@ export default class BusinessApply extends Component<any, any> {
   }
 
   async componentWillMount() {
-    // 如果用户在审核中，则点击后提示已经在审核中
+    // 默认申请核心能力项目
     const { goodsId = '7' } = this.props.location.query;
-    let res = await loadApplyProjectInfo(goodsId);
-    this.setState({ memberType: res.msg });
+    let res = await loadApplyProjectInfo({ applyId: goodsId });
+    const { apply, wannaGoods } = res.msg;
+    console.log(wannaGoods, apply)
+    this.setState({ memberType: wannaGoods, apply: apply });
     sa.track('openApplyStartPage', {
       goodsId: goodsId
     });
@@ -69,7 +71,7 @@ export default class BusinessApply extends Component<any, any> {
   }
 
   render() {
-    const { showQr, qrCode, memberType = {} } = this.state;
+    const { showQr, qrCode, memberType = {}, apply = {} } = this.state;
     const { goodsId = '7' } = this.props.location.query;
 
     const renderButtons = () => {
@@ -97,7 +99,7 @@ export default class BusinessApply extends Component<any, any> {
     return (
       <div className="business-apply">
         <div className="ba-header">
-          <div className="ba-header-msg">{memberType.description}入学沟通预约</div>
+          <div className="ba-header-msg">{apply.description}</div>
           <div className="ba-header-pic">
             <Icon type="phone_interview" width='10rem'/>
           </div>

@@ -27,8 +27,30 @@ export default class ApplySuccess extends React.Component<any, any> {
       showErr: false,
       showCodeErr: false,
       data: {},
-      more: false
+      more: false,
+      remainSecond: 0,
+      remainMinute: 0,
+      remainHour: 0
     }
+  }
+
+  formatSeconds(value: number): { remainHour, remainMinute, remainSecond } {
+    var remainSecond = parseInt(value);// 秒
+    var remainMinute = 0;// 分
+    var remainHour = 0;// 小时
+    if(remainSecond > 60) {
+      remainMinute = parseInt(remainSecond / 60);
+      remainSecond = parseInt(remainSecond % 60);
+      if(remainMinute > 60) {
+        remainHour = parseInt(remainMinute / 60);
+        remainMinute = parseInt(remainMinute % 60);
+      }
+    }
+    if(remainSecond <= 0) {
+      remainSecond = 0;
+    }
+
+    return { remainHour, remainMinute, remainSecond };
   }
 
   componentWillMount() {
@@ -51,9 +73,11 @@ export default class ApplySuccess extends React.Component<any, any> {
     getRiseMember(goodsId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
+        const { remainSeconds } = res.msg;
+        const remainInfo = this.formatSeconds(remainSeconds);
         this.setState({
-          data: res.msg, remainHour: res.msg.remainHour, remainMinute: res.msg.remainMinute,
-          remainSecond: (!res.msg.remainHour && !res.msg.remainMinute) ? 0 : 60
+          data: res.msg, remainHour: remainInfo.remainHour, remainMinute: remainInfo.remainMinute,
+          remainSecond: remainInfo.remainSecond, remainSeconds: remainSeconds
         }, () => {
           if(this.remainInterval) {
             clearInterval(this.remainInterval);
@@ -95,29 +119,19 @@ export default class ApplySuccess extends React.Component<any, any> {
   }
 
   countDown() {
-    let { remainHour, remainMinute, remainSecond } = this.state;
-    if(remainHour === 0 && remainMinute === 0 && remainSecond <= 0) {
-      this.setState({ expired: true, remainHour: 0, remainMinute: 0, remainSecond: 0 }, () => {
+    let { remainSeconds } = this.state;
+    if(remainSeconds <= 0) {
+      this.setState({ expired: true, remainHour: 0, remainMinute: 0, remainSeconds: 0 }, () => {
         if(this.remainInterval) {
           clearInterval(this.remainInterval);
         }
       })
     } else {
-      if(remainSecond <= 1) {
-        // 分钟减1
-        if(remainMinute <= 1) {
-          // 小时减1
-          remainHour = remainHour - 1;
-          remainMinute = 59;
-          remainSecond = 60;
-        } else {
-          remainMinute = remainMinute - 1;
-          remainSecond = 60;
-        }
-      } else {
-        remainSecond = remainSecond - 1;
-      }
-      this.setState({ remainHour: remainHour, remainMinute: remainMinute, remainSecond: remainSecond });
+      let remainInfo = this.formatSeconds(remainSeconds - 1);
+      this.setState({
+        remainHour: remainInfo.remainHour, remainMinute: remainInfo.remainMinute, remainSecond: remainInfo.remainSecond,
+        remainSeconds: remainSeconds - 1
+      });
     }
   }
 
@@ -304,7 +318,9 @@ class ApplySuccessCard extends React.Component<ApplySuccessCard, any> {
             <div className="apply-desc">
               祝贺你被圈外商学院「{name}」录取，掌握核心能力，成为未来社会不可替代的人！
             </div>
-            <div className="quan-sign">
+            <div className="quan-sign" style={{
+              opacity: privilege ? '1' : '0'
+            }}>
               <div className="sign-pic">
                 <AssetImg url="https://static.iqycamp.com/images/fragment/quansign-0410.png?imageslim"/>
                 <div className="quanwai-tips">
