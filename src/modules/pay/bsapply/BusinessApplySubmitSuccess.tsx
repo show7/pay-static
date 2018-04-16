@@ -25,7 +25,7 @@ export default class BusinessApplySubmitSuccess extends Component<any, any> {
     const { goodsId = '7' } = this.props.location.query;
     let res = await loadApplyProjectInfo({ applyId: goodsId });
     const { apply, wannaGoods } = res.msg;
-    this.setState({ tipInfo: wannaGoods.description })
+    this.setState({ projectName: wannaGoods.description })
     mark({ module: "打点", function: "商学院审核", action: "进入提交成功页面", memo: wannaGoods.id })
   }
 
@@ -34,11 +34,11 @@ export default class BusinessApplySubmitSuccess extends Component<any, any> {
   }
 
   render() {
-    const { tipInfo = {} } = this.state;
+    const { projectName = '' } = this.state;
     return (
       <div className="business-apply submit-success">
         <div className="ba-header">
-          <div className="ba-header-msg">感谢提交{tipInfo.name}申请</div>
+          <div className="ba-header-msg">感谢提交{projectName}申请</div>
           <div className="ba-header-pic">
             <Icon type="phone_interview_ok" width='100px'/>
           </div>
