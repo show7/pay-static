@@ -4,6 +4,7 @@ import './QuestionGroup.less';
 import * as _ from 'lodash';
 import DropDownList from '../../../../../components/form/DropDownList'
 import { QuestionType,sendValidCode } from '../../async'
+import { set, startLoad, endLoad, alertMsg } from "redux/actions"
 
 interface QuestionGroupProps {
   group: any,
