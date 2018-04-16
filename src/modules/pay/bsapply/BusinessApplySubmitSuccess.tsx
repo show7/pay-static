@@ -52,7 +52,7 @@ export default class BusinessApplySubmitSuccess extends Component<any, any> {
             即可获得:<br/>
 
             1. 面试指南<br/>
-            2. 商学院全年课表<br/>
+            2. 商学院课表<br/>
             3. 奖学金政策说明<br/><br/>
           </div>
 
