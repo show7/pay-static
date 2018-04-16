@@ -22,7 +22,7 @@ export class SaleBody extends React.Component {
     this.setState({
       showModel: true
     }, () => {
-      document.getElementById('business-school-intro-pic-container').style.overflow = 'scroll'
+      // document.getElementById('business-school-intro-pic-container').style.overflow = 'scroll'
     })
   }
 
@@ -30,7 +30,7 @@ export class SaleBody extends React.Component {
     this.setState({
       showModel: false
     }, () => {
-      document.getElementById('business-school-intro-pic-container').style.overflow = 'hidden'
+      // document.getElementById('business-school-intro-pic-container').style.overflow = 'hidden'
     })
 
   }
