@@ -19,7 +19,8 @@ import CampPayGuest from './modules/pay/camppay/CampPayGuest'
 import RiseAlipay from './modules/pay/risepay/RiseAlipay'
 import AlipayReturn from './modules/pay/risepay/AlipayReturn'
 import ExperienceDay from './modules/pay/preacher/ExperienceDay'
-import { sa } from './utils/helpers'
+import ThoughtPay from './modules/pay/thoughtapay/ThoughtPay'
+import { notLoadInfoUrls, sa } from './utils/helpers'
 
 const routes = (
   <Route path="/">
@@ -27,12 +28,23 @@ const routes = (
            onChange={() => {
              config([ 'chooseWXPay' ])
              window.scrollTo(0, 0)
-             sa.quick('autoTrackSinglePage');
+             let loadInfo = true;
+             for(let i = 0; i < notLoadInfoUrls.length; i++) {
+               let url = notLoadInfoUrls[ i ];
+               if(url.indexOf(window.location.pathname) !== -1) {
+                 loadInfo = false;
+                 break;
+               }
+             }
+             if(loadInfo) {
+               sa.quick('autoTrackSinglePage');
+             }
            }}>
       <Route path="subscribe" component={Subscribe}/>
       <Route path="pay/camp/success" component={CampPaySuccess}/>
       <Route path="pay/member/success" component={MemberPaySuccess}/>
       <Route path="pay/audition/success" component={AuditionSuccess}/>
+      <Route path="pay/thought" component={ThoughtPay}/>
       <Route path="pay/rise" component={RisePay}/>
       <Route path="pay/static/camp" component={CampPayGuest}/>
       <Route path="pay/camp" component={CampPay}/>

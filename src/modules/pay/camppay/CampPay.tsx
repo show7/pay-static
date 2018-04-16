@@ -103,11 +103,17 @@ export default class CampPay extends React.Component<any, any> {
     let res = await checkRiseMember(showId)
     dispatch(endLoad())
     if(res.code === 200) {
-      // 查询是否还在报名
-      this.refs.payInfo.handleClickOpen()
-    } else if(res.code === 214) {
-      this.setState({ timeOut: true })
-    } else {
+      const { qrCode, privilege, errorMsg } = res.msg;
+      if(privilege) {
+        this.refs.payInfo.handleClickOpen()
+      } else {
+        dispatch(alertMsg(errorMsg))
+      }
+    }
+    // else if(res.code === 214) {
+    //   this.setState({ timeOut: true })
+    // }
+    else {
       dispatch(alertMsg(res.msg))
     }
   }
@@ -146,9 +152,9 @@ export default class CampPay extends React.Component<any, any> {
     }
 
     return (
-      <div className="camp-pay-container" style={{background:'#d85a47'}}>
+      <div className="camp-pay-container" style={{ background: '#d85a47' }}>
         <AssetImg url="https://static.iqycamp.com/images/camp_close.jpeg" width={'100%'}/>
-        { /*
+        {/*
         <PicLoading show={loading}/>
         {renderPay()}
         {renderKefu()}

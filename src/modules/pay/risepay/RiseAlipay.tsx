@@ -6,7 +6,6 @@ import * as _ from 'lodash';
 import AssetImg from '../../../components/AssetImg'
 import { queryOrderSuccess } from './async'
 import { GoodsType } from '../../../utils/helpers'
-import { mark } from '../../../utils/request'
 
 @connect(state => state)
 export default class RiseAlipay extends React.Component<any, any> {
@@ -39,23 +38,11 @@ export default class RiseAlipay extends React.Component<any, any> {
                   clearInterval(orderInterval);
                   const { goodsId, goodsType } = res.msg;
                   if(goodsType == GoodsType.FRAG_MEMBER) {
-                    mark({ module: '打点', function: '商学院会员', action: '支付成功' })
-                    this.context.router.push({
-                      pathname: '/pay/member/success',
-                      query: {
-                        memberTypeId: 3
-                      }
-                    })
+                    window.location.href = `/pay/member/success?memberTypeId=${goodsId}`
                   } else if(goodsType == GoodsType.BS_APPLICATION) {
-                    this.context.router.push('/pay/applysubmit');
+                    window.location.href = `/pay/applysubmit?goodsId=${goodsId}`
                   } else if(goodsType == GoodsType.FRAG_CAMP) {
-                    mark({ module: '打点', function: '小课训练营', action: '支付成功', memo: this.state.currentCampMonth })
-                    this.context.router.push({
-                      pathname: '/pay/camp/success',
-                      query: {
-                        memberTypeId: 5
-                      }
-                    })
+                    window.location.href = `/pay/camp/success?memberTypeId=5`
                   }
                 }
               }).catch(ex => {

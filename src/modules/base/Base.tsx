@@ -12,7 +12,7 @@ import UA from 'ua-device'
 import { toLower, get, merge } from 'lodash'
 import $ from 'jquery'
 import { pget } from '../../utils/request'
-import { sa } from '../../utils/helpers'
+import { notLoadInfoUrls, sa } from '../../utils/helpers'
 
 $.fn.extend({
   animateCss: function(animationName, callback) {
@@ -24,8 +24,6 @@ $.fn.extend({
     return this
   }
 })
-
-let notLoadInfoUrls = [ "/pay/alipay/rise", "/pay/alipay/return" ];
 
 @connect(state => state)
 export default class Main extends React.Component<any, any> {
@@ -77,6 +75,7 @@ export default class Main extends React.Component<any, any> {
           server_url: `https://quanwai.cloud.sensorsdata.cn:4006/sa?token=0a145b5e1c9814f4&project=${window.ENV.sensorsProject}`,
           heatmap: {},
           is_single_page: true,
+          show_log: false
         });
         if(!!res.msg.riseId) {
           sa.login(res.msg.riseId);

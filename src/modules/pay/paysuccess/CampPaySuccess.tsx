@@ -28,8 +28,6 @@ export default class CampPaySuccess extends React.Component<any, any> {
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({
-          startTime: res.msg.startTime,
-          endTime: res.msg.endTime,
           memberTypeId: memberTypeId,
           entryCode: res.msg.entryCode
         })

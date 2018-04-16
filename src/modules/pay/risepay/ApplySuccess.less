@@ -1,13 +1,10 @@
 .rise-pay-apply-container {
-  height: 100vh;
-  padding: 50px 0;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   position: relative;
-  background: url('https://static.iqycamp.com/images/bg_diwen.png?imageslim') repeat-y center top/100% auto;
-
-  .mask {
+  min-height: 100vh;
+  .dialog-mask {
     position: fixed;
     z-index: 10;
     width: 100%;
@@ -27,211 +24,52 @@
       width: 70%;
     }
   }
+}
 
-  .apply-header {
-    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#feff1c), to(#FF7800));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-size: 24px;
-    line-height: 24px;
-    height: 24px;
-    text-align: center;
-  }
-  .apply-icon {
-    padding-top: 30px;
-    text-align: center;
-    img {
-      width: 140px;
-      height: 140px;
-    }
-  }
-  .button-pay-footer {
-    display: block;
-    position: fixed;
-    font-size: 17px;
-    bottom: 0;
-    width: 100%;
-    height: 49px;
-    text-align: center;
-    line-height: 49px;
-    color: #fff;
-    background-color: #FFF;
-    z-index: 10;
-    .footer-btn {
-      height: 40px;
-      margin: 0 6%;
-      position: absolute;
-      width: 88%;
-      top: 50%;
-      left: 0;
-      -webkit-transform: translateY(-50%);
-      transform: translateY(-50%);
-      background: url('../../../../assets/icons/pay_btn_bg.png') center center/100% 100%;
-      border-radius: 20px;
-      font-size: 20px;
-      color: #333;
-      line-height: 40px;
-      overflow: hidden;
-    }
-  }
-  .welcome-msg {
-    color: #FFB200;
-    font-size: 15px;
-    text-align: center;
-    margin: 30px 0;
-  }
-
-  .click-tips {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 15px;
-    text-align: center;
-    margin: 30px 0;
-  }
-  .click-desc {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 15px;
-    text-decoration: underline;
-    text-align: center;
-  }
-  .desc-container {
-    overflow: auto;
-    margin-top: 50px;
-    margin-bottom: 30px;
-  }
-  .remainder {
+.rise-pay-apply-container {
+  .apply-card-wrapper {
     position: relative;
-    height: 121px;
-    .time {
+    .apply-username {
       position: absolute;
-      top: 20px;
       left: 50%;
       transform: translateX(-50%);
-      .place {
-        height: 101px;
-        text-align: center;
-        line-height: 101px;
-        font-size: 80px;
-        display: inline-block;
-        width: 60px;
-        &.minute{
-          color: #970404;
-        }
-        &.hour{
-          color: #041931;
-        }
-        background: url('../../../../assets/icons/number_card.png') no-repeat center center/100% 100%;
-      }
-      .ones-place {
-        margin-left: 10px;
-        position: relative;
-        &.minute{
-          &:after {
-            content: '分钟';
-            display: block;
-            position: absolute;
-            bottom: 0;
-            right: -15px;
-            font-size: 15px;
-            line-height: 15px;
-            color: #FFFFFF;
-            transform: translateX(100%);
-          }
-        }
-        &.hour{
-          &:after {
-            content: '小时';
-            display: block;
-            position: absolute;
-            bottom: 0;
-            right: -15px;
-            font-size: 15px;
-            line-height: 15px;
-            color: #FFFFFF;
-            transform: translateX(100%);
-          }
-        }
-      }
+      top: ~"calc(100vw * (150 / 375))";
+      font-size: 2.5rem;
+      text-align: center;
+      color: #333;
     }
-  }
-  .header {
-    text-align: center;
-    .msg {
-      background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#feff1c), to(#FF7800));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      font-size: 24px;
+    .remain-time-tips {
+      width: 100%;
+      font-weight: 300;
+      text-align: center;
+      font-size: 1.6rem;
       display: inline-block;
-      position: relative;
-      &:before {
-        content: ' ';
-        display: block;
-        position: absolute;
-        top: 50%;
-        left: -6px;
-        transform: translateX(-100%);
-        width: 44px;
-        height: 1px;
-        background:-webkit-gradient(linear, right center, left center, from(#feff1c), to(#FF7800));
+      padding: 7rem 0 1rem;
+      span {
+        padding: 0 .5rem;
       }
-      &:after {
-        content: ' ';
-        display: block;
-        position: absolute;
-        top: 50%;
-        right: -5px;
-        transform: translateX(100%);
-        width: 44px;
-        height: 1px;
-        background:-webkit-gradient(linear, left center, right center, from(#feff1c), to(#FF7800));
-      }
+
     }
-  }
-  .button-footer {
-    box-shadow: 0 0 8px 4px rgba(0, 0, 0, 0.04);
-    display: block;
-    position: fixed;
-    font-size: 17px;
-    bottom: 0;
-    width: 100%;
-    height: 50px;
-    text-align: center;
-    line-height: 50px;
-    color: #fff;
-    background-color: #fff;
-    z-index: 10;
-    > .footer-left {
-      height: 100%;
-      position: relative;
-      width: 30%;
-      top: 1px;
-      font-size: 15px;
-      color: rgb(166, 148, 101);
-      float: left;
-      .audition {
-        color: #5b3f00;
-      }
-      .audition:before {
-        content: '';
+    .remain-time-wrapper {
+      .big-num {
+        position: absolute;
+        font-size: 3rem;
         display: inline-block;
-        vertical-align: text-top;
-        margin-right: 5px;
-        width: 22px;
-        height: 16px;
-        background: url('../../../../assets/icons/rise_icon_audition.png') no-repeat center top/100% auto;
+        text-align: center;
+        font-weight: 500;
+        top: ~"calc(100vw * (440 / 375))";
+        min-width: 47px;
+        &.hour {
+          left: ~"calc(100vw * (80 / 375))";
+        }
+        &.minute {
+          left: ~"calc(100vw * (155 / 375))";
+        }
+        &.second {
+          left: ~"calc(100vw * (230 / 375))";
+        }
       }
     }
-    > .footer-btn {
-      height: 100%;
-      position: relative;
-      font-size: 20px;
-      color: #5b3f00;
-      line-height: 50px;
-      overflow: hidden;
-      background: #fbe452;
-    }
   }
-  .customer-service-component{
-    right: 0;
-    top: 260px;
-  }
+
 }

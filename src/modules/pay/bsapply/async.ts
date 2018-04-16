@@ -4,12 +4,9 @@ export function loadBusinessApplyQuestion() {
   return pget('/rise/business/load/questions');
 }
 
-export function checkSubmitApply() {
-  return pget('/rise/business/check/submit/apply');
-}
-
 export function submitApply(param) {
-  return ppost('/rise/business/submit/apply', param);
+  // return ppost('/rise/business/submit/apply', param);
+  return ppost('/signup/submit/apply', param);
 }
 
 export function sendValidCode(phone) {
@@ -18,4 +15,16 @@ export function sendValidCode(phone) {
 
 export function validSMSCode(param) {
   return ppost('/rise/customer/valid/sms', param);
+}
+
+
+export enum QuestionType {
+  PICKER = 1,
+  RADIO = 2,
+  BLANK = 3,
+  MULTI_BLANK = 4,
+  AREA = 5,
+  PHONE = 6,
+  PIC = 7,
+  UPLOAD_PIC = 8
 }

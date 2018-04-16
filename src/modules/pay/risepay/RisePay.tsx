@@ -3,11 +3,11 @@ import * as _ from 'lodash'
 import './RisePay.less'
 import { connect } from 'react-redux'
 import { pget, mark } from 'utils/request'
-import { getGoodsType, PayType, sa } from 'utils/helpers'
+import { getGoodsType, PayType, sa, refreshForPay } from 'utils/helpers'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { config, configShare } from 'modules/helpers/JsConfig'
 import PayInfo from '../components/PayInfo'
-import { getRiseMember } from '../async'
+import { checkRiseMember, getRiseMember } from '../async'
 import { SaleBody } from './components/SaleBody'
 import { MarkBlock } from '../components/markblock/MarkBlock'
 import { addUserRecommendation } from './async'
@@ -34,10 +34,8 @@ export default class RisePay extends React.Component<any, any> {
 
   componentWillMount() {
     // ios／安卓微信支付兼容性
-    if(!_.isEmpty(window.ENV.configUrl) &&
-      window.ENV.configUrl !== window.location.href) {
-      window.location.href = window.location.href
-      return
+    if(refreshForPay()) {
+      return;
     }
     const { dispatch } = this.props
     dispatch(startLoad())
@@ -123,14 +121,20 @@ export default class RisePay extends React.Component<any, any> {
     const { dispatch } = this.props
     dispatch(startLoad())
     // 先检查是否能够支付
-    pget(`/signup/rise/member/check/${showId}`).then(res => {
+    checkRiseMember(showId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        // 查询是否还在报名
-        this.refs.payInfo.handleClickOpen();
-      } else if(res.code === 214) {
-        this.setState({ timeOut: true })
-      } else {
+        const { qrCode, privilege, errorMsg } = res.msg;
+        if(privilege) {
+          this.refs.payInfo.handleClickOpen();
+        } else {
+          dispatch(alertMsg(errorMsg))
+        }
+      }
+      // else if(res.code === 214) {
+      //   this.setState({ timeOut: true })
+      // }
+      else {
         dispatch(alertMsg(res.msg))
       }
     }).catch(ex => {
@@ -141,11 +145,14 @@ export default class RisePay extends React.Component<any, any> {
 
   redirect() {
     sa.track('clickApplyButton');
-    // this.context.router.push({
-    //   pathname: '/pay/bsstart'
-    // })
+    this.context.router.push({
+      pathname: '/pay/bsstart',
+      query: {
+        goodsId: 7
+      }
+    })
 
-    this.setState({ subscribe: true })
+    // this.setState({ subscribe: true })
   }
 
   handlePayedBefore() {
@@ -180,18 +187,18 @@ export default class RisePay extends React.Component<any, any> {
           <div className="button-footer">
             {
               auditionStr ? <div>
-                  <MarkBlock module={'打点'} func={'商学院会员'} action={'点击宣讲课按钮'} memo={data ? buttonStr : ''}
-                             className="footer-left" onClick={() => this.handleClickAudition}>
-                    <span style={{ fontSize: '18px' }}>{auditionStr}</span>
-                  </MarkBlock> <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'} className={'footer-btn'}
-                                          onClick={() => this.handleClickOpenPayInfo(showId)}>
-                  <div className="audition">{buttonStr}</div>
-                </MarkBlock>
-                </div> : <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'} memo={data ? buttonStr : ''}
-                                    className="footer-btn" onClick={() => this.handleClickOpenPayInfo(
+                <MarkBlock module={'打点'} func={'商学院会员'} action={'点击宣讲课按钮'} memo={data ? buttonStr : ''}
+                           className="footer-left" onClick={() => this.handleClickAudition}>
+                  <span style={{ fontSize: '18px' }}>{auditionStr}</span>
+                </MarkBlock> <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'} className={'footer-btn'}
+                                        onClick={() => this.handleClickOpenPayInfo(showId)}>
+                <div className="audition">{buttonStr}</div>
+              </MarkBlock>
+              </div> : <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'} memo={data ? buttonStr : ''}
+                                  className="footer-btn" onClick={() => this.handleClickOpenPayInfo(
                 showId)}>
-                  {buttonStr}
-                </MarkBlock>
+                {buttonStr}
+              </MarkBlock>
             }
 
           </div>
@@ -200,7 +207,7 @@ export default class RisePay extends React.Component<any, any> {
         return (
           <div className="button-footer">
             {/*<MarkBlock module={`打点`} func={`商学院会员`} action={`申请商学院`} className={`footer-btn`}*/}
-                       {/*onClick={() => this.redirect()}>申请商学院</MarkBlock>*/}
+            {/*onClick={() => this.redirect()}>申请商学院</MarkBlock>*/}
             <MarkBlock module={`打点`} func={`商学院会员`} action={`预约商学院`} className={`footer-btn`}
                        onClick={() => this.redirect()}>立即预约</MarkBlock>
           </div>
@@ -212,38 +219,45 @@ export default class RisePay extends React.Component<any, any> {
     return (
       <div className="rise-pay-container">
         <div className="pay-page">
-          <SaleBody/> {renderPay()}
+          <SaleBody/>
+          {renderPay()}
         </div>
         {
           timeOut &&
           <div className="mask" onClick={() => {window.history.back()}}
-               style={{ background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center center/100% 100%' }}></div>
-        } {
-        showErr &&
-        <div className="mask" onClick={() => this.setState({ showErr: false })}>
-          <div className="tips">
-            出现问题的童鞋看这里<br/> 1如果显示“URL未注册”，请重新刷新页面即可<br/> 2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
+               style={{
+                 background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center' +
+                 ' center/100% 100%'
+               }}/>
+        }
+        {
+          showErr &&
+          <div className="mask" onClick={() => this.setState({ showErr: false })}>
+            <div className="tips">
+              出现问题的童鞋看这里<br/> 1如果显示“URL未注册”，请重新刷新页面即可<br/> 2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
+            </div>
+            <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
           </div>
-          <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
-        </div>
-      } {
-        showCodeErr &&
-        <div className="mask" onClick={() => this.setState({ showCodeErr: false })}>
-          <div className="tips">
-            糟糕，支付不成功<br/> 原因：微信不支持跨公众号支付<br/> 怎么解决：<br/> 1，长按下方二维码，保存到相册；<br/> 2，打开微信扫一扫，点击右上角相册，选择二维码图片；<br/>
-            3，在新开的页面完成支付即可<br/>
+        }
+        {
+          showCodeErr &&
+          <div className="mask" onClick={() => this.setState({ showCodeErr: false })}>
+            <div className="tips">
+              糟糕，支付不成功<br/> 原因：微信不支持跨公众号支付<br/> 怎么解决：<br/> 1，长按下方二维码，保存到相册；<br/> 2，打开微信扫一扫，点击右上角相册，选择二维码图片；<br/>
+              3，在新开的页面完成支付即可<br/>
+            </div>
+            <img className="xiaoQ" style={{ width: '50%' }}
+                 src="https://static.iqycamp.com/images/pay_rise_code.png?imageslim"/>
           </div>
-          <img className="xiaoQ" style={{ width: '50%' }}
-               src="https://static.iqycamp.com/images/pay_rise_code.png?imageslim"/>
-        </div>
-      } {
-        memberType &&
-        <PayInfo ref="payInfo" dispatch={this.props.dispatch} goodsType={getGoodsType(memberType.id)}
-                 goodsId={memberType.id} header={memberType.name} priceTips={tip}
-                 payedDone={(goodsId) => this.handlePayedDone()} payedCancel={(res) => this.handlePayedCancel(res)}
-                 payedError={(res) => this.handlePayedError(res)} payedBefore={() => this.handlePayedBefore()}
-                 payType={payType || PayType.WECHAT}/>
-      }
+        }
+        {
+          memberType &&
+          <PayInfo ref="payInfo" dispatch={this.props.dispatch} goodsType={getGoodsType(memberType.id)}
+                   goodsId={memberType.id} header={memberType.name} priceTips={tip}
+                   payedDone={(goodsId) => this.handlePayedDone()} payedCancel={(res) => this.handlePayedCancel(res)}
+                   payedError={(res) => this.handlePayedError(res)} payedBefore={() => this.handlePayedBefore()}
+                   payType={payType || PayType.WECHAT}/>
+        }
         {
           subscribe && <SubscribeAlert closeFunc={() => this.setState({ subscribe: false })}/>
         }

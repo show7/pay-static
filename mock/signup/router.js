@@ -564,24 +564,23 @@ router.get("/signup/rise/member/*", (req, res) => {
           "couponIdGroup": null,
           "memberTypes": null,
           "memberType": {
-            "id": 7,
+            "id": 8,
             "fee": 0.01,
-            "initPrice": null,
-            "name": "电话面试预约",
-            "description": "申请商学院费用",
-            "openMonth": 12,
-            "startTime": "2018.03.19",
-            "endTime": "2019.03.18",
+            "initPrice": 2333.0,
+            "name": "商业进阶课",
+            "description": "商业进阶课",
+            "openMonth": 6,
+            "startTime": "2018.04.10",
+            "endTime": "2018.10.09",
             "del": false
           },
           "tip": null,
           "privilege": false,
           "elite": null,
           "buttonStr": "立即入学",
-          "auditionStr": "预约体验",
+          "auditionStr": null,
           "remainHour": 0,
-          "remainMinute": 0,
-          "entry": true
+          "remainMinute": 0
         }, "code": 200
       }
     );
