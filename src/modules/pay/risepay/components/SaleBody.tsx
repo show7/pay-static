@@ -36,7 +36,7 @@ export class SaleBody extends React.Component {
   }
 
   render() {
-    const { loading, memberTypeId } = this.props
+    const { loading, memberTypeId = '3' } = this.props
     const { showModel } = this.state
 
     const showUserProtocol = () => {
@@ -187,7 +187,7 @@ export class SaleBody extends React.Component {
              id="business-school-intro-pic-container">
           <img
             className="pic-part1"
-            src='https://static.iqycamp.com/images/fragment/thought_sale_page.jpg?imageslim'
+            src='https://static.iqycamp.com/images/fragment/thought_sale_page_1.jpg?imageslim'
             style={{ width: '100%' }}
             onLoad={() => this.setState({ loading: false })}/>
           {/*<img className="pic-part2" src="https://static.iqycamp.com/images/pay_rise_part2_15.jpg?imageslim" style={{ width: '100%' }}/>*/}
@@ -196,7 +196,7 @@ export class SaleBody extends React.Component {
             <u className="protocol" style={{ color: '#efefef', marginLeft: '5px' }}
                onClick={() => this.clickUserProtocol()}>商学院用户协议</u>
           </div>
-          <img className="pic-part3" src="https://static.iqycamp.com/images/pay_rise_part3_1.png?imageslim"
+          <img className="pic-part3" src="https://static.iqycamp.com/images/fragment/thought_sale_page_button_1.png?imageslim"
                style={{ width: '100%' }}/>
           {
             loading &&

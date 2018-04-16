@@ -166,7 +166,7 @@ export default class PlusPay extends Component<any, any> {
 
     return (
       <div className="plus-pay">
-        <SaleBody/>
+        <SaleBody memberTypeId='8'/>
         {renderButtons()}
         {
           memberType &&
