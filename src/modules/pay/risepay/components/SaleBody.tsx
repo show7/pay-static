@@ -39,14 +39,6 @@ export class SaleBody extends React.Component {
     const { loading, memberTypeId } = this.props
     const { showModel } = this.state
 
-    const renderPicUrl = () => {
-      if(memberTypeId == '3') {
-        return 'https://static.iqycamp.com/images/pay_rise_part1_17.jpg?imageslim'
-      } else {
-        return 'https://static.iqycamp.com/images/fragment/thought_sale_page.jpg?imageslim'
-      }
-    }
-
     const showUserProtocol = () => {
 
       return (
@@ -158,35 +150,66 @@ export class SaleBody extends React.Component {
       )
     }
 
-    return (
-      <div className="business-school-intro-pic-container"
-           id="business-school-intro-pic-container">
-        <img
-          className="pic-part1"
-          src={renderPicUrl()}
-          style={{ width: '100%' }}
-          onLoad={() => this.setState({ loading: false })}/>
-        {
-          (!loading && memberTypeId == '3') && <CustomerEvaluate/>
-        }
-        <img className="pic-part2" src="https://static.iqycamp.com/images/pay_rise_part2_15.jpg?imageslim"
-             style={{ width: '100%' }}/>
-        <div className="protocol-container">
-          <span className="click_text">点击查看</span>
-          <u className="protocol" onClick={() => this.clickUserProtocol()}>商学院用户协议</u>
-        </div>
-        <img className="pic-part3" src="https://static.iqycamp.com/images/pay_rise_part3_1.png?imageslim"
-             style={{ width: '100%' }}/>
-        {
-          loading &&
-          <div className="pic-loading-container">
-            <img src="http://static.iqycamp.com/images/dribz.gif" className="loading-pic"
-                 style={{ 'width': 300, 'display': 'block', 'margin': '0 auto' }}/>
+    if(memberTypeId == '3') {
+      return (
+        <div className="business-school-intro-pic-container"
+             id="business-school-intro-pic-container">
+          <img
+            className="pic-part1"
+            src='https://static.iqycamp.com/images/pay_rise_part1_17.jpg?imageslim'
+            style={{ width: '100%' }}
+            onLoad={() => this.setState({ loading: false })}/>
+          {
+            !loading && <CustomerEvaluate/>
+          }
+          <img className="pic-part2" src="https://static.iqycamp.com/images/pay_rise_part2_15.jpg?imageslim"
+               style={{ width: '100%' }}/>
+          <div className="protocol-container">
+            <span className="click_text">点击查看</span>
+            <u className="protocol" onClick={() => this.clickUserProtocol()}>商学院用户协议</u>
           </div>
-        }
-        {showModel && showUserProtocol()}
-        {renderKefu()}
-      </div>
-    )
+          <img className="pic-part3" src="https://static.iqycamp.com/images/pay_rise_part3_1.png?imageslim"
+               style={{ width: '100%' }}/>
+          {
+            loading &&
+            <div className="pic-loading-container">
+              <img src="http://static.iqycamp.com/images/dribz.gif" className="loading-pic"
+                   style={{ 'width': 300, 'display': 'block', 'margin': '0 auto' }}/>
+            </div>
+          }
+          {showModel && showUserProtocol()}
+          {renderKefu()}
+        </div>
+      )
+    } else {
+      return (
+        <div className="business-school-intro-pic-container"
+             id="business-school-intro-pic-container">
+          <img
+            className="pic-part1"
+            src='https://static.iqycamp.com/images/fragment/thought_sale_page.jpg?imageslim'
+            style={{ width: '100%' }}
+            onLoad={() => this.setState({ loading: false })}/>
+          {/*<img className="pic-part2" src="https://static.iqycamp.com/images/pay_rise_part2_15.jpg?imageslim" style={{ width: '100%' }}/>*/}
+          <div className="protocol-container" style={{ background: 'rgb(17,12,19)' }}>
+            <span className="click_text" style={{ color: '#efefef' }}>点击查看</span>
+            <u className="protocol" style={{ color: '#efefef', marginLeft: '5px' }}
+               onClick={() => this.clickUserProtocol()}>商学院用户协议</u>
+          </div>
+          <img className="pic-part3" src="https://static.iqycamp.com/images/pay_rise_part3_1.png?imageslim"
+               style={{ width: '100%' }}/>
+          {
+            loading &&
+            <div className="pic-loading-container">
+              <img src="http://static.iqycamp.com/images/dribz.gif" className="loading-pic"
+                   style={{ 'width': 300, 'display': 'block', 'margin': '0 auto' }}/>
+            </div>
+          }
+          {showModel && showUserProtocol()}
+          {renderKefu()}
+        </div>
+      )
+    }
+
   }
 }
