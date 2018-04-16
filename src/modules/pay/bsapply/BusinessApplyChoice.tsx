@@ -16,7 +16,6 @@ export default class BusinessApplyChoice extends Component<any, any> {
   constructor() {
     super();
     this.state = {
-      showId: 7,
       questionGroup: [],
       seriesCount: 0,
       currentIndex: 0,
@@ -73,14 +72,15 @@ export default class BusinessApplyChoice extends Component<any, any> {
 
   /**
    * 打开支付窗口
-   * @param showId 会员类型id
+   * @param memberType 会员类型
    */
   handleClickOpenPayInfo() {
     this.reConfig()
     const { dispatch } = this.props
+    const { memberType = {} } = this.state;
     dispatch(startLoad())
     // 先检查是否能够支付
-    checkRiseMember(this.state.showId).then(res => {
+    checkRiseMember(memberType.id).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         const { qrCode, privilege, errorMsg } = res.msg;
