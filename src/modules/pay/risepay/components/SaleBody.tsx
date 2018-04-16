@@ -191,14 +191,14 @@ export class SaleBody extends React.Component {
             style={{ width: '100%' }}
             onLoad={() => this.setState({ loading: false })}/>
           {/*<img className="pic-part2" src="https://static.iqycamp.com/images/pay_rise_part2_15.jpg?imageslim" style={{ width: '100%' }}/>*/}
-          <div className="protocol-container" style={{ background: 'rgb(17,12,19)', border: 'none' }}>
+          <div className="protocol-container" style={{ background: 'rgb(17,12,19)' }}>
             <span className="click_text" style={{ color: '#efefef' }}>点击查看</span>
             <u className="protocol" style={{ color: '#efefef', marginLeft: '5px' }}
                onClick={() => this.clickUserProtocol()}>商学院用户协议</u>
           </div>
           <img className="pic-part3"
                src="https://static.iqycamp.com/images/fragment/thought_sale_page_botton_2.jpg?imageslim"
-               style={{ width: '100%' }}/>
+               style={{ width: '100%', border: 'none' }}/>
           {
             loading &&
             <div className="pic-loading-container">
