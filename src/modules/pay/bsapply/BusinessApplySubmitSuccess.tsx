@@ -7,32 +7,26 @@ import { mark } from "utils/request"
 import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
 import { closeWindow } from '../../helpers/JsConfig'
 import Icon from '../../../components/Icon'
+import { loadApplyProjectInfo } from '../async'
 
 @connect(state => state)
 export default class BusinessApplySubmitSuccess extends Component<any, any> {
   constructor() {
     super();
-    this.state = {
-      tipsInfo: {
-        '7': {
-          name: '圈外商学院'
-        },
-        '9': {
-          name: '商业进阶课'
-        }
-      }
-    }
+    this.state = {}
   }
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   }
 
-  componentWillMount() {
+  async componentWillMount() {
     // 如果用户在审核中，则点击后提示已经在审核中
     const { goodsId = '7' } = this.props.location.query;
-    this.setState({ tipInfo: this.state.tipsInfo[ goodsId ] })
-    mark({ module: "打点", function: "商学院审核", action: "进入提交成功页面" })
+    let res = await loadApplyProjectInfo({ applyId: goodsId });
+    const { apply, wannaGoods } = res.msg;
+    this.setState({ tipInfo: wannaGoods.description })
+    mark({ module: "打点", function: "商学院审核", action: "进入提交成功页面", memo: wannaGoods.id })
   }
 
   handleClickClosePage() {
