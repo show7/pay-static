@@ -220,8 +220,10 @@ export default class ApplySuccess extends React.Component<any, any> {
     return (
       <div className="rise-pay-apply-container">
         <div>
-          <ApplySuccessCard privilege={privilege} remainHour={remainHour} remainMinute={remainMinute}
-                            remainSecond={remainSecond} name={memberType.description}/>
+          <ApplySuccessCard
+            maskPic={memberType.id == 3 ? 'https://static.iqycamp.com/images/fragment/apply_success_3_1.png?imageslim' : 'https://static.iqycamp.com/images/fragment/apply_success_8_1.png?imageslim'}
+            privilege={privilege} remainHour={remainHour} remainMinute={remainMinute}
+            remainSecond={remainSecond} name={memberType.description}/>
 
           {renderPay()}
           {
@@ -290,6 +292,7 @@ interface ApplySuccessCard {
   remainSecond: number,
   name: string,
   privilege: boolean,
+  maskPic: string,
 }
 
 class ApplySuccessCard extends React.Component<ApplySuccessCard, any> {
@@ -299,60 +302,29 @@ class ApplySuccessCard extends React.Component<ApplySuccessCard, any> {
   }
 
   render() {
-    const { name, remainSecond, remainHour, remainMinute, privilege } = this.props;
+    const { name, remainSecond, remainHour, remainMinute, privilege, maskPic } = this.props;
     return (
       <div className="apply-card-wrapper">
-        <div className="apply-card-container">
-          <div className="appy-card">
-            <div className="quanwai-logo">
-              <AssetImg url="https://static.iqycamp.com/images/fragment/logo-20180410.png?imageslim"/>
+        <div className="mask-pic">
+          <AssetImg url={maskPic} width='100%'/>
+        </div>
+        <div className="apply-username">
+          {window.ENV.userName}
+        </div>
+        <div className="remain-time-wrapper">
+          <div className="remain-time">
+            <div className="big-num">
+              {privilege ? remainHour : 0}
             </div>
-            <div className="apply-title">
-              录取通知书
+            <span className="unit">时</span>
+            <div className="big-num">
+              {privilege ? remainMinute : 0}
             </div>
-            <div className="apply-username">
-              {window.ENV.userName}
+            <span className="unit">分</span>
+            <div className="big-num">
+              {privilege ? remainSecond : 0}
             </div>
-            <div className="apply-desc">
-              祝贺你被圈外商学院「{name}」录取，掌握核心能力，成为未来社会不可替代的人！
-            </div>
-            <div className="quan-sign" style={{
-              opacity: privilege ? '1' : '0'
-            }}>
-              <div className="sign-pic">
-                <AssetImg url="https://static.iqycamp.com/images/fragment/quansign-0410.png?imageslim"/>
-                <div className="quanwai-tips">
-                  圈外同学创始人
-                </div>
-              </div>
-            </div>
-            <div className="remain-time-tips">
-              <span>离</span>
-              <span>入</span>
-              <span>学</span>
-              <span>截</span>
-              <span>止</span>
-              <span>时</span>
-              <span>间</span>
-              <span>还</span>
-              <span>剩</span>
-            </div>
-            <div className="remain-time-wrapper">
-              <div className="remain-time">
-                <div className="big-num">
-                  {privilege ? remainHour : 0}
-                </div>
-                <span className="unit">时</span>
-                <div className="big-num">
-                  {privilege ? remainMinute : 0}
-                </div>
-                <span className="unit">分</span>
-                <div className="big-num">
-                  {privilege ? remainSecond : 0}
-                </div>
-                <span className="unit">秒</span>
-              </div>
-            </div>
+            <span className="unit">秒</span>
           </div>
         </div>
       </div>

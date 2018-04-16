@@ -27,103 +27,53 @@
 }
 
 .rise-pay-apply-container {
-  padding-top: 1.3rem;
-  .apply-card-container {
-    padding: 1rem;
-  }
   .apply-card-wrapper {
-    background: url('https://static.iqycamp.com/images/fragment/background-applysuccess-0410.png?imageslim') repeat-y center top/100% auto;
-    box-shadow: 0 2px 13px rgba(0, 0, 0, .23);
-    margin: 0 1.2rem 6rem;
-    .appy-card {
-      font-family: '宋体' !important;
-      border: 1px solid #7dbe00;
-      padding: 1rem;
-      .quanwai-logo {
-        height: 3rem;
-        img {
-          height: 100%;
-          width: auto;
-        }
+    .apply-username {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: ~" calc(100wh * 160 / 375)";
+      margin-top: 5.5rem;
+      font-size: 2.5rem;
+      text-align: center;
+    }
+    .remain-time-tips {
+      width: 100%;
+      font-weight: 300;
+      text-align: center;
+      font-size: 1.6rem;
+      display: inline-block;
+      padding: 7rem 0 1rem;
+      span {
+        padding: 0 .5rem;
       }
-      .apply-title {
-        margin-top: 3rem;
+
+    }
+    .remain-time-wrapper {
+      .remain-time {
+        text-align: center;
+        font-size: 1.6rem;
+        font-weight: 300;
+        padding-bottom: 2rem;
+        margin-left: 1rem;
+      }
+      .big-num {
+        background: rgb(254, 230, 69);
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
         font-size: 3rem;
-        font-weight: 300;
-        text-align: center;
-      }
-      .apply-username {
-        margin-top: 5.5rem;
-        font-size: 2.5rem;
-        text-align: center;
-      }
-      .apply-desc {
-        margin-top: 2rem;
-        font-size: 1.6rem;
-        font-weight: 300;
-        padding: 0 2rem;
-      }
-      .quan-sign {
-        padding-right: 2.6rem;
-        text-align: right;
-        .sign-pic {
-          display: inline-block;
-          text-align: center;
-          height: 4rem;
-          width: auto;
-          img {
-            height: 100%;
-            width: auto;
-          }
-
-          .quanwai-tips {
-            font-size: 1.3rem;
-            font-weight: 200;
-          }
-        }
-      }
-      .remain-time-tips {
-        width: 100%;
-        font-weight: 300;
-        text-align: center;
-        font-size: 1.6rem;
+        width: 3.5rem;
         display: inline-block;
-        padding: 7rem 0 1rem;
-        span {
-          padding: 0 .5rem;
-        }
-
+        text-align: center;
+        font-weight: 500;
+        padding: 0 .5rem;
       }
-      .remain-time-wrapper {
-        .remain-time {
-          text-align: center;
-          font-size: 1.6rem;
-          font-weight: 300;
-          padding-bottom: 2rem;
-          margin-left: 1rem;
-        }
-        .big-num {
-          background: rgb(254, 230, 69);
-          -webkit-border-radius: 5px;
-          -moz-border-radius: 5px;
-          border-radius: 5px;
-          font-size: 3rem;
-          width: 3.5rem;
-          display: inline-block;
-          text-align: center;
-          font-weight: 500;
-          padding: 0 .5rem;
-        }
-        span.unit {
-          display: inline-block;
-          padding: 0 .8rem;
-        }
+      span.unit {
+        display: inline-block;
+        padding: 0 .8rem;
       }
     }
   }
-
-}
-
-.global-apply-expired {
 
 }
