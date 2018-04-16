@@ -145,14 +145,14 @@ export default class RisePay extends React.Component<any, any> {
 
   redirect() {
     sa.track('clickApplyButton');
-    this.context.router.push({
-      pathname: '/pay/bsstart',
-      query: {
-        goodsId: 7
-      }
-    })
+    // this.context.router.push({
+    //   pathname: '/pay/bsstart',
+    //   query: {
+    //     goodsId: 7
+    //   }
+    // })
 
-    // this.setState({ subscribe: true })
+    this.setState({ subscribe: true })
   }
 
   handlePayedBefore() {
