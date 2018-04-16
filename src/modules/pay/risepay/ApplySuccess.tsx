@@ -11,6 +11,7 @@ import { checkRiseMember, getRiseMember, loadApplyProjectInfo } from '../async'
 import AssetImg from '../../../components/AssetImg'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 import RenderInBody from '../../../components/RenderInBody'
+import { Dialog } from 'react-weui'
 
 @connect(state => state)
 export default class ApplySuccess extends React.Component<any, any> {
@@ -262,24 +263,21 @@ export default class ApplySuccess extends React.Component<any, any> {
                      payedError={(res) => this.handlePayedError(res)}
                      payedBefore={() => this.handlePayedBefore()}/>
           }
-          {
-            expired ?
-              <RenderInBody>
-                <div className="global-apply-expired">
-                  您的申请已过期<br/>
-                  <button onClick={() => {
-                    this.context.router.push({
-                      pathname: '/pay/bsstart',
-                      query: {
-                        goodsId: this.state.applyId
-                      }
-                    });
-                  }}>去申请
-                  </button>
-                </div>
-              </RenderInBody>
-              : null
-          }
+          <Dialog show={expired} buttons={[
+            {
+              label: '去申请', onClick: () => {
+              this.context.router.push({
+                pathname: '/pay/bsstart',
+                query: {
+                  goodsId: this.state.applyId
+                }
+              });
+            }
+            }
+          ]}>
+            您的申请记录已经过期
+          </Dialog>
+
         </div>
       </div>
     )

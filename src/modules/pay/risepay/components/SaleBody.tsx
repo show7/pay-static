@@ -36,8 +36,16 @@ export class SaleBody extends React.Component {
   }
 
   render() {
-    const { loading } = this.props
+    const { loading, memberTypeId } = this.props
     const { showModel } = this.state
+
+    const renderPicUrl = () => {
+      if(memberTypeId == '3') {
+        return 'https://static.iqycamp.com/images/pay_rise_part1_17.jpg?imageslim'
+      } else {
+        return 'https://static.iqycamp.com/images/fragment/thought_sale_page.jpg?imageslim'
+      }
+    }
 
     const showUserProtocol = () => {
 
@@ -155,11 +163,11 @@ export class SaleBody extends React.Component {
            id="business-school-intro-pic-container">
         <img
           className="pic-part1"
-          src="https://static.iqycamp.com/images/pay_rise_part1_17.jpg?imageslim"
+          src={renderPicUrl()}
           style={{ width: '100%' }}
           onLoad={() => this.setState({ loading: false })}/>
         {
-          !loading && <CustomerEvaluate/>
+          (!loading && memberTypeId == '3') && <CustomerEvaluate/>
         }
         <img className="pic-part2" src="https://static.iqycamp.com/images/pay_rise_part2_15.jpg?imageslim"
              style={{ width: '100%' }}/>
