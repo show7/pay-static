@@ -197,7 +197,7 @@ export class SaleBody extends React.Component {
                onClick={() => this.clickUserProtocol()}>商学院用户协议</u>
           </div>
           <img className="pic-part3"
-               src="https://static.iqycamp.com/images/fragment/thought_sale_page_botton_2.png?imageslim"
+               src="https://static.iqycamp.com/images/fragment/thought_sale_page_botton_2.jpg?imageslim"
                style={{ width: '100%' }}/>
           {
             loading &&
