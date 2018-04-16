@@ -28,14 +28,15 @@
 
 .rise-pay-apply-container {
   .apply-card-wrapper {
+    position: relative;
     .apply-username {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      top: ~" calc(100wh * 160 / 375)";
-      margin-top: 5.5rem;
+      top: ~" calc(100vh * (16 / 74))";
       font-size: 2.5rem;
       text-align: center;
+      color: #333;
     }
     .remain-time-tips {
       width: 100%;
@@ -50,28 +51,23 @@
 
     }
     .remain-time-wrapper {
-      .remain-time {
-        text-align: center;
-        font-size: 1.6rem;
-        font-weight: 300;
-        padding-bottom: 2rem;
-        margin-left: 1rem;
-      }
       .big-num {
-        background: rgb(254, 230, 69);
-        -webkit-border-radius: 5px;
-        -moz-border-radius: 5px;
-        border-radius: 5px;
+        position: absolute;
         font-size: 3rem;
-        width: 3.5rem;
         display: inline-block;
         text-align: center;
         font-weight: 500;
         padding: 0 .5rem;
-      }
-      span.unit {
-        display: inline-block;
-        padding: 0 .8rem;
+        top: ~" calc(100vh * (486 / 740))";
+        &.hour {
+          left: ~" calc(100vh * (10 / 74))";
+        }
+        &.minute {
+          left: ~" calc(100vh * (183 / 740))";
+        }
+        &.second {
+          left: ~" calc(100vh * (266 / 740))";
+        }
       }
     }
   }

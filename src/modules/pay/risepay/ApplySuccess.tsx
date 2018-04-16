@@ -313,18 +313,15 @@ class ApplySuccessCard extends React.Component<ApplySuccessCard, any> {
         </div>
         <div className="remain-time-wrapper">
           <div className="remain-time">
-            <div className="big-num">
+            <div className="big-num hour">
               {privilege ? remainHour : 0}
             </div>
-            <span className="unit">时</span>
-            <div className="big-num">
+            <div className="big-num minute">
               {privilege ? remainMinute : 0}
             </div>
-            <span className="unit">分</span>
-            <div className="big-num">
+            <div className="big-num second">
               {privilege ? remainSecond : 0}
             </div>
-            <span className="unit">秒</span>
           </div>
         </div>
       </div>
