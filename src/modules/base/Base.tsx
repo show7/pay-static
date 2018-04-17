@@ -9,7 +9,7 @@ const P = 'base'
 const LOAD_KEY = `${P}.loading`
 const SHOW_MODAL_KEY = `${P}.showModal`
 import UA from 'ua-device'
-import { toLower, get, merge } from 'lodash'
+import { toLower, get, merge, isEmpty, isPlainObject } from 'lodash'
 import $ from 'jquery'
 import { pget } from '../../utils/request'
 import { notLoadInfoUrls, sa } from '../../utils/helpers'
@@ -56,42 +56,45 @@ export default class Main extends React.Component<any, any> {
         break;
       }
     }
+    // 是否加载个人信息
     if(loadInfo) {
+      // 加载个人信息
       pget('/rise/customer/info').then(res => {
         if(res.code === 200) {
           window.ENV.userName = res.msg.nickname
           window.ENV.headImgUrl = res.msg.headimgurl
           window.ENV.riseId = res.msg.riseId;
-          window.ENV.className = res.msg.className;
-          window.ENV.groupId = res.msg.groupId;
-          window.ENV.roleName = res.msg.roleName;
           window.ENV.isAsst = res.msg.isAsst;
+          window.ENV.roleNames = res.msg.roleNames;
+          window.ENV.classGroupMaps = res.msg.classGroupMaps;
         }
-
+        // 初始化神策打点
         sa.init({
           heatmap_url: 'https://static.sensorsdata.cn/sdk/1.9.13/heatmap.min.js',
           name: 'sa',
           web_url: `https://quanwai.cloud.sensorsdata.cn/?project=${window.ENV.sensorsProject}`,
           server_url: `https://quanwai.cloud.sensorsdata.cn:4006/sa?token=0a145b5e1c9814f4&project=${window.ENV.sensorsProject}`,
-          heatmap: {},
           is_single_page: true,
-          show_log: false
+          show_log: false,
+          heatmap: {}
         });
+
         if(!!res.msg.riseId) {
+          // 神策登陆
           sa.login(res.msg.riseId);
         }
-        let props = { roleName: window.ENV.roleName, isAsst: window.ENV.isAsst, platformType: 2 };
-        if(!!window.ENV.className && !!window.ENV.groupId) {
-          merge(props, {
-            className: window.ENV.className,
-            groupId: window.ENV.groupId
-          });
+        let props = { isAsst: window.ENV.isAsst, platformType: 2 };
+        if(!isEmpty(window.ENV.classGroupMaps) && isPlainObject(window.ENV.classGroupMaps)) {
+          // merge班组信息
+          merge(props, window.ENV.classGroupMaps);
         }
         if(!!res.msg.riseId) {
+          // merege riseId信息
           merge(props, {
             riseId: res.msg.riseId
           })
         }
+        // 注册页面级别的属性
         sa.registerPage(props);
         sa.quick('autoTrack');
 
