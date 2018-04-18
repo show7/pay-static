@@ -145,9 +145,11 @@ export class SaleBody extends React.Component {
     }
 
     const renderKefu = () => {
-      return (
-        <CustomerService/>
-      )
+      if(memberTypeId == '8') {
+        return <CustomerService image='https://static.iqycamp.com/images/fragment/kefu_0418_2.png?imageslim'/>
+      } else {
+        return <CustomerService/>
+      }
     }
 
     if(memberTypeId == '3') {
@@ -187,7 +189,7 @@ export class SaleBody extends React.Component {
              id="business-school-intro-pic-container">
           <img
             className="pic-part1"
-            src='https://static.iqycamp.com/images/fragment/thought_sale_page_1.jpg?imageslim'
+            src='https://static.iqycamp.com/images/fragment/thought_sale_page_0418_1.jpg?imageslim'
             style={{ width: '100%' }}
             onLoad={() => this.setState({ loading: false })}/>
           {/*<img className="pic-part2" src="https://static.iqycamp.com/images/pay_rise_part2_15.jpg?imageslim" style={{ width: '100%' }}/>*/}
@@ -197,7 +199,7 @@ export class SaleBody extends React.Component {
                onClick={() => this.clickUserProtocol()}>商学院用户协议</u>
           </div>
           <img className="pic-part3"
-               src="https://static.iqycamp.com/images/fragment/thought_sale_page_botton_2.jpg?imageslim"
+               src="https://static.iqycamp.com/images/fragment/thought_sale_page_botton_0418_1.jpg?imageslim"
                style={{ width: '100%', border: 'none' }}/>
           {
             loading &&
