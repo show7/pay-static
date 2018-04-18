@@ -22,7 +22,14 @@ export default class PlusPay extends Component<any, any> {
     super();
     this.state = {
       showId: 8,
-    };
+      subscribeAlertTips: {
+        tips: <div>
+          长按扫码添加
+          圈外招生办老师（ID：iquanwai-iqw）
+          回复【商业项目】，领取学习资料包！</div>,
+        qrCdoe: 'https://static.iqycamp.com/images/qrcode_qwzswyh.jpeg?imageslim'
+      }
+    }
   }
 
   static contextTypes = {
@@ -136,7 +143,7 @@ export default class PlusPay extends Component<any, any> {
   render() {
     let payType = _.get(location, 'query.paytype')
 
-    const { privilege, memberType, buttonStr, auditionStr, tip, showId, timeOut, showErr, showCodeErr, subscribe } = this.state;
+    const { subscribeAlertTips, privilege, memberType, buttonStr, auditionStr, tip, showId, timeOut, showErr, showCodeErr, subscribe } = this.state;
     const renderButtons = () => {
       if(typeof(privilege) === 'undefined') {
         return null;
@@ -171,7 +178,9 @@ export default class PlusPay extends Component<any, any> {
         <SaleBody memberTypeId='8'/>
         {renderButtons()}
         {
-          subscribe && <SubscribeAlert closeFunc={() => this.setState({ subscribe: false })}/>
+          subscribe &&
+          <SubscribeAlert tips={subscribeAlertTips.tips} qrCode={subscribeAlertTips.qrCdoe}
+                          closeFunc={() => this.setState({ subscribe: false })}/>
         }
         {
           memberType &&
