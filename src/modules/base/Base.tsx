@@ -9,7 +9,7 @@ const P = 'base'
 const LOAD_KEY = `${P}.loading`
 const SHOW_MODAL_KEY = `${P}.showModal`
 import UA from 'ua-device'
-import { toLower, get, merge, isEmpty, isPlainObject } from 'lodash'
+import { toLower, get, merge, isEmpty, isPlainObject, isArray } from 'lodash'
 import $ from 'jquery'
 import { pget } from '../../utils/request'
 import { notLoadInfoUrls, sa } from '../../utils/helpers'
@@ -75,7 +75,7 @@ export default class Main extends React.Component<any, any> {
           web_url: `https://quanwai.cloud.sensorsdata.cn/?project=${window.ENV.sensorsProject}`,
           server_url: `https://quanwai.cloud.sensorsdata.cn:4006/sa?token=0a145b5e1c9814f4&project=${window.ENV.sensorsProject}`,
           is_single_page: true,
-          show_log: false,
+          show_log: true,
           heatmap: {}
         });
 
@@ -87,6 +87,9 @@ export default class Main extends React.Component<any, any> {
         if(!isEmpty(window.ENV.classGroupMaps) && isPlainObject(window.ENV.classGroupMaps)) {
           // merge班组信息
           merge(props, window.ENV.classGroupMaps);
+        }
+        if(!isEmpty(window.ENV.roleNames) && isArray(window.ENV.roleNames)) {
+          merge(props, { 'roleNames': window.ENV.roleNames })
         }
         if(!!res.msg.riseId) {
           // merege riseId信息

@@ -140,7 +140,7 @@ export default class PlusPay extends Component<any, any> {
         return null;
       }
       if(!!privilege) {
-        return <FooterButton btnArray={[
+        return <FooterButton primary={true} btnArray={[
           {
             click: () => this.handleClickOpenPayInfo(memberType.id),
             text: '立即入学',
@@ -151,7 +151,7 @@ export default class PlusPay extends Component<any, any> {
           }
         ]}/>
       } else {
-        return <FooterButton btnArray={[
+        return <FooterButton primary={true} btnArray={[
           {
             click: () => this.redirect(),
             text: '马上预约',
