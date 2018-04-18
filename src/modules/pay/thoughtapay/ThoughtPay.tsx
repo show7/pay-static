@@ -24,10 +24,10 @@ export default class PlusPay extends Component<any, any> {
       showId: 8,
       subscribeAlertTips: {
         tips: <div>
-          长按扫码添加
-          圈外招生办老师（ID：iquanwai-iqw）
+          长按扫码添加<br/>
+          圈外招生办老师（ID：iquanwai-iqw）<br/>
           回复【商业项目】，领取学习资料包！</div>,
-        qrCdoe: 'https://static.iqycamp.com/images/qrcode_qwzswyh.jpeg?imageslim'
+        qrCode: 'https://static.iqycamp.com/images/qrcode_qwzswyh.jpeg?imageslim'
       }
     }
   }
@@ -179,7 +179,7 @@ export default class PlusPay extends Component<any, any> {
         {renderButtons()}
         {
           subscribe &&
-          <SubscribeAlert tips={subscribeAlertTips.tips} qrCode={subscribeAlertTips.qrCdoe}
+          <SubscribeAlert tips={subscribeAlertTips.tips} qrCode={subscribeAlertTips.qrCode}
                           closeFunc={() => this.setState({ subscribe: false })}/>
         }
         {
