@@ -146,7 +146,7 @@ export class SaleBody extends React.Component {
 
     const renderKefu = () => {
       if(memberTypeId == '8') {
-        return <CustomerService image='https://static.iqycamp.com/images/fragment/kefu_0418_1.png?imageslim'/>
+        return <CustomerService image='https://static.iqycamp.com/images/fragment/kefu_0418_2.png?imageslim'/>
       } else {
         return <CustomerService/>
       }
