@@ -53,11 +53,13 @@ export default class PlusPay extends Component<any, any> {
         });
         mark({ module: '打点', function: '进阶课程', action: '购买进阶课程会员', memo: '入学页面' })
       } else {
-        sa.track('openSaleApplyPage', {
-          goodsType: getGoodsType(this.state.showId),
-          goodsId: this.state.showId + ''
-        });
-        mark({ module: '打点', function: '进阶课程', action: '购买进阶课程会员', memo: '申请页面' })
+        window.location.href = '/rise/static/rise';
+        return;
+        // sa.track('openSaleApplyPage', {
+        //   goodsType: getGoodsType(this.state.showId),
+        //   goodsId: this.state.showId + ''
+        // });
+        // mark({ module: '打点', function: '进阶课程', action: '购买进阶课程会员', memo: '申请页面' })
       }
     }
   }
@@ -152,7 +154,7 @@ export default class PlusPay extends Component<any, any> {
         return <FooterButton primary={true} btnArray={[
           {
             click: () => this.handleClickOpenPayInfo(memberType.id),
-            text: '立即入学',
+            text: '立即进阶',
             module: '打点',
             func: '进阶课程',
             action: '点击立即入学',
@@ -163,7 +165,7 @@ export default class PlusPay extends Component<any, any> {
         return <FooterButton primary={true} btnArray={[
           {
             click: () => this.redirect(),
-            text: '立即入学',
+            text: '立即进阶',
             module: '打点',
             func: '进阶课程',
             action: '点击马上预约',
