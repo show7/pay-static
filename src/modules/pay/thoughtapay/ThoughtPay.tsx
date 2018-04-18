@@ -11,6 +11,7 @@ import * as _ from 'lodash';
 import PayInfo from '../components/PayInfo'
 import { config } from '../../helpers/JsConfig'
 import { pget, mark } from 'utils/request'
+import { SubscribeAlert } from '../risepay/components/SubscribeAlert'
 
 /**
  * 商业进阶课售卖页
@@ -55,12 +56,13 @@ export default class PlusPay extends Component<any, any> {
   }
 
   redirect() {
-    this.context.router.push({
-      pathname: '/pay/bsstart',
-      query: {
-        goodsId: 9
-      }
-    })
+    // this.context.router.push({
+    //   pathname: '/pay/bsstart',
+    //   query: {
+    //     goodsId: 9
+    //   }
+    // })
+    this.setState({ subscribe: true });
   }
 
   handlePayedDone() {
@@ -169,6 +171,9 @@ export default class PlusPay extends Component<any, any> {
         <SaleBody memberTypeId='8'/>
         {renderButtons()}
         {
+          subscribe && <SubscribeAlert closeFunc={() => this.setState({ subscribe: false })}/>
+        }
+        {
           memberType &&
           <PayInfo ref="payInfo" dispatch={this.props.dispatch} goodsType={getGoodsType(memberType.id)}
                    goodsId={memberType.id} header={memberType.name} priceTips={tip}
@@ -184,7 +189,7 @@ export default class PlusPay extends Component<any, any> {
               3，在新开的页面完成支付即可<br/>
             </div>
             <img className="xiaoQ" style={{ width: '50%' }}
-                 src="https://static.iqycamp.com/images/pay_rise_code.png?imageslim"/>
+                 src="https://static.iqycamp.com/images/fragment/thought_apply_pro.jpeg?imageslim"/>
           </div>
         }
         {
