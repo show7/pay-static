@@ -145,9 +145,11 @@ export class SaleBody extends React.Component {
     }
 
     const renderKefu = () => {
-      return (
-        <CustomerService/>
-      )
+      if(memberTypeId == '8') {
+        return <CustomerService image='https://static.iqycamp.com/images/fragment/kefu_0418_1.png?imageslim'/>
+      } else {
+        return <CustomerService/>
+      }
     }
 
     if(memberTypeId == '3') {
