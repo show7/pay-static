@@ -163,7 +163,7 @@ export default class PlusPay extends Component<any, any> {
         return <FooterButton primary={true} btnArray={[
           {
             click: () => this.redirect(),
-            text: '马上预约',
+            text: '立即入学',
             module: '打点',
             func: '进阶课程',
             action: '点击马上预约',
