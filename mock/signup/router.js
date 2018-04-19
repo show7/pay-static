@@ -575,7 +575,7 @@ router.get("/signup/rise/member/*", (req, res) => {
             "del": false
           },
           "tip": null,
-          "privilege": false,
+          "privilege": true,
           "elite": null,
           "buttonStr": "立即入学",
           "auditionStr": null,

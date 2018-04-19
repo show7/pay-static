@@ -9,6 +9,13 @@ export default class AssetImg extends React.Component<any, any> {
     }
   }
 
+  onLoad() {
+    const { onLoad = () => {} } = this.props;
+    this.setState({ loading: false }, () => {
+      onLoad()
+    });
+  }
+
   render() {
     const { size, type, width, height, marginTop, marginBottom, marginLeft, style, marginRight, onClick, display } = this.props
 
@@ -38,7 +45,7 @@ export default class AssetImg extends React.Component<any, any> {
                onClick()
              }
            }}
-           onLoad={() => this.setState({ loading: false })}
+           onLoad={() => this.onLoad()}
            style={merge(_style, style)}
       />
     )
