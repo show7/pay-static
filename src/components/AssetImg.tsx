@@ -40,9 +40,9 @@ export default class AssetImg extends React.Component<any, any> {
     return (
       <img className={`${loading ? 'loading' : 'assetImg'} ${this.props.className ? this.props.className : ''}`}
            src={type ? require(`../../assets/icons/${type}.png`) : url}
-           onClick={() => {
+           onClick={(e) => {
              if(onClick && isFunction(onClick)) {
-               onClick()
+               onClick(e)
              }
            }}
            onLoad={() => this.onLoad()}
