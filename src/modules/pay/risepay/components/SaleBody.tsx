@@ -213,6 +213,7 @@ export class SaleBody extends React.Component {
                onClick={() => this.clickUserProtocol()}>商学院用户协议</u>
           </div>
           <img className="pic-part3"
+               onClick={(e) => e.preventDefault()}
                src="https://static.iqycamp.com/images/fragment/thought_sale_page_botton_0418_2.jpg?imageslim"
                style={{ width: '100%', border: 'none', marginTop: '-2px' }}/>
           {
