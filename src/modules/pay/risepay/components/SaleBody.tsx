@@ -195,14 +195,14 @@ export class SaleBody extends React.Component {
               style: {
                 display: 'block'
               },
-              onClick: (e) => e.preventDefault(),
+              onClick: (e) => e && e.preventDefault(),
               url: 'https://static.iqycamp.com/images/fragment/thought_sale_page_1_0419_1.jpg?imageslim'
             }, {
               size: '100%',
               style: {
                 display: 'block'
               },
-              onClick: (e) => e.preventDefault(),
+              onClick: (e) => e && e.preventDefault(),
               url: 'https://static.iqycamp.com/images/fragment/thought_sale_page_2_0419_1.jpg?imageslim'
             }
           ]} onLoadFirst={() => this.setState({ loading: false })}/>
