@@ -212,7 +212,7 @@ export class SaleBody extends React.Component {
           </div>
           <img className="pic-part3"
                src="https://static.iqycamp.com/images/fragment/thought_sale_page_botton_0418_2.jpg?imageslim"
-               style={{ width: '100%', border: 'none' }}/>
+               style={{ width: '100%', border: 'none', marginTop: '-2px' }}/>
           {
             loading &&
             <div className="pic-loading-container">
