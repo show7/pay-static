@@ -4,13 +4,15 @@ import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { CustomerEvaluate } from './CustomerEvaluate'
 import { unScrollToBorder } from '../../../../utils/helpers'
 import { CustomerService } from '../../../../components/customerservice/CustomerService'
+import SequenceDisplay from '../../../../components/picture/SequenceDisplay'
 
 export class SaleBody extends React.Component {
 
   constructor() {
     super()
     this.state = {
-      showModel: false
+      showModel: false,
+      loading: true,
     }
   }
 
@@ -36,8 +38,8 @@ export class SaleBody extends React.Component {
   }
 
   render() {
-    const { loading, memberTypeId = '3' } = this.props
-    const { showModel } = this.state
+    const { memberTypeId = '3' } = this.props
+    const { showModel, loading } = this.state
 
     const showUserProtocol = () => {
 
@@ -161,11 +163,11 @@ export class SaleBody extends React.Component {
             src='https://static.iqycamp.com/images/pay_rise_part1_17.jpg?imageslim'
             style={{ width: '100%' }}
             onLoad={() => this.setState({ loading: false })}/>
+          <img className="pic-part2" src="https://static.iqycamp.com/images/pay_rise_part2_15.jpg?imageslim"
+               style={{ width: '100%' }}/>
           {
             !loading && <CustomerEvaluate/>
           }
-          <img className="pic-part2" src="https://static.iqycamp.com/images/pay_rise_part2_15.jpg?imageslim"
-               style={{ width: '100%' }}/>
           <div className="protocol-container">
             <span className="click_text">点击查看</span>
             <u className="protocol" onClick={() => this.clickUserProtocol()}>商学院用户协议</u>
@@ -187,20 +189,33 @@ export class SaleBody extends React.Component {
       return (
         <div className="business-school-intro-pic-container"
              id="business-school-intro-pic-container">
-          <img
-            className="pic-part1"
-            src='https://static.iqycamp.com/images/fragment/thought_sale_page_0418_2.jpg?imageslim'
-            style={{ width: '100%' }}
-            onLoad={() => this.setState({ loading: false })}/>
-          {/*<img className="pic-part2" src="https://static.iqycamp.com/images/pay_rise_part2_15.jpg?imageslim" style={{ width: '100%' }}/>*/}
+          <SequenceDisplay imgList={[
+            {
+              size: '100%',
+              style: {
+                display: 'block'
+              },
+              onClick: (e) => e && e.preventDefault(),
+              url: 'https://static.iqycamp.com/images/fragment/thought_sale_page_1_0419_1.jpg?imageslim'
+            }, {
+              size: '100%',
+              style: {
+                display: 'block'
+              },
+              onClick: (e) => e && e.preventDefault(),
+              url: 'https://static.iqycamp.com/images/fragment/thought_sale_page_2_0419_1.jpg?imageslim'
+            }
+          ]} onLoadFirst={() => this.setState({ loading: false })}/>
+
           <div className="protocol-container" style={{ background: 'rgb(17,12,19)' }}>
             <span className="click_text" style={{ color: '#efefef' }}>点击查看</span>
             <u className="protocol" style={{ color: '#efefef', marginLeft: '5px' }}
                onClick={() => this.clickUserProtocol()}>商学院用户协议</u>
           </div>
           <img className="pic-part3"
+               onClick={(e) => e.preventDefault()}
                src="https://static.iqycamp.com/images/fragment/thought_sale_page_botton_0418_2.jpg?imageslim"
-               style={{ width: '100%', border: 'none' }}/>
+               style={{ width: '100%', border: 'none', marginTop: '-2px' }}/>
           {
             loading &&
             <div className="pic-loading-container">
