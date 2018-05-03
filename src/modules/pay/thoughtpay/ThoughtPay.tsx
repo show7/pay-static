@@ -6,11 +6,10 @@ import { getGoodsType, PayType, refreshForPay, sa } from '../../../utils/helpers
 import { checkRiseMember, getRiseMember } from '../async'
 import { SaleBody } from '../risepay/components/SaleBody'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
-import { mark } from '../../../utils/request'
 import * as _ from 'lodash';
 import PayInfo from '../components/PayInfo'
 import { config } from '../../helpers/JsConfig'
-import { pget, mark } from 'utils/request'
+import { mark } from 'utils/request'
 import { SubscribeAlert } from '../risepay/components/SubscribeAlert'
 
 /**

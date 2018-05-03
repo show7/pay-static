@@ -5,15 +5,14 @@ import { connect } from 'react-redux'
 import { mark } from '../../../utils/request'
 import { getGoodsType } from '../../../utils/helpers'
 import { set, startLoad, endLoad, alertMsg } from '../../../redux/actions'
-import { config, configShare } from '../../helpers/JsConfig'
+import { config } from '../../helpers/JsConfig'
 import PayInfo from '../components/PayInfo'
 import PicLoading from '../components/PicLoading'
 import { getRiseMember, checkRiseMember } from '../async'
-import { signupCamp, createCampGroup, getCampPageInfo } from './async'
+import { signupCamp, getCampPageInfo } from './async'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
 import { MarkBlock } from '../components/markblock/MarkBlock'
 import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
-import AssetImg from '../../../components/AssetImg'
 
 @connect(state => state)
 export default class CampPay extends React.Component<any, any> {
@@ -30,7 +29,9 @@ export default class CampPay extends React.Component<any, any> {
       showErr: false,
       showCodeErr: false,
       loading: true,
-      data: {}
+      data: {},
+      currentCampMonth: 0,
+      campPaymentImage: '',
     }
   }
 
@@ -110,9 +111,6 @@ export default class CampPay extends React.Component<any, any> {
         dispatch(alertMsg(errorMsg))
       }
     }
-    // else if(res.code === 214) {
-    //   this.setState({ timeOut: true })
-    // }
     else {
       dispatch(alertMsg(res.msg))
     }
@@ -130,7 +128,7 @@ export default class CampPay extends React.Component<any, any> {
   }
 
   render() {
-    const { data, showId, timeOut, showErr, showCodeErr, loading, show, campPaymentImage } = this.state
+    const { data, showId, timeOut, showErr, showCodeErr, loading, campPaymentImage } = this.state
     const { memberType } = data
 
     const renderPay = () => {
@@ -153,8 +151,6 @@ export default class CampPay extends React.Component<any, any> {
 
     return (
       <div className="camp-pay-container" style={{ background: '#d85a47' }}>
-        <AssetImg url="https://static.iqycamp.com/images/camp_close.jpeg" width={'100%'}/>
-        {/*
         <PicLoading show={loading}/>
         {renderPay()}
         {renderKefu()}
@@ -179,11 +175,10 @@ export default class CampPay extends React.Component<any, any> {
         }
         {memberType &&
           <PayInfo ref="payInfo" dispatch={this.props.dispatch} goodsType={getGoodsType(memberType.id)}
-               goodsId={memberType.id} header={'2018 我能赢！'} payedDone={(goodsId) => this.handlePayedDone()}
+               goodsId={memberType.id} payedDone={(goodsId) => this.handlePayedDone()}
                payedCancel={(res) => this.handlePayedCancel(res)} payedError={(res) => this.handlePayedError(res)}
                payedBefore={() => this.handlePayedBefore()}/>
         }
-      */}
       </div>
     )
   }
