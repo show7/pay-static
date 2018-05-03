@@ -4,7 +4,6 @@ import { Route } from 'react-router'
 import Base from 'modules/base/Base'
 import RisePay from 'modules/pay/risepay/RisePay'
 import CampPay from 'modules/pay/camppay/CampPay'
-import RiseApply from 'modules/pay/risepay/RiseApply'
 import RiseShare from 'modules/pay/risepay/RiseShare'
 import BusinessApply from './modules/pay/bsapply/BusinessApply'
 import BusinessApplyChoice from './modules/pay/bsapply/BusinessApplyChoice'
@@ -15,11 +14,10 @@ import ApplySuccess from 'modules/pay/risepay/ApplySuccess'
 import MemberPaySuccess from 'modules/pay/paysuccess/MemberPaySuccess'
 import BusinessApplySubmitSuccess from './modules/pay/bsapply/BusinessApplySubmitSuccess'
 import Subscribe from './modules/subscribe/Subscribe'
-import CampPayGuest from './modules/pay/camppay/CampPayGuest'
 import RiseAlipay from './modules/pay/risepay/RiseAlipay'
 import AlipayReturn from './modules/pay/risepay/AlipayReturn'
 import ExperienceDay from './modules/pay/preacher/ExperienceDay'
-import ThoughtPay from './modules/pay/thoughtapay/ThoughtPay'
+import ThoughtPay from './modules/pay/thoughtpay/ThoughtPay'
 import { notLoadInfoUrls, sa } from './utils/helpers'
 import PageNotFound from './modules/others/pageNotFound/PageNotFound'
 
@@ -47,9 +45,7 @@ const routes = (
       <Route path="pay/audition/success" component={AuditionSuccess}/>
       <Route path="pay/thought" component={ThoughtPay}/>
       <Route path="pay/rise" component={RisePay}/>
-      <Route path="pay/static/camp" component={CampPayGuest}/>
       <Route path="pay/camp" component={CampPay}/>
-      {/*<Route path="pay/static/rise" component={RiseApply}/>*/}
       <Route path="pay/static/rise" component={RisePay}/>
       <Route path="pay/static/share" component={RiseShare}/>
       <Route path="pay/apply" component={ApplySuccess}/>
