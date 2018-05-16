@@ -197,7 +197,7 @@ export default class RisePay extends React.Component<any, any> {
               </div> : <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'} memo={data ? buttonStr : ''}
                                   className="footer-btn" onClick={() => this.handleClickOpenPayInfo(
                 showId)}>
-                {buttonStr}
+                {buttonStr || '立即入学'}
               </MarkBlock>
             }
 
