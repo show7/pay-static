@@ -26,6 +26,11 @@ export default class QuestionCollection extends Component<QuestionCollectionProp
     }
   }
 
+
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
+
   componentWillMount() {
 
   }
