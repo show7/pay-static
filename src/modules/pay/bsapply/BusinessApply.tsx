@@ -82,14 +82,14 @@ export default class BusinessApply extends Component<any, any> {
           },
           {
             click: () => this.goApplySubmitPage(),
-            text: '马上预约'
+            text: '开始申请'
           }
         ]}/>
       } else {
         return <FooterButton btnArray={[
           {
             click: () => this.goApplySubmitPage(),
-            text: '马上预约'
+            text: '开始申请'
           }
         ]}/>
       }
