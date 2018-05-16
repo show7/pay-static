@@ -98,20 +98,37 @@ export default class BusinessApply extends Component<any, any> {
     return (
       <div className="business-apply">
         <div className="ba-header">
-          <div className="ba-header-msg">{apply.description}</div>
+          <div className="ba-header-msg">
+            { memberType.id === 8 ? "商业思维项目入学申请" : apply.description}
+            </div>
           <div className="ba-header-pic">
             <Icon type="phone_interview" width='10rem'/>
           </div>
         </div>
         <div className="ba-main-body">
-          <div className="ba-line">欢迎申请{memberType.description}！</div>
-          <div className="ba-line">我们每月会收到数以千计的入学申请，招生委员会将通过电话沟通，判断申请人是否符合入学要求，为最具潜力的申请人助力职业发展！</div>
-          <div className="ba-line">接下来，我们邀请你完成若干选择题，以便了解你的情况，在电话沟通中，为你提供个性化的提升建议。期待你的加入！</div>
+          <div className="ba-line">
+            欢迎申请{memberType.description}！
+          </div>
+          <div className="ba-line">
+            { memberType.id === 8 ?
+              "我们每月会收到数以千计的入学申请，招生委员会将通过申请，判断申请人是否符合入学要求，为最具潜力的申请人助力商业和管理能力提升。" :
+              "我们每月会收到数以千计的入学申请，招生委员会将通过电话沟通，判断申请人是否符合入学要求，为最具潜力的申请人助力职业发展！"
+            }
+          </div>
+          <div className="ba-line">
+            { memberType.id === 8 ?
+              "接下来，我们会邀请你完成若干选择题，以便了解你的情况，并为你选择合适的申请方式。" :
+              "接下来，我们邀请你完成若干选择题，以便了解你的情况，在电话沟通中，为你提供个性化的提升建议。期待你的加入！"
+            }
+          </div>
         </div>
         <div className="ba-sub-tips">填写须知</div>
         <div className="ba-sub-body">
-          共8道选择题，约3分钟时间完成。
+          { memberType.id === 8 ? "问卷以选择题为主，填写需要3-5分钟" :
+            "共8道选择题，约3分钟时间完成。"
+          }
         </div>
+
         {renderButtons()}
         {!!showQr ? <RenderInBody>
           <div className="qr_dialog">
