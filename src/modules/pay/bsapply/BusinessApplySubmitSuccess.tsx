@@ -51,11 +51,8 @@ export default class BusinessApplySubmitSuccess extends Component<any, any> {
 
           <div className="middle-words">
             {goodsId=='9' ?'即可：':'即可获得:'} <br/>
-
-
-            {goodsId=='9' ?'1. 咨询申请结果：':'1. 面试指南'} <br/>
-            <br/>
-           {goodsId=='9' ?'2. 企业采购咨询：':'2. 商学院课表'} <br/>
+            {goodsId=='9' ?'1. 咨询申请结果':'1. 面试指南'} <br/>
+           {goodsId=='9' ?'2. 企业采购咨询':'2. 商学院课表'} <br/>
             3. 奖学金政策说明<br/><br/>
           </div>
 
