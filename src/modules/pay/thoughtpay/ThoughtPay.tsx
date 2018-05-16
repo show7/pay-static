@@ -16,7 +16,7 @@ import { SubscribeAlert } from '../risepay/components/SubscribeAlert'
  * 商业进阶课售卖页
  */
 @connect(state => state)
-export default class PlusPay extends Component<any, any> {
+export default class ThoughtPay extends Component<any, any> {
   constructor() {
     super();
     this.state = {
@@ -122,9 +122,6 @@ export default class PlusPay extends Component<any, any> {
           dispatch(alertMsg(errorMsg))
         }
       }
-      // else if(res.code === 214) {
-      //   this.setState({ timeOut: true })
-      // }
       else {
         dispatch(alertMsg(res.msg))
       }
@@ -153,7 +150,7 @@ export default class PlusPay extends Component<any, any> {
         return <FooterButton primary={true} btnArray={[
           {
             click: () => this.handleClickOpenPayInfo(memberType.id),
-            text: '立即进阶',
+            text: '马上申请',
             module: '打点',
             func: '进阶课程',
             action: '点击立即入学',
@@ -164,7 +161,7 @@ export default class PlusPay extends Component<any, any> {
         return <FooterButton primary={true} btnArray={[
           {
             click: () => this.redirect(),
-            text: '立即进阶',
+            text: '马上申请',
             module: '打点',
             func: '进阶课程',
             action: '点击马上预约',
