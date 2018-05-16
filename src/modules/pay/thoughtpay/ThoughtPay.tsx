@@ -150,7 +150,7 @@ export default class ThoughtPay extends Component<any, any> {
         return <FooterButton primary={true} btnArray={[
           {
             click: () => this.handleClickOpenPayInfo(memberType.id),
-            text: '马上申请',
+            text: '立即入学',
             module: '打点',
             func: '进阶课程',
             action: '点击立即入学',
