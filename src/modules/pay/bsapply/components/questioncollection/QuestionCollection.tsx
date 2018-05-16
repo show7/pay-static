@@ -369,7 +369,7 @@ export default class QuestionCollection extends Component<QuestionCollectionProp
             <FooterButton btnArray={[ {
               click: () => this.handleClickSubmit(),
               // this.handleClickOpenPayInfo(),
-              text: '1元预约'
+              text: '马上申请'
             } ]}/>
           )
         } else {
