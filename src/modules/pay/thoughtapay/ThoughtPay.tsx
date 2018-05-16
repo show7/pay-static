@@ -162,14 +162,14 @@ export default class PlusPay extends Component<any, any> {
           }
         ]}/>
       } else {
-        // module: '打点',
-        // func: '进阶课程',
-        // action: '点击马上预约',
-        // memo: '申请页面'
         return <FooterButton primary={true} btnArray={[
           {
             click: () => this.redirect(),
             text: '立即进阶',
+            module: '打点',
+            func: '进阶课程',
+            action: '点击马上预约',
+            memo: '申请页面'
           }
         ]}/>
       }
