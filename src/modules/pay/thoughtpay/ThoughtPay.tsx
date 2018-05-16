@@ -52,25 +52,25 @@ export default class PlusPay extends Component<any, any> {
         });
         mark({ module: '打点', function: '进阶课程', action: '购买进阶课程会员', memo: '入学页面' })
       } else {
-        window.location.href = '/rise/static/rise';
-        return;
-        // sa.track('openSaleApplyPage', {
-        //   goodsType: getGoodsType(this.state.showId),
-        //   goodsId: this.state.showId + ''
-        // });
-        // mark({ module: '打点', function: '进阶课程', action: '购买进阶课程会员', memo: '申请页面' })
+        // window.location.href = '/rise/static/rise';
+        // return;
+        sa.track('openSaleApplyPage', {
+          goodsType: getGoodsType(this.state.showId),
+          goodsId: this.state.showId + ''
+        });
+        mark({ module: '打点', function: '进阶课程', action: '购买进阶课程会员', memo: '申请页面' })
       }
     }
   }
 
   redirect() {
-    // this.context.router.push({
-    //   pathname: '/pay/bsstart',
-    //   query: {
-    //     goodsId: 9
-    //   }
-    // })
-    this.setState({ subscribe: true });
+    this.context.router.push({
+      pathname: '/pay/bsstart',
+      query: {
+        goodsId: 9
+      }
+    })
+    // this.setState({ subscribe: true });
   }
 
   handlePayedDone() {
