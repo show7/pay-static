@@ -115,8 +115,8 @@ export default class BusinessApplyChoice extends Component<any, any> {
 
     return (
       <div className="apply-choice" style={{ minHeight: window.innerHeight }}>
-        <QuestionCollection header={memberType.name} goodsId={memberType.id}
-                            handleClickOpenPayInfo={() => this.handleClickOpenPayInfo()}/>
+        {memberType.id && <QuestionCollection header={memberType.name} goodsId={memberType.id}
+                                              handleClickOpenPayInfo={() => this.handleClickOpenPayInfo()}/>}
         {showErr ? <div className="pay-tips-mask" onClick={() => this.setState({ showErr: false })}>
           <div className="tips">
             出现问题的童鞋看这里<br/>
