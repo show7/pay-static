@@ -26,7 +26,6 @@ export default class QuestionCollection extends Component<QuestionCollectionProp
     }
   }
 
-
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   }
@@ -211,7 +210,12 @@ export default class QuestionCollection extends Component<QuestionCollectionProp
         if(!!payApplyFlag) {
           handleClickOpenPayInfo()
         } else {
-          this.context.router.push('/pay/applysubmit');
+          this.context.router.push({
+            pathname: '/pay/applysubmit',
+            query: {
+              goodsId: goodsId
+            }
+          });
         }
       } else {
         dispatch(alertMsg(res.msg));
