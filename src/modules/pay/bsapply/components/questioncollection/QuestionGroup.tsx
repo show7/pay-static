@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 import DropDownList from '../../../../../components/form/DropDownList'
 import { QuestionType,sendValidCode } from '../../async'
 import { set, startLoad, endLoad, alertMsg } from "redux/actions"
+import { UploadComponent } from '../../../../../components/form/UploadComponent'
 
 interface QuestionGroupProps {
   group: any,
@@ -279,7 +280,6 @@ export default class QuestionGroup extends Component<QuestionGroupProps, any> {
 
     const renderUploadPic = (questionInfo) => {
       const { question, type, sequence, request, preChoiceId, id, series, tips, choices, chosenId, oneId, twoId } = questionInfo;
-
       return mixQuestionDom(questionInfo,
         <div className='upload-image'>
           <UploadComponent handleUploadError={(msg) => this.handleUploadError(msg, questionInfo)}
