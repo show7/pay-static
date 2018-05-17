@@ -221,7 +221,7 @@ export default class ApplySuccess extends React.Component<any, any> {
       <div className="rise-pay-apply-container">
         <div>
           <ApplySuccessCard
-            maskPic={memberType.id == 3 ? 'https://static.iqycamp.com/images/fragment/apply_success_3_1.png?imageslim' : 'https://static.iqycamp.com/images/fragment/apply_success_8_1.png?imageslim'}
+            maskPic={memberType.id == 3 ? 'https://static.iqycamp.com/images/fragment/apply_success_3_1.png?imageslim' : 'https://static.iqycamp.com/images/fragment/apply_success_0517.png?imageslim'}
             privilege={privilege} remainHour={remainHour} remainMinute={remainMinute}
             remainSecond={remainSecond} name={memberType.description}/>
 

@@ -231,11 +231,23 @@ export default class QuestionCollection extends Component<QuestionCollectionProp
    * @param group 新的group对象
    * @param index 当前index
    */
-  handleGroupChanged(group, index) {
+  handleGroupChanged(group, index, question) {
     const { questionGroup, currentIndex, seriesCount, } = this.state
+    const { goodsId } = this.props;
     let newGroups = _.cloneDeep(questionGroup);
     newGroups[ index ] = group;
     this.setState({ questionGroup: newGroups });
+    console.log('change', question);
+    mark({
+      module: "申请填写",
+      function: goodsId,
+      action: '答题',
+      memo: question.id,
+      applyQuestionSeq: question.sequence,
+      applyQuestionSeries: question.series,
+      applyQuestionRequest: question.request,
+      applyQuestionType: question.type
+    });
   }
 
   /**
@@ -363,7 +375,6 @@ export default class QuestionCollection extends Component<QuestionCollectionProp
 
   render() {
     const { currentIndex, questionGroup = [], seriesCount, showErr, showCodeErr, memberType, payApplyFlag } = this.state
-    console.log(questionGroup)
     const renderButtons = () => {
       if(currentIndex === 0) {
         return (
@@ -413,7 +424,7 @@ export default class QuestionCollection extends Component<QuestionCollectionProp
           <div className="apply-progress-page-index">{currentIndex + 1} / {questionGroup.length}</div>
           <QuestionGroup currentIndex={currentIndex} group={questionGroup[ currentIndex ]} allGroup={questionGroup}
                          region={this.props.region}
-                         onGroupChanged={(group) => this.handleGroupChanged(group, currentIndex)}/>
+                         onGroupChanged={(group, question) => this.handleGroupChanged(group, currentIndex, question)}/>
         </div>
         <div style={{ height: '65px', width: '100%' }}/>
         {renderButtons()}
