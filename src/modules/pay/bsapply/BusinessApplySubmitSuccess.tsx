@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import './BusinessApplySubmitSuccess.less';
 import { set, startLoad, endLoad, alertMsg } from "redux/actions"
 import { mark } from "utils/request"
-import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
+import { FooterButton } from '../../../components/submitbutton/FooterButton'
 import { closeWindow } from '../../helpers/JsConfig'
 import Icon from '../../../components/Icon'
 import { loadApplyProjectInfo } from '../async'
@@ -44,9 +44,7 @@ export default class BusinessApplySubmitSuccess extends Component<any, any> {
           </div>
         </div>
         <div className="ba-main-body">
-          {/*<div className="top-words">*/}
           扫码添加圈外招生委员会老师<br/>
-          {/*</div>*/}
 
           <div className="middle-words">
             {goodsId=='9' ?'即可：':'即可获得:'} <br/>
@@ -54,11 +52,6 @@ export default class BusinessApplySubmitSuccess extends Component<any, any> {
            {goodsId=='9' ?'2. 企业采购咨询':'2. 商学院课表'} <br/>
             3. 奖学金政策说明<br/><br/>
           </div>
-
-
-          {/*您会在两个工作日内<br/>*/}
-          {/*通过手机短信和微信公众号【圈外同学】 <br/>*/}
-          {/*收取录取和奖学金审核结果*/}
         </div>
         <div className="ba-sub-tips">
           <div className="small-tips">
@@ -68,7 +61,12 @@ export default class BusinessApplySubmitSuccess extends Component<any, any> {
           <img src="https://static.iqycamp.com/images/qrcode_qwzswyh.jpeg?imageslim"
                className="qrcode"/>
         </div>
-        <SubmitButton clickFunc={() => this.handleClickClosePage()} buttonText="关闭"/>
+        <FooterButton primary={true} btnArray={[
+          {
+            click: () => this.handleClickClosePage(),
+            text: '关闭'
+          }
+        ]}/>
       </div>
     )
   }
