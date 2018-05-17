@@ -38,7 +38,7 @@ export default class QuestionGroup extends Component<QuestionGroupProps, any> {
     let key = _.findIndex(questions, { id: question.id });
     let result = _.set(_.cloneDeep(group), `questions[${key}]`, _.set(_.cloneDeep(question), keyName, value));
     console.log(result);
-    this.props.onGroupChanged(result);
+    this.props.onGroupChanged(result, question);
   }
 
   /**
