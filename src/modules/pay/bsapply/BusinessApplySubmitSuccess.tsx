@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import './BusinessApply.less';
+import './BusinessApplySubmitSuccess.less';
 import { set, startLoad, endLoad, alertMsg } from "redux/actions"
-import * as _ from 'lodash';
 import { mark } from "utils/request"
 import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
 import { closeWindow } from '../../helpers/JsConfig'
@@ -37,7 +36,7 @@ export default class BusinessApplySubmitSuccess extends Component<any, any> {
     const { goodsId = '7' } = this.props.location.query;
     const { projectName = '' } = this.state;
     return (
-      <div className="business-apply submit-success">
+      <div className="business-apply-submit submit-success">
         <div className="ba-header">
           <div className="ba-header-msg">感谢提交{projectName}申请</div>
           <div className="ba-header-pic">

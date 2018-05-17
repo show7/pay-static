@@ -1,0 +1,101 @@
+@import "../../../components/CommonStyle";
+@import "../../../style/variable";
+
+.business-apply-submit {
+  min-height: 100vh;
+  position: relative;
+  background: url(@imgBusinessBackground) repeat-y center top/100% auto;
+  //overflow: hidden;
+  .ba-header {
+    padding-top: 3.5rem;
+    .ba-header-msg {
+      padding: 0;
+      color: #ffb200;
+      //.linear-gradient();
+      font-size: 24px;
+      line-height: 24px;
+      height: 24px;
+      text-align: center;
+    }
+    .ba-header-pic {
+      text-align: center;
+      padding: 1rem 0;
+      img {
+        width: 10rem;
+      }
+    }
+  }
+  > .pay-tips-mask {
+    .pay-tips-mask();
+  }
+  .ba-main-body {
+    padding: 0 3rem 0.5rem;
+    font-size: 1.5rem;
+    color: @color_white;
+    line-height: 2.0rem;
+    .ba-line {
+      margin-bottom: 3.0rem;
+    }
+    .ba-tips {
+      color: #ffb200;
+      font-size: 1.4rem;
+      margin-bottom: 1.0rem;
+    }
+    .ba-tips-ending {
+      color: #ffb200;
+      font-size: 1.3rem;
+      margin-bottom: 3.0rem;
+      text-align: right;
+    }
+  }
+  .ba-sub-tips {
+    margin: 0 3rem 0.5rem;
+    color: #ffb200;
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+    text-indent: 2.0rem;
+    background: url('../../../../assets/icons/readme.png') no-repeat left center/1.3rem 1.5rem;
+  }
+  .ba-sub-body {
+    padding: 0 3rem 6rem;
+    color: #cccccc;
+    font-size: 1.2rem;
+
+  }
+  .qrcode {
+    display: block;
+    margin: 0 auto;
+    width: 15rem;
+    height: 15rem;
+    padding: 0rem 0 5rem;
+  }
+  &.submit-success {
+    .ba-main-body {
+      padding: 0 3rem 0;
+      text-align: center;
+      line-height: 2rem;
+      font-weight: 300;
+      .top-words {
+        text-align: left;
+        display: inline-block;
+        margin:0 auto;
+      }
+      .middle-words {
+        padding-top:8px;
+        text-align: left;
+        display: inline-block;
+        margin: 0 auto;
+      }
+    }
+    .ba-sub-tips {
+      text-align: center;
+      line-height: 2rem;
+      font-size: 1.5rem;
+      text-indent: 0;
+      background: none;
+      .small-tips {
+        font-weight: 200;
+      }
+    }
+  }
+}
