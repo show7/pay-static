@@ -5,6 +5,7 @@ import { set, startLoad, endLoad, alertMsg } from "redux/actions"
 import { mark } from "utils/request"
 import { sa } from '../../../utils/helpers'
 import RenderInBody from '../../../components/RenderInBody'
+import AssetImg from '../../../components/AssetImg'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 import { checkRiseMember, loadApplyProjectInfo } from '../async'
 
@@ -100,13 +101,10 @@ export default class BusinessApply extends Component<any, any> {
             { memberType.id === 8 ? "商业思维项目入学申请" : apply.description}
             </div>
           <div className="ba-header-pic">
-            <img src="https://static.iqycamp.com/images/apply_interview.png?imageslim" width='10rem'/>
+            <AssetImg url="https://static.iqycamp.com/images/apply_interview.png" size={'9.6rem'}/>
           </div>
         </div>
         <div className="ba-main-body">
-          <div className="ba-line">
-            欢迎申请{memberType.description}！
-          </div>
           <div className="ba-line">
             { memberType.id === 8 ?
               "感谢你报名申请圈外商学院！还差一步，即可开启体系化提升商业思维和管理能力之路。" :
