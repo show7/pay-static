@@ -378,7 +378,7 @@ export default class QuestionCollection extends Component<QuestionCollectionProp
     const renderButtons = () => {
       if(currentIndex === 0) {
         return (
-          <FooterButton btnArray={[ {
+          <FooterButton primary={true} btnArray={[ {
             click: () => this.handleClickNextStep(),
             text: '下一步'
           } ]}/>
@@ -386,7 +386,7 @@ export default class QuestionCollection extends Component<QuestionCollectionProp
       } else if(currentIndex === seriesCount - 1) {
         if(!!payApplyFlag) {
           return (
-            <FooterButton btnArray={[ {
+            <FooterButton primary={true} btnArray={[ {
               click: () => this.handleClickSubmit(),
               // this.handleClickOpenPayInfo(),
               text: '马上申请'
@@ -394,7 +394,7 @@ export default class QuestionCollection extends Component<QuestionCollectionProp
           )
         } else {
           return (
-            <FooterButton btnArray={[ {
+            <FooterButton primary={true} btnArray={[ {
               click: () => this.handleClickSubmit(),
               text: '提交'
             } ]}/>
@@ -402,7 +402,7 @@ export default class QuestionCollection extends Component<QuestionCollectionProp
         }
       } else {
         return (
-          <FooterButton btnArray={[ {
+          <FooterButton primary={true} btnArray={[ {
             click: () => this.prevStep(),
             text: '上一步'
           }, {
