@@ -208,7 +208,7 @@ export class SaleBody extends React.Component {
                 e.preventDefault();
                 return;
               },
-              url: 'https://static.iqycamp.com/images/fragment/thought_sale_page_1_0517_1.jpg?imageslim'
+              url: 'https://static.iqycamp.com/images/fragment/thought_sale_page_1_0518_1.jpg?imageslim'
             }, {
               size: '100%',
               style: {
