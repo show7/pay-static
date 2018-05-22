@@ -28,7 +28,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
   }
 
   componentWillMount() {
-    let riseId = this.props.location.query.riseId || "";
+    let riseId = this.props.location.query.riseId || null;
     this.setState({riseId:riseId})
   }
 

@@ -37,9 +37,9 @@ export default class BusinessApply extends Component<any, any> {
 
   async goApplySubmitPage() {
     const { dispatch } = this.props;
-    const { goodsId = '7',riseId="" } = this.props.location.query;
+    const { goodsId = '7',riseId=null } = this.props.location.query;
 
-    let res = await checkRiseMember(goodsId);
+    let res = await checkRiseMember(goodsId,riseId);
     if(res.code === 200) {
       const { qrCode, privilege, errorMsg, subscribe } = res.msg;
       if(subscribe) {

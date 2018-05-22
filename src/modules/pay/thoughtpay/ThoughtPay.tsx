@@ -39,9 +39,26 @@ export default class ThoughtPay extends Component<any, any> {
   }
 
   async componentWillMount() {
+      const { dispatch } = this.props
     if(refreshForPay()) {
       return;
     }
+    //分享优惠券
+      let riseId = this.props.location.query.riseId || null;
+      this.setState({riseId: riseId})
+      if (riseId) {
+          let param = {
+              riseId: riseId,
+              memberTypeId: 8
+          }
+          let invitationInfo = await loadInvitation(param)
+          this.setState({invitationData: invitationInfo.msg,})
+          if (invitationInfo.msg.isNewUser && invitationInfo.msg.isReceived) {
+              dispatch(alertMsg("优惠券已经发到你的圈外同学账号咯！"))
+          } else if (invitationInfo.msg.isNewUser) {
+              this.setState({invitationLayout: true})
+          }
+      }
     //表示是分享点击进入
     let res = await getRiseMember(this.state.showId)
     if(res.code === 200) {
@@ -64,19 +81,7 @@ export default class ThoughtPay extends Component<any, any> {
         mark({ module: '打点', function: '进阶课程', action: '购买进阶课程会员', memo: '申请页面' })
       }
     }
-     let riseId = this.props.location.query.riseId || "";
-    this.setState({riseId:riseId})
-     if (riseId) {
-         let param ={
-             riseId : riseId,
-             memberTypeId: 8
-         }
-         let invitationInfo = await loadInvitation(param)
-         this.setState({invitationData: invitationInfo.msg,})
-         if (invitationInfo.msg.isNewUser){
-             this.setState({invitationLayout:true})
-         }
-     }
+
   }
 
 
