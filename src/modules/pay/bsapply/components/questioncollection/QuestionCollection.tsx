@@ -289,7 +289,7 @@ export default class QuestionCollection extends Component<QuestionCollectionProp
    * 点击提交按钮
    */
   async handleClickSubmit() {
-    const { dispatch, region, goodsId } = this.props;
+    const { dispatch, region, goodsId ,riseId} = this.props;
     const { questionGroup, currentIndex } = this.state
 
     // 检查本页是否提交完成
@@ -335,7 +335,7 @@ export default class QuestionCollection extends Component<QuestionCollectionProp
     }, []);
 
     // 调用提交api
-    this.submitApplyAPI({ userSubmits: result, goodsId: goodsId })
+    this.submitApplyAPI({ userSubmits: result, goodsId: goodsId ,riseId:riseId})
   }
 
   /**

@@ -35,8 +35,8 @@ export function getRiseMember(riseMember) {
   return pget(`/signup/rise/member/${riseMember}`)
 }
 
-export function checkRiseMember(riseMember) {
-  return pget(`/signup/rise/member/check/${riseMember}`)
+export function checkRiseMember(riseMember,riseId) {
+  return pget(`/signup/rise/member/check/${riseMember}?riseId=${riseId}`)
 }
 
 export function entryRiseMember(riseMember) {
@@ -67,3 +67,11 @@ export function loadApplyProjectInfo(param: { applyId, wannaGoodsId }) {
   return pget('/signup/apply/project/mapping', param);
 }
 
+/**
+ * 分享 优惠卷信息
+ * @param param
+ * @returns {any}
+ */
+export function loadInvitation(param) {
+    return ppost('/rise/share/receive/coupons', param);
+ }

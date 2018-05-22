@@ -7,7 +7,7 @@ import { getGoodsType, PayType, sa, refreshForPay } from 'utils/helpers'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { config, configShare } from 'modules/helpers/JsConfig'
 import PayInfo from '../components/PayInfo'
-import { checkRiseMember, getRiseMember } from '../async'
+import {checkRiseMember, getRiseMember, loadInvitation} from '../async'
 import { SaleBody } from './components/SaleBody'
 import { MarkBlock } from '../components/markblock/MarkBlock'
 import { addUserRecommendation } from './async'
@@ -28,7 +28,10 @@ export default class RisePay extends React.Component<any, any> {
       showErr: false,
       showCodeErr: false,
       subscribe: false,
-      data: {}
+      data: {},
+      invitationLayout: false, // 弹框标识
+      invitationData:{}, //分享的优惠券数据
+       riseId:null        //分享来源
     }
   }
 
@@ -75,6 +78,23 @@ export default class RisePay extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(err))
     })
+      // 分享得到优惠券判断
+      let riseId = this.props.location.query.riseId || null;
+      this.setState({riseId:riseId})
+      if (riseId) {
+          let param = {
+              riseId : riseId,
+              memberTypeId: 3
+          }
+          loadInvitation(param).then((res) => {
+            if (res.code === 200) {
+                this.setState({invitationData: invitationInfo.msg})
+                if (res.msg.isNewUser) {
+                    this.setState({invitationLayout: true })
+                }
+            }
+          })
+      }
   }
 
   componentDidMount() {
@@ -144,15 +164,19 @@ export default class RisePay extends React.Component<any, any> {
   }
 
   redirect() {
-    sa.track('clickApplyButton');
+      const { dispatch } = this.props
+      sa.track('clickApplyButton');
+      if (this.state.riseId && !this.state.invitationData.isNewUser) {
+          dispatch(alertMsg("你已经是会员咯！快去个人中心分享赢取优惠券哦！"))
+      }else {
+          this.setState({ subscribe: true })
+      }
     // this.context.router.push({
     //   pathname: '/pay/bsstart',
     //   query: {
     //     goodsId: 7
     //   }
     // })
-
-    this.setState({ subscribe: true })
   }
 
   handlePayedBefore() {
@@ -174,7 +198,7 @@ export default class RisePay extends React.Component<any, any> {
   }
 
   render() {
-    const { data, showId, timeOut, showErr, showCodeErr, subscribe } = this.state
+    const { data, showId, timeOut, showErr, showCodeErr, subscribe ,invitationLayout,invitationData} = this.state
     const { privilege, buttonStr, auditionStr, memberType, tip } = data
     const { location } = this.props
     let payType = _.get(location, 'query.paytype')
@@ -215,7 +239,17 @@ export default class RisePay extends React.Component<any, any> {
       }
 
     }
-
+      const renderLayout = ()=>{
+          return (
+              <div className="invitation-layout">
+                  <div className="layout-box">
+                      <h3>好友邀请</h3>
+                      <p>{invitationData.oldNickName}觉得《商业思维项目》很适合你，邀请你成为TA的同学，送你一张{invitationData.amount}元的学习优惠券。</p>
+                      <span className="button" onClick={()=>{this.setState({invitationLayout: false})}}>知道了</span>
+                  </div>
+              </div>
+          )
+      }
     return (
       <div className="rise-pay-container">
         <div className="pay-page">
@@ -261,6 +295,10 @@ export default class RisePay extends React.Component<any, any> {
         {
           subscribe && <SubscribeAlert closeFunc={() => this.setState({ subscribe: false })}/>
         }
+          {invitationLayout&&
+              renderLayout()
+          }
+
       </div>
     )
   }

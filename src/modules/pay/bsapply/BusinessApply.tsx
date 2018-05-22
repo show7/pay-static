@@ -37,9 +37,9 @@ export default class BusinessApply extends Component<any, any> {
 
   async goApplySubmitPage() {
     const { dispatch } = this.props;
-    const { goodsId = '7' } = this.props.location.query;
+    const { goodsId = '7',riseId=null } = this.props.location.query;
 
-    let res = await checkRiseMember(goodsId);
+    let res = await checkRiseMember(goodsId,riseId);
     if(res.code === 200) {
       const { qrCode, privilege, errorMsg, subscribe } = res.msg;
       if(subscribe) {
@@ -49,7 +49,11 @@ export default class BusinessApply extends Component<any, any> {
             goodsId: goodsId
           });
           mark({ module: "商学院审核", function: goodsId, action: "点击开始申请商学院", memo: "申请开始页面" })
-          window.location.href = `/pay/applychoice?goodsId=${goodsId}`
+            if (riseId){
+                window.location.href = `/pay/applychoice?goodsId=${goodsId}&riseId=${riseId}`
+            } else {
+                window.location.href = `/pay/applychoice?goodsId=${goodsId}`
+            }
         } else {
           dispatch(alertMsg(errorMsg));
         }

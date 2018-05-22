@@ -19,6 +19,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
       questionGroup: [],
       seriesCount: 0,
       currentIndex: 0,
+        riseId: ""
     }
   }
 
@@ -27,6 +28,8 @@ export default class BusinessApplyChoice extends Component<any, any> {
   }
 
   componentWillMount() {
+    let riseId = this.props.location.query.riseId || null;
+    this.setState({riseId:riseId})
   }
 
   async componentDidMount() {
@@ -111,11 +114,11 @@ export default class BusinessApplyChoice extends Component<any, any> {
   }
 
   render() {
-    const { showErr, showCodeErr, memberType = {} } = this.state
+    const { showErr, showCodeErr, memberType = {} ,riseId} = this.state
 
     return (
       <div className="apply-choice" style={{ minHeight: window.innerHeight }}>
-        {memberType.id && <QuestionCollection header={memberType.name} goodsId={memberType.id}
+        {memberType.id && <QuestionCollection header={memberType.name} goodsId={memberType.id} riseId={riseId}
                                               handleClickOpenPayInfo={() => this.handleClickOpenPayInfo()}/>}
         {showErr ? <div className="pay-tips-mask" onClick={() => this.setState({ showErr: false })}>
           <div className="tips">
