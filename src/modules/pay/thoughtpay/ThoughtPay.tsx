@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import './ThoughtPay.less'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { getGoodsType, PayType, refreshForPay, sa } from '../../../utils/helpers'
-import { checkRiseMember, getRiseMember } from '../async'
+import { checkRiseMember, getRiseMember,loadInvitation } from '../async'
 import { SaleBody } from '../risepay/components/SaleBody'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 import * as _ from 'lodash';
@@ -27,7 +27,10 @@ export default class ThoughtPay extends Component<any, any> {
           圈外招生办老师（ID：iquanwai-iqw）<br/>
           回复【商业项目】，领取学习资料包！</div>,
         qrCode: 'https://static.iqycamp.com/images/qrcode_qwzswyh.jpeg?imageslim'
-      }
+      },
+        invitationLayout: false, // 弹框标识
+        invitationData:{}, //分享的优惠券数据
+        riseId:""        //分享来源
     }
   }
 
@@ -61,15 +64,42 @@ export default class ThoughtPay extends Component<any, any> {
         mark({ module: '打点', function: '进阶课程', action: '购买进阶课程会员', memo: '申请页面' })
       }
     }
+     let riseId = this.props.location.query.riseId || "";
+    this.setState({riseId:riseId})
+     if (riseId) {
+         let param ={
+             riseId : riseId,
+             memberTypeId: 8
+         }
+         let invitationInfo = await loadInvitation(param)
+         this.setState({invitationData: invitationInfo.msg,})
+         if (invitationInfo.msg.isNewUser){
+             this.setState({invitationLayout:true})
+         }
+     }
   }
 
+
   redirect() {
-    this.context.router.push({
-      pathname: '/pay/bsstart',
-      query: {
-        goodsId: 9
+      const { dispatch } = this.props
+      if (this.state.riseId && !this.state.invitationData.isNewUser) {
+          dispatch(alertMsg("你已经是会员咯！快去个人中心分享赢取优惠券哦！"))
+      }else if (this.state.riseId && this.state.invitationData.isNewUser) {
+          this.context.router.push({
+              pathname: '/pay/bsstart',
+              query: {
+                  goodsId: 9,
+                  riseId: this.state.riseId
+              }
+          })
+      } else {
+          this.context.router.push({
+              pathname: '/pay/bsstart',
+              query: {
+                  goodsId: 9
+              }
+          })
       }
-    })
     // this.setState({ subscribe: true });
   }
 
@@ -141,7 +171,7 @@ export default class ThoughtPay extends Component<any, any> {
   render() {
     let payType = _.get(location, 'query.paytype')
 
-    const { subscribeAlertTips, privilege, memberType, buttonStr, auditionStr, tip, showId, timeOut, showErr, showCodeErr, subscribe } = this.state;
+    const { subscribeAlertTips, privilege, memberType, buttonStr, auditionStr, tip, showId, timeOut, showErr, showCodeErr, subscribe,invitationLayout,invitationData } = this.state;
     const renderButtons = () => {
       if(typeof(privilege) === 'undefined') {
         return null;
@@ -170,7 +200,17 @@ export default class ThoughtPay extends Component<any, any> {
         ]}/>
       }
     }
-
+    const renderLayout = ()=>{
+      return (
+          <div className="invitation-layout">
+            <div className="layout-box">
+              <h3>好友邀请</h3>
+              <p>{invitationData.oldNickName}觉得《商业思维项目》很适合你，邀请你成为TA的同学，送你一张{invitationData.amount}元的学习优惠券。</p>
+              <span className="button" onClick={()=>{this.setState({invitationLayout: false})}}>知道了</span>
+            </div>
+          </div>
+      )
+    }
     return (
       <div className="plus-pay">
         <SaleBody memberTypeId='8'/>
@@ -216,6 +256,9 @@ export default class ThoughtPay extends Component<any, any> {
             <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
           </div>
         }
+          {   invitationLayout &&
+              renderLayout()
+          }
       </div>
     )
   }

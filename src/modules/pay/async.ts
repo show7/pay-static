@@ -67,3 +67,6 @@ export function loadApplyProjectInfo(param: { applyId, wannaGoodsId }) {
   return pget('/signup/apply/project/mapping', param);
 }
 
+export function loadInvitation(param) {
+    return ppost('/rise/share/receive/coupons', param);
+}
