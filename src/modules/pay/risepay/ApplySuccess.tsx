@@ -98,8 +98,8 @@ export default class ApplySuccess extends React.Component<any, any> {
 
     loadApplyProjectInfo({ wannaGoodsId: goodsId }).then(res => {
       if(res.code === 200) {
-        const { applyId, wannaGoodsId } = res.msg;
-        this.setState({ applyId: applyId, wannaGoodsId: wannaGoodsId });
+        const { apply, wannaGoods } = res.msg;
+        this.setState({ applyId: apply.id, wannaGoodsId: wannaGoods.id });
       }
     })
 

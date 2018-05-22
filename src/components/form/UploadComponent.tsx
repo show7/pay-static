@@ -30,7 +30,7 @@ export class UploadComponent extends Component<UploadProps, any> {
     uploadImage(formData).then((res) => {
       if(res.code === 200) {
         this.setState({ uploadSuccess: true });
-        handleUploadSuccess(res.msg);
+        handleUploadSuccess(res.msg.picUrl);
       } else {
         handleUploadError(res.msg);
       }
