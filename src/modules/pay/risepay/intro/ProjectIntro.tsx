@@ -1,3 +1,9 @@
+/*----------------------------------------------------------------------------------------------------------------------
+  1. 项目名称：pay-static
+  2. 文件功能：项目二级介绍
+  3. 作者： zhenzikang@iquanwai.com
+  4. 备注：
+ ---------------------------------------------------------------------------------------------------------------------*/
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './ProjectIntro.less'
@@ -150,6 +156,9 @@ export default class ProjectIntro extends Component<any, any> {
             </span>
           </div>
         </section>
+        <div className="more-project-tips">
+          更多课程大纲持续更新中...
+        </div>
       </div>
 
     </div>
