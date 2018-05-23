@@ -22,7 +22,13 @@ export default class SequenceDisplay extends React.Component<any, any> {
      -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
     const { imgList } = this.props;
     let newImgList = merge([], imgList);
-    forEach(newImgList, item => item.loading = true)
+    forEach(newImgList, item => {
+      if(!!item.dom) {
+        item.loading = false;
+      } else {
+        item.loading = true;
+      }
+    })
     this.setState({
       imgList: newImgList
     })
@@ -52,14 +58,27 @@ export default class SequenceDisplay extends React.Component<any, any> {
       -------------------------------------------------------------------------------------------------------------------*/
       return map(imgList, (item, index, pics) => {
         if(index == 0) {
-          // 第一个必须显示
-          return <AssetImg key={index} onLoad={() => this.onLoad(item, index, pics)} {...item} />
+          if(!!item.dom) {
+            // 是一个dom
+            return <div key={index}>
+              {item.dom}
+            </div>;
+          } else {
+            // 第一个必须显示
+            return <AssetImg key={index} onLoad={() => this.onLoad(item, index, pics)} {...item} />
+          }
         } else {
           // 获取上一个
           let prePic = pics[ index - 1 ];
           if(!prePic.loading) {
             // 加载完成
-            return <AssetImg key={index} onLoad={() => this.onLoad(item, index, pics)} {...item}/>
+            if(!!item.dom) {
+              return <div key={index}>
+                {item.dom}
+              </div>;
+            } else {
+              return <AssetImg key={index} onLoad={() => this.onLoad(item, index, pics)} {...item}/>
+            }
           } else {
             return;
           }
