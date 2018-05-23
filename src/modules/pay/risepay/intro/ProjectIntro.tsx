@@ -22,11 +22,13 @@ export default class ProjectIntro extends Component<any, any> {
   render() {
     return <div className="project-intro">
       <div className="project-intro-wrapper">
+        {/* 标题 */}
         <div className="project-title">
           <span className="title-text">
             <span className="text">《战略管理》课程大纲</span>
           </span>
         </div>
+        {/* 老师介绍 */}
         <section className="project-card">
           <div className="project-left-avatar">
             <AssetImg url='https://static.iqycamp.com/images/fragment/hanzheng_head_0522.jpg?imageslim' size='100%'/>
@@ -44,6 +46,7 @@ export default class ProjectIntro extends Component<any, any> {
             </div>
           </div>
         </section>
+        {/* 章节信息 */}
         <section className="project-sub-area">
           <div className="project-sub-title">
             课程介绍
