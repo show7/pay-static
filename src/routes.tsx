@@ -20,22 +20,23 @@ import ExperienceDay from './modules/pay/preacher/ExperienceDay'
 import ThoughtPay from './modules/pay/thoughtpay/ThoughtPay'
 import { notLoadInfoUrls, sa } from './utils/helpers'
 import PageNotFound from './modules/others/pageNotFound/PageNotFound'
+import ProjectIntro from './modules/pay/risepay/intro/ProjectIntro'
 
 const routes = (
   <Route path="/">
     <Route component={Base}
            onChange={() => {
-             config(['chooseWXPay'])
+             config([ 'chooseWXPay' ])
              window.scrollTo(0, 0)
              let loadInfo = true
-             for (let i = 0; i < notLoadInfoUrls.length; i++) {
-               let url = notLoadInfoUrls[i]
-               if (url.indexOf(window.location.pathname) !== -1) {
+             for(let i = 0; i < notLoadInfoUrls.length; i++) {
+               let url = notLoadInfoUrls[ i ]
+               if(url.indexOf(window.location.pathname) !== -1) {
                  loadInfo = false
                  break
                }
              }
-             if (loadInfo) {
+             if(loadInfo) {
                sa.quick('autoTrackSinglePage')
              }
            }}>
@@ -57,6 +58,7 @@ const routes = (
       <Route path="pay/applysubmit" component={BusinessApplySubmitSuccess}/>
       <Route path="pay/alipay/rise" component={RiseAlipay}/>
       <Route path="pay/alipay/return" component={AlipayReturn}/>
+      <Route path="pay/thought/intro" component={ProjectIntro}/>
     </Route>
     <Route path="*" component={PageNotFound}></Route>
   </Route>

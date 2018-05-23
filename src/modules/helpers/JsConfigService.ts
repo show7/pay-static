@@ -125,7 +125,8 @@ class JsConfigService {
         this.setConfigParamError(url, e, apiList, callback);
       })
       wx.ready(() => {
-        let hideMenu = true;
+        // 默认不隐藏
+        let hideMenu = false;
         for(let i = 0; i < whiteList.length; i++) {
           let url = whiteList[ i ];
           if(url.indexOf(window.location.pathname) !== -1) {
