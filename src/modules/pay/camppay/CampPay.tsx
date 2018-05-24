@@ -139,12 +139,16 @@ export default class CampPay extends React.Component<any, any> {
      * 检测是否可以购买产品
      */
   handleCheck(showId){
-        const { dispatch } = this.props
+    const { dispatch } = this.props
       loadCheckBuy().then((res)=>{
-        if (res.msg){
-          this.handleClickOpenPayInfo(showId)
-        }else {
-            dispatch(alertMsg("你已经购买过本课程咯!"))
+        if (res.msg.isSell){
+          if (res.msg.canBuy) {
+              this.handleClickOpenPayInfo(showId)
+          }else {
+              dispatch(alertMsg("你已经购买过本课程咯!"))
+          }
+        }else  {
+            dispatch(alertMsg("报名结束!"))
         }
       }).catch(()=>{
 
