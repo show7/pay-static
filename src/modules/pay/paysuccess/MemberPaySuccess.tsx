@@ -71,7 +71,7 @@ export default class MemberPaySuccess extends React.Component<any, any> {
               {wannaGoods.id == 3 ?
                 <img src="https://static.iqycamp.com/images/banzhuren_code_1109.jpeg?imageslim" alt="班主任"
                      className="qrcode"/>
-                : <img src="https://static.iqycamp.com/images/fragment/banzhuren_weiwei.jpeg?imageslim" alt="班主任"
+                : <img src="https://static.iqycamp.com/images/fragment/banzhuren_tobey_0524.jpeg?imageslim" alt="班主任"
                        className="qrcode"/>}
 
             </div>
