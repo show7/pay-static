@@ -40,15 +40,10 @@ export default class CampPay extends React.Component<any, any> {
   }
 
   async componentWillMount() {
-    // ios／安卓微信支付兼容性
-    if(!_.isEmpty(window.ENV.configUrl) && window.ENV.configUrl !== window.location.href) {
-      window.location.href = window.location.href
-      return
-    }
       const { dispatch } = this.props
       //分享优惠券
       let {riseId =null,activityId=null }= this.props.location.query;
-     /* this.setState({riseId: riseId})*/
+      /* this.setState({riseId: riseId})*/
       if (riseId && activityId) {
           let param = {
               riseId: riseId,
@@ -62,8 +57,11 @@ export default class CampPay extends React.Component<any, any> {
               this.setState({invitationLayout: true})
           }
       }
-
-
+    // ios／安卓微信支付兼容性
+    if(!_.isEmpty(window.ENV.configUrl) && window.ENV.configUrl !== window.location.href) {
+      window.location.href = window.location.href
+      return
+    }
     dispatch(startLoad())
 
     // 查询订单信息
@@ -141,6 +139,7 @@ export default class CampPay extends React.Component<any, any> {
      * 检测是否可以购买产品
      */
   handleCheck(showId){
+        const { dispatch } = this.props
       loadCheckBuy().then((res)=>{
         if (res.msg){
           this.handleClickOpenPayInfo(showId)
