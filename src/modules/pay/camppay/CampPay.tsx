@@ -8,11 +8,13 @@ import { set, startLoad, endLoad, alertMsg } from '../../../redux/actions'
 import { config } from '../../helpers/JsConfig'
 import PayInfo from '../components/PayInfo'
 import PicLoading from '../components/PicLoading'
-import { getRiseMember, checkRiseMember } from '../async'
+import { getRiseMember, checkRiseMember,loadDirectPosterInvitation ,loadCheckBuy} from '../async'
 import { signupCamp, getCampPageInfo } from './async'
 import { CustomerService } from '../../../components/customerservice/CustomerService'
 import { MarkBlock } from '../components/markblock/MarkBlock'
 import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
+import InvitationLayout from '../components/invitationLayout/InvitationLayout'
+
 
 @connect(state => state)
 export default class CampPay extends React.Component<any, any> {
@@ -32,6 +34,8 @@ export default class CampPay extends React.Component<any, any> {
       data: {},
       currentCampMonth: 0,
       campPaymentImage: '',
+        invitationLayout:false,
+        invitationData:{}
     }
   }
 
@@ -41,8 +45,25 @@ export default class CampPay extends React.Component<any, any> {
       window.location.href = window.location.href
       return
     }
+      const { dispatch } = this.props
+      //分享优惠券
+      let {riseId =null,activityId=null }= this.props.location.query;
+     /* this.setState({riseId: riseId})*/
+      if (riseId && activityId) {
+          let param = {
+              riseId: riseId,
+              activityId: activityId
+          }
+          let invitationInfo = await loadDirectPosterInvitation(param)
+          this.setState({invitationData: invitationInfo.msg,})
+          if (invitationInfo.msg.isNewUser && invitationInfo.msg.isReceived) {
+              dispatch(alertMsg("优惠券已经发到你的圈外同学账号咯！"))
+          } else if (invitationInfo.msg.isNewUser) {
+              this.setState({invitationLayout: true})
+          }
+      }
 
-    const { dispatch } = this.props
+
     dispatch(startLoad())
 
     // 查询订单信息
@@ -116,6 +137,21 @@ export default class CampPay extends React.Component<any, any> {
     }
   }
 
+    /**
+     * 检测是否可以购买产品
+     */
+  handleCheck(showId){
+      loadCheckBuy().then((res)=>{
+        if (res.msg){
+          this.handleClickOpenPayInfo(showId)
+        }else {
+            dispatch(alertMsg("你已经购买过本课程咯!"))
+        }
+      }).catch(()=>{
+
+      })
+  }
+
   handlePayedBefore() {
     mark({ module: '打点', function: '小课训练营', action: '点击付费', memo: this.state.currentCampMonth })
   }
@@ -128,7 +164,7 @@ export default class CampPay extends React.Component<any, any> {
   }
 
   render() {
-    const { data, showId, timeOut, showErr, showCodeErr, loading, campPaymentImage } = this.state
+    const { data, showId, timeOut, showErr, showCodeErr, loading, campPaymentImage ,invitationLayout,invitationData} = this.state
     const { memberType } = data
 
     const renderPay = () => {
@@ -138,7 +174,7 @@ export default class CampPay extends React.Component<any, any> {
                onLoad={() => this.setState({ loading: false })}/> <MarkBlock module={'打点'} func={'小课训练营'}
                                                                              action={'点击加入按钮'}
                                                                              memo={this.state.currentCampMonth}>
-          <SubmitButton clickFunc={() => this.handleClickOpenPayInfo(showId)} buttonText={'我要报名！'}/> </MarkBlock>
+          <SubmitButton clickFunc={() =>{this.handleCheck(showId)} } buttonText={'我要报名！'}/> </MarkBlock>
         </div>
       )
     }
@@ -179,6 +215,12 @@ export default class CampPay extends React.Component<any, any> {
                payedCancel={(res) => this.handlePayedCancel(res)} payedError={(res) => this.handlePayedError(res)}
                payedBefore={() => this.handlePayedBefore()}/>
         }
+          {   invitationLayout &&
+          <InvitationLayout oldNickName={invitationData.oldNickName}
+                            amount={invitationData.amount}
+                            prijectName={invitationData.memberTypeName}
+                            callBack={()=>{this.setState({invitationLayout: false})}}/>
+          }
       </div>
     )
   }

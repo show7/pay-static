@@ -6,6 +6,7 @@ import { getGoodsType, PayType, refreshForPay, sa } from '../../../utils/helpers
 import { checkRiseMember, getRiseMember,loadInvitation } from '../async'
 import { SaleBody } from '../risepay/components/SaleBody'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
+import InvitationLayout from '../components/invitationLayout/InvitationLayout'
 import * as _ from 'lodash';
 import PayInfo from '../components/PayInfo'
 import { config } from '../../helpers/JsConfig'
@@ -205,17 +206,6 @@ export default class ThoughtPay extends Component<any, any> {
         ]}/>
       }
     }
-    const renderLayout = ()=>{
-      return (
-          <div className="invitation-layout">
-            <div className="layout-box">
-              <h3>好友邀请</h3>
-              <p>{invitationData.oldNickName}觉得《商业思维项目》很适合你，邀请你成为TA的同学，送你一张{invitationData.amount}元的学习优惠券。</p>
-              <span className="button" onClick={()=>{this.setState({invitationLayout: false})}}>知道了</span>
-            </div>
-          </div>
-      )
-    }
     return (
       <div className="plus-pay">
         <SaleBody memberTypeId='8'/>
@@ -262,7 +252,10 @@ export default class ThoughtPay extends Component<any, any> {
           </div>
         }
           {   invitationLayout &&
-              renderLayout()
+          <InvitationLayout oldNickName={invitationData.oldNickName}
+                            amount={invitationData.amount}
+                            prijectName={"商业思维项目"}
+                            callBack={()=>{this.setState({invitationLayout: false})}}/>
           }
       </div>
     )
