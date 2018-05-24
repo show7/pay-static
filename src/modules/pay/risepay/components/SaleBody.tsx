@@ -6,8 +6,14 @@ import { unScrollToBorder } from '../../../../utils/helpers'
 import { CustomerService } from '../../../../components/customerservice/CustomerService'
 import SequenceDisplay from '../../../../components/picture/SequenceDisplay'
 import { mark } from '../../../../utils/request'
+import * as _ from 'lodash';
+import words = require('lodash/words')
 
 export class SaleBody extends React.Component {
+
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
 
   constructor() {
     super()
@@ -162,26 +168,42 @@ export class SaleBody extends React.Component {
       }
     }
 
+    const mergeStyle = (style) => {
+      return _.merge({}, {
+        size: '100%',
+        style: {
+          display: 'block',
+          margin: '0'
+        },
+        onClick: (e) => {
+          e.preventDefault();
+          return;
+        },
+      }, style);
+    }
+
     if(memberTypeId == '3') {
       return (
         <div className="business-school-intro-pic-container"
              id="business-school-intro-pic-container">
-          <img
-            className="pic-part1"
-            src='https://static.iqycamp.com/images/pay_rise_part1_17.jpg?imageslim'
-            style={{ width: '100%' }}
-            onLoad={() => this.setState({ loading: false })}/>
-          <img className="pic-part2" src="https://static.iqycamp.com/images/pay_rise_part2_15.jpg?imageslim"
-               style={{ width: '100%' }}/>
-          {
-            !loading && <CustomerEvaluate/>
-          }
-          <div className="protocol-container">
-            <span className="click_text">点击查看</span>
-            <a className="protocol" onClick={() => this.clickUserProtocol()}>商学院用户协议</a>
-          </div>
-          <img className="pic-part3" src="https://static.iqycamp.com/images/pay_rise_part3_1.png?imageslim"
-               style={{ width: '100%' }}/>
+          <SequenceDisplay imgList={[
+            mergeStyle({
+              url: 'https://static.iqycamp.com/images/pay_rise_part1_17.jpg?imageslim'
+            }),
+            mergeStyle({
+              url: 'https://static.iqycamp.com/images/pay_rise_part2_15.jpg?imageslim'
+            }), {
+              dom: <CustomerEvaluate/>
+            }, {
+              dom: <div className="protocol-container">
+                <span className="click_text">点击查看</span>
+                <a className="protocol" onClick={() => this.clickUserProtocol()}>商学院用户协议</a>
+              </div>
+            }, mergeStyle({
+              url: 'https://static.iqycamp.com/images/pay_rise_part3_1.png?imageslim'
+            })
+          ]} onLoadFirst={() => this.setState({ loading: false })}/>
+
           {
             loading &&
             <div className="pic-loading-container">
@@ -198,44 +220,34 @@ export class SaleBody extends React.Component {
         <div className="business-school-intro-pic-container"
              id="business-school-intro-pic-container">
           <SequenceDisplay imgList={[
-            {
-              size: '100%',
-              style: {
-                display: 'block',
-                margin: '0'
-              },
-              onClick: (e) => {
-                e.preventDefault();
-                return;
-              },
-              url: 'https://static.iqycamp.com/images/fragment/thought_sale_page_1_0518_1.jpg?imageslim'
-            }, {
-              size: '100%',
-              style: {
-                display: 'block',
-                margin: '0'
-              },
-              onClick: (e) => {
-                e.preventDefault();
-                return;
-              },
-              url: 'https://static.iqycamp.com/images/fragment/thought_sale_page_2_0517_2.jpg?imageslim'
-            }
+            mergeStyle({
+              url: 'https://static.iqycamp.com/images/fragment/thought_sale_page_1_0523_1.jpg?imageslim'
+            }), {
+              dom: <div className="high-light-words" onClick={() => {
+                this.context.router.push({
+                  pathname: '/pay/thought/intro'
+                })
+              }}>
+                点击了解课程详情 >
+              </div>
+            },
+            mergeStyle({
+              url: 'https://static.iqycamp.com/images/fragment/thought_sale_page_2_0523_1.jpg?imageslim'
+            }),
+            mergeStyle({
+              url: 'https://static.iqycamp.com/images/fragment/thought_sale_page_3_0523_1.jpg?imageslim'
+            }), {
+              dom: <div className="protocol-container thought">
+                <div>本课程全部内容版权归圈外同学所有，严禁翻录成任何形式或在第三方平台传播，违者将追究法律责任。</div>
+                <span className="click_text">点击查看</span>
+                <u className="protocol"
+                   onClick={() => this.clickUserProtocol()}>【圈外同学用户协议】</u>
+              </div>
+            },
+            mergeStyle({
+              url: 'https://static.iqycamp.com/images/fragment/thought_sale_page_5_0523_1.jpg?imageslim'
+            })
           ]} onLoadFirst={() => this.setState({ loading: false })}/>
-
-          <div className="protocol-container thought">
-            <div>本课程全部内容版权归圈外同学所有，严禁翻录成任何形式或在第三方平台传播，违者将追究法律责任。</div>
-            <span className="click_text">点击查看</span>
-            <u className="protocol"
-               onClick={() => this.clickUserProtocol()}>【圈外同学用户协议】</u>
-          </div>
-          <img className="pic-part3"
-               onClick={(e) => {
-                 e.preventDefault();
-                 return;
-               }}
-               src="https://static.iqycamp.com/images/fragment/thought_sale_page_botton_0517_4.jpg?imageslim"
-               style={{ width: '100%', border: 'none', marginTop: '-2px' }}/>
           {
             loading &&
             <div className="pic-loading-container">

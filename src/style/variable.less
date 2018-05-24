@@ -22,9 +22,56 @@
 // 按钮
 @button_circle_height: 45px;
 @button_footer_height: 49px;
+@color_title_black: #50505A;
 
 // cdn fragment 目录
 @imgPathRoot: "https://static.iqycamp.com/images";
 @imgPathFragment: "https://static.iqycamp.com/images/fragment";
 
 @imgBusinessBackground: "https://static.iqycamp.com/images/bg_diwen.png?imageslim";
+
+.cycle-dot(@color:#50505A,@size:.5rem,@margin-right:.5rem) {
+  &:before {
+    content: '';
+    width: @size;
+    height: @size;
+    border-radius: 80%;
+    background: @color;
+    display: inline-block;
+    margin-right: @margin-right;
+    vertical-align: middle;
+    margin-top: -3px;
+  }
+}
+
+.square-dot(@color:#50505A,@size:.5rem,@margin-right:.5rem) {
+  &:before {
+    content: '';
+    width: @size;
+    height: @size;
+    background: @color;
+    display: inline-block;
+    margin-right: @margin-right;
+    vertical-align: middle;
+    margin-top: -3px;
+  }
+}
+
+.bottomLine(@color:#7DBE00,@margin-left:1rem) {
+  position: relative;
+  span {
+    z-index: 10;
+    position: relative;
+  }
+  &:before {
+    content: '';
+    width: 95%;
+    height: .5rem;
+    background: @color;
+    display: inline-block;
+    position: absolute;
+    bottom: .3rem;
+    left: @margin-left;
+    z-index: 1;
+  }
+}
