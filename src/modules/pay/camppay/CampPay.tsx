@@ -85,8 +85,8 @@ export default class CampPay extends React.Component<any, any> {
   }
 
   handlePayedDone() {
-      let {riseId =null,activityId=null }= this.props.location.query;
-    mark({ module: '打点', function: '小课训练营', action: '支付成功', memo: this.state.currentCampMonth })
+    let {riseId =null,activityId=null }= this.props.location.query;
+    mark({ module: '打点', function: '小课训练营', action: '支付成功', memo: this.state.currentCampMonth,promotionPayActivityId:activityId,promotionPayRiseId:riseId})
     this.context.router.push({
       pathname: '/pay/camp/success',
       query: {
