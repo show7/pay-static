@@ -68,10 +68,23 @@ export function loadApplyProjectInfo(param: { applyId, wannaGoodsId }) {
 }
 
 /**
- * 分享 优惠卷信息
+ * 获取 （商业思维）优惠卷信息
  * @param param
  * @returns {any}
  */
 export function loadInvitation(param) {
     return ppost('/rise/share/receive/coupons', param);
  }
+
+/**
+ * 导流课 获取优惠券信息
+ * @param param
+ * @returns {any}
+ */
+export function loadDirectPosterInvitation(param) {
+    return ppost('/rise/share/receive/camp/coupons', param);
+}
+
+export function loadCheckBuy() {
+    return pget('/signup/rise/member/check/can/pay');
+}

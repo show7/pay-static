@@ -331,7 +331,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     const { dispatch, goodsId, goodsType } = this.props
     const { multiCoupons } = this.state;
     let coupons = _.get(this.state, 'coupons', [])
-    coupons = this.filterCoupons(coupons, goodsType)
+    // coupons = this.filterCoupons(coupons, goodsType)
     let chose = _.get(this.state, 'chose', {});
     dispatch(startLoad())
     let param = { goodsId: goodsId, goodsType: goodsType }
@@ -450,7 +450,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
   handleClickChooseAll() {
     const { dispatch, goodsId, goodsType } = this.props
     let coupons = _.get(this.state, 'coupons', [])
-    coupons = this.filterCoupons(coupons, goodsType)
+    // coupons = this.filterCoupons(coupons, goodsType)
     const { multiCoupons } = this.state;
     if(multiCoupons && !_.isEmpty(coupons)) {
       let chose = _.get(this.state, 'chose', {});
@@ -526,7 +526,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     const { openCoupon, final, fee, chose, free, show, name, startTime, endTime, activity, multiCoupons, openPayType, chooseAll, initPrice, payType, hiddenCoupon = false, justOpenPayType } = this.state
     const { header, goodsId, goodsType } = this.props
     let coupons = _.get(this.state, 'coupons', [])
-    coupons = this.filterCoupons(coupons, goodsType)
+    // coupons = this.filterCoupons(coupons, goodsType)
     const hasCoupons = !_.isEmpty(coupons)
 
     /**
