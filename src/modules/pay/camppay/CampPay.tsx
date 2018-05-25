@@ -177,10 +177,14 @@ export default class CampPay extends React.Component<any, any> {
       return (
         <div className="pay-page">
           <img className="sale-pic" style={{ width: '100%' }} src={campPaymentImage}
-               onLoad={() => this.setState({ loading: false })}/> <MarkBlock module={'打点'} func={'小课训练营'}
-                                                                             action={'点击加入按钮'}
-                                                                             memo={this.state.currentCampMonth}>
-          <SubmitButton clickFunc={() =>{this.handleCheck(showId)} } buttonText={'我要报名！'}/> </MarkBlock>
+               onLoad={() => this.setState({ loading: false })}/>
+            <MarkBlock module={'打点'} func={'小课训练营'} action={'点击加入按钮'} memo={this.state.currentCampMonth}>
+              <div className="pay-box">
+                <span className="price">￥29.9 / 14天</span>
+                <span className="sign-in" onClick={()=>{this.handleCheck(showId)}}>立即报名</span>
+              </div>
+                 {/* <SubmitButton clickFunc={() =>{this.handleCheck(showId)} } buttonText={'我要报名！'}/>*/}
+            </MarkBlock>
         </div>
       )
     }
