@@ -52,9 +52,9 @@ export default class CampPay extends React.Component<any, any> {
           let invitationInfo = await loadDirectPosterInvitation(param)
           this.setState({invitationData: invitationInfo.msg,})
           if (invitationInfo.msg.isNewUser && invitationInfo.msg.isReceived) {
-              dispatch(alertMsg("优惠券已经发到你的圈外同学账号咯！"))
+             /* dispatch(alertMsg("优惠券已经发到你的圈外同学账号咯！"))*/
           } else if (invitationInfo.msg.isNewUser) {
-              this.setState({invitationLayout: true})
+             /* this.setState({invitationLayout: true})*/
           }
       }
     // ios／安卓微信支付兼容性
