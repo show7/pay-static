@@ -74,7 +74,7 @@ export default class CampPay extends React.Component<any, any> {
     }
     res = await signupCamp()
     this.setState({ currentCampMonth: _.get(res, 'msg.markSellingMemo', 'error') }, () => {
-      mark({ module: '打点', function: '小课训练营', action: '购买小课训练营', memo: _.get(res, 'msg.markSellingMemo', 'error') })
+      mark({ module: '打点', function: '小课训练营', action: '购买小课训练营', memo:riseId+"_"+activityId })
     })
     res = await getCampPageInfo()
     if(res.code === 200) {
