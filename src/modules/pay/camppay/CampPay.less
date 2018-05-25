@@ -1,5 +1,6 @@
 .camp-pay-container {
   padding-bottom: 64px;
+  background-color: #fff !important;
 
   .welcome-card{
     position: relative;
@@ -150,6 +151,37 @@
         }
       }
     }
+     .pay-box{
+      position: fixed;
+       bottom: 0;
+       left: 0;
+       right: 0;
+       width: 100%;
+       display: -webkit-flex;
+       flex-direction: row;
+       height: 4.5rem;
+       >span.price{
+         width: 31.2%;
+         background-color: #50505a;
+         font-size: 1.5rem;
+         line-height: 4.5rem;
+         font-weight: normal;
+         font-style: normal;
+         font-stretch: normal;
+         letter-spacing: normal;
+         text-align: center;
+         color: #ffffff;
+       }
+       >span.sign-in{
+         width: 68.8%;
+         background-color: #7dbe00;
+         color: #ffffff;
+         font-size: 1.7rem;
+         font-weight: 600;
+         line-height: 4.5rem;
+         text-align: center;
+       }
+    }
   }
 
   .customer-camp-component{
@@ -162,4 +194,6 @@
       width: 80px !important;
     }
   }
+
+
 }
