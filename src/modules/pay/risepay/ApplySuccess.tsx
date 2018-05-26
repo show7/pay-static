@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as _ from 'lodash'
-import { ppost, pget, mark } from 'utils/request'
+import { mark } from 'utils/request'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { connect } from 'react-redux'
 import { config } from 'modules/helpers/JsConfig'
@@ -10,7 +10,6 @@ import PayInfo from '../components/PayInfo'
 import { checkRiseMember, getRiseMember, loadApplyProjectInfo } from '../async'
 import AssetImg from '../../../components/AssetImg'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
-import RenderInBody from '../../../components/RenderInBody'
 import { Dialog } from 'react-weui'
 
 @connect(state => state)
@@ -189,13 +188,6 @@ export default class ApplySuccess extends React.Component<any, any> {
    */
   reConfig() {
     config([ 'chooseWXPay' ])
-  }
-
-  handleClickAudition() {
-    // 开试听课
-    this.context.router.push({
-      pathname: '/pay/preacher'
-    })
   }
 
   render() {

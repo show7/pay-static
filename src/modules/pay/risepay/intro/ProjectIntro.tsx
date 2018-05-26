@@ -5,7 +5,6 @@
   4. 备注：
  ---------------------------------------------------------------------------------------------------------------------*/
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import './ProjectIntro.less'
 import AssetImg from '../../../../components/AssetImg'
 

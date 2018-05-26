@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as _ from 'lodash'
 import './RisePay.less'
 import { connect } from 'react-redux'
-import { pget, mark } from 'utils/request'
+import { mark } from 'utils/request'
 import { getGoodsType, PayType, sa, refreshForPay } from 'utils/helpers'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { config, configShare } from 'modules/helpers/JsConfig'
@@ -190,16 +190,9 @@ export default class RisePay extends React.Component<any, any> {
     config([ 'chooseWXPay' ])
   }
 
-  handleClickAudition() {
-    // 开试听课
-    this.context.router.push({
-      pathname: '/pay/preacher'
-    })
-  }
-
   render() {
     const { data, showId, timeOut, showErr, showCodeErr, subscribe ,invitationLayout,invitationData} = this.state
-    const { privilege, buttonStr, auditionStr, memberType, tip } = data
+    const { privilege, buttonStr, memberType, tip } = data
     const { location } = this.props
     let payType = _.get(location, 'query.paytype')
 
@@ -209,29 +202,17 @@ export default class RisePay extends React.Component<any, any> {
       if(privilege) {
         return (
           <div className="button-footer">
-            {
-              auditionStr ? <div>
-                <MarkBlock module={'打点'} func={'商学院会员'} action={'点击宣讲课按钮'} memo={data ? buttonStr : ''}
-                           className="footer-left" onClick={() => this.handleClickAudition}>
-                  <span style={{ fontSize: '18px' }}>{auditionStr}</span>
-                </MarkBlock> <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'} className={'footer-btn'}
-                                        onClick={() => this.handleClickOpenPayInfo(showId)}>
-                <div className="audition">{buttonStr}</div>
-              </MarkBlock>
-              </div> : <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'} memo={data ? buttonStr : ''}
-                                  className="footer-btn" onClick={() => this.handleClickOpenPayInfo(
+            <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'} memo={data ? buttonStr : ''}
+                       className="footer-btn" onClick={() => this.handleClickOpenPayInfo(
                 showId)}>
-                {buttonStr || '立即入学'}
-              </MarkBlock>
-            }
+              {buttonStr || '立即入学'}
+            </MarkBlock>
 
           </div>
         )
       } else {
         return (
           <div className="button-footer">
-            {/*<MarkBlock module={`打点`} func={`商学院会员`} action={`申请商学院`} className={`footer-btn`}*/}
-            {/*onClick={() => this.redirect()}>申请商学院</MarkBlock>*/}
             <MarkBlock module={`打点`} func={`商学院会员`} action={`预约商学院`} className={`footer-btn`}
                        onClick={() => this.redirect()}>立即预约</MarkBlock>
           </div>
@@ -281,7 +262,7 @@ export default class RisePay extends React.Component<any, any> {
               3，在新开的页面完成支付即可<br/>
             </div>
             <img className="xiaoQ" style={{ width: '50%' }}
-                 src="https://static.iqycamp.com/images/pay_rise_code.png?imageslim"/>
+                 src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
           </div>
         }
         {
