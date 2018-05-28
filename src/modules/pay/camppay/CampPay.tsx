@@ -154,7 +154,7 @@ export default class CampPay extends React.Component<any, any> {
           dispatch(alertMsg("报名结束!"))
         }
       }else{
-        dispatch(alertMsg(res.msg)
+        dispatch(alertMsg(res.msg))
       }
       }).catch(()=>{
 
