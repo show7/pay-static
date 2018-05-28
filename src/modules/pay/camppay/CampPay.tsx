@@ -143,15 +143,19 @@ export default class CampPay extends React.Component<any, any> {
         let {riseId =null,activityId=null }= this.props.location.query;
     const { dispatch } = this.props
       loadCheckBuy().then((res)=>{
-        if (res.msg.isSell){
-          if (res.msg.canBuy) {
-              this.handleClickOpenPayInfo(showId)
-          }else {
-              dispatch(alertMsg("你已经购买过本课程咯!"))
+      if(res.code===200) {
+        if(res.msg.isSell) {
+          if(res.msg.canBuy) {
+            this.handleClickOpenPayInfo(showId)
+          } else {
+            dispatch(alertMsg("你已经购买过本课程咯!"))
           }
-        }else  {
-            dispatch(alertMsg("报名结束!"))
+        } else {
+          dispatch(alertMsg("报名结束!"))
         }
+      }else{
+        dispatch(alertMsg(res.msg)
+      }
       }).catch(()=>{
 
       })
