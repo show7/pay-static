@@ -71,7 +71,7 @@ export default class ThoughtPay extends Component<any, any> {
           goodsType: getGoodsType(this.state.showId),
           goodsId: this.state.showId + ''
         });
-        mark({ module: '打点', function: '进阶课程', action: '购买进阶课程会员', memo: '入学页面' })
+        mark({ module: '打点', function: '进阶课程', action: '购买进阶课程会员', memo: '入学页面',promotionRiseId:riseId })
       } else {
         // window.location.href = '/rise/static/rise';
         // return;
@@ -79,10 +79,9 @@ export default class ThoughtPay extends Component<any, any> {
           goodsType: getGoodsType(this.state.showId),
           goodsId: this.state.showId + ''
         });
-        mark({ module: '打点', function: '进阶课程', action: '购买进阶课程会员', memo: '申请页面' })
+        mark({ module: '打点', function: '进阶课程', action: '购买进阶课程会员', memo: '申请页面' , promotionRiseId:riseId })
       }
     }
-
   }
 
 
