@@ -61,8 +61,8 @@ export default class CampPaySuccess extends React.Component<any, any> {
               <div className="code">{entryCode}</div>
             </div>
             <div className="step step-2" data-step="2" style={{ paddingBottom: `${this.pd}px` }}>
-              扫码添加班主任小U微信，回复“训练营”即可入群！
-              <img src="https://static.iqycamp.com/images/qrcode_xiaou.jpg?imageslim" alt="点点"
+              扫码添加班主任Sunny微信，回复“训练营”即可入群！
+              <img src="https://static.iqycamp.com/images/qrcode_sunny.jpeg" alt="sunny"
                    className="qrcode"/>
             </div>
             <div className="step step-3" data-step="3">
