@@ -101,7 +101,8 @@ export default class BusinessApply extends Component<any, any> {
       <div className="business-apply">
         <div className="ba-header">
           <div className="ba-header-msg">
-            { memberType.id === 8 ? "商业思维项目入学申请" : apply.description}
+            {/*{ memberType.id === 8 ? "商业思维项目入学申请" : apply.description}*/}
+            圈外商学院入学申请
             </div>
           <div className="ba-header-pic">
             <AssetImg url="https://static.iqycamp.com/images/apply_interview.png" size={'9.6rem'}/>

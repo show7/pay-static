@@ -416,7 +416,8 @@ export default class QuestionCollection extends Component<QuestionCollectionProp
     return (
       <div className="question-collection">
         <div className="apply-container">
-          <div className="apply-page-header">{this.props.header}</div>
+          {/*<div className="apply-page-header">{this.props.header}</div>*/}
+          <div className="apply-page-header">{'圈外商学院入学申请'}</div>
           <div className="apply-progress">
             <div className="apply-progress-bar"
                  style={{ width: (window.innerWidth - 90 - 38) * (currentIndex / (seriesCount - 1)) }}/>
