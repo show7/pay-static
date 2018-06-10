@@ -502,7 +502,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
 
   choosePayType(payType) {
     const { openPayType, fee } = this.state;
-    console.log(fee);
+    // console.log(fee);
     if(fee <= 100) {
       return;
     }
