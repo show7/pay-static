@@ -169,14 +169,15 @@ export default class RisePay extends React.Component<any, any> {
       if (this.state.riseId && !this.state.invitationData.isNewUser) {
           dispatch(alertMsg("你已经是会员咯！快去个人中心分享赢取优惠券哦！"))
       }else {
-          this.setState({ subscribe: true })
+        this.context.router.push({
+          pathname: '/pay/bsstart',
+          query: {
+            goodsId: 7
+          }
+        })
+          // this.setState({ subscribe: true })
       }
-    // this.context.router.push({
-    //   pathname: '/pay/bsstart',
-    //   query: {
-    //     goodsId: 7
-    //   }
-    // })
+
   }
 
   handlePayedBefore() {

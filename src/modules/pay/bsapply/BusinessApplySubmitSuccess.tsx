@@ -34,7 +34,8 @@ export default class BusinessApplySubmitSuccess extends Component<any, any> {
 
   render() {
     const { goodsId = '7' } = this.props.location.query;
-    const { projectName = '' } = this.state;
+    // const { projectName = '' } = this.state; 临时修改
+    const projectName = '圈外商学院';
     return (
       <div className="business-apply-submit submit-success">
         <div className="ba-header">

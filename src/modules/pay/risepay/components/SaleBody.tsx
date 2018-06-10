@@ -188,13 +188,13 @@ export class SaleBody extends React.Component {
              id="business-school-intro-pic-container">
           <SequenceDisplay imgList={[
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/pay_rise_part1_17.jpg?imageslim'
-            }),
+              url: 'https://static.iqycamp.com/images/pay_rise_part1_18.jpg?imageslim'
+            }), {
+              dom: <CustomerEvaluate/>
+            },
             mergeStyle({
               url: 'https://static.iqycamp.com/images/pay_rise_part2_15.jpg?imageslim'
             }), {
-              dom: <CustomerEvaluate/>
-            }, {
               dom: <div className="protocol-container">
                 <span className="click_text">点击查看</span>
                 <a className="protocol" onClick={() => this.clickUserProtocol()}>商学院用户协议</a>
