@@ -501,7 +501,11 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
   }
 
   choosePayType(payType) {
-    const { openPayType } = this.state;
+    const { openPayType, fee } = this.state;
+    // console.log(fee);
+    if(fee <= 100) {
+      return;
+    }
     if(!!payType) {
       // 有payType
       this.setState({ payType: payType, openPayType: false })
@@ -582,7 +586,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
               <div className={`price item ${this.props.priceTips ? 'show-tips' : ''}`}>
                 {renderPrice(fee, final, free)}
               </div>
-              {(!!startTime && !!endTime ) && <div className="open-time item">
+              {(!!startTime && !!endTime) && <div className="open-time item">
                 开课时间：{startTime} - {endTime}
               </div>}
               <div className={`coupon item`}>
@@ -609,9 +613,10 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
               <li className={classnames({ 'choose': payType == PayType.WECHAT })}
                   onClick={() => this.setState({ payType: PayType.WECHAT })}>微信
               </li>
+              {fee > 100 &&
               <li className={classnames({ 'choose': payType == PayType.ALIPAY })}
                   onClick={() => this.setState({ payType: PayType.ALIPAY })}>支付宝
-              </li>
+              </li>}
             </ul>
           </div>
           <div className="btn-container">
@@ -659,8 +664,11 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
               </div>}
 
               <div
-                className={classnames('has-arrow', 'pay-type', 'item', {
-                  'open': openPayType, 'hidden': openCoupon, 'just-open-pay-type': justOpenPayType
+                className={classnames('pay-type', 'item', {
+                  'open': openPayType,
+                  'hidden': openCoupon,
+                  'just-open-pay-type': justOpenPayType,
+                  'has-arrow': fee > 100
                 })}
                 onClick={() => this.choosePayType()}>
                 支付方式
