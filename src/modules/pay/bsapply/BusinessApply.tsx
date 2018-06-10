@@ -78,10 +78,10 @@ export default class BusinessApply extends Component<any, any> {
     const renderButtons = () => {
       if(goodsId == 7) {
         return <FooterButton primary={true} btnArray={[
-          {
-            click: () => this.goExperience(),
-            text: '申请体验'
-          },
+          // {
+          //   click: () => this.goExperience(),
+          //   text: '申请体验'
+          // },
           {
             click: () => this.goApplySubmitPage(),
             text: '开始申请'
