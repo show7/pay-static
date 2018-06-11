@@ -77,23 +77,24 @@ export default class RisePay extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(err))
     })
+
     // 分享得到优惠券判断
-    let riseId = this.props.location.query.riseId || null;
-    this.setState({ riseId: riseId })
-    if(riseId) {
-      let param = {
-        riseId: riseId,
-        memberTypeId: 3
-      }
-      loadInvitation(param).then((res) => {
-        if(res.code === 200) {
-          this.setState({ invitationData: invitationInfo.msg })
-          if(res.msg.isNewUser) {
-            this.setState({ invitationLayout: true })
-          }
-        }
-      })
-    }
+    // let riseId = this.props.location.query.riseId || null;
+    // this.setState({ riseId: riseId })
+    // if(riseId) {
+    //   let param = {
+    //     riseId: riseId,
+    //     memberTypeId: 3
+    //   }
+    //   loadInvitation(param).then((res) => {
+    //     if(res.code === 200) {
+    //       this.setState({ invitationData: invitationInfo.msg })
+    //       if(res.msg.isNewUser) {
+    //         this.setState({ invitationLayout: true })
+    //       }
+    //     }
+    //   })
+    // }
   }
 
   componentDidMount() {
@@ -110,7 +111,7 @@ export default class RisePay extends React.Component<any, any> {
     this.context.router.push({
       pathname: '/pay/member/success',
       query: {
-        memberTypeId: 3
+        memberTypeId: 10
       }
     })
   }
