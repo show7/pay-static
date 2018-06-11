@@ -51,6 +51,18 @@ export default class MemberPaySuccess extends React.Component<any, any> {
 
   render() {
     const { entryCode, wannaGoods = {} } = this.state
+    const renderQrCode = (goodsId) => {
+      if(goodsId == 3) {
+        return <img src="https://static.iqycamp.com/images/banzhuren_code_1109.jpeg?imageslim" alt="班主任"
+                    className="qrcode"/>
+      } else if(goodsId == 8) {
+        return <img src="https://static.iqycamp.com/images/fragment/banzhuren_tobey_0524.jpeg?imageslim" alt="班主任"
+                    className="qrcode"/>
+      } else {
+        return <img src="https://static.iqycamp.com/images/fragment/qrcode_demi0611.jpeg?imageslim" alt="班主任"
+                    className="qrcode"/>
+      }
+    }
 
     return (
       <div className="pay-success">
@@ -68,11 +80,7 @@ export default class MemberPaySuccess extends React.Component<any, any> {
             <div className="step step-2" data-step="2" style={{ paddingBottom: `${this.pd}px` }}>
               扫码添加班主任
               <div className="tip">工作日两小时內回复，请耐心等待</div>
-              {wannaGoods.id == 3 ?
-                <img src="https://static.iqycamp.com/images/banzhuren_code_1109.jpeg?imageslim" alt="班主任"
-                     className="qrcode"/>
-                : <img src="https://static.iqycamp.com/images/fragment/banzhuren_tobey_0524.jpeg?imageslim" alt="班主任"
-                       className="qrcode"/>}
+              {renderQrCode(wannaGoods.id)}
 
             </div>
             <div className="step step-3" data-step="3">

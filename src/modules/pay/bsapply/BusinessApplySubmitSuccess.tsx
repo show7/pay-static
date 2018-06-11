@@ -59,7 +59,7 @@ export default class BusinessApplySubmitSuccess extends Component<any, any> {
             工作时间<span style={{ fontWeight: 300 }}>4</span>小时内回复<br/>
             （周一到周五<span style={{ fontWeight: 300 }}>10：00-20：00</span>）<br/><br/>
           </div>
-          <img src="https://static.iqycamp.com/images/qrcode_qwzswyh.jpeg?imageslim"
+          <img src="https://static.iqycamp.com/images/qrcode_qwzswyh_0611.jpeg?imageslim"
                className="qrcode"/>
         </div>
         <FooterButton primary={true} btnArray={[
