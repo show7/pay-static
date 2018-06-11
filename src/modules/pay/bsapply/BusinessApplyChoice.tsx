@@ -4,9 +4,9 @@ import './BusinessApplyChoice.less';
 import { set, startLoad, endLoad, alertMsg } from "redux/actions"
 import * as _ from 'lodash';
 import { mark } from "utils/request"
-import { getRiseMember, checkRiseMember, loadApplyProjectInfo } from '../async'
+import { getRiseMember, checkRiseMember } from '../async'
 import { config } from '../../helpers/JsConfig'
-import { getGoodsType, refreshForPay } from '../../../utils/helpers'
+import { refreshForPay, saTrack } from '../../../utils/helpers'
 import PayInfo from '../components/PayInfo'
 import { sa } from '../../../utils/helpers'
 import QuestionCollection from './components/questioncollection/QuestionCollection'
@@ -19,7 +19,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
       questionGroup: [],
       seriesCount: 0,
       currentIndex: 0,
-        riseId: ""
+      riseId: ""
     }
   }
 
@@ -29,7 +29,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
 
   componentWillMount() {
     let riseId = this.props.location.query.riseId || "";
-    this.setState({riseId:riseId})
+    this.setState({ riseId: riseId })
   }
 
   async componentDidMount() {
@@ -38,13 +38,13 @@ export default class BusinessApplyChoice extends Component<any, any> {
     if(refreshForPay()) {
       return
     }
-    const { goodsId = '7' } = location.query;
+    const { goodsId } = location.query;
     //查询订单信息
     let orderRes = await getRiseMember(goodsId);
     this.setState({ memberType: orderRes.msg.memberType });
-    sa.track('openApplyChoicePage', {
+    saTrack('openApplyChoicePage', {
       goodsId: goodsId
-    });
+    })
   }
 
   handlePayedDone(goodsId) {
@@ -99,11 +99,12 @@ export default class BusinessApplyChoice extends Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
-    mark({ module: '打点', function: '商学院申请', action: '点击加入按钮' })
+    mark({ module: '打点', function: '商学院申请', action: '点击加入按钮', memo: memberType.id })
   }
 
   handlePayedBefore() {
-    mark({ module: '打点', function: '商学院申请', action: '点击付费' })
+    const { memberType = {} } = this.state;
+    mark({ module: '打点', function: '商学院申请', action: '点击付费', memo: memberType.id })
   }
 
   /**
@@ -114,7 +115,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
   }
 
   render() {
-    const { showErr, showCodeErr, memberType = {} ,riseId} = this.state
+    const { showErr, showCodeErr, memberType = {}, riseId } = this.state
 
     return (
       <div className="apply-choice" style={{ minHeight: window.innerHeight }}>
@@ -142,7 +143,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
         </div> : null}
         {memberType && <PayInfo ref="payInfo"
                                 dispatch={this.props.dispatch}
-                                goodsType={getGoodsType(memberType.id)}
+                                goodsType={memberType.goodsType}
                                 goodsId={memberType.id}
                                 header={memberType.name}
                                 payedDone={(goodsId) => this.handlePayedDone(goodsId)}

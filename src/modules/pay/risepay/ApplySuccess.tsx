@@ -5,7 +5,7 @@ import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { connect } from 'react-redux'
 import { config } from 'modules/helpers/JsConfig'
 import './ApplySuccess.less'
-import { getGoodsType, refreshForPay, sa } from 'utils/helpers'
+import { refreshForPay, saTrack } from 'utils/helpers'
 import PayInfo from '../components/PayInfo'
 import { checkRiseMember, getRiseMember, loadApplyProjectInfo } from '../async'
 import AssetImg from '../../../components/AssetImg'
@@ -57,14 +57,7 @@ export default class ApplySuccess extends React.Component<any, any> {
     if(refreshForPay()) {
       return;
     }
-    const { goodsId = '3' } = this.props.location.query;
-
-    mark({ module: '打点', function: '商学院会员', action: '购买商学院会员', memo: '申请成功页面' })
-    sa.track('openPayPage', {
-      goodsType: getGoodsType(Number(goodsId)),
-      goodsId: goodsId
-    })
-
+    const { goodsId } = this.props.location.query;
     const { dispatch } = this.props
     dispatch(startLoad())
     this.setState({ showId: Number(goodsId) });
@@ -73,7 +66,12 @@ export default class ApplySuccess extends React.Component<any, any> {
     getRiseMember(goodsId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        const { remainSeconds } = res.msg;
+        const { remainSeconds, memberType } = res.msg;
+        mark({ module: '打点', function: memberType.goodsType, action: memberType.id, memo: '申请成功页面' })
+        saTrack('openPayPage', {
+          goodsType: memberType.goodsType,
+          goodsId: memberType.id
+        })
         const remainInfo = this.formatSeconds(remainSeconds);
         this.setState({
           data: res.msg, remainHour: remainInfo.remainHour, remainMinute: remainInfo.remainMinute,
@@ -248,7 +246,7 @@ export default class ApplySuccess extends React.Component<any, any> {
             memberType &&
             <PayInfo ref="payInfo"
                      dispatch={this.props.dispatch}
-                     goodsType={getGoodsType(memberType.id)}
+                     goodsType={memberType.goodsType}
                      goodsId={memberType.id}
                      header={memberType.name}
                      priceTips={tip}
@@ -260,13 +258,13 @@ export default class ApplySuccess extends React.Component<any, any> {
           <Dialog show={expired} buttons={[
             {
               label: '去申请', onClick: () => {
-              this.context.router.push({
-                pathname: '/pay/bsstart',
-                query: {
-                  goodsId: this.state.applyId
-                }
-              });
-            }
+                this.context.router.push({
+                  pathname: '/pay/bsstart',
+                  query: {
+                    goodsId: this.state.applyId
+                  }
+                });
+              }
             }
           ]}>
             您的申请记录已经过期
