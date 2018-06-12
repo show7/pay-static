@@ -188,19 +188,19 @@ export class SaleBody extends React.Component {
              id="business-school-intro-pic-container">
           <SequenceDisplay imgList={[
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/pay_rise_part1_18.jpg?imageslim'
+              url: 'https://static.iqycamp.com/images/pay_rise_part1_18_1.jpg'
             }), {
               dom: <CustomerEvaluate/>
             },
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/pay_rise_part2_15.jpg?imageslim'
+              url: 'https://static.iqycamp.com/images/pay_rise_part2_15.jpg'
             }), {
               dom: <div className="protocol-container">
                 <span className="click_text">点击查看</span>
                 <a className="protocol" onClick={() => this.clickUserProtocol()}>商学院用户协议</a>
               </div>
             }, mergeStyle({
-              url: 'https://static.iqycamp.com/images/pay_rise_part3_1.png?imageslim'
+              url: 'https://static.iqycamp.com/images/pay_rise_part3_1.png'
             })
           ]} onLoadFirst={() => this.setState({ loading: false })}/>
 
@@ -221,7 +221,7 @@ export class SaleBody extends React.Component {
              id="business-school-intro-pic-container">
           <SequenceDisplay imgList={[
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/fragment/thought_sale_page_1_0612_2.jpg?imageslim'
+              url: 'https://static.iqycamp.com/images/fragment/thought_sale_page_1_0612_2.jpg'
             }), {
               dom: <div className="high-light-words" onClick={() => {
                 this.context.router.push({
@@ -232,10 +232,10 @@ export class SaleBody extends React.Component {
               </div>
             },
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/fragment/thought_sale_page_2_0523_1.jpg?imageslim'
+              url: 'https://static.iqycamp.com/images/fragment/thought_sale_page_2_0523_1.jpg'
             }),
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/fragment/thought_sale_page_3_0601_1.jpeg?imageslim'
+              url: 'https://static.iqycamp.com/images/fragment/thought_sale_page_3_0601_1.jpeg'
             }), {
               dom: <div className="protocol-container thought">
                 <div>本课程全部内容版权归圈外同学所有，严禁翻录成任何形式或在第三方平台传播，违者将追究法律责任。</div>
@@ -245,7 +245,7 @@ export class SaleBody extends React.Component {
               </div>
             },
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/fragment/thought_sale_page_5_0523_1.jpg?imageslim'
+              url: 'https://static.iqycamp.com/images/fragment/thought_sale_page_5_0523_1.jpg'
             })
           ]} onLoadFirst={() => this.setState({ loading: false })}/>
           {
