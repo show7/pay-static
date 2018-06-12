@@ -3,11 +3,11 @@ import * as _ from 'lodash'
 import './RisePay.less'
 import { connect } from 'react-redux'
 import { mark } from 'utils/request'
-import { getGoodsType, PayType, sa, refreshForPay } from 'utils/helpers'
+import { PayType, sa, refreshForPay, saTrack } from 'utils/helpers'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { config, configShare } from 'modules/helpers/JsConfig'
 import PayInfo from '../components/PayInfo'
-import {checkRiseMember, getRiseMember, loadInvitation} from '../async'
+import { checkRiseMember, getRiseMember, loadInvitation } from '../async'
 import { SaleBody } from './components/SaleBody'
 import { MarkBlock } from '../components/markblock/MarkBlock'
 import { addUserRecommendation } from './async'
@@ -23,15 +23,15 @@ export default class RisePay extends React.Component<any, any> {
   constructor() {
     super()
     this.state = {
-      showId: 3,
+      showId: 10,
       timeOut: false,
       showErr: false,
       showCodeErr: false,
       subscribe: false,
       data: {},
       invitationLayout: false, // 弹框标识
-      invitationData:{}, //分享的优惠券数据
-       riseId:null        //分享来源
+      invitationData: {}, //分享的优惠券数据
+      riseId: null        //分享来源
     }
   }
 
@@ -45,7 +45,7 @@ export default class RisePay extends React.Component<any, any> {
 
     const id = this.props.location.query.riseId
     //表示是分享点击进入
-    if(id) {
+    if(!!id) {
       mark({ module: '打点', function: '商学院guest', action: '购买商学院会员', memo: '通过分享途径' })
       addUserRecommendation(id)
     }
@@ -55,21 +55,20 @@ export default class RisePay extends React.Component<any, any> {
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({ data: res.msg })
+        const { memberType = {} } = res.msg;
         const { privilege } = res.msg
         if(privilege) {
-          sa.track('openSalePayPage', {
-            goodsType: getGoodsType(3),
-            goodsId: '3'
-          });
-          mark(
-            { module: '打点', function: '商学院会员', action: '购买商学院会员', memo: '入学页面' })
+          saTrack('openSalePayPage', {
+            goodsType: memberType.goodsType + '',
+            goodsId: memberType.id + ''
+          })
+          mark({ module: '打点', function: memberType.goodsType, action: memberType.id, memo: '入学页面' })
         } else {
-          sa.track('openSaleApplyPage', {
-            goodsType: getGoodsType(3),
-            goodsId: '3'
-          });
-          mark(
-            { module: '打点', function: '商学院会员', action: '购买商学院会员', memo: '申请页面' })
+          saTrack('openSaleApplyPage', {
+            goodsType: memberType.goodsType + '',
+            goodsId: memberType.id + ''
+          })
+          mark({ module: '打点', function: memberType.goodsType, action: memberType.id, memo: '申请页面' })
         }
       } else {
         dispatch(alertMsg(res.msg))
@@ -78,23 +77,24 @@ export default class RisePay extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(err))
     })
-      // 分享得到优惠券判断
-      let riseId = this.props.location.query.riseId || null;
-      this.setState({riseId:riseId})
-      if (riseId) {
-          let param = {
-              riseId : riseId,
-              memberTypeId: 3
-          }
-          loadInvitation(param).then((res) => {
-            if (res.code === 200) {
-                this.setState({invitationData: invitationInfo.msg})
-                if (res.msg.isNewUser) {
-                    this.setState({invitationLayout: true })
-                }
-            }
-          })
-      }
+
+    // 分享得到优惠券判断
+    // let riseId = this.props.location.query.riseId || null;
+    // this.setState({ riseId: riseId })
+    // if(riseId) {
+    //   let param = {
+    //     riseId: riseId,
+    //     memberTypeId: 3
+    //   }
+    //   loadInvitation(param).then((res) => {
+    //     if(res.code === 200) {
+    //       this.setState({ invitationData: invitationInfo.msg })
+    //       if(res.msg.isNewUser) {
+    //         this.setState({ invitationLayout: true })
+    //       }
+    //     }
+    //   })
+    // }
   }
 
   componentDidMount() {
@@ -111,7 +111,7 @@ export default class RisePay extends React.Component<any, any> {
     this.context.router.push({
       pathname: '/pay/member/success',
       query: {
-        memberTypeId: 3
+        memberTypeId: 10
       }
     })
   }
@@ -151,9 +151,6 @@ export default class RisePay extends React.Component<any, any> {
           dispatch(alertMsg(errorMsg))
         }
       }
-      // else if(res.code === 214) {
-      //   this.setState({ timeOut: true })
-      // }
       else {
         dispatch(alertMsg(res.msg))
       }
@@ -164,20 +161,24 @@ export default class RisePay extends React.Component<any, any> {
   }
 
   redirect() {
-      const { dispatch } = this.props
-      sa.track('clickApplyButton');
-      if (this.state.riseId && !this.state.invitationData.isNewUser) {
-          dispatch(alertMsg("你已经是会员咯！快去个人中心分享赢取优惠券哦！"))
-      }else {
-        this.context.router.push({
-          pathname: '/pay/bsstart',
-          query: {
-            goodsId: 7
-          }
-        })
-          // this.setState({ subscribe: true })
+    saTrack('clickApplyButton')
+    this.context.router.push({
+      pathname: '/pay/bsstart',
+      query: {
+        goodsId: 11
       }
-
+    })
+    // if(this.state.riseId && !this.state.invitationData.isNewUser) {
+    //   dispatch(alertMsg("你已经是会员咯！快去个人中心分享赢取优惠券哦！"))
+    // } else {
+    //   this.context.router.push({
+    //     pathname: '/pay/bsstart',
+    //     query: {
+    //       goodsId: 7
+    //     }
+    //   })
+    //   // this.setState({ subscribe: true })
+    // }
   }
 
   handlePayedBefore() {
@@ -192,8 +193,8 @@ export default class RisePay extends React.Component<any, any> {
   }
 
   render() {
-    const { data, showId, timeOut, showErr, showCodeErr, subscribe ,invitationLayout,invitationData} = this.state
-    const { privilege, buttonStr, memberType, tip } = data
+    const { data, timeOut, showErr, showCodeErr, subscribe, invitationLayout, invitationData } = this.state
+    const { privilege, buttonStr, memberType = {}, tip } = data
     const { location } = this.props
     let payType = _.get(location, 'query.paytype')
 
@@ -204,8 +205,7 @@ export default class RisePay extends React.Component<any, any> {
         return (
           <div className="button-footer">
             <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'} memo={data ? buttonStr : ''}
-                       className="footer-btn" onClick={() => this.handleClickOpenPayInfo(
-                showId)}>
+                       className="footer-btn" onClick={() => this.handleClickOpenPayInfo(memberType.id)}>
               {buttonStr || '立即入学'}
             </MarkBlock>
 
@@ -221,17 +221,17 @@ export default class RisePay extends React.Component<any, any> {
       }
 
     }
-      const renderLayout = ()=>{
-          return (
-              <div className="invitation-layout">
-                  <div className="layout-box">
-                      <h3>好友邀请</h3>
-                      <p>{invitationData.oldNickName}觉得《商业思维项目》很适合你，邀请你成为TA的同学，送你一张{invitationData.amount}元的学习优惠券。</p>
-                      <span className="button" onClick={()=>{this.setState({invitationLayout: false})}}>知道了</span>
-                  </div>
-              </div>
-          )
-      }
+    const renderLayout = () => {
+      return (
+        <div className="invitation-layout">
+          <div className="layout-box">
+            <h3>好友邀请</h3>
+            <p>{invitationData.oldNickName}觉得《商业思维项目》很适合你，邀请你成为TA的同学，送你一张{invitationData.amount}元的学习优惠券。</p>
+            <span className="button" onClick={() => {this.setState({ invitationLayout: false })}}>知道了</span>
+          </div>
+        </div>
+      )
+    }
     return (
       <div className="rise-pay-container">
         <div className="pay-page">
@@ -268,18 +268,19 @@ export default class RisePay extends React.Component<any, any> {
         }
         {
           memberType &&
-          <PayInfo ref="payInfo" dispatch={this.props.dispatch} goodsType={getGoodsType(memberType.id)}
+          <PayInfo ref="payInfo" dispatch={this.props.dispatch} goodsType={memberType.goodsType}
                    goodsId={memberType.id} header={memberType.name} priceTips={tip}
-                   payedDone={(goodsId) => this.handlePayedDone()} payedCancel={(res) => this.handlePayedCancel(res)}
+                   payedDone={(goodsId) => this.handlePayedDone(goodsId)}
+                   payedCancel={(res) => this.handlePayedCancel(res)}
                    payedError={(res) => this.handlePayedError(res)} payedBefore={() => this.handlePayedBefore()}
                    payType={payType || PayType.WECHAT}/>
         }
         {
           subscribe && <SubscribeAlert closeFunc={() => this.setState({ subscribe: false })}/>
         }
-          {invitationLayout&&
-              renderLayout()
-          }
+        {invitationLayout &&
+        renderLayout()
+        }
 
       </div>
     )

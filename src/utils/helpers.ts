@@ -108,3 +108,14 @@ export function refreshForPay() {
   }
 }
 
+export function saTrack(event, param) {
+  console.log('track', event, param);
+  if(!!param) {
+    sa.track(event, param);
+  } else {
+    sa.track(event);
+  }
+}
+
+
+

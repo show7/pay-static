@@ -5,7 +5,7 @@ import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { connect } from 'react-redux'
 import { config } from 'modules/helpers/JsConfig'
 import './ApplySuccess.less'
-import { getGoodsType, refreshForPay, sa } from 'utils/helpers'
+import { refreshForPay, saTrack } from 'utils/helpers'
 import PayInfo from '../components/PayInfo'
 import { checkRiseMember, getRiseMember, loadApplyProjectInfo } from '../async'
 import AssetImg from '../../../components/AssetImg'
@@ -34,56 +34,54 @@ export default class ApplySuccess extends React.Component<any, any> {
     }
   }
 
-  formatSeconds(value: number): { remainHour, remainMinute, remainSecond } {
-    var remainSecond = parseInt(value);// 秒
-    var remainMinute = 0;// 分
-    var remainHour = 0;// 小时
+  formatSeconds(value: number): {remainHour, remainMinute, remainSecond} {
+    var remainSecond = parseInt(value)// 秒
+    var remainMinute = 0// 分
+    var remainHour = 0// 小时
     if(remainSecond > 60) {
-      remainMinute = parseInt(remainSecond / 60);
-      remainSecond = parseInt(remainSecond % 60);
+      remainMinute = parseInt(remainSecond / 60)
+      remainSecond = parseInt(remainSecond % 60)
       if(remainMinute > 60) {
-        remainHour = parseInt(remainMinute / 60);
-        remainMinute = parseInt(remainMinute % 60);
+        remainHour = parseInt(remainMinute / 60)
+        remainMinute = parseInt(remainMinute % 60)
       }
     }
     if(remainSecond <= 0) {
-      remainSecond = 0;
+      remainSecond = 0
     }
 
-    return { remainHour, remainMinute, remainSecond };
+    return { remainHour, remainMinute, remainSecond }
   }
 
   componentWillMount() {
     if(refreshForPay()) {
-      return;
+      return
     }
-    const { goodsId = '3' } = this.props.location.query;
-
-    mark({ module: '打点', function: '商学院会员', action: '购买商学院会员', memo: '申请成功页面' })
-    sa.track('openPayPage', {
-      goodsType: getGoodsType(Number(goodsId)),
-      goodsId: goodsId
-    })
-
+    const { goodsId } = this.props.location.query
     const { dispatch } = this.props
     dispatch(startLoad())
-    this.setState({ showId: Number(goodsId) });
+    this.setState({ showId: Number(goodsId) })
 
     // 查询订单信息
     getRiseMember(goodsId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        const { remainSeconds } = res.msg;
-        const remainInfo = this.formatSeconds(remainSeconds);
+        const { remainSeconds, memberType } = res.msg
+        mark({ module: '打点', function: memberType.goodsType, action: memberType.id, memo: '申请成功页面' })
+        saTrack('openPayPage', {
+          goodsType: memberType.goodsType,
+          goodsId: memberType.id
+        })
+        const remainInfo = this.formatSeconds(remainSeconds)
         this.setState({
           data: res.msg, remainHour: remainInfo.remainHour, remainMinute: remainInfo.remainMinute,
           remainSecond: remainInfo.remainSecond, remainSeconds: remainSeconds
         }, () => {
           if(this.remainInterval) {
-            clearInterval(this.remainInterval);
+            clearInterval(this.remainInterval)
           } else {
             setInterval(() => {
-              this.countDown();
+              this.countDown()
             }, 1000)
           }
         })
@@ -93,12 +91,12 @@ export default class ApplySuccess extends React.Component<any, any> {
     }).catch((err) => {
       dispatch(endLoad())
       dispatch(alertMsg(err))
-    });
+    })
 
     loadApplyProjectInfo({ wannaGoodsId: goodsId }).then(res => {
       if(res.code === 200) {
-        const { apply, wannaGoods } = res.msg;
-        this.setState({ applyId: apply.id, wannaGoodsId: wannaGoods.id });
+        const { apply, wannaGoods } = res.msg
+        this.setState({ applyId: apply.id, wannaGoodsId: wannaGoods.id })
       }
     })
 
@@ -119,19 +117,19 @@ export default class ApplySuccess extends React.Component<any, any> {
   }
 
   countDown() {
-    let { remainSeconds } = this.state;
+    let { remainSeconds } = this.state
     if(remainSeconds <= 0) {
       this.setState({ expired: true, remainHour: 0, remainMinute: 0, remainSeconds: 0 }, () => {
         if(this.remainInterval) {
-          clearInterval(this.remainInterval);
+          clearInterval(this.remainInterval)
         }
       })
     } else {
-      let remainInfo = this.formatSeconds(remainSeconds - 1);
+      let remainInfo = this.formatSeconds(remainSeconds - 1)
       this.setState({
         remainHour: remainInfo.remainHour, remainMinute: remainInfo.remainMinute, remainSecond: remainInfo.remainSecond,
         remainSeconds: remainSeconds - 1
-      });
+      })
     }
   }
 
@@ -163,11 +161,11 @@ export default class ApplySuccess extends React.Component<any, any> {
     checkRiseMember(showId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        const { qrCode, privilege, errorMsg } = res.msg;
+        const { qrCode, privilege, errorMsg } = res.msg
         if(privilege) {
           this.refs.payInfo.handleClickOpen()
         } else {
-          dispatch(alertMsg(errorMsg));
+          dispatch(alertMsg(errorMsg))
         }
       }
       else {
@@ -187,7 +185,19 @@ export default class ApplySuccess extends React.Component<any, any> {
    * 重新注册页面签名
    */
   reConfig() {
-    config([ 'chooseWXPay' ])
+    config(['chooseWXPay'])
+  }
+
+  chooseImg(memberType) {
+    const { goodsId = '' } = this.props.location.query
+    if(goodsId === '10') {
+      return 'https://static.iqycamp.com/images/fragment/apply_success_goods_10.png?imageslim'
+    }
+    else if(memberType && memberType.id === 3) {
+      return 'https://static.iqycamp.com/images/fragment/apply_success_3_1.png?imageslim'
+    } else {
+      return 'https://static.iqycamp.com/images/fragment/apply_success_0517.png?imageslim'
+    }
   }
 
   render() {
@@ -213,7 +223,7 @@ export default class ApplySuccess extends React.Component<any, any> {
       <div className="rise-pay-apply-container">
         <div>
           <ApplySuccessCard
-            maskPic={memberType.id == 3 ? 'https://static.iqycamp.com/images/fragment/apply_success_3_1.png?imageslim' : 'https://static.iqycamp.com/images/fragment/apply_success_0517.png?imageslim'}
+            maskPic={this.chooseImg(memberType)}
             privilege={privilege} remainHour={remainHour} remainMinute={remainMinute}
             remainSecond={remainSecond} name={memberType.description}/>
 
@@ -248,7 +258,7 @@ export default class ApplySuccess extends React.Component<any, any> {
             memberType &&
             <PayInfo ref="payInfo"
                      dispatch={this.props.dispatch}
-                     goodsType={getGoodsType(memberType.id)}
+                     goodsType={memberType.goodsType}
                      goodsId={memberType.id}
                      header={memberType.name}
                      priceTips={tip}
@@ -265,7 +275,7 @@ export default class ApplySuccess extends React.Component<any, any> {
                 query: {
                   goodsId: this.state.applyId
                 }
-              });
+              })
             }
             }
           ]}>
@@ -289,12 +299,12 @@ interface ApplySuccessCard {
 
 class ApplySuccessCard extends React.Component<ApplySuccessCard, any> {
   constructor() {
-    super();
-    this.state = {};
+    super()
+    this.state = {}
   }
 
   render() {
-    const { name, remainSecond, remainHour, remainMinute, privilege, maskPic } = this.props;
+    const { name, remainSecond, remainHour, remainMinute, privilege, maskPic } = this.props
     return (
       <div className="apply-card-wrapper">
         <div className="mask-pic">
