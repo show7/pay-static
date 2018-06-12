@@ -188,6 +188,17 @@ export default class ApplySuccess extends React.Component<any, any> {
     config([ 'chooseWXPay' ])
   }
 
+  chooseImg(memberType) {
+    const { goodsId = '' } = this.props.location.query
+    if(goodsId === 10) {
+      return 'https://static.iqycamp.com/images/fragment/apply_success_goods_10.png?imageslim'
+    }
+    if(memberType && memberType.id === 3) {
+      return 'https://static.iqycamp.com/images/fragment/apply_success_3_1.png?imageslim'
+    }
+    return 'https://static.iqycamp.com/images/fragment/apply_success_0517.png?imageslim'
+  }
+
   render() {
     const { data = {}, showId, showErr, showCodeErr, expired, remainSecond, remainHour, remainMinute } = this.state
     const { memberType = {}, tip, privilege } = data
@@ -211,7 +222,7 @@ export default class ApplySuccess extends React.Component<any, any> {
       <div className="rise-pay-apply-container">
         <div>
           <ApplySuccessCard
-            maskPic={memberType.id == 3 ? 'https://static.iqycamp.com/images/fragment/apply_success_3_1.png?imageslim' : 'https://static.iqycamp.com/images/fragment/apply_success_0517.png?imageslim'}
+            maskPic={this.chooseImg(memberType)}
             privilege={privilege} remainHour={remainHour} remainMinute={remainMinute}
             remainSecond={remainSecond} name={memberType.description}/>
 
