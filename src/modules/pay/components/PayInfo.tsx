@@ -12,7 +12,7 @@ import {
 import { mark } from 'utils/request'
 
 import { pay } from '../../helpers/JsConfig'
-import { CouponCategory, GoodsType, PayType } from '../../../utils/helpers'
+import { CouponCategory, GoodsType, PayType, saTrack } from '../../../utils/helpers'
 import { sa } from '../../../utils/helpers'
 
 interface CouponProps {
@@ -117,15 +117,24 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
   }
 
   handleClickOpen() {
-    this.setState({ show: true }, () => {
+    const { fee } = this.state;
+    if(fee && (fee <= 100)) {
       if(_.isFunction(this.props.afterShow)) {
         this.props.afterShow()
       }
-      sa.track('clickPayDialogButton', {
-        goodsType: this.props.goodsType,
-        goodsId: Number(this.props.goodsId).toString()
-      });
-    })
+      this.handleClickPay();
+    } else {
+      this.setState({ show: true }, () => {
+        if(_.isFunction(this.props.afterShow)) {
+          this.props.afterShow()
+        }
+        sa.track('clickPayDialogButton', {
+          goodsType: this.props.goodsType,
+          goodsId: Number(this.props.goodsId).toString()
+        });
+      })
+    }
+
   }
 
   handleClickClose() {
