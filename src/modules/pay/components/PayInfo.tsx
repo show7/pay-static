@@ -118,7 +118,8 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
 
   handleClickOpen() {
     const { fee } = this.state;
-    if(fee && (fee <= 100)) {
+    // 价格小于100 则直接付费
+    if(ee <= 100) {
       if(_.isFunction(this.props.afterShow)) {
         this.props.afterShow()
       }
