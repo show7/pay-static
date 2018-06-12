@@ -12,14 +12,8 @@ import {
 import { mark } from 'utils/request'
 
 import { pay } from '../../helpers/JsConfig'
-import { CouponCategory, GoodsType, PayType, saTrack } from '../../../utils/helpers'
-import { sa } from '../../../utils/helpers'
+import { GoodsType, PayType, saTrack } from '../../../utils/helpers'
 
-interface CouponProps {
-  description?: string,
-  expired: string,
-  id: number
-}
 
 interface PayInfoProps {
   /** 显示支付窗口的回调 */
@@ -129,10 +123,10 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
         if(_.isFunction(this.props.afterShow)) {
           this.props.afterShow()
         }
-        sa.track('clickPayDialogButton', {
+        saTrack('clickPayDialogButton', {
           goodsType: this.props.goodsType,
           goodsId: Number(this.props.goodsId).toString()
-        });
+        })
       })
     }
 
@@ -168,11 +162,11 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     loadPaymentParam(param).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        sa.track('clickPayButton', {
+        saTrack('clickPayButton', {
           goodsType: this.props.goodsType,
           goodsId: Number(this.props.goodsId).toString(),
           payType: payType
-        });
+        })
         const { fee, free, signParams, productId } = res.msg
         this.setState({ productId: productId })
         if(!_.isNumber(fee)) {
