@@ -186,7 +186,7 @@ export default class CampPay extends React.Component<any, any> {
             <MarkBlock module={'打点'} func={'小课训练营'} action={'点击加入按钮'} memo={this.state.currentCampMonth}>
               <div className="pay-box" onClick={()=>{this.handleCheck(showId)}}>
                 <div className="inner-box">
-                  立即报名 <span>￥29.9</span>&nbsp;<span>￥<s>199</s></span>
+                  立即报名
                 </div>
               </div>
                  {/* <SubmitButton clickFunc={() =>{this.handleCheck(showId)} } buttonText={'我要报名！'}/>*/}
