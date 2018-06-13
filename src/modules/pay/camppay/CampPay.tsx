@@ -14,6 +14,7 @@ import { CustomerService } from '../../../components/customerservice/CustomerSer
 import { MarkBlock } from '../components/markblock/MarkBlock'
 import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
 import InvitationLayout from '../components/invitationLayout/InvitationLayout'
+import { FooterButton } from '../../../components/submitbutton/FooterButton'
 
 
 @connect(state => state)
@@ -183,9 +184,10 @@ export default class CampPay extends React.Component<any, any> {
           <img className="sale-pic" style={{ width: '100%' }} src={campPaymentImage}
                onLoad={() => this.setState({ loading: false })}/>
             <MarkBlock module={'打点'} func={'小课训练营'} action={'点击加入按钮'} memo={this.state.currentCampMonth}>
-              <div className="pay-box">
-                <span className="price">￥29.9 / 14天</span>
-                <span className="sign-in" onClick={()=>{this.handleCheck(showId)}}>立即报名</span>
+              <div className="pay-box" onClick={()=>{this.handleCheck(showId)}}>
+                <div className="inner-box">
+                  立即报名 <span>￥29.9</span>&nbsp;<span>￥<s>199</s></span>
+                </div>
               </div>
                  {/* <SubmitButton clickFunc={() =>{this.handleCheck(showId)} } buttonText={'我要报名！'}/>*/}
             </MarkBlock>
