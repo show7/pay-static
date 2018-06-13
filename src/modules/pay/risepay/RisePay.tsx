@@ -215,7 +215,7 @@ export default class RisePay extends React.Component<any, any> {
         return (
           <div className="button-footer">
             <MarkBlock module={`打点`} func={`商学院会员`} action={`预约商学院`} className={`footer-btn`}
-                       onClick={() => this.redirect()}>早鸟价2080，立即预约</MarkBlock>
+                       onClick={() => this.redirect()}>立即预约</MarkBlock>
           </div>
         )
       }
