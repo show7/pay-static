@@ -34,7 +34,7 @@ export default class ApplySuccess extends React.Component<any, any> {
     }
   }
 
-  formatSeconds(value: number): {remainHour, remainMinute, remainSecond} {
+  formatSeconds(value: number): { remainHour, remainMinute, remainSecond } {
     var remainSecond = parseInt(value)// 秒
     var remainMinute = 0// 分
     var remainHour = 0// 小时
@@ -69,8 +69,8 @@ export default class ApplySuccess extends React.Component<any, any> {
         const { remainSeconds, memberType } = res.msg
         mark({ module: '打点', function: memberType.goodsType, action: memberType.id, memo: '申请成功页面' })
         saTrack('openPayPage', {
-          goodsType: memberType.goodsType,
-          goodsId: memberType.id
+          goodsType: memberType.goodsType + '',
+          goodsId: memberType.id + ''
         })
         const remainInfo = this.formatSeconds(remainSeconds)
         this.setState({
@@ -185,7 +185,7 @@ export default class ApplySuccess extends React.Component<any, any> {
    * 重新注册页面签名
    */
   reConfig() {
-    config(['chooseWXPay'])
+    config([ 'chooseWXPay' ])
   }
 
   chooseImg(memberType) {
@@ -270,13 +270,13 @@ export default class ApplySuccess extends React.Component<any, any> {
           <Dialog show={expired} buttons={[
             {
               label: '去申请', onClick: () => {
-              this.context.router.push({
-                pathname: '/pay/bsstart',
-                query: {
-                  goodsId: this.state.applyId
-                }
-              })
-            }
+                this.context.router.push({
+                  pathname: '/pay/bsstart',
+                  query: {
+                    goodsId: this.state.applyId
+                  }
+                })
+              }
             }
           ]}>
             您的申请记录已经过期
