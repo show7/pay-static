@@ -188,7 +188,7 @@ export class SaleBody extends React.Component {
              id="business-school-intro-pic-container">
           <SequenceDisplay imgList={[
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/pay_rise_part1_0620_1.jpg'
+              url: 'https://static.iqycamp.com/images/pay_rise_part1_0621_1.jpg'
             }),
             // {
             //   dom: <CustomerEvaluate/>
@@ -201,7 +201,7 @@ export class SaleBody extends React.Component {
                 <a className="protocol" onClick={() => this.clickUserProtocol()}>【商学院用户协议】</a>
               </div>
             }, mergeStyle({
-              url: 'https://static.iqycamp.com/images/fragment/thought_sale_page_5_0523_1.jpg'
+              url: 'https://static.iqycamp.com/images/pay_rise_part2_0621_1.jpg'
             })
           ]} onLoadFirst={() => this.setState({ loading: false })}/>
 
