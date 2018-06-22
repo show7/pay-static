@@ -29,7 +29,8 @@ export default class MemberPaySuccess extends React.Component<any, any> {
       if(res.code === 200) {
         this.setState({
           memberTypeId: memberTypeId,
-          entryCode: res.msg.entryCode
+          entryCode: res.msg.entryCode,
+          memberName: res.msg.description,
         })
       } else {
         dispatch(alertMsg(res.msg))
@@ -50,13 +51,18 @@ export default class MemberPaySuccess extends React.Component<any, any> {
   }
 
   render() {
-    const { entryCode, wannaGoods = {} } = this.state
+    const { entryCode, memberName } = this.state
+    const { memberTypeId } = this.props.location.query
+
     const renderQrCode = (goodsId) => {
       if(goodsId == 3) {
         return <img src="https://static.iqycamp.com/images/banzhuren_code_1109.jpeg?imageslim" alt="班主任"
                     className="qrcode"/>
       } else if(goodsId == 8) {
         return <img src="https://static.iqycamp.com/images/fragment/banzhuren_tobey_0524.jpeg?imageslim" alt="班主任"
+                    className="qrcode"/>
+      } else if(goodsId == 12) {
+        return <img src="https://static.iqycamp.com/images/funny-0622.jpeg?imageslim" alt="班主任"
                     className="qrcode"/>
       } else {
         return <img src="https://static.iqycamp.com/images/fragment/qrcode_demi0611.jpeg?imageslim" alt="班主任"
@@ -69,7 +75,7 @@ export default class MemberPaySuccess extends React.Component<any, any> {
         <div className="gutter" style={{ height: `${this.topPd}px` }}/>
         <div className="success-header">报名成功</div>
         <div className="success-tips">
-          Hi, {window.ENV.userName}，欢迎加入{wannaGoods.description}
+          Hi, {window.ENV.userName}，欢迎加入{memberName}
         </div>
         <div className="step-wrapper">
           <div className="content">
@@ -80,7 +86,7 @@ export default class MemberPaySuccess extends React.Component<any, any> {
             <div className="step step-2" data-step="2" style={{ paddingBottom: `${this.pd}px` }}>
               扫码添加班主任
               <div className="tip">工作日两小时內回复，请耐心等待</div>
-              {renderQrCode(wannaGoods.id)}
+              {renderQrCode(memberTypeId)}
 
             </div>
             <div className="step step-3" data-step="3">
