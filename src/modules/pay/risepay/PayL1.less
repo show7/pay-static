@@ -1,0 +1,175 @@
+
+@import "../../../style/variable";
+.rise-pay-container {
+  padding-bottom: 50px;
+
+  > .mask {
+    position: fixed;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.6);
+    > .tips {
+      margin-top: 50px;
+      color: #FFFFFF;
+      text-align: center;
+      font-size: 16px;
+    }
+    > .xiaoQ {
+      display: block;
+      margin: 25px auto 0;
+      width: 70%;
+    }
+  }
+  > .pay-page {
+    .button-footer {
+      box-shadow: 0 0 8px 4px rgba(0, 0, 0, 0.04);
+      display: block;
+      position: fixed;
+      font-size: 17px;
+      bottom: 0;
+      width: 100%;
+      height: 50px;
+      text-align: center;
+      line-height: 50px;
+      color: #fff;
+      background-color: #fff;
+      z-index: 10;
+      .footer-left {
+        height: 100%;
+        position: relative;
+        width: 30%;
+        top: 1px;
+        font-size: 15px;
+        color: #5b3f00;
+        float: left;
+      }
+      .guest-footer-btn {
+        height: 40px;
+        margin: 0 6%;
+        position: absolute;
+        width: 88%;
+        top: 50%;
+        left: 0;
+        -webkit-transform: translateY(-50%);
+        -moz-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        -o-transform: translateY(-50%);
+        transform: translateY(-50%);
+        background: url('../../../../assets/icons/pay_btn_bg.png') center center/100% 100%;
+        //background-color: #e3ca65;
+        border-radius: 20px;
+        font-size: 20px;
+        color: #5b3f00;
+        line-height: 40px;
+        overflow: hidden;
+        > svg {
+          > text {
+            text-anchor: middle; /* 文本水平居中 */
+            dominant-baseline: middle; /* 文本垂直居中 */
+          }
+        }
+      }
+      .footer-btn {
+        height: 100%;
+        position: relative;
+        font-size: 20px;
+        color: #FFF;
+        line-height: 50px;
+        overflow: hidden;
+        background: #E9803A;
+        > svg {
+          > text {
+            text-anchor: middle; /* 文本水平居中 */
+            dominant-baseline: middle; /* 文本垂直居中 */
+          }
+        }
+        .audition {
+          display: inline-block;
+          //text-indent: 30px;
+          //background: url('../../../../assets/icons/rise_icon_audition.png') no-repeat left center/22px 16px;
+        }
+
+      }
+    }
+  }
+
+  > .share-tip {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.7);
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1000;
+    > .tip-pic {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  }
+  .weui_dialog_ft {
+    display: none;
+  }
+
+}
+
+.invitation-layout{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: rgba(0,0,0,.5);
+  >.layout-box{
+    position: absolute;
+    background-color: @color_white;
+    width: 60%;
+    margin: 0 auto;
+    top: 20%;
+    left: 0;
+    right: 0;
+    border-radius: 16px;
+    padding: 0 2rem 2rem 2rem;
+
+    >h3{
+      text-align: center;
+      font-size: 1.9rem;
+      font-weight: 600;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.47;
+      letter-spacing: 0.1px;
+      color: #50505a;
+      margin-top: 5.5rem;
+      margin-bottom: 2.33rem;
+    }
+    >p{
+      font-size: 1.2rem;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 2.17;
+      color: @color_help;
+      margin-bottom: 5rem;
+    }
+    >span.button{
+      width: 100%;
+      line-height: 3.66rem;
+      border-radius: 22px;
+      display: inline-block;
+      text-align: center;
+      background-image: linear-gradient(to left, #a5e628, #7dbe00);
+      font-size: 1.7rem;
+      font-weight: 600;
+      font-style: normal;
+      font-stretch: normal;
+      letter-spacing: 0.2px;
+      color: @color_white;
+    }
+  }
+}

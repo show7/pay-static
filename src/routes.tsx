@@ -21,6 +21,7 @@ import ThoughtPay from './modules/pay/thoughtpay/ThoughtPay'
 import { notLoadInfoUrls, sa } from './utils/helpers'
 import PageNotFound from './modules/others/pageNotFound/PageNotFound'
 import ProjectIntro from './modules/pay/risepay/intro/ProjectIntro'
+import PayL1 from 'modules/pay/risepay/PayL1'
 
 const routes = (
   <Route path="/">
@@ -59,6 +60,7 @@ const routes = (
       <Route path="pay/alipay/rise" component={RiseAlipay}/>
       <Route path="pay/alipay/return" component={AlipayReturn}/>
       <Route path="pay/thought/intro" component={ProjectIntro}/>
+      <Route path="pay/l1" component={PayL1}/>
     </Route>
     <Route path="*" component={PageNotFound}></Route>
   </Route>
