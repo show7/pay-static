@@ -234,7 +234,7 @@ export default class RisePay extends React.Component<any, any> {
     }
     return (
       <div className="rise-pay-container">
-        <div className="pay-page">
+        <div className="pay-page l2">
           <SaleBody/>
           {renderPay()}
         </div>
