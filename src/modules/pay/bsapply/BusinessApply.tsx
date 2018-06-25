@@ -100,7 +100,7 @@ export default class BusinessApply extends Component<any, any> {
             }
           </div>
           <div className="ba-line">
-            认真填写有助你提升录取机会哦~
+            认真填写有助于提升录取机会哦~
           </div>
         </div>
         <div className="ba-sub-tips">填写须知</div>
