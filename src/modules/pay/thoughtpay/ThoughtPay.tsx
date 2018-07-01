@@ -45,7 +45,7 @@ export default class ThoughtPay extends Component<any, any> {
       return;
     }
     //分享优惠券
-      let riseId = this.props.location.query.riseId || null;
+      let riseId =  null;
       this.setState({riseId: riseId})
       if (riseId) {
           let param = {
