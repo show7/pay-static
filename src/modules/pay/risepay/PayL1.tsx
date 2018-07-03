@@ -195,7 +195,7 @@ export default class PayL1 extends React.Component<any, any> {
             <div className="tips">
               出现问题的童鞋看这里<br/> 1如果显示“URL未注册”，请重新刷新页面即可<br/> 2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
             </div>
-            <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
+            <img className="xiaoQ" src="https://static.iqycamp.com/images/code_zsbzr_0703.jpeg?imageslim"/>
           </div>
         }
         {
@@ -206,7 +206,7 @@ export default class PayL1 extends React.Component<any, any> {
               3，在新开的页面完成支付即可<br/>
             </div>
             <img className="xiaoQ" style={{ width: '50%' }}
-                 src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
+                 src="https://static.iqycamp.com/images/code_zsbzr_0703.jpeg?imageslim"/>
           </div>
         }
         {
