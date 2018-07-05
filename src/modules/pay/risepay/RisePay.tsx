@@ -35,7 +35,7 @@ export default class RisePay extends React.Component<any, any> {
     }
   }
 
-  componentWillMount() {
+ async componentWillMount() {
     // ios／安卓微信支付兼容性
     if(refreshForPay()) {
       return
@@ -52,8 +52,8 @@ export default class RisePay extends React.Component<any, any> {
         riseId: riseId,
         memberTypeId: 10
       }
-      let invitationInfo = await
-      loadInvitation(param)
+      let invitationInfo = await loadInvitation(param)
+      this.setState({ invitationData: invitationInfo.msg })
       this.setState({ invitationData: invitationInfo.msg })
       if(invitationInfo.msg.isNewUser && invitationInfo.msg.isReceived) {
         dispatch(alertMsg('优惠券已经发到你的圈外同学账号咯！'))
@@ -215,7 +215,7 @@ export default class RisePay extends React.Component<any, any> {
         <div className="invitation-layout">
           <div className="layout-box">
             <h3>好友邀请</h3>
-            <p>{invitationData.oldNickName}觉得《{invitationData.memberName}》很适合你，邀请你成为TA的同学，送你一张{invitationData.amount}元的学习优惠券。</p>
+            <p>{invitationData.oldNickName}觉得《{invitationData.memberTypeName}》很适合你，邀请你成为TA的同学，送你一张{invitationData.amount}元的学习优惠券。</p>
             <span className="button" onClick={() => {this.setState({ invitationLayout: false })}}>知道了</span>
           </div>
         </div>
