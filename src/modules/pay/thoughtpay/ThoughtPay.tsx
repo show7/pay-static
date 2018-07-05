@@ -63,8 +63,8 @@ export default class ThoughtPay extends Component<any, any> {
     //表示是分享点击进入
     let res = await getRiseMember(this.state.showId)
     if(res.code === 200) {
-      const { privilege, memberType, tip, buttonStr, auditionStr, remainHour, remainMinute } = res.msg;
-      this.setState({ privilege, memberType, tip, buttonStr, auditionStr, remainHour, remainMinute })
+      const { privilege, quanwaiGoods, tip, buttonStr, auditionStr, remainHour, remainMinute } = res.msg;
+      this.setState({ privilege, quanwaiGoods, tip, buttonStr, auditionStr, remainHour, remainMinute })
       // 进行打点
       if(privilege) {
         sa.track('openSalePayPage', {
@@ -176,7 +176,7 @@ export default class ThoughtPay extends Component<any, any> {
   render() {
     let payType = _.get(location, 'query.paytype')
 
-    const { subscribeAlertTips, privilege, memberType, buttonStr, auditionStr, tip, showId, timeOut, showErr, showCodeErr, subscribe,invitationLayout,invitationData } = this.state;
+    const { subscribeAlertTips, privilege, quanwaiGoods, buttonStr, auditionStr, tip, showId, timeOut, showErr, showCodeErr, subscribe,invitationLayout,invitationData } = this.state;
     const renderButtons = () => {
       if(typeof(privilege) === 'undefined') {
         return null;
@@ -184,7 +184,7 @@ export default class ThoughtPay extends Component<any, any> {
       if(!!privilege) {
         return <FooterButton primary={true} btnArray={[
           {
-            click: () => this.handleClickOpenPayInfo(memberType.id),
+            click: () => this.handleClickOpenPayInfo(quanwaiGoods.id),
             text: '立即入学',
             module: '打点',
             func: '进阶课程',
@@ -215,9 +215,9 @@ export default class ThoughtPay extends Component<any, any> {
                           closeFunc={() => this.setState({ subscribe: false })}/>
         }
         {
-          memberType &&
-          <PayInfo ref="payInfo" dispatch={this.props.dispatch} goodsType={getGoodsType(memberType.id)}
-                   goodsId={memberType.id} header={memberType.name} priceTips={tip}
+          quanwaiGoods &&
+          <PayInfo ref="payInfo" dispatch={this.props.dispatch} goodsType={quanwaiGoods.goodsType}
+                   goodsId={quanwaiGoods.id} header={quanwaiGoods.name} priceTips={tip}
                    payedDone={(goodsId) => this.handlePayedDone()} payedCancel={(res) => this.handlePayedCancel(res)}
                    payedError={(res) => this.handlePayedError(res)} payedBefore={() => this.handlePayedBefore()}
                    payType={payType || PayType.WECHAT}/>

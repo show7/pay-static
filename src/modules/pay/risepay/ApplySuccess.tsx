@@ -22,7 +22,7 @@ export default class ApplySuccess extends React.Component<any, any> {
   constructor() {
     super()
     this.state = {
-      showId: 3,
+      goodsId: 3,
       timeOut: false,
       showErr: false,
       showCodeErr: false,
@@ -60,17 +60,17 @@ export default class ApplySuccess extends React.Component<any, any> {
     const { goodsId } = this.props.location.query
     const { dispatch } = this.props
     dispatch(startLoad())
-    this.setState({ showId: Number(goodsId) })
+    this.setState({ goodsId: Number(goodsId) })
 
     // 查询订单信息
     getRiseMember(goodsId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        const { remainSeconds, memberType } = res.msg
-        mark({ module: '打点', function: memberType.goodsType, action: memberType.id, memo: '申请成功页面' })
+        const { remainSeconds,  quanwaiGoods } = res.msg
+        mark({ module: '打点', function: quanwaiGoods.goodsType, action: quanwaiGoods.id, memo: '申请成功页面' })
         saTrack('openPayPage', {
-          goodsType: memberType.goodsType + '',
-          goodsId: memberType.id + ''
+          goodsType: quanwaiGoods.goodsType + '',
+          goodsId: quanwaiGoods.id + ''
         })
         const remainInfo = this.formatSeconds(remainSeconds)
         this.setState({
@@ -92,14 +92,6 @@ export default class ApplySuccess extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(err))
     })
-
-    loadApplyProjectInfo({ wannaGoodsId: goodsId }).then(res => {
-      if(res.code === 200) {
-        const { apply, wannaGoods } = res.msg
-        this.setState({ applyId: apply.id, wannaGoodsId: wannaGoods.id })
-      }
-    })
-
   }
 
   handlePayedDone() {
@@ -107,7 +99,7 @@ export default class ApplySuccess extends React.Component<any, any> {
     this.context.router.push({
       pathname: '/pay/member/success',
       query: {
-        memberTypeId: this.state.showId
+        memberTypeId: this.state.goodsId
       }
     })
   }
@@ -151,14 +143,14 @@ export default class ApplySuccess extends React.Component<any, any> {
 
   /**
    * 打开支付窗口
-   * @param showId 会员类型id
+   * @param goodsId 商品id
    */
-  handleClickOpenPayInfo(showId) {
+  handleClickOpenPayInfo(goodsId) {
     this.reConfig()
     const { dispatch } = this.props
     dispatch(startLoad())
     // 先检查是否能够支付
-    checkRiseMember(showId).then(res => {
+    checkRiseMember(goodsId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         const { qrCode, privilege, errorMsg } = res.msg
@@ -188,12 +180,12 @@ export default class ApplySuccess extends React.Component<any, any> {
     config([ 'chooseWXPay' ])
   }
 
-  chooseImg(memberType) {
+  chooseImg(quanwaiGoods) {
     const { goodsId = '' } = this.props.location.query
     if(goodsId === '10') {
       return 'https://static.iqycamp.com/images/fragment/apply_success_goods_10.png?imageslim'
     }
-    else if(memberType && memberType.id === 3) {
+    else if(quanwaiGoods && quanwaiGoods.id === 3) {
       return 'https://static.iqycamp.com/images/fragment/apply_success_3_1.png?imageslim'
     } else {
       return 'https://static.iqycamp.com/images/fragment/apply_success_0517.png?imageslim'
@@ -201,17 +193,17 @@ export default class ApplySuccess extends React.Component<any, any> {
   }
 
   render() {
-    const { data = {}, showId, showErr, showCodeErr, expired, remainSecond, remainHour, remainMinute } = this.state
-    const { memberType = {}, tip, privilege } = data
+    const { data = {}, goodsId, showErr, showCodeErr, expired, remainSecond, remainHour, remainMinute } = this.state
+    const { quanwaiGoods = {}, tip, privilege } = data
 
     const renderPay = () => {
       return (
         <FooterButton btnArray={[
           {
             text: '立即入学',
-            click: () => this.handleClickOpenPayInfo(showId),
+            click: () => this.handleClickOpenPayInfo(goodsId),
             module: '打点',
-            func: showId,
+            func: goodsId,
             action: '点击入学按钮',
             memo: '申请成功页面'
           }
@@ -223,9 +215,9 @@ export default class ApplySuccess extends React.Component<any, any> {
       <div className="rise-pay-apply-container">
         <div>
           <ApplySuccessCard
-            maskPic={this.chooseImg(memberType)}
+            maskPic={this.chooseImg(quanwaiGoods)}
             privilege={privilege} remainHour={remainHour} remainMinute={remainMinute}
-            remainSecond={remainSecond} name={memberType.description}/>
+            remainSecond={remainSecond} name={quanwaiGoods.name}/>
 
           {renderPay()}
           {
@@ -255,12 +247,12 @@ export default class ApplySuccess extends React.Component<any, any> {
             </div>
           }
           {
-            memberType &&
+            quanwaiGoods &&
             <PayInfo ref="payInfo"
                      dispatch={this.props.dispatch}
-                     goodsType={memberType.goodsType}
-                     goodsId={memberType.id}
-                     header={memberType.name}
+                     goodsType={quanwaiGoods.goodsType}
+                     goodsId={quanwaiGoods.id}
+                     header={quanwaiGoods.name}
                      priceTips={tip}
                      payedDone={(goodsId) => this.handlePayedDone()}
                      payedCancel={(res) => this.handlePayedCancel(res)}
@@ -270,12 +262,13 @@ export default class ApplySuccess extends React.Component<any, any> {
           <Dialog show={expired} buttons={[
             {
               label: '去申请', onClick: () => {
-                this.context.router.push({
-                  pathname: '/pay/bsstart',
-                  query: {
-                    goodsId: this.state.applyId
-                  }
-                })
+                window.location.href = quanwaiGoods.saleUrl;
+                // this.context.router.push({
+                //   pathname: '/pay/bsstart',
+                //   query: {
+                //     goodsId: this.state.applyId
+                //   }
+                // })
               }
             }
           ]}>

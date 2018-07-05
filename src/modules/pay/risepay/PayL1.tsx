@@ -7,10 +7,9 @@ import { PayType, sa, refreshForPay, saTrack } from 'utils/helpers'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { config, configShare } from 'modules/helpers/JsConfig'
 import PayInfo from '../components/PayInfo'
-import { checkRiseMember, getRiseMember, loadInvitation } from '../async'
+import { checkRiseMember, getRiseMember } from '../async'
 import { SaleBody } from './components/SaleBody'
 import { MarkBlock } from '../components/markblock/MarkBlock'
-import { addUserRecommendation } from './async'
 import { SubscribeAlert } from "./components/SubscribeAlert"
 
 @connect(state => state)
@@ -46,20 +45,20 @@ export default class PayL1 extends React.Component<any, any> {
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({ data: res.msg })
-        const { memberType = {} } = res.msg;
+        const { quanwaiGoods = {} } = res.msg;
         const { privilege } = res.msg
         if(privilege) {
           saTrack('openSalePayPage', {
-            goodsType: memberType.goodsType + '',
-            goodsId: memberType.id + ''
+            goodsType: quanwaiGoods.goodsType + '',
+            goodsId: quanwaiGoods.id + ''
           })
-          mark({ module: '打点', function: memberType.goodsType, action: memberType.id, memo: '入学页面' })
+          mark({ module: '打点', function: quanwaiGoods.goodsType, action: quanwaiGoods.id, memo: '入学页面' })
         } else {
           saTrack('openSaleApplyPage', {
-            goodsType: memberType.goodsType + '',
-            goodsId: memberType.id + ''
+            goodsType: quanwaiGoods.goodsType + '',
+            goodsId: quanwaiGoods.id + ''
           })
-          mark({ module: '打点', function: memberType.goodsType, action: memberType.id, memo: '申请页面' })
+          mark({ module: '打点', function: quanwaiGoods.goodsType, action: quanwaiGoods.id, memo: '申请页面' })
         }
       } else {
         dispatch(alertMsg(res.msg))
@@ -82,12 +81,12 @@ export default class PayL1 extends React.Component<any, any> {
 
   handlePayedDone() {
     const { data } = this.state
-    const { memberType = {} } = data
-    mark({ module: '打点', function: '商学院会员', action: '支付成功', memo: memberType.id })
+    const { quanwaiGoods = {} } = data
+    mark({ module: '打点', function: '商学院会员', action: '支付成功', memo: quanwaiGoods.id })
     this.context.router.push({
       pathname: '/pay/member/success',
       query: {
-        memberTypeId: memberType.id
+        memberTypeId: quanwaiGoods.id
       }
     })
   }
@@ -114,8 +113,8 @@ export default class PayL1 extends React.Component<any, any> {
    */
   handleClickOpenPayInfo(showId) {
     const { dispatch } = this.props;
-    const { data, timeOut, showErr, showCodeErr, subscribe } = this.state
-    const { privilege, buttonStr, errorMsg, memberType = {}, tip } = data
+    const { data } = this.state
+    const { privilege, errorMsg } = data
     if(!privilege && !!errorMsg) {
       dispatch(alertMsg(errorMsg));
       return
@@ -145,8 +144,8 @@ export default class PayL1 extends React.Component<any, any> {
 
   handlePayedBefore() {
     const { data } = this.state
-    const { memberType = {} } = data
-    mark({ module: '打点', function: '商学院会员', action: '点击付费', memo: memberType.id })
+    const { quanwaiGoods = {} } = data
+    mark({ module: '打点', function: '商学院会员', action: '点击付费', memo: quanwaiGoods.id })
   }
 
   /**
@@ -158,16 +157,16 @@ export default class PayL1 extends React.Component<any, any> {
 
   render() {
     const { data, timeOut, showErr, showCodeErr, subscribe, showId } = this.state
-    const { privilege, buttonStr, memberType = {}, tip } = data
+    const { privilege, quanwaiGoods = {}, tip } = data
     const { location } = this.props
     let payType = _.get(location, 'query.paytype')
 
     const renderPay = () => {
-      if(!memberType.id) return null
+      if(!quanwaiGoods.id) return null
       return (
         <div className="button-footer">
-          <MarkBlock module={'打点'} func={memberType.id} action={'点击入学按钮'} memo={privilege}
-                     className="footer-btn" onClick={() => this.handleClickOpenPayInfo(memberType.id)}>
+          <MarkBlock module={'打点'} func={quanwaiGoods.id} action={'点击入学按钮'} memo={privilege}
+                     className="footer-btn" onClick={() => this.handleClickOpenPayInfo(quanwaiGoods.id)}>
             立即入学
           </MarkBlock>
 
@@ -210,9 +209,9 @@ export default class PayL1 extends React.Component<any, any> {
           </div>
         }
         {
-          memberType &&
-          <PayInfo ref="payInfo" dispatch={this.props.dispatch} goodsType={memberType.goodsType}
-                   goodsId={memberType.id} header={memberType.name} priceTips={tip}
+          quanwaiGoods &&
+          <PayInfo ref="payInfo" dispatch={this.props.dispatch} goodsType={quanwaiGoods.goodsType}
+                   goodsId={quanwaiGoods.id} header={quanwaiGoods.name} priceTips={tip}
                    payedDone={(goodsId) => this.handlePayedDone(goodsId)}
                    payedCancel={(res) => this.handlePayedCancel(res)}
                    payedError={(res) => this.handlePayedError(res)} payedBefore={() => this.handlePayedBefore()}

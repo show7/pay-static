@@ -374,7 +374,7 @@ export default class QuestionCollection extends Component<QuestionCollectionProp
   }
 
   render() {
-    const { currentIndex, questionGroup = [], seriesCount, showErr, showCodeErr, memberType, payApplyFlag } = this.state
+    const { currentIndex, questionGroup = [], seriesCount, payApplyFlag } = this.state
     const renderButtons = () => {
       if(currentIndex === 0) {
         return (

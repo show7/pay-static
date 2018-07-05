@@ -55,20 +55,20 @@ export default class RisePay extends React.Component<any, any> {
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({ data: res.msg })
-        const { memberType = {} } = res.msg;
+        const { quanwaiGoods = {} } = res.msg;
         const { privilege } = res.msg
         if(privilege) {
           saTrack('openSalePayPage', {
-            goodsType: memberType.goodsType + '',
-            goodsId: memberType.id + ''
+            goodsType: quanwaiGoods.goodsType + '',
+            goodsId: quanwaiGoods.id + ''
           })
-          mark({ module: '打点', function: memberType.goodsType, action: memberType.id, memo: '入学页面' })
+          mark({ module: '打点', function: quanwaiGoods.goodsType, action: quanwaiGoods.id, memo: '入学页面' })
         } else {
           saTrack('openSaleApplyPage', {
-            goodsType: memberType.goodsType + '',
-            goodsId: memberType.id + ''
+            goodsType: quanwaiGoods.goodsType + '',
+            goodsId: quanwaiGoods.id + ''
           })
-          mark({ module: '打点', function: memberType.goodsType, action: memberType.id, memo: '申请页面' })
+          mark({ module: '打点', function: quanwaiGoods.goodsType, action: quanwaiGoods.id, memo: '申请页面' })
         }
       } else {
         dispatch(alertMsg(res.msg))
@@ -194,18 +194,18 @@ export default class RisePay extends React.Component<any, any> {
 
   render() {
     const { data, timeOut, showErr, showCodeErr, subscribe, invitationLayout, invitationData } = this.state
-    const { privilege, buttonStr, memberType = {}, tip } = data
+    const { privilege, buttonStr, quanwaiGoods = {}, tip } = data
     const { location } = this.props
     let payType = _.get(location, 'query.paytype')
 
     const renderPay = () => {
-      if(!memberType) return null
+      if(!quanwaiGoods) return null
 
       if(privilege) {
         return (
           <div className="button-footer">
             <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'} memo={data ? buttonStr : ''}
-                       className="footer-btn" onClick={() => this.handleClickOpenPayInfo(memberType.id)}>
+                       className="footer-btn" onClick={() => this.handleClickOpenPayInfo(quanwaiGoods.id)}>
               {buttonStr || '立即入学'}
             </MarkBlock>
 
@@ -267,9 +267,9 @@ export default class RisePay extends React.Component<any, any> {
           </div>
         }
         {
-          memberType &&
-          <PayInfo ref="payInfo" dispatch={this.props.dispatch} goodsType={memberType.goodsType}
-                   goodsId={memberType.id} header={memberType.name} priceTips={tip}
+          quanwaiGoods &&
+          <PayInfo ref="payInfo" dispatch={this.props.dispatch} goodsType={quanwaiGoods.goodsType}
+                   goodsId={quanwaiGoods.id} header={quanwaiGoods.name} priceTips={tip}
                    payedDone={(goodsId) => this.handlePayedDone(goodsId)}
                    payedCancel={(res) => this.handlePayedCancel(res)}
                    payedError={(res) => this.handlePayedError(res)} payedBefore={() => this.handlePayedBefore()}

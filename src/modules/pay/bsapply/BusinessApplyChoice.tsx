@@ -41,7 +41,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
     const { goodsId } = location.query;
     //查询订单信息
     let orderRes = await getRiseMember(goodsId);
-    this.setState({ memberType: orderRes.msg.memberType });
+    this.setState({ quanwaiGoods: orderRes.msg.quanwaiGoods });
     saTrack('openApplyChoicePage', {
       goodsId: goodsId
     })
@@ -75,15 +75,14 @@ export default class BusinessApplyChoice extends Component<any, any> {
 
   /**
    * 打开支付窗口
-   * @param memberType 会员类型
    */
   handleClickOpenPayInfo() {
     this.reConfig()
     const { dispatch } = this.props
-    const { memberType = {} } = this.state;
+    const { quanwaiGoods = {} } = this.state;
     dispatch(startLoad())
     // 先检查是否能够支付
-    checkRiseMember(memberType.id).then(res => {
+    checkRiseMember(quanwaiGoods.id).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         const { qrCode, privilege, errorMsg } = res.msg;
@@ -99,12 +98,12 @@ export default class BusinessApplyChoice extends Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
-    mark({ module: '打点', function: '商学院申请', action: '点击加入按钮', memo: memberType.id })
+    mark({ module: '打点', function: '商学院申请', action: '点击加入按钮', memo: quanwaiGoods.id })
   }
 
   handlePayedBefore() {
-    const { memberType = {} } = this.state;
-    mark({ module: '打点', function: '商学院申请', action: '点击付费', memo: memberType.id })
+    const { quanwaiGoods = {} } = this.state;
+    mark({ module: '打点', function: '商学院申请', action: '点击付费', memo: quanwaiGoods.id })
   }
 
   /**
@@ -115,11 +114,11 @@ export default class BusinessApplyChoice extends Component<any, any> {
   }
 
   render() {
-    const { showErr, showCodeErr, memberType = {}, riseId } = this.state
+    const { showErr, showCodeErr, quanwaiGoods = {}, riseId } = this.state
 
     return (
       <div className="apply-choice" style={{ minHeight: window.innerHeight }}>
-        {memberType.id && <QuestionCollection header={memberType.name} goodsId={memberType.id} riseId={riseId}
+        {quanwaiGoods.id && <QuestionCollection header={quanwaiGoods.name} goodsId={quanwaiGoods.id} riseId={riseId}
                                               handleClickOpenPayInfo={() => this.handleClickOpenPayInfo()}/>}
         {showErr ? <div className="pay-tips-mask" onClick={() => this.setState({ showErr: false })}>
           <div className="tips">
@@ -141,11 +140,11 @@ export default class BusinessApplyChoice extends Component<any, any> {
           <img className="xiaoQ" style={{ width: '50%' }}
                src="https://static.iqycamp.com/images/pay_camp_code.png?imageslim"/>
         </div> : null}
-        {memberType && <PayInfo ref="payInfo"
+        {quanwaiGoods && <PayInfo ref="payInfo"
                                 dispatch={this.props.dispatch}
-                                goodsType={memberType.goodsType}
-                                goodsId={memberType.id}
-                                header={memberType.name}
+                                goodsType={quanwaiGoods.goodsType}
+                                goodsId={quanwaiGoods.id}
+                                header={quanwaiGoods.name}
                                 payedDone={(goodsId) => this.handlePayedDone(goodsId)}
                                 payedCancel={(res) => this.handlePayedCancel(res)}
                                 payedError={(res) => this.handlePayedError(res)}
