@@ -5,13 +5,14 @@ import { connect } from 'react-redux'
 import { mark } from 'utils/request'
 import { PayType, sa, refreshForPay, saTrack } from 'utils/helpers'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
-import { config, configShare } from 'modules/helpers/JsConfig'
+import { config } from 'modules/helpers/JsConfig'
 import PayInfo from '../components/PayInfo'
 import { checkRiseMember, getRiseMember, loadInvitation } from '../async'
 import { SaleBody } from './components/SaleBody'
 import { MarkBlock } from '../components/markblock/MarkBlock'
-import { addUserRecommendation } from './async'
-import { SubscribeAlert } from "./components/SubscribeAlert"
+import { SubscribeAlert } from './components/SubscribeAlert'
+import InvitationLayout from '../components/invitationLayout/InvitationLayout'
+import RenderInBody from '../../../components/RenderInBody'
 
 @connect(state => state)
 export default class PayL1 extends React.Component<any, any> {
@@ -29,24 +30,39 @@ export default class PayL1 extends React.Component<any, any> {
       showCodeErr: false,
       subscribe: false,
       data: {},
-      riseId: null        //分享来源
+      invitationLayout: false // 弹框标识
     }
   }
 
-  componentWillMount() {
+  async componentWillMount() {
     // ios／安卓微信支付兼容性
     if(refreshForPay()) {
-      return;
+      return
     }
     const { dispatch } = this.props
     dispatch(startLoad())
 
+    let { riseId } = this.props.location.query
+    //判断是否是老带新分享的链接
+    if(!_.isEmpty(riseId)) {
+      let param = {
+        riseId: riseId,
+        memberTypeId: 12
+      }
+      let invitationInfo = await loadInvitation(param)
+      this.setState({ invitationData: invitationInfo.msg })
+      if(invitationInfo.msg.isNewUser && invitationInfo.msg.isReceived) {
+        dispatch(alertMsg('优惠券已经发到你的圈外同学账号咯！'))
+      } else if(invitationInfo.msg.isNewUser) {
+        this.setState({ invitationLayout: true })
+      }
+    }
     // 查询订单信息
     getRiseMember(this.state.showId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({ data: res.msg })
-        const { memberType = {} } = res.msg;
+        const { memberType = {} } = res.msg
         const { privilege } = res.msg
         if(privilege) {
           saTrack('openSalePayPage', {
@@ -113,25 +129,33 @@ export default class PayL1 extends React.Component<any, any> {
    * @param showId 会员类型id
    */
   handleClickOpenPayInfo(showId) {
-    const { dispatch } = this.props;
-    const { data, timeOut, showErr, showCodeErr, subscribe } = this.state
+    const { dispatch } = this.props
+    const { data, subscribe } = this.state
     const { privilege, buttonStr, errorMsg, memberType = {}, tip } = data
     if(!privilege && !!errorMsg) {
-      dispatch(alertMsg(errorMsg));
+      dispatch(alertMsg(errorMsg))
       return
+    }
+    const { riseId = '' } = this.props.location.query
+    if(!_.isEmpty(riseId) && !this.state.invitationData.isNewUser) {
+      dispatch(alertMsg('你已经是会员咯！快去个人中心分享赢取优惠券哦！'))
     }
 
     this.reConfig()
     dispatch(startLoad())
     // 先检查是否能够支付
-    checkRiseMember(showId).then(res => {
+    checkRiseMember(showId, riseId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        const { qrCode, privilege, errorMsg } = res.msg;
-        if(privilege) {
-          this.refs.payInfo.handleClickOpen();
+        const { qrCode, privilege, errorMsg, subscribe } = res.msg
+        if(subscribe) {
+          if(privilege) {
+            this.refs.payInfo.handleClickOpen()
+          } else {
+            dispatch(alertMsg(errorMsg))
+          }
         } else {
-          dispatch(alertMsg(errorMsg))
+          this.setState({ qrCode: qrCode, showQr: true })
         }
       }
       else {
@@ -153,12 +177,12 @@ export default class PayL1 extends React.Component<any, any> {
    * 重新注册页面签名
    */
   reConfig() {
-    config([ 'chooseWXPay' ])
+    config(['chooseWXPay'])
   }
 
   render() {
-    const { data, timeOut, showErr, showCodeErr, subscribe, showId } = this.state
-    const { privilege, buttonStr, memberType = {}, tip } = data
+    const { data, timeOut, showErr, showCodeErr, subscribe, showId, invitationLayout, showQr, qrCode,invitationData} = this.state
+    const { privilege,memberType = {}, tip } = data
     const { location } = this.props
     let payType = _.get(location, 'query.paytype')
 
@@ -170,7 +194,6 @@ export default class PayL1 extends React.Component<any, any> {
                      className="footer-btn" onClick={() => this.handleClickOpenPayInfo(memberType.id)}>
             立即入学
           </MarkBlock>
-
         </div>
       )
     }
@@ -222,6 +245,26 @@ export default class PayL1 extends React.Component<any, any> {
           subscribe && <SubscribeAlert closeFunc={() => this.setState({ subscribe: false })}/>
         }
 
+        {invitationLayout &&
+        <InvitationLayout oldNickName={invitationData.oldNickName}
+                          amount={invitationData.amount}
+                          prijectName={invitationData.memberTypeName}
+                          callBack={() => {this.setState({ invitationLayout: false })}}/>
+        }
+        {!!showQr ? <RenderInBody>
+          <div className="qr_dialog">
+            <div className="qr_dialog_mask" onClick={() => {
+              this.setState({ showQr: false })
+            }}>
+            </div>
+            <div className="qr_dialog_content">
+              <span>扫码后可进行申请哦</span>
+              <div className="qr_code">
+                <img src={qrCode}/>
+              </div>
+            </div>
+          </div>
+        </RenderInBody> : null}
       </div>
     )
   }
