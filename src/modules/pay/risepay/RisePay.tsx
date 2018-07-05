@@ -77,24 +77,6 @@ export default class RisePay extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(err))
     })
-
-    // 分享得到优惠券判断
-    // let riseId = this.props.location.query.riseId || null;
-    // this.setState({ riseId: riseId })
-    // if(riseId) {
-    //   let param = {
-    //     riseId: riseId,
-    //     memberTypeId: 3
-    //   }
-    //   loadInvitation(param).then((res) => {
-    //     if(res.code === 200) {
-    //       this.setState({ invitationData: invitationInfo.msg })
-    //       if(res.msg.isNewUser) {
-    //         this.setState({ invitationLayout: true })
-    //       }
-    //     }
-    //   })
-    // }
   }
 
   componentDidMount() {
@@ -168,17 +150,6 @@ export default class RisePay extends React.Component<any, any> {
         goodsId: 11
       }
     })
-    // if(this.state.riseId && !this.state.invitationData.isNewUser) {
-    //   dispatch(alertMsg("你已经是会员咯！快去个人中心分享赢取优惠券哦！"))
-    // } else {
-    //   this.context.router.push({
-    //     pathname: '/pay/bsstart',
-    //     query: {
-    //       goodsId: 7
-    //     }
-    //   })
-    //   // this.setState({ subscribe: true })
-    // }
   }
 
   handlePayedBefore() {
