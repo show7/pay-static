@@ -22,7 +22,7 @@ export default class PayL1 extends React.Component<any, any> {
   constructor() {
     super()
     this.state = {
-      showId: 12,
+      goodsId: 12,
       timeOut: false,
       showErr: false,
       showCodeErr: false,
@@ -41,7 +41,7 @@ export default class PayL1 extends React.Component<any, any> {
     dispatch(startLoad())
 
     // 查询订单信息
-    getRiseMember(this.state.showId).then(res => {
+    getRiseMember(this.state.goodsId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({ data: res.msg })
@@ -109,9 +109,9 @@ export default class PayL1 extends React.Component<any, any> {
 
   /**
    * 打开支付窗口
-   * @param showId 会员类型id
+   * @param goodsId 会员类型id
    */
-  handleClickOpenPayInfo(showId) {
+  handleClickOpenPayInfo(goodsId) {
     const { dispatch } = this.props;
     const { data } = this.state
     const { privilege, errorMsg } = data
@@ -123,7 +123,7 @@ export default class PayL1 extends React.Component<any, any> {
     this.reConfig()
     dispatch(startLoad())
     // 先检查是否能够支付
-    checkRiseMember(showId).then(res => {
+    checkRiseMember(goodsId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         const { qrCode, privilege, errorMsg } = res.msg;
@@ -156,7 +156,7 @@ export default class PayL1 extends React.Component<any, any> {
   }
 
   render() {
-    const { data, timeOut, showErr, showCodeErr, subscribe, showId } = this.state
+    const { data, timeOut, showErr, showCodeErr, subscribe, goodsId } = this.state
     const { privilege, quanwaiGoods = {}, tip } = data
     const { location } = this.props
     let payType = _.get(location, 'query.paytype')
@@ -177,7 +177,7 @@ export default class PayL1 extends React.Component<any, any> {
     return (
       <div className="rise-pay-container">
         <div className="pay-page">
-          <SaleBody memberTypeId={showId}/>
+          <SaleBody memberTypeId={goodsId}/>
           {renderPay()}
         </div>
         {

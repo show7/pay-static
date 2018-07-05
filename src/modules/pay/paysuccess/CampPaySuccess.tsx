@@ -21,14 +21,13 @@ export default class CampPaySuccess extends React.Component<any, any> {
 
   componentWillMount() {
     const { dispatch } = this.props
-    const { memberTypeId } = this.props.location.query
+    const { memberTypeId, goodsId } = this.props.location.query
     dispatch(startLoad())
     // 查询订单信息
-    entryRiseMember(memberTypeId).then(res => {
+    entryRiseMember(memberTypeId || goodsId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({
-          memberTypeId: memberTypeId,
           entryCode: res.msg.entryCode
         })
       } else {
@@ -38,10 +37,6 @@ export default class CampPaySuccess extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
-  }
-
-  goLearnPage() {
-    window.location.href = `/rise/static/camp`
   }
 
   render() {
@@ -63,7 +58,7 @@ export default class CampPaySuccess extends React.Component<any, any> {
             <div className="step step-2" data-step="2" style={{ paddingBottom: `${this.pd}px` }}>
               扫码添加班主任微信，回复“原则”即可入群！
               <img src="https://static.iqycamp.com/luoluo-zy7ko9of.jpeg?imageslim" alt="落落"
-                                   className="qrcode"/>
+                   className="qrcode"/>
             </div>
             <div className="step step-3" data-step="3">
               通过后<br/>
