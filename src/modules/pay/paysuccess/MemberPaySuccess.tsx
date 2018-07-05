@@ -2,7 +2,7 @@ import * as React from 'react'
 import './MemberPaySuccess.less'
 import { connect } from 'react-redux'
 import { set, startLoad, endLoad, alertMsg } from '../../../redux/actions'
-import { entryRiseMember, loadApplyProjectInfo } from '../async'
+import { entryRiseMember } from '../async'
 
 @connect(state => state)
 export default class MemberPaySuccess extends React.Component<any, any> {

@@ -23,7 +23,7 @@ export default class RisePay extends React.Component<any, any> {
   constructor() {
     super()
     this.state = {
-      showId: 10,
+      goodsId: 10,
       timeOut: false,
       showErr: false,
       showCodeErr: false,
@@ -51,7 +51,7 @@ export default class RisePay extends React.Component<any, any> {
     }
 
     // 查询订单信息
-    getRiseMember(this.state.showId).then(res => {
+    getRiseMember(this.state.goodsId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({ data: res.msg })
@@ -134,14 +134,14 @@ export default class RisePay extends React.Component<any, any> {
 
   /**
    * 打开支付窗口
-   * @param showId 会员类型id
+   * @param goodsId 会员类型id
    */
-  handleClickOpenPayInfo(showId) {
+  handleClickOpenPayInfo(goodsId) {
     this.reConfig()
     const { dispatch } = this.props
     dispatch(startLoad())
     // 先检查是否能够支付
-    checkRiseMember(showId).then(res => {
+    checkRiseMember(goodsId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         const { qrCode, privilege, errorMsg } = res.msg;

@@ -35,7 +35,7 @@ export function getRiseMember(riseMember) {
   return pget(`/signup/rise/member/${riseMember}`)
 }
 
-export function checkRiseMember(riseMember,riseId) {
+export function checkRiseMember(riseMember, riseId) {
   return pget(`/signup/rise/member/check/${riseMember}?riseId=${riseId}`)
 }
 
@@ -63,8 +63,8 @@ export function checkPromotionOrAnnual() {
   return pget(`/rise/prize/jan/pay/check`)
 }
 
-export function loadApplyProjectInfo(param: { applyId, wannaGoodsId }) {
-  return pget('/signup/apply/project/mapping', param);
+export function loadWannaMember(goodsId) {
+  return pget('/signup/wanna/member', { goodsId: goodsId });
 }
 
 /**
@@ -73,8 +73,8 @@ export function loadApplyProjectInfo(param: { applyId, wannaGoodsId }) {
  * @returns {any}
  */
 export function loadInvitation(param) {
-    return ppost('/rise/share/receive/coupons', param);
- }
+  return ppost('/rise/share/receive/coupons', param);
+}
 
 /**
  * 导流课 获取优惠券信息
@@ -82,9 +82,9 @@ export function loadInvitation(param) {
  * @returns {any}
  */
 export function loadDirectPosterInvitation(param) {
-    return ppost('/rise/share/receive/camp/coupons', param);
+  return ppost('/rise/share/receive/camp/coupons', param);
 }
 
 export function loadCheckBuy() {
-    return pget('/signup/rise/member/check/can/pay');
+  return pget('/signup/rise/member/check/can/pay');
 }

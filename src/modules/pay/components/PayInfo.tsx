@@ -381,7 +381,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     calculateCoupons(param).then((res) => {
       dispatch(endLoad())
       if(res.code === 200) {
-        let state = { free: res.msg === 0, chose: chose, final: res.msg };
+        let state = { free: res.msg === 0, chose: cho/rise/member/se, final: res.msg };
         if(!multiCoupons) {
           _.merge(state, { openCoupon: false });
         }
