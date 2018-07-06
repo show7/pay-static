@@ -181,18 +181,6 @@ export default class ApplySuccess extends React.Component<any, any> {
     config([ 'chooseWXPay' ])
   }
 
-  // chooseImg(quanwaiGoods) {
-  //   const { goodsId = '' } = this.props.location.query
-  //   if(goodsId === '10') {
-  //     return 'https://static.iqycamp.com/images/fragment/apply_success_goods_10.png?imageslim'
-  //   }
-  //   else if(quanwaiGoods && quanwaiGoods.id === 3) {
-  //     return 'https://static.iqycamp.com/images/fragment/apply_success_3_1.png?imageslim'
-  //   } else {
-  //     return 'https://static.iqycamp.com/images/fragment/apply_success_0517.png?imageslim'
-  //   }
-  // }
-
   render() {
     const { data = {}, goodsId, showErr, showCodeErr, expired, remainSecond, remainHour, remainMinute, admission } = this.state
     const { quanwaiGoods = {}, tip, privilege } = data
