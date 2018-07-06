@@ -86,7 +86,7 @@ export default class PayL1 extends React.Component<any, any> {
     this.context.router.push({
       pathname: '/pay/member/success',
       query: {
-        memberTypeId: quanwaiGoods.id
+        goodsId: quanwaiGoods.id
       }
     })
   }

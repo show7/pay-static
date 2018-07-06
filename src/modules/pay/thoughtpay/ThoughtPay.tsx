@@ -113,7 +113,7 @@ export default class ThoughtPay extends Component<any, any> {
     this.context.router.push({
       pathname: '/pay/member/success',
       query: {
-        memberTypeId: 8
+        goodsId: 8
       }
     })
   }

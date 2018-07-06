@@ -37,12 +37,10 @@ export default class RiseAlipay extends React.Component<any, any> {
                 if(res.code === 200) {
                   clearInterval(orderInterval);
                   const { goodsId, goodsType } = res.msg;
-                  if(goodsType == GoodsType.FRAG_MEMBER) {
-                    window.location.href = `/pay/member/success?memberTypeId=${goodsId}`
+                  if(goodsType == GoodsType.FRAG_MEMBER || goodsType == GoodsType.FRAG_CAMP) {
+                    window.location.href = `/pay/member/success?goodsId=${goodsId}`
                   } else if(goodsType == GoodsType.BS_APPLICATION) {
                     window.location.href = `/pay/applysubmit?goodsId=${goodsId}`
-                  } else if(goodsType == GoodsType.FRAG_CAMP) {
-                    window.location.href = `/pay/camp/success?memberTypeId=5`
                   }
                 }
               }).catch(ex => {

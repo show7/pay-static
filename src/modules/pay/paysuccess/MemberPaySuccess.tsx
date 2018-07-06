@@ -21,15 +21,16 @@ export default class MemberPaySuccess extends React.Component<any, any> {
 
   componentWillMount() {
     const { dispatch } = this.props
-    const { memberTypeId, goodsId } = this.props.location.query
+    const { goodsId } = this.props.location.query
     dispatch(startLoad())
     // 查询订单信息
-    entryRiseMember(memberTypeId || goodsId).then(res => {
+    entryRiseMember(goodsId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({
           entryCode: res.msg.entryCode,
           goodsName: res.msg.goodsName,
+          operateUrl:res.msg.operateUrl
         })
       } else {
         dispatch(alertMsg(res.msg))
@@ -41,23 +42,10 @@ export default class MemberPaySuccess extends React.Component<any, any> {
   }
 
   render() {
-    const { entryCode, goodsName } = this.state
-    const { memberTypeId, goodsId } = this.props.location.query
+    const { entryCode, goodsName,operateUrl } = this.state
 
-    const renderQrCode = (goodsId) => {
-      if(goodsId == 3) {
-        return <img src="https://static.iqycamp.com/images/banzhuren_code_1109.jpeg?imageslim" alt="班主任"
-                    className="qrcode"/>
-      } else if(goodsId == 8) {
-        return <img src="https://static.iqycamp.com/images/fragment/banzhuren_tobey_0524.jpeg?imageslim" alt="班主任"
-                    className="qrcode"/>
-      } else if(goodsId == 12) {
-        return <img src="https://static.iqycamp.com/images/funny-0622.jpeg?imageslim" alt="班主任"
-                    className="qrcode"/>
-      } else {
-        return <img src="https://static.iqycamp.com/images/fragment/qrcode_demi0611.jpeg?imageslim" alt="班主任"
-                    className="qrcode"/>
-      }
+    const renderQrCode = () => {
+      return <img src={operateUrl} alt="班主任" className="qrcode"/>
     }
 
     return (
@@ -76,7 +64,7 @@ export default class MemberPaySuccess extends React.Component<any, any> {
             <div className="step step-2" data-step="2" style={{ paddingBottom: `${this.pd}px` }}>
               扫码添加班主任
               <div className="tip">工作日两小时內回复，请耐心等待</div>
-              {renderQrCode(memberTypeId || goodsId)}
+              {renderQrCode()}
 
             </div>
             <div className="step step-3" data-step="3">

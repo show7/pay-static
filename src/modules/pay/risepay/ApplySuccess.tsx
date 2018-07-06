@@ -30,7 +30,8 @@ export default class ApplySuccess extends React.Component<any, any> {
       more: false,
       remainSecond: 0,
       remainMinute: 0,
-      remainHour: 0
+      remainHour: 0,
+      admission: '',
     }
   }
 
@@ -66,7 +67,7 @@ export default class ApplySuccess extends React.Component<any, any> {
     getRiseMember(goodsId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        const { remainSeconds,  quanwaiGoods } = res.msg
+        const { remainSeconds, quanwaiGoods, admission } = res.msg
         mark({ module: '打点', function: quanwaiGoods.goodsType, action: quanwaiGoods.id, memo: '申请成功页面' })
         saTrack('openPayPage', {
           goodsType: quanwaiGoods.goodsType + '',
@@ -75,7 +76,7 @@ export default class ApplySuccess extends React.Component<any, any> {
         const remainInfo = this.formatSeconds(remainSeconds)
         this.setState({
           data: res.msg, remainHour: remainInfo.remainHour, remainMinute: remainInfo.remainMinute,
-          remainSecond: remainInfo.remainSecond, remainSeconds: remainSeconds
+          remainSecond: remainInfo.remainSecond, remainSeconds: remainSeconds, admission
         }, () => {
           if(this.remainInterval) {
             clearInterval(this.remainInterval)
@@ -99,7 +100,7 @@ export default class ApplySuccess extends React.Component<any, any> {
     this.context.router.push({
       pathname: '/pay/member/success',
       query: {
-        memberTypeId: this.state.goodsId
+        goodsId: this.state.goodsId
       }
     })
   }
@@ -180,20 +181,20 @@ export default class ApplySuccess extends React.Component<any, any> {
     config([ 'chooseWXPay' ])
   }
 
-  chooseImg(quanwaiGoods) {
-    const { goodsId = '' } = this.props.location.query
-    if(goodsId === '10') {
-      return 'https://static.iqycamp.com/images/fragment/apply_success_goods_10.png?imageslim'
-    }
-    else if(quanwaiGoods && quanwaiGoods.id === 3) {
-      return 'https://static.iqycamp.com/images/fragment/apply_success_3_1.png?imageslim'
-    } else {
-      return 'https://static.iqycamp.com/images/fragment/apply_success_0517.png?imageslim'
-    }
-  }
+  // chooseImg(quanwaiGoods) {
+  //   const { goodsId = '' } = this.props.location.query
+  //   if(goodsId === '10') {
+  //     return 'https://static.iqycamp.com/images/fragment/apply_success_goods_10.png?imageslim'
+  //   }
+  //   else if(quanwaiGoods && quanwaiGoods.id === 3) {
+  //     return 'https://static.iqycamp.com/images/fragment/apply_success_3_1.png?imageslim'
+  //   } else {
+  //     return 'https://static.iqycamp.com/images/fragment/apply_success_0517.png?imageslim'
+  //   }
+  // }
 
   render() {
-    const { data = {}, goodsId, showErr, showCodeErr, expired, remainSecond, remainHour, remainMinute } = this.state
+    const { data = {}, goodsId, showErr, showCodeErr, expired, remainSecond, remainHour, remainMinute, admission } = this.state
     const { quanwaiGoods = {}, tip, privilege } = data
 
     const renderPay = () => {
@@ -215,8 +216,7 @@ export default class ApplySuccess extends React.Component<any, any> {
       <div className="rise-pay-apply-container">
         <div>
           <ApplySuccessCard
-            maskPic={this.chooseImg(quanwaiGoods)}
-            privilege={privilege} remainHour={remainHour} remainMinute={remainMinute}
+            maskPic={admission} privilege={privilege} remainHour={remainHour} remainMinute={remainMinute}
             remainSecond={remainSecond} name={quanwaiGoods.name}/>
 
           {renderPay()}
@@ -263,12 +263,6 @@ export default class ApplySuccess extends React.Component<any, any> {
             {
               label: '去申请', onClick: () => {
                 window.location.href = quanwaiGoods.saleUrl;
-                // this.context.router.push({
-                //   pathname: '/pay/bsstart',
-                //   query: {
-                //     goodsId: this.state.applyId
-                //   }
-                // })
               }
             }
           ]}>

@@ -93,7 +93,7 @@ export default class RisePay extends React.Component<any, any> {
     this.context.router.push({
       pathname: '/pay/member/success',
       query: {
-        memberTypeId: 10
+        goodsId: 10
       }
     })
   }
