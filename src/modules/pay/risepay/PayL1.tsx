@@ -130,7 +130,7 @@ export default class PayL1 extends React.Component<any, any> {
    */
   handleClickOpenPayInfo(showId) {
     const { dispatch } = this.props
-    const { data, subscribe } = this.state
+    const { data} = this.state
     const { privilege, buttonStr, errorMsg, memberType = {}, tip } = data
     if(!privilege && !!errorMsg) {
       dispatch(alertMsg(errorMsg))
@@ -139,8 +139,8 @@ export default class PayL1 extends React.Component<any, any> {
     const { riseId = '' } = this.props.location.query
     if(!_.isEmpty(riseId) && !this.state.invitationData.isNewUser) {
       dispatch(alertMsg('你已经是会员咯！快去个人中心分享赢取优惠券哦！'))
+      return
     }
-
     this.reConfig()
     dispatch(startLoad())
     // 先检查是否能够支付
