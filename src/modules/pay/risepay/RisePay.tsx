@@ -161,6 +161,7 @@ export default class RisePay extends React.Component<any, any> {
 
     if(!_.isEmpty(riseId) && !this.state.invitationData.isNewUser) {
       dispatch(alertMsg('你已经是会员咯！快去个人中心分享赢取优惠券哦！'))
+      return
     }
     this.context.router.push({
       pathname: '/pay/bsstart',

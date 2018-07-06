@@ -85,8 +85,10 @@ export default class ThoughtPay extends Component<any, any> {
 
   redirect() {
     const { dispatch } = this.props
-    if(this.state.riseId && !this.state.invitationData.isNewUser) {
+    const {riseId} = this.props.location.query
+    if(!_.isEmpty(riseId) && !this.state.invitationData.isNewUser) {
       dispatch(alertMsg('你已经是会员咯！快去个人中心分享赢取优惠券哦！'))
+      return
     } else {
       this.context.router.push({
         pathname: '/pay/bsstart',
