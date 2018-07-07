@@ -65,7 +65,7 @@ export default class MemberPaySuccess extends React.Component<any, any> {
         return <img src="https://static.iqycamp.com/images/funny-0622.jpeg?imageslim" alt="班主任"
                     className="qrcode"/>
       } else {
-        return <img src="https://static.iqycamp.com/images/fragment/qrcode_demi0611.jpeg?imageslim" alt="班主任"
+        return <img src="https://static.iqycamp.com/images/qrcode_demi0707.jpeg?imageslim" alt="班主任"
                     className="qrcode"/>
       }
     }
