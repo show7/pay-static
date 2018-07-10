@@ -137,10 +137,6 @@ export default class PayL1 extends React.Component<any, any> {
       return
     }
     const { riseId = '' } = this.props.location.query
-    if(!_.isEmpty(riseId) && !this.state.invitationData.isNewUser) {
-      dispatch(alertMsg('你已经是会员咯！快去个人中心分享赢取优惠券哦！'))
-      return
-    }
     this.reConfig()
     dispatch(startLoad())
     // 先检查是否能够支付

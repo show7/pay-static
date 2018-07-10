@@ -35,7 +35,7 @@ export default class RisePay extends React.Component<any, any> {
     }
   }
 
- async componentWillMount() {
+  async componentWillMount() {
     // ios／安卓微信支付兼容性
     if(refreshForPay()) {
       return
@@ -137,11 +137,15 @@ export default class RisePay extends React.Component<any, any> {
     checkRiseMember(showId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        const { qrCode, privilege, errorMsg } = res.msg
-        if(privilege) {
-          this.refs.payInfo.handleClickOpen()
+        const { qrCode, privilege, errorMsg, subscribe } = res.msg
+        if(subscribe) {
+          if(privilege) {
+            this.refs.payInfo.handleClickOpen()
+          } else {
+            dispatch(alertMsg(errorMsg))
+          }
         } else {
-          dispatch(alertMsg(errorMsg))
+          this.setState({ qrCode: qrCode, showQr: true })
         }
       }
       else {
@@ -156,13 +160,6 @@ export default class RisePay extends React.Component<any, any> {
   redirect() {
     saTrack('clickApplyButton')
 
-    const { riseId } = this.props.location.query
-    const { dispatch } = this.props
-
-    if(!_.isEmpty(riseId) && !this.state.invitationData.isNewUser) {
-      dispatch(alertMsg('你已经是会员咯！快去个人中心分享赢取优惠券哦！'))
-      return
-    }
     this.context.router.push({
       pathname: '/pay/bsstart',
       query: {
