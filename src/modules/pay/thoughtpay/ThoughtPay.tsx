@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import './ThoughtPay.less'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { getGoodsType, PayType, refreshForPay, sa } from '../../../utils/helpers'
-import { checkRiseMember, getRiseMember,loadInvitation } from '../async'
+import { checkRiseMember, getRiseMember, loadInvitation } from '../async'
 import { SaleBody } from '../risepay/components/SaleBody'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 import InvitationLayout from '../components/invitationLayout/InvitationLayout'
-import * as _ from 'lodash';
+import * as _ from 'lodash'
 import PayInfo from '../components/PayInfo'
 import { config } from '../../helpers/JsConfig'
 import { mark } from 'utils/request'
@@ -19,7 +19,7 @@ import { SubscribeAlert } from '../risepay/components/SubscribeAlert'
 @connect(state => state)
 export default class ThoughtPay extends Component<any, any> {
   constructor() {
-    super();
+    super()
     this.state = {
       showId: 8,
       subscribeAlertTips: {
@@ -29,9 +29,9 @@ export default class ThoughtPay extends Component<any, any> {
           回复【商业项目】，领取学习资料包！</div>,
         qrCode: 'https://static.iqycamp.com/images/qrcode_qwzswyh.jpeg?imageslim'
       },
-        invitationLayout: false, // 弹框标识
-        invitationData:{}, //分享的优惠券数据
-        riseId:""        //分享来源
+      invitationLayout: false, // 弹框标识
+      invitationData: {}, //分享的优惠券数据
+      riseId: ''        //分享来源
     }
   }
 
@@ -40,72 +40,56 @@ export default class ThoughtPay extends Component<any, any> {
   }
 
   async componentWillMount() {
-      const { dispatch } = this.props
+    const { dispatch } = this.props
     if(refreshForPay()) {
-      return;
+      return
     }
     //分享优惠券
-      let riseId =  null;
-      this.setState({riseId: riseId})
-      if (riseId) {
-          let param = {
-              riseId: riseId,
-              memberTypeId: 8
-          }
-          let invitationInfo = await loadInvitation(param)
-          this.setState({invitationData: invitationInfo.msg,})
-          if (invitationInfo.msg.isNewUser && invitationInfo.msg.isReceived) {
-              dispatch(alertMsg("优惠券已经发到你的圈外同学账号咯！"))
-          } else if (invitationInfo.msg.isNewUser) {
-              this.setState({invitationLayout: true})
-          }
+    const { riseId } = this.props.location.query
+    if(riseId) {
+      let param = {
+        riseId: riseId,
+        memberTypeId: 8
       }
+      let invitationInfo = await loadInvitation(param)
+      this.setState({ invitationData: invitationInfo.msg })
+      if(invitationInfo.msg.isNewUser && invitationInfo.msg.isReceived) {
+        dispatch(alertMsg('优惠券已经发到你的圈外同学账号咯！'))
+      } else if(invitationInfo.msg.isNewUser) {
+        this.setState({ invitationLayout: true })
+      }
+    }
     //表示是分享点击进入
     let res = await getRiseMember(this.state.showId)
     if(res.code === 200) {
-      const { privilege, memberType, tip, buttonStr, auditionStr, remainHour, remainMinute } = res.msg;
+      const { privilege, memberType, tip, buttonStr, auditionStr, remainHour, remainMinute } = res.msg
       this.setState({ privilege, memberType, tip, buttonStr, auditionStr, remainHour, remainMinute })
       // 进行打点
       if(privilege) {
         sa.track('openSalePayPage', {
           goodsType: getGoodsType(this.state.showId),
           goodsId: this.state.showId + ''
-        });
-        mark({ module: '打点', function: '进阶课程', action: '购买进阶课程会员', memo: '入学页面',promotionRiseId:riseId })
+        })
+        mark({ module: '打点', function: '进阶课程', action: '购买进阶课程会员', memo: '入学页面', promotionRiseId: riseId })
       } else {
         // window.location.href = '/rise/static/rise';
         // return;
         sa.track('openSaleApplyPage', {
           goodsType: getGoodsType(this.state.showId),
           goodsId: this.state.showId + ''
-        });
-        mark({ module: '打点', function: '进阶课程', action: '购买进阶课程会员', memo: '申请页面' , promotionRiseId:riseId })
+        })
+        mark({ module: '打点', function: '进阶课程', action: '购买进阶课程会员', memo: '申请页面', promotionRiseId: riseId })
       }
     }
   }
 
-
   redirect() {
-      const { dispatch } = this.props
-      if (this.state.riseId && !this.state.invitationData.isNewUser) {
-          dispatch(alertMsg("你已经是会员咯！快去个人中心分享赢取优惠券哦！"))
-      }else if (this.state.riseId && this.state.invitationData.isNewUser) {
-          this.context.router.push({
-              pathname: '/pay/bsstart',
-              query: {
-                  goodsId: 9,
-                  riseId: this.state.riseId
-              }
-          })
-      } else {
-          this.context.router.push({
-              pathname: '/pay/bsstart',
-              query: {
-                  goodsId: 9
-              }
-          })
+    this.context.router.push({
+      pathname: '/pay/bsstart',
+      query: {
+        goodsId: 9
       }
-    // this.setState({ subscribe: true });
+    })
   }
 
   handlePayedDone() {
@@ -146,13 +130,14 @@ export default class ThoughtPay extends Component<any, any> {
     this.reConfig()
     const { dispatch } = this.props
     dispatch(startLoad())
+
     // 先检查是否能够支付
     checkRiseMember(showId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        const { qrCode, privilege, errorMsg } = res.msg;
+        const { qrCode, privilege, errorMsg } = res.msg
         if(privilege) {
-          this.refs.payInfo.handleClickOpen();
+          this.refs.payInfo.handleClickOpen()
         } else {
           dispatch(alertMsg(errorMsg))
         }
@@ -170,16 +155,16 @@ export default class ThoughtPay extends Component<any, any> {
    * 重新注册页面签名
    */
   reConfig() {
-    config([ 'chooseWXPay' ])
+    config(['chooseWXPay'])
   }
 
   render() {
     let payType = _.get(location, 'query.paytype')
 
-    const { subscribeAlertTips, privilege, memberType, buttonStr, auditionStr, tip, showId, timeOut, showErr, showCodeErr, subscribe,invitationLayout,invitationData } = this.state;
+    const { subscribeAlertTips, privilege, memberType, buttonStr, auditionStr, tip, showId, timeOut, showErr, showCodeErr, subscribe, invitationLayout, invitationData } = this.state
     const renderButtons = () => {
       if(typeof(privilege) === 'undefined') {
-        return null;
+        return null
       }
       if(!!privilege) {
         return <FooterButton primary={true} btnArray={[
@@ -250,12 +235,12 @@ export default class ThoughtPay extends Component<any, any> {
             <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
           </div>
         }
-          {   invitationLayout &&
-          <InvitationLayout oldNickName={invitationData.oldNickName}
-                            amount={invitationData.amount}
-                            prijectName={"商业思维项目"}
-                            callBack={()=>{this.setState({invitationLayout: false})}}/>
-          }
+        {invitationLayout &&
+        <InvitationLayout oldNickName={invitationData.oldNickName}
+                          amount={invitationData.amount}
+                          prijectName={invitationData.memberTypeName}
+                          callBack={() => {this.setState({ invitationLayout: false })}}/>
+        }
       </div>
     )
   }
