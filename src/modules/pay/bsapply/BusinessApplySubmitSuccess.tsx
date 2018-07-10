@@ -48,16 +48,21 @@ export default class BusinessApplySubmitSuccess extends Component<any, any> {
           扫码添加圈外招生委员会老师<br/>
 
           <div className="middle-words">
-            {goodsId=='9' ?'即可：':'即可获得:'} <br/>
-            {goodsId=='9' ?'1. 咨询申请结果':'1. 面试指南'} <br/>
-           {goodsId=='9' ?'2. 企业采购咨询':'2. 商学院课表'} <br/>
-            3. 奖学金政策说明<br/><br/>
+            即可<br/>
+            1.咨询申请问题<br/>
+            2.企业采购咨询<br/><br/>
+            {/*{goodsId=='9' ?'即可：':'即可获得:'} <br/>*/}
+            {/*{goodsId=='9' ?'1. 咨询申请结果':'1. 面试指南'} <br/>*/}
+           {/*{goodsId=='9' ?'2. 企业采购咨询':'2. 商学院课表'} <br/>*/}
+            {/*3. 奖学金政策说明<br/><br/>*/}
           </div>
         </div>
         <div className="ba-sub-tips">
           <div className="small-tips">
-            工作时间<span style={{ fontWeight: 300 }}>4</span>小时内回复<br/>
-            （周一到周五<span style={{ fontWeight: 300 }}>10：00-20：00</span>）<br/><br/>
+            {/*工作时间<span style={{ fontWeight: 300 }}>4</span>小时内回复<br/>*/}
+            {/*（周一到周五<span style={{ fontWeight: 300 }}>10：00-20：00</span>）<br/><br/>*/}
+            咨询的同学较多，请大家不要急哦~<br/>
+            （申请结果请留意圈外同学公众号后台）<br/><br/>
           </div>
           <img src="https://static.iqycamp.com/images/qrcode_qwzswyh_0611.jpeg?imageslim"
                className="qrcode"/>

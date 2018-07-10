@@ -37,8 +37,8 @@ export default class BusinessApply extends Component<any, any> {
 
   async goApplySubmitPage() {
     const { dispatch } = this.props;
-    const { goodsId, riseId = "" } = this.props.location.query;
-    let res = await checkRiseMember(goodsId, riseId)
+    const { goodsId} = this.props.location.query;
+    let res = await checkRiseMember(goodsId)
     if(res.code === 200) {
       const { qrCode, privilege, errorMsg, subscribe } = res.msg;
       if(subscribe) {
@@ -48,11 +48,7 @@ export default class BusinessApply extends Component<any, any> {
             goodsId: goodsId
           })
           mark({ module: "商学院审核", function: goodsId, action: "点击开始申请商学院", memo: "申请开始页面" })
-          if(riseId) {
-            window.location.href = `/pay/applychoice?goodsId=${goodsId}&riseId=${riseId}`
-          } else {
-            window.location.href = `/pay/applychoice?goodsId=${goodsId}`
-          }
+          window.location.href = `/pay/applychoice?goodsId=${goodsId}`
         } else {
           dispatch(alertMsg(errorMsg));
         }
@@ -100,7 +96,7 @@ export default class BusinessApply extends Component<any, any> {
             }
           </div>
           <div className="ba-line">
-            认真填写有助你提升录取机会，更有入学奖学金等你来拿噢。
+            认真填写有助于提升录取机会哦~
           </div>
         </div>
         <div className="ba-sub-tips">填写须知</div>

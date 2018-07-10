@@ -1,20 +1,21 @@
 import * as React from 'react'
 import * as _ from 'lodash'
-import './RisePay.less'
+import './PayL1.less'
 import { connect } from 'react-redux'
 import { mark } from 'utils/request'
 import { PayType, sa, refreshForPay, saTrack } from 'utils/helpers'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
-import { config, configShare } from 'modules/helpers/JsConfig'
+import { config } from 'modules/helpers/JsConfig'
 import PayInfo from '../components/PayInfo'
 import { checkRiseMember, getRiseMember, loadInvitation } from '../async'
 import { SaleBody } from './components/SaleBody'
 import { MarkBlock } from '../components/markblock/MarkBlock'
-import { addUserRecommendation } from './async'
 import { SubscribeAlert } from './components/SubscribeAlert'
+import InvitationLayout from '../components/invitationLayout/InvitationLayout'
+import RenderInBody from '../../../components/RenderInBody'
 
 @connect(state => state)
-export default class RisePay extends React.Component<any, any> {
+export default class PayL1 extends React.Component<any, any> {
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
@@ -23,19 +24,17 @@ export default class RisePay extends React.Component<any, any> {
   constructor() {
     super()
     this.state = {
-      showId: 10,
+      showId: 12,
       timeOut: false,
       showErr: false,
       showCodeErr: false,
       subscribe: false,
       data: {},
-      invitationLayout: false, // 弹框标识
-      invitationData: {}, //分享的优惠券数据
-      riseId: null        //分享来源
+      invitationLayout: false // 弹框标识
     }
   }
 
- async componentWillMount() {
+  async componentWillMount() {
     // ios／安卓微信支付兼容性
     if(refreshForPay()) {
       return
@@ -43,17 +42,14 @@ export default class RisePay extends React.Component<any, any> {
     const { dispatch } = this.props
     dispatch(startLoad())
 
-    const id = this.props.location.query.riseId
-    //表示是分享点击进入
     let { riseId } = this.props.location.query
     //判断是否是老带新分享的链接
     if(!_.isEmpty(riseId)) {
       let param = {
         riseId: riseId,
-        memberTypeId: 10
+        memberTypeId: 12
       }
       let invitationInfo = await loadInvitation(param)
-      this.setState({ invitationData: invitationInfo.msg })
       this.setState({ invitationData: invitationInfo.msg })
       if(invitationInfo.msg.isNewUser && invitationInfo.msg.isReceived) {
         dispatch(alertMsg('优惠券已经发到你的圈外同学账号咯！'))
@@ -91,20 +87,23 @@ export default class RisePay extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    configShare(
-      `圈外商学院--你负责努力，我们负责帮你赢`,
-      `https://${window.location.hostname}/pay/static/rise`,
-      'https://static.iqycamp.com/images/rise_share.jpg?imageslim',
-      '最实用的竞争力提升课程，搭建最优质的人脉圈，解决最困扰的职场难题'
-    )
+    // TODO 设置分享
+    // configShare(
+    //   `圈外商学院--你负责努力，我们负责帮你赢`,
+    //   `https://${window.location.hostname}/pay/rise`,
+    //   'https://static.iqycamp.com/images/rise_share.jpg?imageslim',
+    //   '最实用的竞争力提升课程，搭建最优质的人脉圈，解决最困扰的职场难题'
+    // )
   }
 
   handlePayedDone() {
-    mark({ module: '打点', function: '商学院会员', action: '支付成功' })
+    const { data } = this.state
+    const { memberType = {} } = data
+    mark({ module: '打点', function: '商学院会员', action: '支付成功', memo: memberType.id })
     this.context.router.push({
       pathname: '/pay/member/success',
       query: {
-        memberTypeId: 10
+        memberTypeId: memberType.id
       }
     })
   }
@@ -121,7 +120,7 @@ export default class RisePay extends React.Component<any, any> {
   }
 
   /** 处理取消支付的状态 */
-  handlePayedCancel(res) {
+  handlePayedCancel() {
     this.setState({ showErr: true })
   }
 
@@ -130,18 +129,33 @@ export default class RisePay extends React.Component<any, any> {
    * @param showId 会员类型id
    */
   handleClickOpenPayInfo(showId) {
-    this.reConfig()
     const { dispatch } = this.props
+    const { data} = this.state
+    const { privilege, buttonStr, errorMsg, memberType = {}, tip } = data
+    if(!privilege && !!errorMsg) {
+      dispatch(alertMsg(errorMsg))
+      return
+    }
+    const { riseId = '' } = this.props.location.query
+    if(!_.isEmpty(riseId) && !this.state.invitationData.isNewUser) {
+      dispatch(alertMsg('你已经是会员咯！快去个人中心分享赢取优惠券哦！'))
+      return
+    }
+    this.reConfig()
     dispatch(startLoad())
     // 先检查是否能够支付
-    checkRiseMember(showId).then(res => {
+    checkRiseMember(showId, riseId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        const { qrCode, privilege, errorMsg } = res.msg
-        if(privilege) {
-          this.refs.payInfo.handleClickOpen()
+        const { qrCode, privilege, errorMsg, subscribe } = res.msg
+        if(subscribe) {
+          if(privilege) {
+            this.refs.payInfo.handleClickOpen()
+          } else {
+            dispatch(alertMsg(errorMsg))
+          }
         } else {
-          dispatch(alertMsg(errorMsg))
+          this.setState({ qrCode: qrCode, showQr: true })
         }
       }
       else {
@@ -153,26 +167,10 @@ export default class RisePay extends React.Component<any, any> {
     })
   }
 
-  redirect() {
-    saTrack('clickApplyButton')
-
-    const { riseId } = this.props.location.query
-    const { dispatch } = this.props
-
-    if(!_.isEmpty(riseId) && !this.state.invitationData.isNewUser) {
-      dispatch(alertMsg('你已经是会员咯！快去个人中心分享赢取优惠券哦！'))
-      return
-    }
-    this.context.router.push({
-      pathname: '/pay/bsstart',
-      query: {
-        goodsId: 11
-      }
-    })
-  }
-
   handlePayedBefore() {
-    mark({ module: '打点', function: '商学院会员', action: '点击付费' })
+    const { data } = this.state
+    const { memberType = {} } = data
+    mark({ module: '打点', function: '商学院会员', action: '点击付费', memo: memberType.id })
   }
 
   /**
@@ -183,49 +181,27 @@ export default class RisePay extends React.Component<any, any> {
   }
 
   render() {
-    const { data, timeOut, showErr, showCodeErr, subscribe, invitationLayout, invitationData } = this.state
-    const { privilege, buttonStr, memberType = {}, tip } = data
+    const { data, timeOut, showErr, showCodeErr, subscribe, showId, invitationLayout, showQr, qrCode,invitationData} = this.state
+    const { privilege,memberType = {}, tip } = data
     const { location } = this.props
     let payType = _.get(location, 'query.paytype')
 
     const renderPay = () => {
-      if(!memberType) return null
-
-      if(privilege) {
-        return (
-          <div className="button-footer">
-            <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'} memo={data ? buttonStr : ''}
-                       className="footer-btn" onClick={() => this.handleClickOpenPayInfo(memberType.id)}>
-              {buttonStr || '立即入学'}
-            </MarkBlock>
-
-          </div>
-        )
-      } else {
-        return (
-          <div className="button-footer">
-            <MarkBlock module={`打点`} func={`商学院会员`} action={`预约商学院`} className={`footer-btn`}
-                       onClick={() => this.redirect()}>立即预约</MarkBlock>
-          </div>
-        )
-      }
-
-    }
-    const renderLayout = () => {
+      if(!memberType.id) return null
       return (
-        <div className="invitation-layout">
-          <div className="layout-box">
-            <h3>好友邀请</h3>
-            <p>{invitationData.oldNickName}觉得《{invitationData.memberTypeName}》很适合你，邀请你成为TA的同学，送你一张{invitationData.amount}元的学习优惠券。</p>
-            <span className="button" onClick={() => {this.setState({ invitationLayout: false })}}>知道了</span>
-          </div>
+        <div className="button-footer">
+          <MarkBlock module={'打点'} func={memberType.id} action={'点击入学按钮'} memo={privilege}
+                     className="footer-btn" onClick={() => this.handleClickOpenPayInfo(memberType.id)}>
+            立即入学
+          </MarkBlock>
         </div>
       )
     }
+
     return (
       <div className="rise-pay-container">
-        <div className="pay-page l2">
-          <SaleBody/>
+        <div className="pay-page">
+          <SaleBody memberTypeId={showId}/>
           {renderPay()}
         </div>
         {
@@ -240,9 +216,9 @@ export default class RisePay extends React.Component<any, any> {
           showErr &&
           <div className="mask" onClick={() => this.setState({ showErr: false })}>
             <div className="tips">
-              出现问题的童鞋看这里<br/> 1如果显示“URL未注册”，请重新刷新页面即可<br/> 2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
+              出现问题的童鞋看这里<br/> 1如果显示“URL未注册”，请重新刷新页面即可<br/> 2如果遇到“支付问题”，扫码联系招生办老师，并将出现问题的截图发给招生办老师<br/>
             </div>
-            <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
+            <img className="xiaoQ" src="https://static.iqycamp.com/images/code_zsbzr_0703.jpeg?imageslim"/>
           </div>
         }
         {
@@ -253,7 +229,7 @@ export default class RisePay extends React.Component<any, any> {
               3，在新开的页面完成支付即可<br/>
             </div>
             <img className="xiaoQ" style={{ width: '50%' }}
-                 src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
+                 src="https://static.iqycamp.com/images/code_zsbzr_0703.jpeg?imageslim"/>
           </div>
         }
         {
@@ -268,10 +244,27 @@ export default class RisePay extends React.Component<any, any> {
         {
           subscribe && <SubscribeAlert closeFunc={() => this.setState({ subscribe: false })}/>
         }
-        {invitationLayout &&
-        renderLayout()
-        }
 
+        {invitationLayout &&
+        <InvitationLayout oldNickName={invitationData.oldNickName}
+                          amount={invitationData.amount}
+                          prijectName={invitationData.memberTypeName}
+                          callBack={() => {this.setState({ invitationLayout: false })}}/>
+        }
+        {!!showQr ? <RenderInBody>
+          <div className="qr_dialog">
+            <div className="qr_dialog_mask" onClick={() => {
+              this.setState({ showQr: false })
+            }}>
+            </div>
+            <div className="qr_dialog_content">
+              <span>扫码后可进行申请哦</span>
+              <div className="qr_code">
+                <img src={qrCode}/>
+              </div>
+            </div>
+          </div>
+        </RenderInBody> : null}
       </div>
     )
   }
