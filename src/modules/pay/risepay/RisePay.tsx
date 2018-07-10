@@ -12,6 +12,7 @@ import { SaleBody } from './components/SaleBody'
 import { MarkBlock } from '../components/markblock/MarkBlock'
 import { addUserRecommendation } from './async'
 import { SubscribeAlert } from './components/SubscribeAlert'
+import RenderInBody from '../../../components/RenderInBody'
 
 @connect(state => state)
 export default class RisePay extends React.Component<any, any> {
@@ -180,7 +181,7 @@ export default class RisePay extends React.Component<any, any> {
   }
 
   render() {
-    const { data, timeOut, showErr, showCodeErr, subscribe, invitationLayout, invitationData } = this.state
+    const { data, timeOut, showErr, showCodeErr, subscribe, invitationLayout, invitationData,showQr, qrCode} = this.state
     const { privilege, buttonStr, memberType = {}, tip } = data
     const { location } = this.props
     let payType = _.get(location, 'query.paytype')
@@ -269,6 +270,20 @@ export default class RisePay extends React.Component<any, any> {
         renderLayout()
         }
 
+        {!!showQr ? <RenderInBody>
+          <div className="qr_dialog">
+            <div className="qr_dialog_mask" onClick={() => {
+              this.setState({ showQr: false })
+            }}>
+            </div>
+            <div className="qr_dialog_content">
+              <span>扫码后可进行申请哦</span>
+              <div className="qr_code">
+                <img src={qrCode}/>
+              </div>
+            </div>
+          </div>
+        </RenderInBody> : null}
       </div>
     )
   }
