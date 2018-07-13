@@ -256,7 +256,7 @@ export class SaleBody extends React.Component {
              id="business-school-intro-pic-container">
           <SequenceDisplay imgList={[
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/fragment/thought_sale_page_1_0612_2.jpg'
+              url: 'https://static.iqycamp.com/images/thought_sale_page_1_0713_2.jpg'
             }), {
               dom: <div className="high-light-words" onClick={() => {
                 this.context.router.push({
