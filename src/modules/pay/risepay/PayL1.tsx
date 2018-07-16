@@ -132,7 +132,7 @@ export default class PayL1 extends React.Component<any, any> {
   handleClickOpenPayInfo(goodsId) {
     const { dispatch } = this.props
     const { data } = this.state
-    const { privilege,  errorMsg } = data
+    const { privilege, errorMsg } = data
     if(!privilege && !!errorMsg) {
       dispatch(alertMsg(errorMsg))
       return
@@ -141,8 +141,7 @@ export default class PayL1 extends React.Component<any, any> {
     this.reConfig()
     dispatch(startLoad())
     // 先检查是否能够支付
-    //     checkRiseMember(showId, riseId).then(res => {
-    checkRiseMember(goodsId).then(res => {
+    checkRiseMember(showId, riseId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         const { qrCode, privilege, errorMsg, subscribe } = res.msg
@@ -175,14 +174,12 @@ export default class PayL1 extends React.Component<any, any> {
    * 重新注册页面签名
    */
   reConfig() {
-    config(['chooseWXPay'])
+    config([ 'chooseWXPay' ])
   }
 
   render() {
-    const { data, timeOut, showErr, showCodeErr, subscribe, goodsId } = this.state
+    const { data, timeOut, showErr, showCodeErr, subscribe, goodsId, invitationLayout, showQr, qrCode, invitationData } = this.state
     const { privilege, quanwaiGoods = {}, tip } = data
-    // const { data, timeOut, showErr, showCodeErr, subscribe, showId, invitationLayout, showQr, qrCode,invitationData} = this.state
-    // const { privilege,memberType = {}, tip } = data
     const { location } = this.props
     let payType = _.get(location, 'query.paytype')
 
