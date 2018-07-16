@@ -11,7 +11,8 @@ import { checkRiseMember, getRiseMember, loadInvitation } from '../async'
 import { SaleBody } from './components/SaleBody'
 import { MarkBlock } from '../components/markblock/MarkBlock'
 import { addUserRecommendation } from './async'
-import { SubscribeAlert } from "./components/SubscribeAlert"
+import { SubscribeAlert } from './components/SubscribeAlert'
+import RenderInBody from '../../../components/RenderInBody'
 
 @connect(state => state)
 export default class RisePay extends React.Component<any, any> {
@@ -35,27 +36,38 @@ export default class RisePay extends React.Component<any, any> {
     }
   }
 
-  componentWillMount() {
+  async componentWillMount() {
     // ios／安卓微信支付兼容性
     if(refreshForPay()) {
-      return;
+      return
     }
     const { dispatch } = this.props
     dispatch(startLoad())
 
     const id = this.props.location.query.riseId
     //表示是分享点击进入
-    if(!!id) {
-      mark({ module: '打点', function: '商学院guest', action: '购买商学院会员', memo: '通过分享途径' })
-      addUserRecommendation(id)
+    let { riseId } = this.props.location.query
+    //判断是否是老带新分享的链接
+    if(!_.isEmpty(riseId)) {
+      let param = {
+        riseId: riseId,
+        memberTypeId: 10
+      }
+      let invitationInfo = await loadInvitation(param)
+      this.setState({ invitationData: invitationInfo.msg })
+      this.setState({ invitationData: invitationInfo.msg })
+      if(invitationInfo.msg.isNewUser && invitationInfo.msg.isReceived) {
+        dispatch(alertMsg('优惠券已经发到你的圈外同学账号咯！'))
+      } else if(invitationInfo.msg.isNewUser) {
+        this.setState({ invitationLayout: true })
+      }
     }
-
     // 查询订单信息
     getRiseMember(this.state.goodsId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({ data: res.msg })
-        const { quanwaiGoods = {} } = res.msg;
+        const { quanwaiGoods = {} } = res.msg
         const { privilege } = res.msg
         if(privilege) {
           saTrack('openSalePayPage', {
@@ -126,11 +138,15 @@ export default class RisePay extends React.Component<any, any> {
     checkRiseMember(goodsId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        const { qrCode, privilege, errorMsg } = res.msg;
-        if(privilege) {
-          this.refs.payInfo.handleClickOpen();
+        const { qrCode, privilege, errorMsg, subscribe } = res.msg
+        if(subscribe) {
+          if(privilege) {
+            this.refs.payInfo.handleClickOpen()
+          } else {
+            dispatch(alertMsg(errorMsg))
+          }
         } else {
-          dispatch(alertMsg(errorMsg))
+          this.setState({ qrCode: qrCode, showQr: true })
         }
       }
       else {
@@ -144,6 +160,7 @@ export default class RisePay extends React.Component<any, any> {
 
   redirect() {
     saTrack('clickApplyButton')
+
     this.context.router.push({
       pathname: '/pay/bsstart',
       query: {
@@ -160,11 +177,11 @@ export default class RisePay extends React.Component<any, any> {
    * 重新注册页面签名
    */
   reConfig() {
-    config([ 'chooseWXPay' ])
+    config(['chooseWXPay'])
   }
 
   render() {
-    const { data, timeOut, showErr, showCodeErr, subscribe, invitationLayout, invitationData } = this.state
+    const { data, timeOut, showErr, showCodeErr, subscribe, invitationLayout, invitationData,showQr, qrCode} = this.state
     const { privilege, buttonStr, quanwaiGoods = {}, tip } = data
     const { location } = this.props
     let payType = _.get(location, 'query.paytype')
@@ -197,7 +214,7 @@ export default class RisePay extends React.Component<any, any> {
         <div className="invitation-layout">
           <div className="layout-box">
             <h3>好友邀请</h3>
-            <p>{invitationData.oldNickName}觉得《商业思维项目》很适合你，邀请你成为TA的同学，送你一张{invitationData.amount}元的学习优惠券。</p>
+            <p>{invitationData.oldNickName}觉得《{invitationData.memberTypeName}》很适合你，邀请你成为TA的同学，送你一张{invitationData.amount}元的学习优惠券。</p>
             <span className="button" onClick={() => {this.setState({ invitationLayout: false })}}>知道了</span>
           </div>
         </div>
@@ -253,6 +270,20 @@ export default class RisePay extends React.Component<any, any> {
         renderLayout()
         }
 
+        {!!showQr ? <RenderInBody>
+          <div className="qr_dialog">
+            <div className="qr_dialog_mask" onClick={() => {
+              this.setState({ showQr: false })
+            }}>
+            </div>
+            <div className="qr_dialog_content">
+              <span>扫码后可进行申请哦</span>
+              <div className="qr_code">
+                <img src={qrCode}/>
+              </div>
+            </div>
+          </div>
+        </RenderInBody> : null}
       </div>
     )
   }

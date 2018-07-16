@@ -56,13 +56,6 @@ export function chooseAuditionCourse() {
   return ppost('/rise/plan/choose/audition/course')
 }
 
-/**
- * 检查当前用户是否是一带二或者年终回顾用户
- */
-export function checkPromotionOrAnnual() {
-  return pget(`/rise/prize/jan/pay/check`)
-}
-
 export function loadWannaMember(goodsId) {
   return pget('/signup/wanna/member', { goodsId: goodsId });
 }
@@ -73,18 +66,5 @@ export function loadWannaMember(goodsId) {
  * @returns {any}
  */
 export function loadInvitation(param) {
-  return ppost('/rise/share/receive/coupons', param);
-}
-
-/**
- * 导流课 获取优惠券信息
- * @param param
- * @returns {any}
- */
-export function loadDirectPosterInvitation(param) {
-  return ppost('/rise/share/receive/camp/coupons', param);
-}
-
-export function loadCheckBuy() {
-  return pget('/signup/rise/member/check/can/pay');
-}
+    return ppost('/rise/share/receive/coupons', param);
+ }

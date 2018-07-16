@@ -188,13 +188,13 @@ export class SaleBody extends React.Component {
              id="business-school-intro-pic-container">
           <SequenceDisplay imgList={[
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/pay_rise_part1_0628_1.jpeg'
+              url: 'https://static.iqycamp.com/images/pay_rise_part1_0708_1.jpg'
             }),
             // {
             //   dom: <CustomerEvaluate/>
             // },
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/pay_rise_part2_0628_1.jpeg'
+              url: 'https://static.iqycamp.com/images/pay_rise_part2_0708_1.jpg'
             }), {
               dom: <div className="protocol-container l2">
                 <span className="click_text">点击查看</span>
@@ -222,13 +222,13 @@ export class SaleBody extends React.Component {
              id="business-school-intro-pic-container">
           <SequenceDisplay imgList={[
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/pay_l1_part1_0628_1.jpeg'
+              url: 'https://static.iqycamp.com/images/pay_l1_part1_0711_1.jpg'
             }),
             // {
             //   dom: <CustomerEvaluate/>
             // },
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/pay_l1_part2_0628_2.jpeg'
+              url: 'https://static.iqycamp.com/images/pay_l1_part2_0711_2.jpg'
             }), {
               dom: <div className="protocol-container l1">
                 <span className="click_text">点击查看</span>
@@ -256,7 +256,7 @@ export class SaleBody extends React.Component {
              id="business-school-intro-pic-container">
           <SequenceDisplay imgList={[
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/fragment/thought_sale_page_1_0612_2.jpg'
+              url: 'https://static.iqycamp.com/images/thought_sale_page_1_0713_2.jpg'
             }), {
               dom: <div className="high-light-words" onClick={() => {
                 this.context.router.push({
