@@ -40,6 +40,7 @@ export class MarkBlock extends React.Component<MarkBlockProps, any> {
     }
     let res = await mark(param)
     if(res.code === 200) {
+      console.log('onClickFunc',onClickFunc)
       onClickFunc()
     } else {
       console.error(res.msg)

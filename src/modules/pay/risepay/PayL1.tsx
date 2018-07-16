@@ -26,7 +26,6 @@ export default class PayL1 extends React.Component<any, any> {
     super()
     this.state = {
       goodsId: 12,
-      timeOut: false,
       showErr: false,
       showCodeErr: false,
       subscribe: false,
@@ -141,7 +140,7 @@ export default class PayL1 extends React.Component<any, any> {
     this.reConfig()
     dispatch(startLoad())
     // 先检查是否能够支付
-    checkRiseMember(showId, riseId).then(res => {
+    checkRiseMember(goodsId, riseId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         const { qrCode, privilege, errorMsg, subscribe } = res.msg
@@ -178,7 +177,7 @@ export default class PayL1 extends React.Component<any, any> {
   }
 
   render() {
-    const { data, timeOut, showErr, showCodeErr, subscribe, goodsId, invitationLayout, showQr, qrCode, invitationData } = this.state
+    const { data,  showErr, showCodeErr, subscribe, goodsId, invitationLayout, showQr, qrCode, invitationData } = this.state
     const { privilege, quanwaiGoods = {}, tip } = data
     const { location } = this.props
     let payType = _.get(location, 'query.paytype')
@@ -201,14 +200,6 @@ export default class PayL1 extends React.Component<any, any> {
           <SaleBody memberTypeId={goodsId}/>
           {renderPay()}
         </div>
-        {
-          timeOut &&
-          <div className="mask" onClick={() => {window.history.back()}}
-               style={{
-                 background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center' +
-                 ' center/100% 100%'
-               }}/>
-        }
         {
           showErr &&
           <div className="mask" onClick={() => this.setState({ showErr: false })}>
