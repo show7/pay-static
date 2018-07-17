@@ -8,10 +8,10 @@ import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { config } from 'modules/helpers/JsConfig'
 import PayInfo from '../components/PayInfo'
 import { checkRiseMember, getRiseMember, loadInvitation } from '../async'
-import { SaleBody } from './components/SaleBody'
 import { MarkBlock } from '../components/markblock/MarkBlock'
 import InvitationLayout from '../components/invitationLayout/InvitationLayout'
 import RenderInBody from '../../../components/RenderInBody'
+import { SaleBody } from '../risepay/components/SaleBody'
 
 @connect(state => state)
 export default class CampPay extends React.Component<any, any> {
@@ -171,10 +171,7 @@ export default class CampPay extends React.Component<any, any> {
     return (
       <div className="camp-pay-container">
         <div className="pay-page">
-          <img className="sale-pic" style={{ width: '100%' }} src='https://static.iqycamp.com/images/fragment/camp_14_1_0717_1.jpeg?imageslim'
-               onLoad={() => this.setState({ loading: false })}/>
-          <img className="sale-pic" style={{ width: '100%' }} src='https://static.iqycamp.com/images/fragment/camp_14_2_0717_1.jpeg?imageslim'
-               onLoad={() => this.setState({ loading: false })}/>
+          <SaleBody memberTypeId={goodsId}/>
           {renderPay()}
         </div>
         {

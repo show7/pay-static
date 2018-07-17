@@ -161,7 +161,7 @@ export class SaleBody extends React.Component {
     }
 
     const renderKefu = () => {
-      if(memberTypeId == '8') {
+      if(memberTypeId == '8' || memberTypeId == '14' ) {
         return <CustomerService image='https://static.iqycamp.com/images/fragment/kefu_0418_2.png?imageslim'/>
       } else {
         return <CustomerService/>
@@ -197,6 +197,37 @@ export class SaleBody extends React.Component {
               url: 'https://static.iqycamp.com/images/pay_rise_part2_0708_1.jpg'
             }), {
               dom: <div className="protocol-container l2">
+                <span className="click_text">点击查看</span>
+                <a className="protocol" onClick={() => this.clickUserProtocol()}>【商学院用户协议】</a>
+              </div>
+            }, mergeStyle({
+              url: 'https://static.iqycamp.com/images/fragment/thought_sale_page_5_0523_1.jpg'
+            })
+          ]} onLoadFirst={() => this.setState({ loading: false })}/>
+
+          {
+            loading &&
+            <div className="pic-loading-container">
+              <img src="http://static.iqycamp.com/images/dribz.gif" className="loading-pic"
+                   style={{ 'width': 300, 'display': 'block', 'margin': '0 auto' }}/>
+            </div>
+          }
+          {showModel && showUserProtocol()}
+          {renderKefu()}
+        </div>
+      )
+    } else if(memberTypeId == '14') {
+      return (
+        <div className="business-school-intro-pic-container"
+             id="business-school-intro-pic-container">
+          <SequenceDisplay imgList={[
+            mergeStyle({
+              url: 'https://static.iqycamp.com/images/fragment/camp_14_1_0717_1.jpeg'
+            }),
+            mergeStyle({
+              url: 'https://static.iqycamp.com/images/camp_14_2_0717_2.jpg'
+            }), {
+              dom: <div className="protocol-container l1">
                 <span className="click_text">点击查看</span>
                 <a className="protocol" onClick={() => this.clickUserProtocol()}>【商学院用户协议】</a>
               </div>
