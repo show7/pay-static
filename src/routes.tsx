@@ -8,8 +8,6 @@ import RiseShare from 'modules/pay/risepay/RiseShare'
 import BusinessApply from './modules/pay/bsapply/BusinessApply'
 import BusinessApplyChoice from './modules/pay/bsapply/BusinessApplyChoice'
 import PreacherPage from 'modules/pay/preacher/PreacherPage'
-import CampPaySuccess from 'modules/pay/paysuccess/CampPaySuccess'
-import AuditionSuccess from 'modules/pay/paysuccess/AuditionSuccess'
 import ApplySuccess from 'modules/pay/risepay/ApplySuccess'
 import MemberPaySuccess from 'modules/pay/paysuccess/MemberPaySuccess'
 import BusinessApplySubmitSuccess from './modules/pay/bsapply/BusinessApplySubmitSuccess'
@@ -42,9 +40,7 @@ const routes = (
              }
            }}>
       <Route path="subscribe" component={Subscribe}/>
-      <Route path="pay/camp/success" component={CampPaySuccess}/>
       <Route path="pay/member/success" component={MemberPaySuccess}/>
-      <Route path="pay/audition/success" component={AuditionSuccess}/>
       <Route path="pay/thought" component={ThoughtPay}/>
       <Route path="pay/rise" component={RisePay}/>
       <Route path="pay/camp" component={CampPay}/>

@@ -7,7 +7,7 @@ import { saTrack } from '../../../utils/helpers'
 import RenderInBody from '../../../components/RenderInBody'
 import AssetImg from '../../../components/AssetImg'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
-import { checkRiseMember, loadApplyProjectInfo } from '../async'
+import { checkRiseMember, loadWannaMember } from '../async'
 
 @connect(state => state)
 export default class BusinessApply extends Component<any, any> {
@@ -26,9 +26,8 @@ export default class BusinessApply extends Component<any, any> {
   async componentWillMount() {
     // 默认申请核心能力项目
     const { goodsId } = this.props.location.query;
-    let res = await loadApplyProjectInfo({ applyId: goodsId });
-    const { apply, wannaGoods } = res.msg;
-    this.setState({ memberType: wannaGoods, apply: apply });
+    let res = await loadWannaMember(goodsId );
+    this.setState({ memberType: res.msg });
     saTrack('openApplyStartPage', {
       goodsId: goodsId
     })

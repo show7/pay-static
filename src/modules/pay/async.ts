@@ -35,7 +35,7 @@ export function getRiseMember(riseMember) {
   return pget(`/signup/rise/member/${riseMember}`)
 }
 
-export function checkRiseMember(riseMember,riseId) {
+export function checkRiseMember(riseMember, riseId) {
   return pget(`/signup/rise/member/check/${riseMember}?riseId=${riseId}`)
 }
 
@@ -56,8 +56,8 @@ export function chooseAuditionCourse() {
   return ppost('/rise/plan/choose/audition/course')
 }
 
-export function loadApplyProjectInfo(param: { applyId, wannaGoodsId }) {
-  return pget('/signup/apply/project/mapping', param);
+export function loadWannaMember(goodsId) {
+  return pget('/signup/wanna/member', { goodsId: goodsId });
 }
 
 /**
