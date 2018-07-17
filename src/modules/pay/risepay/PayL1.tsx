@@ -7,7 +7,7 @@ import { PayType, sa, refreshForPay, saTrack } from 'utils/helpers'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { config } from 'modules/helpers/JsConfig'
 import PayInfo from '../components/PayInfo'
-import { checkRiseMember, getRiseMember } from '../async'
+import { checkRiseMember, getRiseMember, loadInvitation } from '../async'
 import { SaleBody } from './components/SaleBody'
 import { MarkBlock } from '../components/markblock/MarkBlock'
 import { SubscribeAlert } from "./components/SubscribeAlert"

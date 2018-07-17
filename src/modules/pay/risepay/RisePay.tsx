@@ -133,9 +133,10 @@ export default class RisePay extends React.Component<any, any> {
   handleClickOpenPayInfo(goodsId) {
     this.reConfig()
     const { dispatch } = this.props
+    const { riseId = '' } = this.props.location.query
     dispatch(startLoad())
     // 先检查是否能够支付
-    checkRiseMember(goodsId).then(res => {
+    checkRiseMember(goodsId, riseId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         const { qrCode, privilege, errorMsg, subscribe } = res.msg
@@ -177,11 +178,11 @@ export default class RisePay extends React.Component<any, any> {
    * 重新注册页面签名
    */
   reConfig() {
-    config(['chooseWXPay'])
+    config([ 'chooseWXPay' ])
   }
 
   render() {
-    const { data, timeOut, showErr, showCodeErr, subscribe, invitationLayout, invitationData,showQr, qrCode} = this.state
+    const { data, timeOut, showErr, showCodeErr, subscribe, invitationLayout, invitationData, showQr, qrCode } = this.state
     const { privilege, buttonStr, quanwaiGoods = {}, tip } = data
     const { location } = this.props
     let payType = _.get(location, 'query.paytype')
