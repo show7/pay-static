@@ -33,6 +33,8 @@ export default class CampPay extends React.Component<any, any> {
   }
 
   async componentWillMount() {
+    window.location.href = 'https://h5.youzan.com/v2/goods/2fmsfp2eo1zxo'
+    return;
     // ios／安卓微信支付兼容性
     if(refreshForPay()) {
       return
