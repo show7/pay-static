@@ -33,8 +33,6 @@ export default class CampPay extends React.Component<any, any> {
   }
 
   async componentWillMount() {
-    window.location.href = 'https://h5.youzan.com/v2/goods/2fmsfp2eo1zxo'
-    return;
     // ios／安卓微信支付兼容性
     if(refreshForPay()) {
       return
@@ -173,7 +171,9 @@ export default class CampPay extends React.Component<any, any> {
     return (
       <div className="camp-pay-container">
         <div className="pay-page">
-          <img className="sale-pic" style={{ width: '100%' }} src='https://static.iqycamp.com/images/camp_pay_0613_1.jpeg?imageslim'
+          <img className="sale-pic" style={{ width: '100%' }} src='https://static.iqycamp.com/images/fragment/camp_14_1_0717_1.jpeg?imageslim'
+               onLoad={() => this.setState({ loading: false })}/>
+          <img className="sale-pic" style={{ width: '100%' }} src='https://static.iqycamp.com/images/fragment/camp_14_2_0717_1.jpeg?imageslim'
                onLoad={() => this.setState({ loading: false })}/>
           {renderPay()}
         </div>
