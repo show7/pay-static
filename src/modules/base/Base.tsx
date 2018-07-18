@@ -75,7 +75,7 @@ export default class Main extends React.Component<any, any> {
           web_url: `https://quanwai.cloud.sensorsdata.cn/?project=${window.ENV.sensorsProject}`,
           server_url: `https://quanwai.cloud.sensorsdata.cn:4006/sa?token=0a145b5e1c9814f4&project=${window.ENV.sensorsProject}`,
           is_single_page: true,
-          show_log: true,
+          show_log: false,
           heatmap: {}
         });
 

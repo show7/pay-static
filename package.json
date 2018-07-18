@@ -14,7 +14,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "local": "PROXY=http://0.0.0.0:8080/ npm start",
     "two": "RISE_PROXY=http://0.0.0.0:8081/ PROXY=http://0.0.0.0:8080/ npm start",
-    "felix": "RISE_PROXY=http://0.0.0.0:8080/ PROXY=http://0.0.0.0:8180/ npm start"
+    "felix": "RISE_PROXY=http://0.0.0.0:8080/ PROXY=http://www.confucius.mobi npm start"
   },
   "repository": {
     "type": "git",
