@@ -14,39 +14,56 @@ export default class OperationShare extends React.Component {
   constructor() {
     super()
     this.state = {
-      showInvitation: false,
+      showDialog: false,
+      isAuthority: false,
+      isReceivedCoupon: false,
+      amount: 0,
+      projectName: '',
+      promoterName: ''
     }
   }
 
   async componentDidMount() {
     const { riseId, dispatch } = this.props
-    // let shareStatus = await loadShareOperationStatus(riseId)
-    // console.log(shareStatus)
-    let showDialog = true;//isAuthority && !isReceivedCoupon;
-    if(showDialog) {
-      this.setState({
-        isAuthority: true,//是否有资格领取优惠券
-        isReceivedCoupon: false, //是否已经领取过优惠券
-        promoterName: '解决问题', //推广人名称
-        projectName: '解决问题', // 项目名称
-        amount: 50,// 优惠券金额
-        showDialog: true
-      }, () => {
-        let receiveRes = receiveShareCoupon(riseId);
-        if(receiveRes.code !== 200) {
-          dispatch(alertMsg(receiveRes.msg));
+    let shareStatus = await loadShareOperationStatus(riseId)
+    console.log(shareStatus)
+    if(shareStatus.code === 200) {
+      const {
+        isAuthority,
+        isReceivedCoupon,
+        amount,
+        projectName,
+        promoterName
+      } = shareStatus.msg;
+      if(isAuthority) {
+        // 有权限领取优惠券
+        if(isReceivedCoupon) {
+          // 领过优惠券
+          dispatch(alertMsg('你已领取过优惠券，不可重复领取哦~'))
+        } else {
+          // 领取优惠券
+          this.setState({
+            isAuthority: isAuthority,//是否有资格领取优惠券
+            isReceivedCoupon: isReceivedCoupon, //是否已经领取过优惠券
+            promoterName: promoterName, //推广人名称
+            projectName: projectName, // 项目名称
+            amount: amount,// 优惠券金额
+            showDialog: true
+          }, () => {
+            let receiveRes = receiveShareCoupon(riseId);
+            if(receiveRes.code !== 200) {
+              dispatch(alertMsg(receiveRes.msg));
+            }
+          })
         }
-      })
+      } else {
+        // 无权限，不做提示
+        console.log('无权限，不做提示')
+      }
     } else {
-      dispatch(alertMsg('你已领取过优惠券，不可重复领取哦~'))
+      dispatch(alertMsg(shareStatus.msg));
     }
-
   }
-
-  // oldNickName: React.PropTypes.string, // 邀请人昵称
-  // projectName: React.PropTypes.string, // 项目名称
-  // amount: React.PropTypes.number, // 金额数目
-  // callback: React.PropTypes.func, // 回调函数
 
   closeDialog() {
     this.setState({ showDialog: false });
@@ -55,12 +72,7 @@ export default class OperationShare extends React.Component {
   render() {
 
     const {
-      isAuthority,
-      isReceivedCoupon,
-      promoterName,
-      projectName,
       amount,
-      callback,
       showDialog
     } = this.state
 

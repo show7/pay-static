@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as _ from 'lodash'
- import { connect } from 'react-redux'
+import { connect } from 'react-redux'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { mark } from 'utils/request'
 import { PayType, sa, refreshForPay, saTrack } from 'utils/helpers'
@@ -21,7 +21,7 @@ export default class CampPay extends React.Component<any, any> {
     router: React.PropTypes.object.isRequired,
   }
 
-  constructor () {
+  constructor() {
     super()
     this.state = {
       goodsId: 14,
@@ -32,9 +32,9 @@ export default class CampPay extends React.Component<any, any> {
     }
   }
 
-  async componentWillMount () {
+  async componentWillMount() {
     // ios／安卓微信支付兼容性
-    if (refreshForPay()) {
+    if(refreshForPay()) {
       return
     }
     const { dispatch } = this.props
@@ -43,11 +43,11 @@ export default class CampPay extends React.Component<any, any> {
     // 查询订单信息
     getRiseMember(this.state.goodsId).then(res => {
       dispatch(endLoad())
-      if (res.code === 200) {
+      if(res.code === 200) {
         this.setState({ data: res.msg })
         const { quanwaiGoods = {} } = res.msg
         const { privilege } = res.msg
-        if (privilege) {
+        if(privilege) {
           saTrack('openSalePayPage', {
             goodsType: quanwaiGoods.goodsType + '',
             goodsId: quanwaiGoods.id + '',
@@ -69,7 +69,7 @@ export default class CampPay extends React.Component<any, any> {
     })
   }
 
-  handlePayedDone () {
+  handlePayedDone() {
     const { data } = this.state
     const { quanwaiGoods = {} } = data
     mark({ module: '打点', function: '商学院会员', action: '支付成功', memo: quanwaiGoods.id })
@@ -82,9 +82,9 @@ export default class CampPay extends React.Component<any, any> {
   }
 
   /** 处理支付失败的状态 */
-  handlePayedError (res) {
+  handlePayedError(res) {
     let param = _.get(res, 'err_desc', _.get(res, 'errMsg', ''))
-    if (param.indexOf('跨公众号发起') != -1) {
+    if(param.indexOf('跨公众号发起') != -1) {
       // 跨公众号
       this.setState({ showCodeErr: true })
     } else {
@@ -93,7 +93,7 @@ export default class CampPay extends React.Component<any, any> {
   }
 
   /** 处理取消支付的状态 */
-  handlePayedCancel () {
+  handlePayedCancel() {
     this.setState({ showErr: true })
   }
 
@@ -101,11 +101,11 @@ export default class CampPay extends React.Component<any, any> {
    * 打开支付窗口
    * @param goodsId 会员类型id
    */
-  handleClickOpenPayInfo (goodsId) {
+  handleClickOpenPayInfo(goodsId) {
     const { dispatch } = this.props
     const { data } = this.state
     const { privilege, errorMsg } = data
-    if (!privilege && !!errorMsg) {
+    if(!privilege && !!errorMsg) {
       dispatch(alertMsg(errorMsg))
       return
     }
@@ -115,10 +115,10 @@ export default class CampPay extends React.Component<any, any> {
     // 先检查是否能够支付
     checkRiseMember(goodsId, riseId).then(res => {
       dispatch(endLoad())
-      if (res.code === 200) {
+      if(res.code === 200) {
         const { qrCode, privilege, errorMsg, subscribe } = res.msg
-        if (subscribe) {
-          if (privilege) {
+        if(subscribe) {
+          if(privilege) {
             this.refs.payInfo.handleClickOpen()
           } else {
             dispatch(alertMsg(errorMsg))
@@ -136,7 +136,7 @@ export default class CampPay extends React.Component<any, any> {
     })
   }
 
-  handlePayedBefore () {
+  handlePayedBefore() {
     const { data } = this.state
     const { quanwaiGoods = {} } = data
     mark({ module: '打点', function: '商学院会员', action: '点击付费', memo: quanwaiGoods.id })
@@ -145,18 +145,18 @@ export default class CampPay extends React.Component<any, any> {
   /**
    * 重新注册页面签名
    */
-  reConfig () {
-    config(['chooseWXPay'])
+  reConfig() {
+    config([ 'chooseWXPay' ])
   }
 
-  render () {
+  render() {
     const { data, showErr, showCodeErr, subscribe, goodsId, showQr, qrCode, invitationData } = this.state
     const { privilege, quanwaiGoods = {}, tip } = data
     const { location } = this.props
     let payType = _.get(location, 'query.paytype')
 
     const renderPay = () => {
-      if (!quanwaiGoods.id) return null
+      if(!quanwaiGoods.id) return null
       return (
         <div className="button-footer">
           <MarkBlock module={'打点'}
@@ -232,7 +232,8 @@ export default class CampPay extends React.Component<any, any> {
             </div>
           </RenderInBody>
         }
-        <OperationShare riseId={location.query.riseId}/>
+        {location.query.riseId && <OperationShare riseId={location.query.riseId}/>}
+
       </div>
     )
   }
