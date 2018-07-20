@@ -4,12 +4,11 @@ import "./PayGift.less";
 import { SubmitButton }  from '../../../components/submitbutton/SubmitButton'
 import numeral from 'numeral'
 import {loadGoodsInfo, loadPaymentParam, logPay} from '../async'
-import {pay} from "../../helpers/JsConfig";
 import {mark} from "../../../utils/request";
 import _ from 'lodash'
 import { GoodsType, PayType, saTrack } from '../../../utils/helpers'
 import { alertMsg } from "redux/actions";
-import {configShare} from '../../helpers/JsConfig'
+import {configShare,pay} from '../../helpers/JsConfig'
 import { connect } from "react-redux";
 @connect(state => state)
 export default class PayGift extends React.Component<any, any> {
