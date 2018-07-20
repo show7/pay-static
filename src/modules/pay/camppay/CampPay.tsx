@@ -38,35 +38,40 @@ export default class CampPay extends React.Component<any, any> {
       return
     }
     const { dispatch } = this.props
-    dispatch(startLoad())
-
     // 查询订单信息
-    getRiseMember(this.state.goodsId).then(res => {
-      dispatch(endLoad())
-      if(res.code === 200) {
-        this.setState({ data: res.msg })
-        const { quanwaiGoods = {} } = res.msg
-        const { privilege } = res.msg
-        if(privilege) {
-          saTrack('openSalePayPage', {
-            goodsType: quanwaiGoods.goodsType + '',
-            goodsId: quanwaiGoods.id + '',
-          })
-          mark({ module: '打点', function: quanwaiGoods.goodsType, action: quanwaiGoods.id, memo: '入学页面' })
-        } else {
-          saTrack('openSaleApplyPage', {
-            goodsType: quanwaiGoods.goodsType + '',
-            goodsId: quanwaiGoods.id + '',
-          })
-          mark({ module: '打点', function: quanwaiGoods.goodsType, action: quanwaiGoods.id, memo: '申请页面' })
-        }
+    let res = await getRiseMember(this.state.goodsId);
+    if(res.code === 200) {
+      const { riseId } = this.props.location.query
+      if(riseId) {
+        this.setState({ hidenData: res.msg, data: {} })
       } else {
-        dispatch(alertMsg(res.msg))
+        this.setState({ data: res.msg })
       }
-    }).catch((err) => {
-      dispatch(endLoad())
-      dispatch(alertMsg(err))
-    })
+
+      const { quanwaiGoods = {} } = res.msg
+      const { privilege } = res.msg
+      if(privilege) {
+        saTrack('openSalePayPage', {
+          goodsType: quanwaiGoods.goodsType + '',
+          goodsId: quanwaiGoods.id + '',
+        })
+        mark({ module: '打点', function: quanwaiGoods.goodsType, action: quanwaiGoods.id, memo: '入学页面' })
+      } else {
+        saTrack('openSaleApplyPage', {
+          goodsType: quanwaiGoods.goodsType + '',
+          goodsId: quanwaiGoods.id + '',
+        })
+        mark({ module: '打点', function: quanwaiGoods.goodsType, action: quanwaiGoods.id, memo: '申请页面' })
+      }
+    } else {
+      dispatch(alertMsg(res.msg))
+    }
+  }
+
+  showGoods() {
+    const { hidenData } = this.state;
+    this.setState({ data: hidenData });
+
   }
 
   handlePayedDone() {
@@ -232,7 +237,7 @@ export default class CampPay extends React.Component<any, any> {
             </div>
           </RenderInBody>
         }
-        {location.query.riseId && <OperationShare riseId={location.query.riseId}/>}
+        <OperationShare riseId={location.query.riseId} callback={() => this.showGoods()}/>
 
       </div>
     )

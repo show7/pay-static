@@ -19,49 +19,55 @@ export default class OperationShare extends React.Component {
       isReceivedCoupon: false,
       amount: 0,
       projectName: '',
-      promoterName: ''
+      promoterName: '',
     }
   }
 
   async componentDidMount() {
-    const { riseId, dispatch } = this.props
-    let shareStatus = await loadShareOperationStatus(riseId)
-    console.log(shareStatus)
-    if(shareStatus.code === 200) {
-      const {
-        isAuthority,
-        isReceivedCoupon,
-        amount,
-        projectName,
-        promoterName
-      } = shareStatus.msg;
-      if(isAuthority) {
-        // 有权限领取优惠券
-        if(isReceivedCoupon) {
-          // 领过优惠券
-          dispatch(alertMsg('你已领取过优惠券，不可重复领取哦~'))
+    const { riseId, dispatch, callback = () => {} } = this.props
+
+    if(riseId) {
+      let shareStatus = await loadShareOperationStatus(riseId)
+      if(shareStatus.code === 200) {
+        const {
+          isAuthority,
+          isReceivedCoupon,
+          amount,
+          projectName,
+          promoterName
+        } = shareStatus.msg;
+        if(isAuthority) {
+          // 有权限领取优惠券
+          if(isReceivedCoupon) {
+            callback();
+            // 领过优惠券
+            dispatch(alertMsg('你已领取过优惠券，不可重复领取哦~'))
+          } else {
+            // 领取优惠券
+            this.setState({
+              isAuthority: isAuthority,//是否有资格领取优惠券
+              isReceivedCoupon: isReceivedCoupon, //是否已经领取过优惠券
+              promoterName: promoterName, //推广人名称
+              projectName: projectName, // 项目名称
+              amount: amount,// 优惠券金额
+              showDialog: true
+            }, () => {
+              receiveShareCoupon(riseId).then(res => {
+                callback();
+              });
+            })
+          }
         } else {
-          // 领取优惠券
-          this.setState({
-            isAuthority: isAuthority,//是否有资格领取优惠券
-            isReceivedCoupon: isReceivedCoupon, //是否已经领取过优惠券
-            promoterName: promoterName, //推广人名称
-            projectName: projectName, // 项目名称
-            amount: amount,// 优惠券金额
-            showDialog: true
-          }, () => {
-            let receiveRes = receiveShareCoupon(riseId);
-            if(receiveRes.code !== 200) {
-              dispatch(alertMsg(receiveRes.msg));
-            }
-          })
+          callback();
+          // 无权限，不做提示
+          console.log('无权限，不做提示')
         }
       } else {
-        // 无权限，不做提示
-        console.log('无权限，不做提示')
+        callback();
+        dispatch(alertMsg(shareStatus.msg));
       }
     } else {
-      dispatch(alertMsg(shareStatus.msg));
+      callback();
     }
   }
 
