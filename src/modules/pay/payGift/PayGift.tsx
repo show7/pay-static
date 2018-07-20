@@ -151,6 +151,7 @@ export default class PayGift extends React.Component<any, any> {
      * 支付成功回调
      */
     handlePayDone(){
+        alert(`https://${document.domain}/rise/activity/static/promotion/shareposter?memberTypeId=${this.state.memberTypeId}`)
         configShare(
             '学习礼品卡',
             `https://${document.domain}/rise/activity/static/promotion/shareposter?memberTypeId=${this.state.memberTypeId}`,
