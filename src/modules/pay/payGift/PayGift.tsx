@@ -182,7 +182,7 @@ export default class PayGift extends React.Component<any, any> {
                     <div className="layout-content">
                       <p className="name">{projectName}</p>
                         <div className="unit-content">
-                            <span className="unit-price">单价：¥ {numeral(unitPrice).format('0.00')}</span>
+                            <p>单价：<span className="unit-price">¥ {numeral(unitPrice).format('0.00')}</span></p>
                             <div className="add-num">
                               <span className="num-name">数量</span>
                               <img onClick={()=>{this.handleAddReduce(1)}} src="https://static.iqycamp.com/reduce-dpacxarb.png" alt="减"/>
