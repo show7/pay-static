@@ -142,7 +142,7 @@ export default class PayGift extends React.Component<any, any> {
             (res) => {
                 // 支付失败的回调
                 logPay(functionName, 'error', 'os:' + window.ENV.systemInfo + ',error:' + (_.isObjectLike(res) ? JSON.stringify(res) : res) + ',configUrl:' + window.ENV.configUrl + ',url:' + window.location.href)
-                this.handleClickClose()
+                this.handleClickError()
             }
         )
     }
@@ -160,9 +160,17 @@ export default class PayGift extends React.Component<any, any> {
         this.setState({showPayFlay:false,choseFlay:false,showShare:true});
     }
     /**
-     * 支付关闭回调
+     * 支付取消回调
      */
     handleClickClose(){
+        const { dispatch } = this.props
+        this.setState({showPayFlay:false,choseFlay:false});
+        dispatch(alertMsg('支付已取消'))
+    }
+    /**
+     * 支付err
+     */
+    handleClickError(){
         const { dispatch } = this.props
         this.setState({showPayFlay:false,choseFlay:false});
         dispatch(alertMsg('支付失败'))
