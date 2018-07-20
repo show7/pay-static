@@ -238,7 +238,7 @@ export default class ThoughtPay extends Component<any, any> {
         {invitationLayout &&
         <InvitationLayout oldNickName={invitationData.oldNickName}
                           amount={invitationData.amount}
-                          prijectName={invitationData.memberTypeName}
+                          projectName={invitationData.memberTypeName}
                           callBack={() => {this.setState({ invitationLayout: false })}}/>
         }
       </div>
