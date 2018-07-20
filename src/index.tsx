@@ -1,3 +1,5 @@
+import { importExternalCss, importExternalJs } from './utils/dom'
+
 require('es6-promise').polyfill();
 import "babel-polyfill";
 import "./style.less"
@@ -10,6 +12,11 @@ import configureStore from "./redux/configureStore"
 import routes from "./routes"
 import "weui"
 import 'animate.css/animate.min.css'
+
+// 腾讯视频样式
+importExternalCss('//imgcache.qq.com/open/qcloud/video/tcplayer/tcplayer.css')
+// 腾讯视频 js
+importExternalJs('//imgcache.qq.com/open/qcloud/video/tcplayer/tcplayer.min.js')
 
 // const FastClick = require("fastclick")
 // import { config } from "modules/helpers/JsConfig"
