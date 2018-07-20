@@ -153,7 +153,7 @@ export default class PayGift extends React.Component<any, any> {
     handlePayDone(){
         configShare(
             '学习礼品卡',
-            `https://${document.domain}/rise/activity/static/promotion/shareposter?memberTypeId=${this.state.memberTypeId}`,
+            `https://${document.domain}/rise/activity/static/promotion/shareposter?memberTypeId=${this.state.memberTypeId}&riseId=${window.ENV.riseId}`,
             'https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg',
             `${window.ENV.userName}赠送你一张【圈外商学院】${this.state.projectName}体验课，邀请你一起学习`,
         )
@@ -183,7 +183,7 @@ export default class PayGift extends React.Component<any, any> {
                     sellImgs && sellImgs.map((item,index)=><img key={index} src={item} alt="售卖页"/>)
                 }
                  {/*------------  购买弹框button  ------------*/}
-                <SubmitButton buttonText="购买体验卡" clickFunc={()=>{this.setState({showPayFlay:true})}}/>
+                <SubmitButton buttonText="购买体验卡" clickFunc={()=>{this.setState({showPayFlay:true}); mark({ module: '打点', function: '专项课赠送', action: '购买专项课赠送', memo: '专项课赠送'})}}/>
                 {showPayFlay && <div className="pay-mask"/>}
                 <div className={`pay-layout ${showPayFlay ? 'active':''}`}>
                     <p className='close'><img onClick={()=>{this.setState({showPayFlay:false,choseFlay:false})}} src="https://static.iqycamp.com/close-2-t6urec58.png" alt="关闭"/></p>
