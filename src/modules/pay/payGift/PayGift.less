@@ -1,0 +1,200 @@
+
+
+.pay-gift{
+  >img{
+    width: 100%;
+  }
+  .submitbutton-component{
+    height: 4.5rem;
+    .submit-btn{
+      height: 4.5rem;
+      line-height: 4.5rem;
+      background:linear-gradient(-90deg,rgba(165,230,40,1),rgba(125,190,0,1));
+      width: 100%;
+      border-radius: 0;
+      margin: 0;
+      color: #fff;
+    }
+  }
+  .pay-mask{
+    background:rgba(0,0,0,0.7);
+    position: fixed;
+    width: 100%;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 101;
+  }
+  .pay-layout{
+    position: fixed;
+    width: 100%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 102;
+    height: 57.72%;
+    transform: translateY(110%);
+    transition: all 300ms ease-in-out;
+    &.active{
+      transform: translateY(0)
+    }
+    .close{
+      text-align: right;
+      padding-right: 0.2rem;
+      >img{
+        width: 3.5rem;
+        height: 3.5rem;
+      }
+    }
+    .layout-content{
+      background-color: #fff;
+      padding: 2rem;
+      height: 100%;
+      box-sizing: border-box;
+      .name{
+        font-size:1.9rem;
+        color: #50505A;
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+      .unit-content{
+        .unit-price{
+          color: #7DBE00;
+          font-size:1.6rem;
+        }
+        .add-num{
+         float: right;
+         display: flex;
+          align-items: center;
+          >img{
+           width: 2.1rem;
+            height: 2.1rem;
+          }
+          >span{
+            font-size:1.5rem;
+            color: #50505A;
+          }
+          .num{
+            margin: 0 0.7rem;
+            display: inline-block;
+            width: 1rem;
+          }
+          .num-name{
+            margin-right: 0.7rem;
+          }
+        }
+        .total-price{
+          margin: 3rem 0;
+          p{
+            font-size:1.5rem;
+            color: #50505A;
+          }
+        }
+        .pay-way{
+          >span{
+            font-size:1.5rem;
+          }
+          .chose-way{
+            display: flex;
+            float: right;
+            align-items: center;
+            >img{
+              width: 2.2rem;
+              height: 2.2rem;
+            }
+            >span{
+              font-size: 1.5rem;
+              color: #50505A;
+              margin: 0 0.7rem;
+            }
+            .down{
+              width: 1rem;
+              height: 1rem;
+            }
+          }
+        }
+        .button-pay{
+          position: absolute;
+          width: 86%;
+          bottom: 0.5rem;
+         >p{
+           background:linear-gradient(-90deg,rgba(165,230,40,1),rgba(125,190,0,1));
+           border-radius:20px;
+           font-size:1.5rem;
+           text-align: center;
+           line-height: 4rem;
+           color: #FFFFFF;
+         }
+        }
+      }
+    }
+  }
+  .chose-payway{
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,0.7);
+    transform: translateY(120%);
+    transition: all 300ms ease-in-out;
+    z-index: 102;
+    height: 14%;
+    &.active{
+      transform: translateY(0);
+    }
+    >ul{
+      >li{
+        text-align: center;
+        position: relative;
+        line-height: 4rem;
+        font-size: 1.5rem;
+        color: #fff;
+        &.active{
+          color: #7DBE00;
+        }
+        &:first-child:after{
+          content: '';
+          position: absolute;
+          height: 1px;
+          width: 100%;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          border-top: 1px solid #ddd;
+          -webkit-transform: scaleY(0.5);
+        }
+      }
+    }
+  }
+  .share-mask{
+    background:rgba(0,0,0,0.7);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 101;
+    >.share-mask-box{
+      width: 28rem;
+      height: 21rem;
+      background-image: url("https://static.iqycamp.com/Group@2x-kcn90cjz.png");
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      margin-top: 4rem;
+      position: absolute;
+      right: 1rem;
+      margin-right: 1rem;
+      display: flex;
+      align-items: center;
+      >p{
+        font-size: 1.6rem;
+        margin-left: 5rem;
+        color: #fff;
+        width: 66%;
+      }
+    }
+  }
+}
