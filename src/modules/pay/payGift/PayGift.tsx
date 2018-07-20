@@ -155,7 +155,7 @@ export default class PayGift extends React.Component<any, any> {
             '学习礼品卡',
             `https://${document.domain}/rise/activity/static/promotion/shareposter?memberTypeId=${this.state.memberTypeId}&riseId=${window.ENV.riseId}`,
             'https://static.iqycamp.com/3451532075605_-w6qw0nsj.pic.jpg',
-            `${window.ENV.userName}赠送你一张【圈外商学院】${this.state.projectName}体验课，邀请你一起学习`,
+            `${window.ENV.userName}送你一张学习礼品卡\n点击领取，免费体验《${memberTypeName}》`,
         )
         this.setState({showPayFlay:false,choseFlay:false,showShare:true});
     }
