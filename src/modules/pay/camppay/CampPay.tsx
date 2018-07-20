@@ -32,24 +32,22 @@ export default class CampPay extends React.Component<any, any> {
     }
   }
 
-  async componentWillMount() {
+  async componentDidMount() {
     // ios／安卓微信支付兼容性
     if(refreshForPay()) {
       return
     }
+
+    // 如果有分享组件,则等待分享组件加载完成
+    await this.checkShareComponentCompleted();
+
     const { dispatch } = this.props
     // 查询订单信息
     let res = await getRiseMember(this.state.goodsId);
     if(res.code === 200) {
-      const { riseId } = this.props.location.query
-      if(riseId) {
-        this.setState({ hidenData: res.msg, data: {} })
-      } else {
-        this.setState({ data: res.msg })
-      }
-
-      const { quanwaiGoods = {} } = res.msg
-      const { privilege } = res.msg
+      this.setState({ data: res.msg })
+      console.log('res:msg', res.msg);
+      const { quanwaiGoods = {}, privilege } = res.msg
       if(privilege) {
         saTrack('openSalePayPage', {
           goodsType: quanwaiGoods.goodsType + '',
@@ -68,10 +66,14 @@ export default class CampPay extends React.Component<any, any> {
     }
   }
 
-  showGoods() {
-    const { hidenData } = this.state;
-    this.setState({ data: hidenData });
-
+  /**
+   * 如果有
+   * @return {Promise<void>}
+   */
+  async checkShareComponentCompleted() {
+    if(this.refs.shareComponent && this.refs.shareComponent.operationShareCompleted) {
+      await this.refs.shareComponent.operationShareCompleted();
+    }
   }
 
   handlePayedDone() {
@@ -155,7 +157,8 @@ export default class CampPay extends React.Component<any, any> {
   }
 
   render() {
-    const { data, showErr, showCodeErr, subscribe, goodsId, showQr, qrCode, invitationData } = this.state
+    const { data = {}, showErr, showCodeErr, subscribe, goodsId, showQr, qrCode, invitationData } = this.state
+    console.log('data:', data);
     const { privilege, quanwaiGoods = {}, tip } = data
     const { location } = this.props
     let payType = _.get(location, 'query.paytype')
@@ -237,7 +240,8 @@ export default class CampPay extends React.Component<any, any> {
             </div>
           </RenderInBody>
         }
-        <OperationShare riseId={location.query.riseId} callback={() => this.showGoods()}/>
+
+        <OperationShare ref='shareComponent' dispatch={this.props.dispatch} riseId={location.query.riseId}/>
 
       </div>
     )
