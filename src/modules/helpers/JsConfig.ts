@@ -28,8 +28,7 @@ export function configShare(title, url, imgUrl, desc, apiList = []){
 
 
 export function pay(config, success, cancel, error) {
-  WeixinJSBridge.invoke(
-    'getBrandWCPayRequest', config,
+  WeixinJSBridge.invoke('getBrandWCPayRequest', config,
     (res) => {
       if(res.err_msg == "get_brand_wcpay_request:ok") {
         if(success && _.isFunction(success)) {
