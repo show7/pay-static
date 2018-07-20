@@ -151,13 +151,13 @@ export default class PayGift extends React.Component<any, any> {
      * 支付成功回调
      */
     handlePayDone(){
+        this.setState({showPayFlay:false,choseFlay:false,showShare:true});
         configShare(
             '学习礼品卡',
             `https://${document.domain}/rise/activity/static/promotion/shareposter?memberTypeId=${this.state.memberTypeId}&riseId=${window.ENV.riseId}`,
             'https://static.iqycamp.com/3451532075605_-w6qw0nsj.pic.jpg',
-            `${window.ENV.userName}送你一张学习礼品卡\n点击领取，免费体验《${memberTypeName}》`,
+            `${window.ENV.userName}送你一张学习礼品卡\n点击领取，免费体验《${this.state.projectName}》`,
         )
-        this.setState({showPayFlay:false,choseFlay:false,showShare:true});
     }
     /**
      * 支付取消回调
