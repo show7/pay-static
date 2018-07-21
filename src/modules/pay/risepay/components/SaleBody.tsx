@@ -289,15 +289,16 @@ export class SaleBody extends React.Component {
           <SequenceDisplay imgList={[
             mergeStyle({
               url: 'https://static.iqycamp.com/images/thought_sale_page_1_0720_1.jpg'
-            }), {
-              dom: <div className="high-light-words" onClick={() => {
-                this.context.router.push({
-                  pathname: '/pay/thought/intro'
-                })
-              }}>
-                <b>点击了解课程详情 >></b>
-              </div>
-            },
+            }),
+            // {
+            //   dom: <div className="high-light-words" onClick={() => {
+            //     this.context.router.push({
+            //       pathname: '/pay/thought/intro'
+            //     })
+            //   }}>
+            //     <b>点击了解课程详情 >></b>
+            //   </div>
+            // },
             {
               dom: <QYVideo fileId='5285890780601189027' videoPoster='http://static.iqycamp.com/images/thought_poster_0720.jpeg?imageslim'/>
             },
