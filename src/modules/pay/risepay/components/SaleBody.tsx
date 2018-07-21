@@ -300,7 +300,7 @@ export class SaleBody extends React.Component {
             //   </div>
             // },
             {
-              dom: <QYVideo fileId='5285890780601189027' videoPoster='http://static.iqycamp.com/images/thought_poster_0720.jpeg?imageslim'/>
+              dom: <QYVideo fileId='5285890780601189027' videoPoster='https://static.iqycamp.com/images/thought_poster_0720.jpeg?imageslim'/>
             },
             mergeStyle({
               url: 'https://static.iqycamp.com/images/thought_sale_page_2_0720_1.jpeg'
