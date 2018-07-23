@@ -6,7 +6,7 @@ import numeral from 'numeral'
 import {loadGoodsInfo, loadPaymentParam, logPay} from '../async'
 import {mark} from "../../../utils/request";
 import _ from 'lodash'
-import { GoodsType, PayType, saTrack } from '../../../utils/helpers'
+import { GoodsType, PayType, saTrack ,refreshForPay} from '../../../utils/helpers'
 import { alertMsg } from "redux/actions";
 import {configShare,pay} from '../../helpers/JsConfig'
 import { connect } from "react-redux";
@@ -31,6 +31,9 @@ export default class PayGift extends React.Component<any, any> {
     }
 
     componentWillMount() {
+        if(refreshForPay()) {
+            return
+        }
         this.loadGoodsInfo();
     }
 
