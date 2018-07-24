@@ -157,7 +157,7 @@ export default class PayGift extends React.Component<any, any> {
         this.setState({showPayFlay:false,choseFlay:false,showShare:true});
         configShare(
             `${window.ENV.userName}送你一张【圈外同学】训练营体验卡`,
-            `https://${document.domain}/rise/activity/static/promotion/shareposter?memberTypeId=${this.state.memberTypeId}&riseId=${window.ENV.riseId}`,
+            `https://${window.location.hostname}/rise/activity/static/promotion/shareposter?memberTypeId=${this.state.memberTypeId}&riseId=${window.ENV.riseId}`,
             'https://static.iqycamp.com/3451532075605_-w6qw0nsj.pic.jpg',
             `点击领取，免费体验《${this.state.projectName}》`,
         )
