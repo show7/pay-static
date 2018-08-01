@@ -145,7 +145,7 @@ export default class PayGift extends React.Component<any, any> {
             (res) => {
                 // 支付失败的回调
                 logPay(functionName, 'error', 'os:' + window.ENV.systemInfo + ',error:' + (_.isObjectLike(res) ? JSON.stringify(res) : res) + ',configUrl:' + window.ENV.configUrl + ',url:' + window.location.href)
-                this.handleClickClose()
+                this.handleClickError()
             }
         )
     }
