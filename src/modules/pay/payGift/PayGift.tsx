@@ -6,7 +6,7 @@ import numeral from 'numeral'
 import {loadGoodsInfo, loadPaymentParam, logPay} from '../async'
 import {mark} from "../../../utils/request";
 import _ from 'lodash'
-import { GoodsType, PayType, saTrack } from '../../../utils/helpers'
+import { GoodsType, PayType, saTrack ,refreshForPay} from '../../../utils/helpers'
 import { alertMsg } from "redux/actions";
 import {configShare,pay} from '../../helpers/JsConfig'
 import { connect } from "react-redux";
@@ -31,6 +31,9 @@ export default class PayGift extends React.Component<any, any> {
     }
 
     componentWillMount() {
+        if(refreshForPay()) {
+            return
+        }
         this.loadGoodsInfo();
     }
 
@@ -165,6 +168,14 @@ export default class PayGift extends React.Component<any, any> {
     handleClickClose(){
         const { dispatch } = this.props
         this.setState({showPayFlay:false,choseFlay:false});
+        dispatch(alertMsg('支付已取消'))
+    }
+    /**
+     * 支付err
+     */
+    handleClickError(){
+        const { dispatch } = this.props
+        this.setState({showPayFlay:false,choseFlay:false});
         dispatch(alertMsg('支付失败'))
     }
     render(){
@@ -175,14 +186,14 @@ export default class PayGift extends React.Component<any, any> {
                     sellImgs && sellImgs.map((item,index)=><img key={index} src={item} alt="售卖页"/>)
                 }
                  {/*------------  购买弹框button  ------------*/}
-                <SubmitButton buttonText="购买体验卡" clickFunc={()=>{this.setState({showPayFlay:true})}}/>
+                <SubmitButton buttonText="购买体验卡" clickFunc={()=>{this.setState({showPayFlay:true}); mark({ module: '打点', function: '专项课赠送', action: '购买专项课赠送', memo: '专项课赠送'})}}/>
                 {showPayFlay && <div className="pay-mask"/>}
                 <div className={`pay-layout ${showPayFlay ? 'active':''}`}>
                     <p className='close'><img onClick={()=>{this.setState({showPayFlay:false,choseFlay:false})}} src="https://static.iqycamp.com/close-2-t6urec58.png" alt="关闭"/></p>
                     <div className="layout-content">
                       <p className="name">{projectName}</p>
                         <div className="unit-content">
-                            <span className="unit-price">¥ {numeral(unitPrice).format('0.00')}</span>
+                            <p>单价：<span className="unit-price">¥ {numeral(unitPrice).format('0.00')}</span></p>
                             <div className="add-num">
                               <span className="num-name">数量</span>
                               <img onClick={()=>{this.handleAddReduce(1)}} src="https://static.iqycamp.com/reduce-dpacxarb.png" alt="减"/>

@@ -1,4 +1,4 @@
-import { pget, ppost } from "utils/request";
+import { pget, ppost } from 'utils/request'
 
 export function signupCamp() {
   return pget('/signup/current/camp/month')
@@ -21,5 +21,21 @@ export function getLeaderInfo(groupCode) {
 }
 
 export function getCampPageInfo() {
-  return pget('/signup/guest/camp/sell/info');
+  return pget('/signup/guest/camp/sell/info')
+}
+
+/**
+ * 获取投资项目优惠券领取状态
+ * @param riseId 分享链接的 riseId
+ */
+export function loadShareOperationStatus(riseId) {
+  return pget('/rise/operation/share/status', { riseId: riseId })
+}
+
+/**
+ * 领取投资项目优惠券
+ * @param riseId 分享链接的 riseId
+ */
+export function receiveShareCoupon(riseId) {
+  return ppost('/rise/operation/share/receive/coupon?riseId=' + riseId)
 }

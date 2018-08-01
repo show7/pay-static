@@ -117,5 +117,19 @@ export function saTrack(event, param) {
   }
 }
 
+/**
+ * 生成随机字符串
+ */
+export function randomStr (len) {
+  len = len || 32
+  let $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
+  let maxPos = $chars.length
+  let pwd = ''
+  for (let i = 0; i < len; i++) {
+    pwd = pwd + $chars.charAt(Math.floor(Math.random() * maxPos))
+  }
+  return pwd
+}
+
 
 
