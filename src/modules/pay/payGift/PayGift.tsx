@@ -154,16 +154,16 @@ export default class PayGift extends React.Component<any, any> {
      * 支付成功回调
      */
     handlePayDone(){
-        this.setState({showPayFlay:false,choseFlay:false,showShare:true});
         configShare(
-            `${window.ENV.userName}送你一张【圈外同学】训练营体验卡`,
+            `「圈外同学」${window.ENV.userName}邀请你免费入学${this.state.projectName}`,
             `https://${window.location.hostname}/rise/activity/static/promotion/shareposter?memberTypeId=${this.state.memberTypeId}&riseId=${window.ENV.riseId}`,
             'https://static.iqycamp.com/3451532075605_-w6qw0nsj.pic.jpg',
-            `点击领取，免费体验《${this.state.projectName}》`,
+            `点击加入，14天带你${this.state.memberTypeId == 5 ? '读透瑞·达利欧《原则》':'完成1份行业分析报告'}`,
         )
+        this.setState({showPayFlay:false,choseFlay:false,showShare:true});
     }
     /**
-     * 支付取消回调
+     * 支付关闭回调
      */
     handleClickClose(){
         const { dispatch } = this.props
