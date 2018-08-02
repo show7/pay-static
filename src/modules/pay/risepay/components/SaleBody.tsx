@@ -288,10 +288,10 @@ export class SaleBody extends React.Component {
              id="business-school-intro-pic-container">
           <SequenceDisplay imgList={[
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/thought_sale_page_1_0731_1.jpg'
+              url: 'https://static.iqycamp.com/images/thought_sale_page_1_0802_1.jpg'
             }),
             // {
-            //   dom: <div className="high-light-words" onClick={() => {
+            //   dom: <div className="hig1h-light-words" onClick={() => {
             //     this.context.router.push({
             //       pathname: '/pay/thought/intro'
             //     })
@@ -306,7 +306,7 @@ export class SaleBody extends React.Component {
               url: 'https://static.iqycamp.com/images/thought_sale_page_2_0723_1.jpg'
             }),
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/thought_sale_page_3_0723_1.jpg'
+              url: 'https://static.iqycamp.com/images/thought_sale_page_3_0802_1.jpeg'
             }), {
               dom: <div className="protocol-container thought">
                 <div>本课程全部内容版权归圈外同学所有，严禁翻录成任何形式或在第三方平台传播，违者将追究法律责任。</div>
