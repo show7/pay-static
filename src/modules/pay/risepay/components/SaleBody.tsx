@@ -306,7 +306,7 @@ export class SaleBody extends React.Component {
               url: 'https://static.iqycamp.com/images/thought_sale_page_2_0723_1.jpg'
             }),
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/thought_sale_page_3_0723_1.jpg'
+              url: 'https://static.iqycamp.com/images/thought_sale_page_3_0802_1.jpeg'
             }), {
               dom: <div className="protocol-container thought">
                 <div>本课程全部内容版权归圈外同学所有，严禁翻录成任何形式或在第三方平台传播，违者将追究法律责任。</div>
