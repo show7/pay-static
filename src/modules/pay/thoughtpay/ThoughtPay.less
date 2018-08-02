@@ -58,8 +58,7 @@
     }
   }
 }*/
-
-@import "../../../style/variable";
+@import "../../../style/variable.less";
 /*投资分享样式*/
 .share-mask-box {
   position: fixed;
@@ -69,8 +68,8 @@
   bottom: 0;
   top: 0;
   z-index: 56;
-  background:rgba(0,0,0,0.4354);
-  .share-content{
+  background: rgba(0, 0, 0, 0.4354);
+  .share-content {
     width: 78.9%;
     margin: 0 auto;
     left: 0;
@@ -81,8 +80,8 @@
     background-color: @color_white;
     box-sizing: border-box;
     border-radius: 1.6rem;
-    .share-content-top{
-      background-image: url("https://static.iqycamp.com/1111533183269_-g475rgqw.pic.jpg");
+    .share-content-top {
+      background-image: url("https://static.iqycamp.com/1111533183269_-g475rgqw.pic.jpg?imageslim");
       background-repeat: no-repeat;
       background-size: 100% 100%;
       height: 11.7rem;
@@ -90,61 +89,61 @@
       align-items: center;
       padding: 2.4rem;
       box-sizing: border-box;
-      border-top-left-radius:1.6rem ;
-      border-top-right-radius:1.6rem ;
-      >p{
-        font-size:1.5rem;
+      border-top-left-radius: 1.6rem;
+      border-top-right-radius: 1.6rem;
+      > p {
+        font-size: 1.5rem;
         color: @color_white;
         width: 100%;
         text-align: center;
-        >span{
+        > span {
           font-size: 2.2rem;
           height: 1.17rem;
         }
       }
 
     }
-    .share-content-bottom{
+    .share-content-bottom {
       background-color: @color_white;
       padding: 2.2rem 0 0 2rem;
       box-sizing: border-box;
-      >div{
+      > div {
         display: flex;
         flex-direction: row;
         margin-bottom: 2.5rem;
         box-sizing: border-box;
-        >p.desc{
-          font-size:1.5rem;
+        > p.desc {
+          font-size: 1.5rem;
           color: #000;
           display: inline-block;
           vertical-align: baseline;
           flex: 10;
         }
-        >span{
+        > span {
           display: inline-block;
           width: 1.7rem;
           height: 1.7rem;
           border-radius: 50%;
-          background-color:@color-green ;
+          background-color: @color-green;
           color: @color_white;
           line-height: 1.7rem;
           text-align: center;
           margin-right: 0.4rem;
-         position: relative;
+          position: relative;
           top: 0.2rem;
         }
-        &.button-bottom{
+        &.button-bottom {
           padding-right: 2rem;
           box-sizing: border-box;
-          >p{
+          > p {
             width: 84%;
             height: 4.4rem;
             line-height: 4.4rem;
             text-align: center;
             color: @color_white;
-            background:linear-gradient(-90deg,rgba(165,230,40,1),rgba(125,190,0,1));
+            background: linear-gradient(-90deg, rgba(165, 230, 40, 1), rgba(125, 190, 0, 1));
             border-radius: 2.2rem;
-            font-size:1.7rem;
+            font-size: 1.7rem;
             margin-left: auto;
             margin-right: auto;
           }
@@ -153,13 +152,14 @@
     }
   }
 }
-.type-share{
+
+.type-share {
   position: fixed;
   width: 65.8%;
   height: 7rem;
   top: 2rem;
   right: 1rem;
-  >img{
+  > img {
     width: 100%;
   }
 }
