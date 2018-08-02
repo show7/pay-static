@@ -3,13 +3,13 @@ import { connect } from 'react-redux'
 import './ThoughtPay.less'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { getGoodsType, PayType, refreshForPay, sa } from '../../../utils/helpers'
-import { checkRiseMember, getRiseMember, loadInvitation } from '../async'
+import {checkRiseMember, getRiseMember, loadInvitation, loadTask} from '../async'
 import { SaleBody } from '../risepay/components/SaleBody'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 import InvitationLayout from '../components/invitationLayout/InvitationLayout'
 import * as _ from 'lodash'
 import PayInfo from '../components/PayInfo'
-import { config } from '../../helpers/JsConfig'
+import {config, configShare} from '../../helpers/JsConfig'
 import { mark } from 'utils/request'
 import { SubscribeAlert } from '../risepay/components/SubscribeAlert'
 
@@ -31,7 +31,9 @@ export default class ThoughtPay extends Component<any, any> {
       },
       invitationLayout: false, // 弹框标识
       invitationData: {}, //分享的优惠券数据
-      riseId: ''        //分享来源
+      riseId: '' ,       //分享来源
+      showShare:false ,  //不分享
+        type:0
     }
   }
 
@@ -81,14 +83,39 @@ export default class ThoughtPay extends Component<any, any> {
         mark({ module: '打点', function: '进阶课程', action: '购买进阶课程会员', memo: '申请页面', promotionRiseId: riseId })
       }
     }
+      const { type=0 ,taskId = 3} = this.props.location.query
+      if (type == 1) {
+          this.setState({showShare: true});
+          this.loadTask(taskId);
+      }
   }
 
+    /*获取值贡献*/
+    loadTask(type){
+        loadTask(type).then((res)=>{
+            if (res.code ==200){
+                this.setState({task:res.msg})
+            }
+        })
+    }
+    /*投资圈外分享好友*/
+    getsShowShare(){
+      configShare(
+          `【圈外同学】哈佛案例教学，顶尖MBA名师授课`,
+          `https://${window.location.hostname}/pay/thought?riseId=${window.ENV.riseId}&type=2`,
+          `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
+          `${window.ENV.userName}邀请你成为同学，领取${this.state.task.shareAmount}元【圈外同学】L3项目入学优惠券`
+      )
+       this.setState({showShare: false,type:1})
+    }
+
   redirect() {
+      const {type} = this.props.location.query
+      let param = {goodsId: 9}
+      if (type == 2){ Object.assign(param,{type:type})}
     this.context.router.push({
       pathname: '/pay/bsstart',
-      query: {
-        goodsId: 9
-      }
+      query: param
     })
   }
 
@@ -130,9 +157,9 @@ export default class ThoughtPay extends Component<any, any> {
     this.reConfig()
     const { dispatch } = this.props
     dispatch(startLoad())
-
+    const { riseId = '',type = 0 } = this.props.location.query
     // 先检查是否能够支付
-    checkRiseMember(showId).then(res => {
+    checkRiseMember(showId,riseId,type).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         const { qrCode, privilege, errorMsg } = res.msg
@@ -161,8 +188,9 @@ export default class ThoughtPay extends Component<any, any> {
   render() {
     let payType = _.get(location, 'query.paytype')
 
-    const { subscribeAlertTips, privilege, quanwaiGoods, buttonStr, auditionStr, tip, showId, timeOut, showErr, showCodeErr, subscribe, invitationLayout, invitationData } = this.state
-    const renderButtons = () => {
+    const { subscribeAlertTips, privilege, quanwaiGoods, buttonStr, auditionStr, tip, showId, timeOut, showErr, showCodeErr, subscribe, invitationLayout, invitationData,showShare,type,task={} } = this.state
+      const {shareAmount,shareContribution,finishContribution } = task
+      const renderButtons = () => {
       if(typeof(privilege) === 'undefined') {
         return null
       }
@@ -241,6 +269,28 @@ export default class ThoughtPay extends Component<any, any> {
                           projectName={invitationData.memberTypeName}
                           callBack={() => {this.setState({ invitationLayout: false })}}/>
         }
+
+          {
+              showShare &&
+              <div className="share-mask-box">
+                  <dev className="share-content">
+                      <div className="share-content-top">
+                          <p>可赠送好友 <br/><span>{shareAmount}元</span><br/> L3项目入学优惠券 </p>
+                      </div>
+                      <div className="share-content-bottom">
+                          <div><span>1</span><p className='desc'>好友成功入学，你将获得{shareContribution}贡献值</p></div>
+                          <div><span>2</span><p className='desc'>好友在开学1个月内按进度学习并完课，你将获得{finishContribution}贡献值</p></div>
+                          <div className="button-bottom" onClick={()=>{this.getsShowShare()}}><p >立即邀请</p></div>
+                      </div>
+                  </dev>
+              </div>
+          }
+          {
+              type == 1 &&
+              <div className="type-share">
+                  <img src="https://static.iqycamp.com/1091533182527_-sc42kog6.pic.jpg" alt="分享图片"/>
+              </div>
+          }
       </div>
     )
   }

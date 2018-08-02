@@ -5,9 +5,9 @@ import { connect } from 'react-redux'
 import { mark } from 'utils/request'
 import { PayType, sa, refreshForPay, saTrack } from 'utils/helpers'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
-import { config } from 'modules/helpers/JsConfig'
+import { config,configShare } from 'modules/helpers/JsConfig'
 import PayInfo from '../components/PayInfo'
-import { checkRiseMember, getRiseMember, loadInvitation } from '../async'
+import { checkRiseMember, getRiseMember, loadInvitation,loadTask } from '../async'
 import { SaleBody } from './components/SaleBody'
 import { MarkBlock } from '../components/markblock/MarkBlock'
 import { SubscribeAlert } from './components/SubscribeAlert'
@@ -31,6 +31,8 @@ export default class PayL1 extends React.Component<any, any> {
       subscribe: false,
       data: {},
       invitationLayout: false, // 弹框标识
+      showShare:false,
+        type:0,
     }
   }
 
@@ -84,6 +86,30 @@ export default class PayL1 extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(err))
     })
+
+      const { type=0 ,taskId =1} = this.props.location.query;
+      if (type == 1) {
+          this.setState({showShare: true});
+          this.loadTask(taskId)
+      }
+  }
+    /*获取值贡献*/
+    loadTask(type){
+        loadTask(type).then((res)=>{
+          if (res.code ==200){
+             this.setState({task:res.msg})
+          }
+        })
+    }
+    /*投资圈外分享好友*/
+  getsShowShare(){
+          configShare(
+              `【圈外同学】4个月时间体系化提升，成为职场超强个体`,
+              `https://${window.location.hostname}/pay/l1?riseId=${window.ENV.riseId}&type=2`,
+              `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
+              `${window.ENV.userName}邀请你成为同学，领取${this.state.task.shareAmount}元【圈外同学】L1项目入学优惠券`
+          )
+      this.setState({showShare:false,type:1})
   }
 
   componentDidMount () {
@@ -136,11 +162,12 @@ export default class PayL1 extends React.Component<any, any> {
       dispatch(alertMsg(errorMsg))
       return
     }
-    const { riseId = '' } = this.props.location.query
-    this.reConfig()
+    const { riseId = '',type = 0 } = this.props.location.query
+
+      this.reConfig()
     dispatch(startLoad())
     // 先检查是否能够支付
-    checkRiseMember(goodsId, riseId).then(res => {
+    checkRiseMember(goodsId, riseId,type).then(res => {
       dispatch(endLoad())
       if (res.code === 200) {
         const { qrCode, privilege, errorMsg, subscribe } = res.msg
@@ -177,8 +204,9 @@ export default class PayL1 extends React.Component<any, any> {
   }
 
   render () {
-    const { data, showErr, showCodeErr, subscribe, goodsId, invitationLayout, showQr, qrCode, invitationData } = this.state
-    const { privilege, quanwaiGoods = {}, tip } = data
+    const { data, showErr, showCodeErr, subscribe, goodsId, invitationLayout, showQr, qrCode, invitationData,showShare,type,task={} } = this.state
+    const { privilege, quanwaiGoods = {}, tip } = data;
+    const {shareAmount,shareContribution,finishContribution } = task
     const { location } = this.props
     let payType = _.get(location, 'query.paytype')
 
@@ -268,6 +296,29 @@ export default class PayL1 extends React.Component<any, any> {
             </div>
           </div>
         </RenderInBody> : null}
+          {
+              showShare &&
+              <div className="share-mask-box">
+                  <dev className="share-content">
+                    <div className="share-content-top">
+                       <p>可赠送好友 <br/><span>{shareAmount}元</span><br/> L1项目入学优惠券 </p>
+                    </div>
+                    <div className="share-content-bottom">
+                      <div><span>1</span><p className='desc'>好友成功入学，你将获得{shareContribution}贡献值</p></div>
+                      <div><span>2</span><p className='desc'>好友在开学1个月内按进度学习并完课，你将获得{finishContribution}贡献值</p></div>
+                      <div className="button-bottom" onClick={()=>{this.getsShowShare()}}><p >立即邀请</p></div>
+                    </div>
+                  </dev>
+              </div>
+          }
+          {
+              type == 1 &&
+              <div className="type-share">
+                  <img src="https://static.iqycamp.com/1091533182527_-sc42kog6.pic.jpg" alt="分享图片"/>
+              </div>
+          }
+
+
       </div>
     )
   }

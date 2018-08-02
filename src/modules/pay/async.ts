@@ -35,8 +35,13 @@ export function getRiseMember(riseMember) {
   return pget(`/signup/rise/member/${riseMember}`)
 }
 
-export function checkRiseMember(riseMember, riseId) {
-  return pget(`/signup/rise/member/check/${riseMember}?riseId=${riseId}`)
+export function checkRiseMember(riseMember, riseId,type) {
+  if (type == 2){
+      return pget(`/signup/rise/member/check/${riseMember}?riseId=${riseId}&type=${type}`)
+  } else {
+      return pget(`/signup/rise/member/check/${riseMember}?riseId=${riseId}`)
+  }
+
 }
 
 export function entryRiseMember(riseMember) {
@@ -67,4 +72,8 @@ export function loadWannaMember(goodsId) {
  */
 export function loadInvitation(param) {
     return ppost('/rise/share/receive/coupons', param);
+ }
+ /*得到贡献值*/
+ export function loadTask(type) {
+     return pget(`/rise/contribution/load/task/contribution?taskId=${type}`)
  }
