@@ -111,6 +111,7 @@ export default class PayL1 extends React.Component<any, any> {
             `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
             `${window.ENV.userName}邀请你成为同学，领取${this.state.task.shareAmount}元【圈外同学】L1项目入学优惠券`
         )
+        mark({module: '打点', function: '关闭弹框l1', action: '点击关闭弹框'})
         this.setState({showShare: false, type: 1})
     }
 
