@@ -254,13 +254,13 @@ export class SaleBody extends React.Component {
              id="business-school-intro-pic-container">
           <SequenceDisplay imgList={[
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/pay_l1_part1_0803_1.jpeg'
+              url: 'https://static.iqycamp.com/images/pay_l1_part1_0804_1.jpg'
             }),
             // {
             //   dom: <CustomerEvaluate/>
             // },
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/pay_l1_part2_0803_1.jpeg'
+              url: 'https://static.iqycamp.com/images/pay_l1_part2_0804_1.jpg'
             }), {
               dom: <div className="protocol-container l1">
                 <span className="click_text">点击查看</span>
