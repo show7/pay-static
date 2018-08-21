@@ -214,7 +214,7 @@ export class SaleBody extends React.Component {
             </div>
           }
           {showModel && showUserProtocol()}
-          {renderKefu()}
+          {/*{renderKefu()}*/}
         </div>
       )
     } else if(memberTypeId == '14') {
@@ -279,7 +279,7 @@ export class SaleBody extends React.Component {
             </div>
           }
           {showModel && showUserProtocol()}
-          {renderKefu()}
+         {/* {renderKefu()}*/}
         </div>
       )
     } else {
@@ -330,7 +330,7 @@ export class SaleBody extends React.Component {
             </div>
           }
           {showModel && showUserProtocol()}
-          {renderKefu()}
+        {/*  {renderKefu()}*/}
         </div>
       )
     }
