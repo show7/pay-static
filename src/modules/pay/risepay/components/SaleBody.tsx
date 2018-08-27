@@ -306,7 +306,7 @@ export class SaleBody extends React.Component {
               url: 'https://static.iqycamp.com/images/thought_sale_page_2_0821_4.png'
             }),
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/thought_sale_page_3_0821_4.jpg'
+              url: 'https://static.iqycamp.com/images/thought_sale_page_3_0827_4.jpg'
             }),
             mergeStyle({
               url: 'https://static.iqycamp.com/images/thought_sale_page_4_0821_4.jpg'
