@@ -13,6 +13,7 @@ import { checkRiseMember, getRiseMember, loadInvitation } from '../async'
 
 import './CampPay.less'
 import OperationShare from './components/operationShare/OperationShare'
+import { FooterButton } from '../../../components/submitbutton/FooterButton'
 
 @connect(state => state)
 export default class CampPay extends React.Component<any, any> {
@@ -166,16 +167,16 @@ export default class CampPay extends React.Component<any, any> {
     const renderPay = () => {
       if(!quanwaiGoods.id) return null
       return (
-        <div className="button-footer">
-          <MarkBlock module={'打点'}
-                     func={quanwaiGoods.id}
-                     action={'点击入学按钮'}
-                     memo={privilege}
-                     className="footer-btn"
-                     onClick={() => this.handleClickOpenPayInfo(quanwaiGoods.id)}>
-            立即入学
-          </MarkBlock>
-        </div>
+        <FooterButton third={true} btnArray={[
+          {
+            click: () => this.handleClickOpenPayInfo(quanwaiGoods.id),
+            text: '立即入学',
+            module: '打点',
+            func: quanwaiGoods.id,
+            action: '点击入学按钮',
+            memo: privilege
+          }
+        ]}/>
       )
     }
 

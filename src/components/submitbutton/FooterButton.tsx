@@ -34,14 +34,15 @@ export class FooterButton extends React.Component<SubmitButtonProps, SubmitButto
   }
 
   render() {
-    const { btnArray = [], primary = false, second = false } = this.props
+    const { btnArray = [], primary = false, second = false, third = false } = this.props
     if(btnArray.length === 1) {
 
       const { text } = btnArray[ 0 ];
       return (
         <div className={classnames('ft-button-wrapper', 'button-footer-component', {
           'primary': primary,
-          'second': second
+          'second': second,
+          'third': third
         })}>
           <div className="submit-btn" onClick={() => this.buttonClick(btnArray[ 0 ])}>{text}</div>
         </div>
@@ -51,7 +52,8 @@ export class FooterButton extends React.Component<SubmitButtonProps, SubmitButto
       return (
         <div className={classnames('ft-button-wrapper', 'button-footer-component', 'two-buttons', {
           'primary': primary,
-          'second': second
+          'second': second,
+          'third': third
         })}>
           {btnArray.map((btn, idx) => {
             const { text } = btn;

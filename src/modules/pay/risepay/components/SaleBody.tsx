@@ -223,11 +223,9 @@ export class SaleBody extends React.Component {
              id="business-school-intro-pic-container">
           <SequenceDisplay imgList={[
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/camp_14_2_0718_1.jpg'
+              url: 'https://static.iqycamp.com/ziwoguanli-6vnxt32l.jpg'
             }),
-            mergeStyle({
-              url: 'https://static.iqycamp.com/images/camp_14_1_07178_1.jpg'
-            }), {
+            {
               dom: <div className="protocol-container l1">
                 <span className="click_text">点击查看</span>
                 <a className="protocol" onClick={() => this.clickUserProtocol()}>【商学院用户协议】</a>
@@ -245,7 +243,6 @@ export class SaleBody extends React.Component {
             </div>
           }
           {showModel && showUserProtocol()}
-          {renderKefu()}
         </div>
       )
     } else if(memberTypeId == '12') {
