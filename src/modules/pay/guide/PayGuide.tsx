@@ -1,8 +1,8 @@
 import * as React from 'react'
+import CouponAlert from './components/CouponAlert/CouponAlert'
 import AssetImg from '../../../components/AssetImg'
 import { mark } from '../../../utils/request'
 import { loadPersonalCoupons } from '../async'
-import CouponAlert from './components/CouponAlert/CouponAlert'
 
 import './PayGuide.less'
 
@@ -23,10 +23,12 @@ export default class PayGuide extends React.Component {
   async componentDidMount () {
     mark({ module: '打点', function: '售卖介绍页', action: '进入页面' })
     let couponsRes = await loadPersonalCoupons()
-    this.setState({
-      showCouponAlert: true,
-      totalAmount: couponsRes.msg.total,
-    })
+    if (couponsRes && couponsRes.code === 200 && parseInt(couponsRes.msg.total) > 0) {
+      this.setState({
+        showCouponAlert: true,
+        totalAmount: couponsRes.msg.total,
+      })
+    }
   }
 
   handleClickGoL1 () {
