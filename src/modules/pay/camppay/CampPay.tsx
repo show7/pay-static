@@ -6,14 +6,12 @@ import { mark } from 'utils/request'
 import { PayType, sa, refreshForPay, saTrack } from 'utils/helpers'
 import { configShare } from '../../helpers/JsConfig'
 import PayInfo from '../components/PayInfo'
-import { MarkBlock } from '../components/markblock/MarkBlock'
 import RenderInBody from '../../../components/RenderInBody'
 import { SaleBody } from '../risepay/components/SaleBody'
 import { config } from 'modules/helpers/JsConfig'
 import { checkRiseMember, getRiseMember, loadInvitation, loadTask } from '../async'
 
 import './CampPay.less'
-import OperationShare from './components/operationShare/OperationShare'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 
 @connect(state => state)
@@ -44,7 +42,6 @@ export default class CampPay extends React.Component<any, any> {
     if(refreshForPay()) {
       return
     }
-
 
     const {type = 0,taskId = 0} = this.props.location.query;
 
@@ -100,6 +97,12 @@ export default class CampPay extends React.Component<any, any> {
       this.loadTask(taskId)
     }
 
+    configShare(
+      `【圈外同学】30天掌握提升工作效率三大利器`,
+      `https://${window.location.hostname}/pay/camp?riseId=${window.ENV.riseId}&type=2`,
+      `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
+      `${window.ENV.userName}邀请你成为同学，享受限时优惠`
+    )
 
   }
 
@@ -204,12 +207,6 @@ export default class CampPay extends React.Component<any, any> {
 
   /*投资圈外分享好友*/
   getsShowShare() {
-    configShare(
-      `【圈外同学】30天掌握提升工作效率三大利器`,
-      `https://${window.location.hostname}/pay/camp?riseId=${window.ENV.riseId}&type=2`,
-      `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
-      `${window.ENV.userName}邀请你成为同学，享受限时优惠`
-    )
     mark({module: '打点', function: '关闭专项课弹窗', action: '点击关闭弹框'})
     this.setState({showShare: false, type: 1})
   }
