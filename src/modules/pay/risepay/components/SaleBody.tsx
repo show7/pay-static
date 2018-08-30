@@ -189,7 +189,7 @@ export class SaleBody extends React.Component {
              id="business-school-intro-pic-container">
           <SequenceDisplay imgList={[
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/pay_l2_part2_0823_1.jpg'
+              url: 'https://static.iqycamp.com/images/pay_l2_part2_0830_1.jpg'
             }),
             // {
             //   dom: <CustomerEvaluate/>
