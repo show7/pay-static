@@ -11,6 +11,7 @@ import PreacherPage from 'modules/pay/preacher/PreacherPage'
 import ApplySuccess from 'modules/pay/risepay/ApplySuccess'
 import MemberPaySuccess from 'modules/pay/paysuccess/MemberPaySuccess'
 import BusinessApplySubmitSuccess from './modules/pay/bsapply/BusinessApplySubmitSuccess'
+import PayGuide from './modules/pay/guide/PayGuide'
 import Subscribe from './modules/subscribe/Subscribe'
 import RiseAlipay from './modules/pay/risepay/RiseAlipay'
 import AlipayReturn from './modules/pay/risepay/AlipayReturn'
@@ -59,6 +60,7 @@ const routes = (
       <Route path="pay/thought/intro" component={ProjectIntro}/>
       <Route path="pay/l1" component={PayL1}/>
       <Route path="pay/gift" component={payGift}/>
+      <Route path="pay/guide" component={PayGuide}/>
     </Route>
     <Route path="*" component={PageNotFound}></Route>
   </Route>

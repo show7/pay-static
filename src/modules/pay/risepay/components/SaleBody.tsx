@@ -189,13 +189,13 @@ export class SaleBody extends React.Component {
              id="business-school-intro-pic-container">
           <SequenceDisplay imgList={[
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/pay_rise_part1_0731_1.jpg'
+              url: 'https://static.iqycamp.com/images/pay_l2_part2_0830_1.jpg'
             }),
             // {
             //   dom: <CustomerEvaluate/>
             // },
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/pay_rise_part2_0708_1.jpg'
+              url: 'https://static.iqycamp.com/images/pay_l2_part1_0821_3.jpg'
             }), {
               dom: <div className="protocol-container l2">
                 <span className="click_text">点击查看</span>
@@ -214,7 +214,7 @@ export class SaleBody extends React.Component {
             </div>
           }
           {showModel && showUserProtocol()}
-          {renderKefu()}
+          {/*{renderKefu()}*/}
         </div>
       )
     } else if(memberTypeId == '14') {
@@ -223,11 +223,9 @@ export class SaleBody extends React.Component {
              id="business-school-intro-pic-container">
           <SequenceDisplay imgList={[
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/camp_14_2_0718_1.jpg'
+              url: 'https://static.iqycamp.com/guanli-dc6kpud7.jpg'
             }),
-            mergeStyle({
-              url: 'https://static.iqycamp.com/images/camp_14_1_07178_1.jpg'
-            }), {
+            {
               dom: <div className="protocol-container l1">
                 <span className="click_text">点击查看</span>
                 <a className="protocol" onClick={() => this.clickUserProtocol()}>【商学院用户协议】</a>
@@ -245,7 +243,6 @@ export class SaleBody extends React.Component {
             </div>
           }
           {showModel && showUserProtocol()}
-          {renderKefu()}
         </div>
       )
     } else if(memberTypeId == '12') {
@@ -254,13 +251,13 @@ export class SaleBody extends React.Component {
              id="business-school-intro-pic-container">
           <SequenceDisplay imgList={[
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/pay_l1_part1_0711_1.jpg'
+              url: 'https://static.iqycamp.com/images/pay_l1_part1_0821_1.jpg'
             }),
             // {
             //   dom: <CustomerEvaluate/>
             // },
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/pay_l1_part2_0711_2.jpg'
+              url: 'https://static.iqycamp.com/images/pay_l1_part2_0821_1.jpg'
             }), {
               dom: <div className="protocol-container l1">
                 <span className="click_text">点击查看</span>
@@ -279,7 +276,7 @@ export class SaleBody extends React.Component {
             </div>
           }
           {showModel && showUserProtocol()}
-          {renderKefu()}
+         {/* {renderKefu()}*/}
         </div>
       )
     } else {
@@ -288,10 +285,10 @@ export class SaleBody extends React.Component {
              id="business-school-intro-pic-container">
           <SequenceDisplay imgList={[
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/thought_sale_page_1_0723_1.jpg'
+              url: 'https://static.iqycamp.com/images/thought_sale_page_1_0821_5.jpg'
             }),
             // {
-            //   dom: <div className="high-light-words" onClick={() => {
+            //   dom: <div className="hig1h-light-words" onClick={() => {
             //     this.context.router.push({
             //       pathname: '/pay/thought/intro'
             //     })
@@ -303,10 +300,13 @@ export class SaleBody extends React.Component {
               dom: <QYVideo fileId='5285890780601189027' videoPoster='https://static.iqycamp.com/images/thought_poster_0723.jpeg?imageslim'/>
             },
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/thought_sale_page_2_0723_1.jpg'
+              url: 'https://static.iqycamp.com/images/thought_sale_page_2_0821_4.png'
             }),
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/thought_sale_page_3_0723_1.jpg'
+              url: 'https://static.iqycamp.com/images/thought_sale_page_3_0827_4.jpg'
+            }),
+            mergeStyle({
+              url: 'https://static.iqycamp.com/images/thought_sale_page_4_0821_4.jpg'
             }), {
               dom: <div className="protocol-container thought">
                 <div>本课程全部内容版权归圈外同学所有，严禁翻录成任何形式或在第三方平台传播，违者将追究法律责任。</div>
@@ -327,7 +327,7 @@ export class SaleBody extends React.Component {
             </div>
           }
           {showModel && showUserProtocol()}
-          {renderKefu()}
+        {/*  {renderKefu()}*/}
         </div>
       )
     }
