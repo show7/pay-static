@@ -94,7 +94,7 @@ export default class RisePay extends React.Component<any, any> {
   componentDidMount() {
     configShare(
       `圈外商学院--你负责努力，我们负责帮你赢`,
-      `https://${window.location.hostname}/pay/static/rise`,
+      `https://${window.location.hostname}/pay/rise`,
       'https://static.iqycamp.com/images/rise_share.jpg?imageslim',
       '最实用的竞争力提升课程，搭建最优质的人脉圈，解决最困扰的职场难题'
     )
