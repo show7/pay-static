@@ -194,7 +194,16 @@ export default class RisePay extends React.Component<any, any> {
 
     redirect() {
         saTrack('clickApplyButton')
-
+        const {
+          privilege,errorMsg
+        } = this.state.data;
+        const {
+          dispatch
+        } = this.props;
+        if(!privilege && errorMsg){
+          dispatch(alertMsg(errorMsg));
+          return;
+        }
         this.context.router.push({
             pathname: '/pay/bsstart',
             query: {
