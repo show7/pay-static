@@ -154,7 +154,7 @@ export default class RisePay extends React.Component<any, any> {
   handleClickOpenPayInfo(goodsId) {
     // this.reConfig()
     const { dispatch } = this.props
-    dispatch(alertMsg('添加班主任（微信ID：iquanwai-iqw），回复“L2”，预约名额'))
+    dispatch(alertMsg(`添加班主任（微信ID：iquanwai-iqw）\n回复“L2”，预约名额`))
     // const { riseId = '', type = 0 } = this.props.location.query
     // dispatch(startLoad())
     // // 先检查是否能够支付
