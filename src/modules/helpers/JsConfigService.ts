@@ -195,6 +195,8 @@ class JsConfigService {
   }
 
   public configShare(title, url, imgUrl, desc, apiList = []) {
+    console.log(url,'url')
+      console.log(window.location.href,'window.location.href')
     pget(`/wx/js/signature?url=${encodeURIComponent(window.location.href)}`).then(res => {
       if(res.code === 200) {
         wx.config(_.merge({

@@ -88,9 +88,9 @@ export default class PayL1 extends React.Component<any, any> {
         })
 
         const {type = 0, taskId = 1} = this.props.location.query;
+        this.loadTask(taskId)
         if (type == 1) {
             this.setState({showShare: true});
-            this.loadTask(taskId)
         }
     }
 
@@ -116,6 +116,12 @@ export default class PayL1 extends React.Component<any, any> {
     }
 
     componentDidMount() {
+        configShare(
+            `【圈外同学】4个月时间体系化提升，成为职场超强个体`,
+            `https://${window.location.hostname}/pay/l1?riseId=${window.ENV.riseId}&type=2`,
+            `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
+            `${window.ENV.userName}邀请你成为同学，领取100元【圈外同学】L1项目入学优惠券`
+        )
         // TODO 设置分享
         // configShare(
         //   `圈外商学院--你负责努力，我们负责帮你赢`,
