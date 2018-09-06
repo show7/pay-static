@@ -15,8 +15,6 @@ import {SubscribeAlert} from './components/SubscribeAlert'
 import InvitationLayout from '../components/invitationLayout/InvitationLayout'
 import RenderInBody from '../../../components/RenderInBody'
 
-import VConsole from 'vconsole/dist/vconsole.min.js'
-
 @connect(state => state)
 export default class PayL1 extends React.Component<any, any> {
 
@@ -101,7 +99,6 @@ export default class PayL1 extends React.Component<any, any> {
         loadTask(type).then((res) => {
             if (res.code == 200) {
                 this.setState({task: res.msg},()=>{
-                    let vConsole = new VConsole()
                     configShare(
                         `【圈外同学】4个月时间体系化提升，成为职场超强个体`,
                         `https://${window.location.hostname}/pay/l1?riseId=${window.ENV.riseId}&type=2`,
