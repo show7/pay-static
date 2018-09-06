@@ -15,6 +15,8 @@ import {SubscribeAlert} from './components/SubscribeAlert'
 import InvitationLayout from '../components/invitationLayout/InvitationLayout'
 import RenderInBody from '../../../components/RenderInBody'
 
+import VConsole from 'vconsole/dist/vconsole.min.js'
+
 @connect(state => state)
 export default class PayL1 extends React.Component<any, any> {
 
@@ -98,7 +100,15 @@ export default class PayL1 extends React.Component<any, any> {
     loadTask(type) {
         loadTask(type).then((res) => {
             if (res.code == 200) {
-                this.setState({task: res.msg})
+                this.setState({task: res.msg},()=>{
+                    let vConsole = new VConsole()
+                    configShare(
+                        `【圈外同学】4个月时间体系化提升，成为职场超强个体`,
+                        `https://${window.location.hostname}/pay/l1?riseId=${window.ENV.riseId}&type=2`,
+                        `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
+                        `${window.ENV.userName}邀请你成为同学，领取${res.msg.shareAmount}元【圈外同学】L1项目入学优惠券`
+                    )
+                })
             }
         })
     }
@@ -116,12 +126,7 @@ export default class PayL1 extends React.Component<any, any> {
     }
 
     componentDidMount() {
-        configShare(
-            `【圈外同学】4个月时间体系化提升，成为职场超强个体`,
-            `https://${window.location.hostname}/pay/l1?riseId=${window.ENV.riseId}&type=2`,
-            `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
-            `${window.ENV.userName}邀请你成为同学，领取100元【圈外同学】L1项目入学优惠券`
-        )
+
         // TODO 设置分享
         // configShare(
         //   `圈外商学院--你负责努力，我们负责帮你赢`,

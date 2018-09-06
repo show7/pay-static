@@ -82,9 +82,9 @@ export default class RisePay extends React.Component<any, any> {
       dispatch(alertMsg(err))
     })
     const { type = 0, taskId = 2 } = this.props.location.query;
+    this.loadTask(taskId)
     if(type == 1) {
       this.setState({ showShare: true })
-      this.loadTask(taskId)
     }
   }
 
@@ -92,7 +92,14 @@ export default class RisePay extends React.Component<any, any> {
   loadTask(type) {
     loadTask(type).then((res) => {
       if(res.code == 200) {
-        this.setState({ task: res.msg })
+        this.setState({ task: res.msg },()=>{
+              configShare(
+                  `【圈外同学】企业实战训练，成为优秀的部门leader`,
+                  `${window.ENV.userName}邀请你成为同学，领取${res.msg.shareAmount}元【圈外同学】L2项目入学优惠券`,
+                  `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
+                  `${window.ENV.userName}邀请你成为同学，领取200元【圈外同学】L2项目入学优惠券`
+              )
+          })
       }
     })
   }
@@ -110,7 +117,7 @@ export default class RisePay extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    const { type = 0 } = this.props.location.query;
+ /*   const { type = 0 } = this.props.location.query;
     if(type != 1) {
       configShare(
         `圈外商学院--你负责努力，我们负责帮你赢`,
@@ -118,7 +125,7 @@ export default class RisePay extends React.Component<any, any> {
         'https://static.iqycamp.com/images/rise_share.jpg?imageslim',
         '最实用的竞争力提升课程，搭建最优质的人脉圈，解决最困扰的职场难题'
       )
-    }
+    }*/
   }
 
   handlePayedDone() {
