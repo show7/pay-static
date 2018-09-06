@@ -84,9 +84,9 @@ export default class ThoughtPay extends Component<any, any> {
             }
         }
         const {type = 0, taskId = 3} = this.props.location.query
+        this.loadTask(taskId);
         if (type == 1) {
             this.setState({showShare: true});
-            this.loadTask(taskId);
         }
     }
 
@@ -94,7 +94,14 @@ export default class ThoughtPay extends Component<any, any> {
     loadTask(type) {
         loadTask(type).then((res) => {
             if (res.code == 200) {
-                this.setState({task: res.msg})
+                this.setState({task: res.msg},()=>{
+                    configShare(
+                        `【圈外同学】哈佛案例教学，顶尖MBA名师授课`,
+                        `https://${window.location.hostname}/pay/thought?riseId=${window.ENV.riseId}&type=2`,
+                        `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
+                        `${window.ENV.userName}邀请你成为同学，领取${res.msg.shareAmount}元【圈外同学】L3项目入学优惠券`
+                    )
+                })
             }
         })
     }

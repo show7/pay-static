@@ -195,12 +195,17 @@ class JsConfigService {
   }
 
   public configShare(title, url, imgUrl, desc, apiList = []) {
-    pget(`/wx/js/signature?url=${encodeURIComponent(window.location.href)}`).then(res => {
-      if(res.code === 200) {
+    pget(`/wx/js/signature?url=${encodeURIComponent(window.location.href.split('#')[0])}`).then(res => {
+        let wechatInfo = navigator.userAgent.match(/MicroMessenger\/([\d\.]+)/i)
+        let wechatVersion = wechatInfo[1].replace('.','');
+        console.log(wechatInfo);
+        console.log(wechatVersion)
+        if(res.code === 200) {
         wx.config(_.merge({
           debug: false,
           jsApiList: [ 'onMenuShareAppMessage', 'onMenuShareTimeline' ].concat(apiList),
         }, res.msg))
+
         wx.ready(() => {
           setTimeout(() => {
             wx.showOptionMenu();
@@ -226,6 +231,7 @@ class JsConfigService {
       } else {
       }
     }).catch((err) => {
+      console.log(err)
     })
   }
 }
