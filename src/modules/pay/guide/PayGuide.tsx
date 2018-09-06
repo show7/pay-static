@@ -3,6 +3,7 @@ import CouponAlert from './components/CouponAlert/CouponAlert'
 import AssetImg from '../../../components/AssetImg'
 import { mark } from '../../../utils/request'
 import { loadPersonalCoupons } from '../async'
+import { configShare } from 'modules/helpers/JsConfig'
 
 import './PayGuide.less'
 
@@ -12,7 +13,7 @@ export default class PayGuide extends React.Component {
     router: React.PropTypes.object.isRequired,
   }
 
-  constructor () {
+  constructor() {
     super()
     this.state = {
       showCouponAlert: false,
@@ -20,10 +21,16 @@ export default class PayGuide extends React.Component {
     }
   }
 
-  async componentDidMount () {
+  async componentDidMount() {
     mark({ module: '打点', function: '售卖介绍页', action: '进入页面' })
+    configShare(
+      `【圈外同学】职场提升计划`,
+      `https://${window.location.hostname}/pay/guide`,
+      `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
+      `${window.ENV.userName}邀请你成为同学，每天30分钟，开启你的职场进阶之旅`
+    )
     let couponsRes = await loadPersonalCoupons()
-    if (couponsRes && couponsRes.code === 200 && parseInt(couponsRes.msg.total) > 0) {
+    if(couponsRes && couponsRes.code === 200 && parseInt(couponsRes.msg.total) > 0) {
       this.setState({
         showCouponAlert: true,
         totalAmount: couponsRes.msg.total,
@@ -31,27 +38,27 @@ export default class PayGuide extends React.Component {
     }
   }
 
-  handleClickGoL1 () {
+  handleClickGoL1() {
     mark({ module: '打点', function: '售卖介绍页', action: '点击 L1' })
     window.location.href = '/pay/l1'
   }
 
-  handleClickGoL2 () {
+  handleClickGoL2() {
     mark({ module: '打点', function: '售卖介绍页', action: '点击 L2' })
     window.location.href = '/pay/rise'
   }
 
-  handleClickGoL3 () {
+  handleClickGoL3() {
     mark({ module: '打点', function: '售卖介绍页', action: '点击 L3' })
     window.location.href = '/pay/thought'
   }
 
-  handleHideAlert () {
+  handleHideAlert() {
     mark({ module: '打点', function: '售卖介绍页', action: '点击隐藏弹框' })
     this.setState({ showCouponAlert: false })
   }
 
-  render () {
+  render() {
     const {
       showCouponAlert,
       totalAmount,
