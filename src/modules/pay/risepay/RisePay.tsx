@@ -95,9 +95,9 @@ export default class RisePay extends React.Component<any, any> {
         this.setState({ task: res.msg },()=>{
               configShare(
                   `【圈外同学】企业实战训练，成为优秀的部门leader`,
-                  `${window.ENV.userName}邀请你成为同学，领取${res.msg.shareAmount}元【圈外同学】L2项目入学优惠券`,
+                  `https://${window.location.hostname}/pay/rise?riseId=${window.ENV.riseId}&type=2`,
                   `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
-                  `${window.ENV.userName}邀请你成为同学，领取200元【圈外同学】L2项目入学优惠券`
+                  `${window.ENV.userName}邀请你成为同学，领取${res.msg.shareAmount}元【圈外同学】L2项目入学优惠券`
               )
           })
       }
