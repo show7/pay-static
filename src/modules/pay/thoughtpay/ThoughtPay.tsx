@@ -217,7 +217,7 @@ export default class ThoughtPay extends Component<any, any> {
                     }
                 ]}/>
             } else {
-                return <FooterButton primary={true} btnArray={[
+                return <FooterButton primary={true} isThought={true} btnArray={[
                     {
                         click: () => this.redirect(),
                         text: '马上申请',

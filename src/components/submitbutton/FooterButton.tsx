@@ -34,7 +34,7 @@ export class FooterButton extends React.Component<SubmitButtonProps, SubmitButto
   }
 
   render() {
-    const { btnArray = [], primary = false, second = false, third = false } = this.props
+    const { btnArray = [], primary = false, second = false, third = false,isThought=false } = this.props
     if(btnArray.length === 1) {
 
       const { text } = btnArray[ 0 ];
@@ -44,7 +44,7 @@ export class FooterButton extends React.Component<SubmitButtonProps, SubmitButto
           'second': second,
           'third': third
         })}>
-          <div className="submit-btn" onClick={() => this.buttonClick(btnArray[ 0 ])}>{text}</div>
+          <div className={`${isThought?'thought-button':'submit-btn'}`} onClick={() => this.buttonClick(btnArray[ 0 ])}>{text}</div>
         </div>
       )
     } else {
