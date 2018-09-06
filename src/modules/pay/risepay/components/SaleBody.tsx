@@ -189,13 +189,13 @@ export class SaleBody extends React.Component {
              id="business-school-intro-pic-container">
           <SequenceDisplay imgList={[
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/pay_l2_part2_0902_1.jpeg'
+              url: 'https://static.iqycamp.com/images/pay_l2_part1_0906_1.jpeg'
             }),
             // {
             //   dom: <CustomerEvaluate/>
             // },
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/pay_l2_part1_0821_3.jpg'
+              url: 'https://static.iqycamp.com/images/pay_l2_part2_0906_1.jpeg'
             }), {
               dom: <div className="protocol-container l2">
                 <span className="click_text">点击查看</span>
@@ -251,13 +251,13 @@ export class SaleBody extends React.Component {
              id="business-school-intro-pic-container">
           <SequenceDisplay imgList={[
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/pay_l1_part1_0821_1.jpg'
+              url: 'https://static.iqycamp.com/images/pay_l1_part1_0906_1.jpeg'
             }),
             // {
             //   dom: <CustomerEvaluate/>
             // },
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/pay_l1_part2_0821_1.jpg'
+              url: 'https://static.iqycamp.com/images/pay_l1_part2_0906_1.jpeg'
             }), {
               dom: <div className="protocol-container l1">
                 <span className="click_text">点击查看</span>
