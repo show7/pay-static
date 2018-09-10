@@ -38,6 +38,8 @@ export default class RisePay extends React.Component<any, any> {
   }
 
   async componentWillMount() {
+    window.location.href = "https://detail.youzan.com/show/goods?alias=3ne9xzv0dw4os&v2/goods/3ne9xzv0dw4os";
+    return;
     // ios／安卓微信支付兼容性
     if(refreshForPay()) {
       return
