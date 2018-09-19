@@ -147,7 +147,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
    */
   handleClickPay() {
     // this.props.pay()
-    const { dispatch, goodsType, goodsId, } = this.props
+    const { dispatch, goodsType, goodsId,activityId = null } = this.props
     const { chose, final, free, multiCoupons, payType = PayType.WECHAT } = this.state
     if(!goodsId || !goodsType) {
       dispatch(alertMsg('支付信息错误，请联系管理员'))
@@ -157,6 +157,9 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       if(!_.isEmpty(chose.couponsIdGroup)) {
         param = _.merge({}, param, { couponsIdGroup: chose.couponsIdGroup })
       }
+    }
+    if (activityId){  //活动id
+        param = _.merge({}, param, { activityId: activityId })
     }
     dispatch(startLoad())
     loadPaymentParam(param).then(res => {

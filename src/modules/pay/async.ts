@@ -85,3 +85,17 @@ export function loadTask (type) {
 export function loadPersonalCoupons () {
   return pget(`/rise/customer/coupon`)
 }
+
+/**
+ * 获取自我管理专项课信息
+ */
+export function loadActivityCheck (param) {
+    return pget(`/signup/rise/member/activity/check/13`,param)
+}
+
+/**
+ * 获取自我管理专项课海报
+ */
+export function loadPoster (param) {
+    return pget(`/rise/share/get/poster`,param)
+}
