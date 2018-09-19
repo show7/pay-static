@@ -22,6 +22,7 @@ import PageNotFound from './modules/others/pageNotFound/PageNotFound'
 import ProjectIntro from './modules/pay/risepay/intro/ProjectIntro'
 import PayL1 from 'modules/pay/risepay/PayL1'
 import payGift from 'modules/pay/payGift/PayGift'
+import SelfManage from 'modules/pay/SelfManage/SelfManage'
 
 const routes = (
   <Route path="/">
@@ -61,6 +62,7 @@ const routes = (
       <Route path="pay/l1" component={PayL1}/>
       <Route path="pay/gift" component={payGift}/>
       <Route path="pay/guide" component={PayGuide}/>
+        <Route path="pay/selfmanage" component={SelfManage}/>
     </Route>
     <Route path="*" component={PageNotFound}></Route>
   </Route>
