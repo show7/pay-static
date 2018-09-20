@@ -1,9 +1,7 @@
 import * as React from 'react'
 import './SaleBody.less'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
-import { CustomerEvaluate } from './CustomerEvaluate'
 import { unScrollToBorder } from '../../../../utils/helpers'
-import { CustomerService } from '../../../../components/customerservice/CustomerService'
 import SequenceDisplay from '../../../../components/picture/SequenceDisplay'
 import { mark } from '../../../../utils/request'
 import * as _ from 'lodash';
@@ -161,14 +159,6 @@ export class SaleBody extends React.Component {
       )
     }
 
-    const renderKefu = () => {
-      if(memberTypeId == '8' || memberTypeId == '14') {
-        return <CustomerService image='https://static.iqycamp.com/images/fragment/kefu_0418_2.png?imageslim'/>
-      } else {
-        return <CustomerService/>
-      }
-    }
-
     const mergeStyle = (style) => {
       return _.merge({}, {
         size: '100%',
@@ -183,13 +173,13 @@ export class SaleBody extends React.Component {
       }, style);
     }
 
-    if(memberTypeId == '3') {
+    if(memberTypeId == '3' || memberTypeId == '10') {
       return (
         <div className="business-school-intro-pic-container"
              id="business-school-intro-pic-container">
           <SequenceDisplay imgList={[
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/pay_l2_part1_0906_1.jpeg'
+              url: 'https://static.iqycamp.com/l2_1-xicxm7ha.jpeg'
             }),
             // {
             //   dom: <CustomerEvaluate/>
@@ -285,7 +275,7 @@ export class SaleBody extends React.Component {
              id="business-school-intro-pic-container">
           <SequenceDisplay imgList={[
             mergeStyle({
-              url: 'https://static.iqycamp.com/L3-01@2x-s9010e2v.jpg'
+              url: 'https://static.iqycamp.com/l3_1-gm1kusdl.jpeg'
             }),
             // {
             //   dom: <div className="hig1h-light-words" onClick={() => {
@@ -300,10 +290,10 @@ export class SaleBody extends React.Component {
               dom: <QYVideo fileId='5285890780601189027' videoPoster='https://static.iqycamp.com/images/thought_poster_0723.jpeg?imageslim'/>
             },
             mergeStyle({
-              url: 'https://static.iqycamp.com/L3-02@2x-dtgdssjj.jpg'
+              url: 'https://static.iqycamp.com/l3_2-op3ho0dq.jpeg'
             }),
             mergeStyle({
-              url: 'https://static.iqycamp.com/L3-03@2x-of8nu2w7.jpg'
+              url: 'https://static.iqycamp.com/l3_3-z74klgzt.jpeg'
             }), {
               dom: <div className="protocol-container thought">
                 <div>本课程全部内容版权归圈外同学所有，严禁翻录成任何形式或在第三方平台传播，违者将追究法律责任。</div>

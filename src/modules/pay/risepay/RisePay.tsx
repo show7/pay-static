@@ -38,8 +38,6 @@ export default class RisePay extends React.Component<any, any> {
   }
 
   async componentWillMount() {
-    window.location.href = "https://detail.youzan.com/show/goods?alias=3ne9xzv0dw4os&v2/goods/3ne9xzv0dw4os";
-    return;
     // ios／安卓微信支付兼容性
     if(refreshForPay()) {
       return
@@ -118,18 +116,6 @@ export default class RisePay extends React.Component<any, any> {
     this.setState({ showShare: false, type: 1 })
   }
 
-  componentDidMount() {
- /*   const { type = 0 } = this.props.location.query;
-    if(type != 1) {
-      configShare(
-        `圈外商学院--你负责努力，我们负责帮你赢`,
-        `https://${window.location.hostname}/pay/rise`,
-        'https://static.iqycamp.com/images/rise_share.jpg?imageslim',
-        '最实用的竞争力提升课程，搭建最优质的人脉圈，解决最困扰的职场难题'
-      )
-    }*/
-  }
-
   handlePayedDone() {
     mark({ module: '打点', function: '商学院会员', action: '支付成功' })
     this.context.router.push({
@@ -163,27 +149,26 @@ export default class RisePay extends React.Component<any, any> {
   handleClickOpenPayInfo(goodsId) {
     // this.reConfig()
     const { dispatch } = this.props
-    dispatch(alertMsg(`添加班主任（微信ID：iquanwai-iqw）\n回复“L2”，预约名额`))
-    // const { riseId = '', type = 0 } = this.props.location.query
-    // dispatch(startLoad())
-    // // 先检查是否能够支付
-    // checkRiseMember(goodsId, riseId, type).then(res => {
-    //   dispatch(endLoad())
-    //   if(res.code === 200) {
-    //     const { qrCode, privilege, errorMsg, subscribe } = res.msg
-    //     if(subscribe) {
-    //       this.refs.payInfo.handleClickOpen()
-    //     } else {
-    //       this.setState({ qrCode: qrCode, showQr: true })
-    //     }
-    //   }
-    //   else {
-    //     dispatch(alertMsg(res.msg))
-    //   }
-    // }).catch(ex => {
-    //   dispatch(endLoad())
-    //   dispatch(alertMsg(ex))
-    // })
+    const { riseId = '', type = 0 } = this.props.location.query
+    dispatch(startLoad())
+    // 先检查是否能够支付
+    checkRiseMember(goodsId, riseId, type).then(res => {
+      dispatch(endLoad())
+      if(res.code === 200) {
+        const { qrCode, privilege, errorMsg, subscribe } = res.msg
+        if(subscribe) {
+          this.refs.payInfo.handleClickOpen()
+        } else {
+          this.setState({ qrCode: qrCode, showQr: true })
+        }
+      }
+      else {
+        dispatch(alertMsg(res.msg))
+      }
+    }).catch(ex => {
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
+    })
   }
 
   handlePayedBefore() {
@@ -231,101 +216,99 @@ export default class RisePay extends React.Component<any, any> {
         </div>
       )
     }
+
     return (
-      <div></div>
+      <div className="rise-pay-container">
+        <div className="pay-page l2">
+          <SaleBody memberTypeId="10"/>
+          {renderPay()}
+        </div>
+        {
+          timeOut &&
+          <div className="mask" onClick={() => {
+                        window.history.back()
+                    }}
+               style={{
+                             background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center' +
+                             ' center/100% 100%'
+                         }}/>
+        }
+        {
+          showErr &&
+          <div className="mask" onClick={() => this.setState({showErr: false})}>
+            <div className="tips">
+              出现问题的童鞋看这里<br/> 1如果显示“URL未注册”，请重新刷新页面即可<br/> 2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
+            </div>
+            <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
+          </div>
+        }
+        {
+          showCodeErr &&
+          <div className="mask" onClick={() => this.setState({showCodeErr: false})}>
+            <div className="tips">
+              糟糕，支付不成功<br/> 原因：微信不支持跨公众号支付<br/> 怎么解决：<br/> 1，长按下方二维码，保存到相册；<br/> 2，打开微信扫一扫，点击右上角相册，选择二维码图片；<br/>
+              3，在新开的页面完成支付即可<br/>
+            </div>
+            <img className="xiaoQ" style={{width: '50%'}}
+                 src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
+          </div>
+        }
+        {
+          quanwaiGoods &&
+          <PayInfo ref="payInfo" dispatch={this.props.dispatch} goodsType={quanwaiGoods.goodsType}
+                   goodsId={quanwaiGoods.id} header={quanwaiGoods.name} priceTips={tip}
+                   payedDone={(goodsId) => this.handlePayedDone(goodsId)}
+                   payedCancel={(res) => this.handlePayedCancel(res)}
+                   payedError={(res) => this.handlePayedError(res)}
+                   payedBefore={() => this.handlePayedBefore()}
+                   payType={payType || PayType.WECHAT}/>
+        }
+        {
+          subscribe && <SubscribeAlert closeFunc={() => this.setState({subscribe: false})}/>
+        }
+        {invitationLayout &&
+        renderLayout()
+        }
+
+        {!!showQr ? <RenderInBody>
+            <div className="qr_dialog">
+              <div className="qr_dialog_mask" onClick={() => {
+                            this.setState({showQr: false})
+                        }}>
+              </div>
+              <div className="qr_dialog_content">
+                <span>扫码后可进行申请哦</span>
+                <div className="qr_code">
+                  <img src={qrCode}/>
+                </div>
+              </div>
+            </div>
+          </RenderInBody> : null}
+        {
+          showShare &&
+          <div className="share-mask-box">
+            <dev className="share-content">
+              <div className="share-content-top">
+                <p>可赠送好友 <br/><span>{shareAmount}元</span><br/> L2项目入学优惠券 </p>
+              </div>
+              <div className="share-content-bottom">
+                <div><span>1</span><p className='desc'>好友成功入学，你将获得{shareContribution}贡献值</p></div>
+                <div><span>2</span><p className='desc'>好友在开学1个月内按进度学习并完课，你将获得{finishContribution}贡献值</p>
+                </div>
+                <div className="button-bottom" onClick={() => {
+                                    this.getsShowShare()
+                                }}><p>立即邀请</p></div>
+              </div>
+            </dev>
+          </div>
+        }
+        {
+          type == 1 &&
+          <div className="type-share">
+            <img src="https://static.iqycamp.com/1091533182527_-sc42kog6.pic.jpg" alt="分享图片"/>
+          </div>
+        }
+      </div>
     )
-    // return (
-    //   <div className="rise-pay-container">
-    //     <div className="pay-page l2">
-    //       <SaleBody/>
-    //       {renderPay()}
-    //     </div>
-    //     {
-    //       timeOut &&
-    //       <div className="mask" onClick={() => {
-    //                     window.history.back()
-    //                 }}
-    //            style={{
-    //                          background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center' +
-    //                          ' center/100% 100%'
-    //                      }}/>
-    //     }
-    //     {
-    //       showErr &&
-    //       <div className="mask" onClick={() => this.setState({showErr: false})}>
-    //         <div className="tips">
-    //           出现问题的童鞋看这里<br/> 1如果显示“URL未注册”，请重新刷新页面即可<br/> 2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
-    //         </div>
-    //         <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
-    //       </div>
-    //     }
-    //     {
-    //       showCodeErr &&
-    //       <div className="mask" onClick={() => this.setState({showCodeErr: false})}>
-    //         <div className="tips">
-    //           糟糕，支付不成功<br/> 原因：微信不支持跨公众号支付<br/> 怎么解决：<br/> 1，长按下方二维码，保存到相册；<br/> 2，打开微信扫一扫，点击右上角相册，选择二维码图片；<br/>
-    //           3，在新开的页面完成支付即可<br/>
-    //         </div>
-    //         <img className="xiaoQ" style={{width: '50%'}}
-    //              src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
-    //       </div>
-    //     }
-    //     {
-    //       quanwaiGoods &&
-    //       <PayInfo ref="payInfo" dispatch={this.props.dispatch} goodsType={quanwaiGoods.goodsType}
-    //                goodsId={quanwaiGoods.id} header={quanwaiGoods.name} priceTips={tip}
-    //                payedDone={(goodsId) => this.handlePayedDone(goodsId)}
-    //                payedCancel={(res) => this.handlePayedCancel(res)}
-    //                payedError={(res) => this.handlePayedError(res)}
-    //                payedBefore={() => this.handlePayedBefore()}
-    //                payType={payType || PayType.WECHAT}/>
-    //     }
-    //     {
-    //       subscribe && <SubscribeAlert closeFunc={() => this.setState({subscribe: false})}/>
-    //     }
-    //     {invitationLayout &&
-    //     renderLayout()
-    //     }
-    //
-    //     {!!showQr ? <RenderInBody>
-    //         <div className="qr_dialog">
-    //           <div className="qr_dialog_mask" onClick={() => {
-    //                         this.setState({showQr: false})
-    //                     }}>
-    //           </div>
-    //           <div className="qr_dialog_content">
-    //             <span>扫码后可进行申请哦</span>
-    //             <div className="qr_code">
-    //               <img src={qrCode}/>
-    //             </div>
-    //           </div>
-    //         </div>
-    //       </RenderInBody> : null}
-    //     {
-    //       showShare &&
-    //       <div className="share-mask-box">
-    //         <dev className="share-content">
-    //           <div className="share-content-top">
-    //             <p>可赠送好友 <br/><span>{shareAmount}元</span><br/> L2项目入学优惠券 </p>
-    //           </div>
-    //           <div className="share-content-bottom">
-    //             <div><span>1</span><p className='desc'>好友成功入学，你将获得{shareContribution}贡献值</p></div>
-    //             <div><span>2</span><p className='desc'>好友在开学1个月内按进度学习并完课，你将获得{finishContribution}贡献值</p>
-    //             </div>
-    //             <div className="button-bottom" onClick={() => {
-    //                                 this.getsShowShare()
-    //                             }}><p>立即邀请</p></div>
-    //           </div>
-    //         </dev>
-    //       </div>
-    //     }
-    //     {
-    //       type == 1 &&
-    //       <div className="type-share">
-    //         <img src="https://static.iqycamp.com/1091533182527_-sc42kog6.pic.jpg" alt="分享图片"/>
-    //       </div>
-    //     }
-    //   </div>
-    // )
   }
 }
