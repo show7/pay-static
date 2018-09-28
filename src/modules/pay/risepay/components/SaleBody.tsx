@@ -179,20 +179,20 @@ export class SaleBody extends React.Component {
              id="business-school-intro-pic-container">
           <SequenceDisplay imgList={[
             mergeStyle({
-              url: 'https://static.iqycamp.com/l2_1-xicxm7ha.jpeg'
+              url: 'https://static.iqycamp.com/L2-1-thw4k0iw.jpg'
             }),
             // {
             //   dom: <CustomerEvaluate/>
             // },
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/pay_l2_part2_0906_1.jpeg'
+              url: 'https://static.iqycamp.com/L2-2-ryncimsh.jpg'
             }), {
               dom: <div className="protocol-container l2">
                 <span className="click_text">点击查看</span>
                 <a className="protocol" onClick={() => this.clickUserProtocol()}>【商学院用户协议】</a>
               </div>
             }, mergeStyle({
-              url: 'https://static.iqycamp.com/images/fragment/thought_sale_page_5_0523_1.jpg'
+              url: 'https://static.iqycamp.com/L2-3-vtpduoza.jpg'
             })
           ]} onLoadFirst={() => this.setState({ loading: false })}/>
 
@@ -241,13 +241,13 @@ export class SaleBody extends React.Component {
              id="business-school-intro-pic-container">
           <SequenceDisplay imgList={[
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/pay_l1_part1_0906_1.jpeg'
+              url: 'https://static.iqycamp.com/L1-01-ir92haam.jpg'
             }),
             // {
             //   dom: <CustomerEvaluate/>
             // },
             mergeStyle({
-              url: 'https://static.iqycamp.com/images/pay_l1_part2_0906_1.jpeg'
+              url: 'https://static.iqycamp.com/L1-02-dnstfrnq.jpg'
             }), {
               dom: <div className="protocol-container l1">
                 <span className="click_text">点击查看</span>
@@ -275,7 +275,7 @@ export class SaleBody extends React.Component {
              id="business-school-intro-pic-container">
           <SequenceDisplay imgList={[
             mergeStyle({
-              url: 'https://static.iqycamp.com/L3-01@2x-oi8ws5vd.jpg'
+              url: 'https://static.iqycamp.com/L3-01@2x-sb6qdusq.jpg'
             }),
             // {
             //   dom: <div className="hig1h-light-words" onClick={() => {
@@ -290,10 +290,10 @@ export class SaleBody extends React.Component {
               dom: <QYVideo fileId='5285890780601189027' videoPoster='https://static.iqycamp.com/images/thought_poster_0723.jpeg?imageslim'/>
             },
             mergeStyle({
-              url: 'https://static.iqycamp.com/L3-02@2x-xqldlpv6.jpg'
+              url: 'https://static.iqycamp.com/L3-02@2x-3fzc24w5.jpg'
             }),
             mergeStyle({
-              url: 'https://static.iqycamp.com/L3-03@2x-ok7sbddx.jpg'
+              url: 'https://static.iqycamp.com/L3-03@2x (1)-kk4heeuh.jpg'
             }), {
               dom: <div className="protocol-container thought">
                 <div>本课程全部内容版权归圈外同学所有，严禁翻录成任何形式或在第三方平台传播，违者将追究法律责任。</div>
