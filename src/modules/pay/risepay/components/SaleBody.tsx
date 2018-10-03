@@ -179,7 +179,7 @@ export class SaleBody extends React.Component {
              id="business-school-intro-pic-container">
           <SequenceDisplay imgList={[
             mergeStyle({
-              url: 'https://static.iqycamp.com/L2-1-thw4k0iw.jpg'
+              url: 'https://static.iqycamp.com/L2-1-f9tk08bn.jpg'
             }),
             // {
             //   dom: <CustomerEvaluate/>
@@ -241,7 +241,7 @@ export class SaleBody extends React.Component {
              id="business-school-intro-pic-container">
           <SequenceDisplay imgList={[
             mergeStyle({
-              url: 'https://static.iqycamp.com/L1-01-ir92haam.jpg'
+              url: 'https://static.iqycamp.com/L1-01-1kz62p7i.jpg'
             }),
             // {
             //   dom: <CustomerEvaluate/>
@@ -275,7 +275,7 @@ export class SaleBody extends React.Component {
              id="business-school-intro-pic-container">
           <SequenceDisplay imgList={[
             mergeStyle({
-              url: 'https://static.iqycamp.com/L3-01@2x-sb6qdusq.jpg'
+              url: 'https://static.iqycamp.com/L3-01@2x 1-y8a99yor.jpg'
             }),
             // {
             //   dom: <div className="hig1h-light-words" onClick={() => {
