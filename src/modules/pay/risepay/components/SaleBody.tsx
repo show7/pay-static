@@ -186,13 +186,15 @@ export class SaleBody extends React.Component {
             // },
             mergeStyle({
               url: 'https://static.iqycamp.com/L2-2-ryncimsh.jpg'
-            }), {
+            }), mergeStyle({
+              url: 'https://static.iqycamp.com/L2-3-xvppmaur.jpg'
+            }),{
               dom: <div className="protocol-container l2">
                 <span className="click_text">点击查看</span>
                 <a className="protocol" onClick={() => this.clickUserProtocol()}>【商学院用户协议】</a>
               </div>
             }, mergeStyle({
-              url: 'https://static.iqycamp.com/L2-3-vtpduoza.jpg'
+              url: 'https://static.iqycamp.com/images/fragment/thought_sale_page_5_0523_1.jpg'
             })
           ]} onLoadFirst={() => this.setState({ loading: false })}/>
 
@@ -247,7 +249,7 @@ export class SaleBody extends React.Component {
             //   dom: <CustomerEvaluate/>
             // },
             mergeStyle({
-              url: 'https://static.iqycamp.com/L1-02-dnstfrnq.jpg'
+              url: 'https://static.iqycamp.com/L1-02-9j7m1h6e.jpg'
             }), {
               dom: <div className="protocol-container l1">
                 <span className="click_text">点击查看</span>
