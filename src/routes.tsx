@@ -10,6 +10,7 @@ import BusinessApplyChoice from './modules/pay/bsapply/BusinessApplyChoice'
 import PreacherPage from 'modules/pay/preacher/PreacherPage'
 import ApplySuccess from 'modules/pay/risepay/ApplySuccess'
 import MemberPaySuccess from 'modules/pay/paysuccess/MemberPaySuccess'
+import CollegeAudioPay from 'modules/pay/audiopay/CollegeAudioPay'
 import BusinessApplySubmitSuccess from './modules/pay/bsapply/BusinessApplySubmitSuccess'
 import PayGuide from './modules/pay/guide/PayGuide'
 import Subscribe from './modules/subscribe/Subscribe'
@@ -62,7 +63,8 @@ const routes = (
       <Route path="pay/l1" component={PayL1}/>
       <Route path="pay/gift" component={payGift}/>
       <Route path="pay/guide" component={PayGuide}/>
-        <Route path="pay/selfmanage" component={SelfManage}/>
+      <Route path="pay/selfmanage" component={SelfManage}/>
+      <Route path="pay/collegeaudio" component={CollegeAudioPay}/>
     </Route>
     <Route path="*" component={PageNotFound}></Route>
   </Route>
