@@ -156,7 +156,7 @@ export default class CollegeAudioPay extends React.Component<any, any> {
           showClassMaster &&
           <div className="subscribe-mask">
             <div className="qrCodeUrl-box">
-              <p>付款成功，赶紧添加班主任吧！</p>
+              <p>付款成功，赶紧添加班主任，立即解锁七天课程！</p>
               <img className='subscribe' src="https://static.iqycamp.com/WechatIMG2035-3g46vcbv.jpeg" alt=""/>
             </div>
           </div>
