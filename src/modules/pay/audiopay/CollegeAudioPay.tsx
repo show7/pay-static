@@ -128,7 +128,7 @@ export default class CollegeAudioPay extends React.Component<any, any> {
                    payType={ PayType.WECHAT}/>
         }
         <div className="bottom-button">
-          <FooterButton btnArray={[
+          <FooterButton className='college-audio' btnArray={[
           {
             click: () => this.handleClickOpenPayInfo(goodsId),
             text: '1元付款入学',
@@ -144,7 +144,7 @@ export default class CollegeAudioPay extends React.Component<any, any> {
           <div className="subscribe-mask">
             <div className="qrCodeUrl-box">
               <p>你还没有关注公众号，请先扫码关注哦！</p>
-              <img className='subscribe' src="https://static.iqycamp.com/81527595646_-gqauyhkx.pic_hd.jpg" alt=""/>
+              <img className='subscribe' src="https://static.iqycamp.com/college_audio_u6ysw4ck-ubq63v11.jpg" alt=""/>
               <img className='close'
                    onClick={()=>{this.setState({ showQr:false})}}
                    src="https://static.iqycamp.com/close-2-t6urec58.png" alt=""/>
