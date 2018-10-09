@@ -24,7 +24,8 @@ export default class SelfManage extends React.Component<any, any> {
             content: '',
             posterUrl: '',
             posterShow:false,
-            Subscribe:false
+            Subscribe:false,
+            needMember:0
         }
     }
 
@@ -53,7 +54,8 @@ export default class SelfManage extends React.Component<any, any> {
                   goodsId:result.goodsId,
                   goodsName:result.goodsName,
                   goodsType:result.goodsType,
-                  saleImg:result.saleImg
+                  saleImg:result.saleImg,
+                  needMember:result.needMember
               })
                 if (!result.isSubscribe) {
                     this.setState({
