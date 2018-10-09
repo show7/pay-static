@@ -139,7 +139,8 @@ export default class SelfManage extends React.Component<any, any> {
             posterShow,
             content,
             posterUrl,
-            Subscribe
+            Subscribe,
+            needMember
         } = this.state
         return (
             <div className='self-manage-container'>
@@ -168,7 +169,7 @@ export default class SelfManage extends React.Component<any, any> {
                     posterShow && posterUrl &&
                     <div className="poster-mask">
                         <div className="poster-box">
-                            <p>转发海报，1个好友扫码，免费入学</p>
+                            <p>转发海报，{needMember}个好友扫码，免费入学</p>
                             <img className='close'
                                  onClick={()=>{this.setState({ posterShow:false,})}}
                                  src="https://static.iqycamp.com/close-2-t6urec58.png" alt=""/>
