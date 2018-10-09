@@ -34,12 +34,12 @@ export class FooterButton extends React.Component<SubmitButtonProps, SubmitButto
   }
 
   render() {
-    const { btnArray = [], primary = false, second = false, third = false,isThought=false } = this.props
+    const { btnArray = [], primary = false, second = false, third = false,isThought=false, className } = this.props
     if(btnArray.length === 1) {
 
       const { text } = btnArray[ 0 ];
       return (
-        <div className={classnames('ft-button-wrapper', 'button-footer-component', {
+        <div className={classnames('ft-button-wrapper', 'button-footer-component', className, {
           'primary': primary,
           'second': second,
           'third': third
@@ -50,7 +50,7 @@ export class FooterButton extends React.Component<SubmitButtonProps, SubmitButto
     } else {
       //if(btnArray.length === 2)
       return (
-        <div className={classnames('ft-button-wrapper', 'button-footer-component', 'two-buttons', {
+        <div className={classnames('ft-button-wrapper', 'button-footer-component', 'two-buttons', className, {
           'primary': primary,
           'second': second,
           'third': third
