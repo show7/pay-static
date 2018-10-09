@@ -24,7 +24,8 @@ export default class SelfManage extends React.Component<any, any> {
             content: '',
             posterUrl: '',
             posterShow:false,
-            Subscribe:false
+            Subscribe:false,
+            needMember:0
         }
     }
 
@@ -53,7 +54,8 @@ export default class SelfManage extends React.Component<any, any> {
                   goodsId:result.goodsId,
                   goodsName:result.goodsName,
                   goodsType:result.goodsType,
-                  saleImg:result.saleImg
+                  saleImg:result.saleImg,
+                  needMember:result.needMember
               })
                 if (!result.isSubscribe) {
                     this.setState({
@@ -139,7 +141,8 @@ export default class SelfManage extends React.Component<any, any> {
             posterShow,
             content,
             posterUrl,
-            Subscribe
+            Subscribe,
+            needMember
         } = this.state
         return (
             <div className='self-manage-container'>
@@ -168,7 +171,7 @@ export default class SelfManage extends React.Component<any, any> {
                     posterShow && posterUrl &&
                     <div className="poster-mask">
                         <div className="poster-box">
-                            <p>转发海报，3个好友扫码，免费入学</p>
+                            <p>转发海报，{needMember}个好友扫码，免费入学</p>
                             <img className='close'
                                  onClick={()=>{this.setState({ posterShow:false,})}}
                                  src="https://static.iqycamp.com/close-2-t6urec58.png" alt=""/>
