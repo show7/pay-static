@@ -120,7 +120,7 @@ export default class CollegeAudioPay extends React.Component<any, any> {
         {
           goodsId &&
           <PayInfo ref="payInfo" dispatch={this.props.dispatch} goodsType={goodsType}
-                   goodsId={goodsId} header={goodsName} priceTips={}
+                   goodsId={goodsId} header={goodsName} priceTips={} activityId={16}
                    payedDone={(goodsId) => this.handlePayedDone()}
                    payedCancel={(res) => this.handlePayedCancel(res)}
                    payedError={(res) => this.handlePayedError(res)}
