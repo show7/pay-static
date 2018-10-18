@@ -28,7 +28,7 @@ export function logPay (functionValue, type, param) {
  * 支付成功后的回调
  */
 export function afterPayDone (productId) {
-  return ppost(`/signup/paid/rise/${productId}`)
+  return ppost(`ww${productId}`)
 }
 
 export function getRiseMember (riseMember) {
