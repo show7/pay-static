@@ -99,3 +99,7 @@ export function loadActivityCheck (param) {
 export function loadPoster (param) {
     return pget(`/rise/share/get/poster`,param)
 }
+
+export function joinAudioCourse() {
+  return ppost(`/rise/promotion/audio/join`)
+}
