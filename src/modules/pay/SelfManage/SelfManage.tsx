@@ -3,22 +3,22 @@ import './SelfManage.less'
 import { connect } from 'react-redux'
 import { mark } from '../../../utils/request'
 import { joinAudioCourse, loadActivityCheck, loadPoster } from '../async'
-import { alertMsg } from '../../../redux/actions'
-import { closeWindow, configShare } from '../../helpers/JsConfig'
+import { alertMsg} from '../../../redux/actions'
+import { configShare } from '../../helpers/JsConfig'
 
 @connect(state => state)
 export default class SelfManage extends React.Component<any, any> {
   constructor(props) {
     super(props)
     this.state = {
-      isSubscribe: false,
-      qrCodeUrl: '',
+      status:0,
+      url: false,
       saleImg: null,
-      subscribe: false
     }
   }
 
   componentWillMount() {
+    mark({module:"打点",function:"音频课课程",action:"进入售卖页"})
     this.getInfo()
     configShare(
       `【圈外同学】请停止无效努力音频课`,
@@ -35,30 +35,33 @@ export default class SelfManage extends React.Component<any, any> {
       if(res.code === 200) {
         let result = res.msg
         this.setState({
-          isSubscribe: result.isSubscribe,
-          qrCodeUrl: result.qrCodeUrl,
           saleImg: result.saleImg
         })
-        if(!result.isSubscribe) {
-          this.setState({
-            subscribe: true
-          })
-        }
       }
     })
   }
 
   handleFree(){
+    const {dispatch} = this.props
     mark({module:"打点",function:"音频课课程",action:"点击免费入学"})
-    joinAudioCourse()
-    closeWindow()
+   joinAudioCourse().then(res=>{
+     if(res.code === 200){
+        this.setState({
+          status:res.msg.status,
+          url: res.msg.url
+        })
+     }else {
+       dispatch(alertMsg(res.msg))
+     }
+   })
+
   }
 
   render() {
     const {
-      qrCodeUrl,
       saleImg,
-      subscribe
+      status,
+      url
     } = this.state
     return (
       <div className='self-manage-container'>
@@ -73,13 +76,13 @@ export default class SelfManage extends React.Component<any, any> {
           </ul>
         </div>
         {
-          subscribe && qrCodeUrl &&
+          url &&
           <div className="subscribe-mask">
             <div className="qrCodeUrl-box">
-              <p>你还没有关注公众号，请先扫码关注哦！</p>
-              <img className='subscribe' src={qrCodeUrl} alt=""/>
+              <p>{status===0? '你已入学，扫二维码添加班主任👇':'扫二维码添加班主任，免费开课👇'}</p>
+              <img className='subscribe' src={url} alt=""/>
               <img className='close'
-                   onClick={() => {this.setState({ subscribe: false })}}
+                   onClick={() => {this.setState({ url: false })}}
                    src="https://static.iqycamp.com/close-2-t6urec58.png" alt=""/>
             </div>
           </div>
