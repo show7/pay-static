@@ -12,7 +12,7 @@ export default class SelfManage extends React.Component<any, any> {
     super(props)
     this.state = {
       status:0,
-      url: false,
+      url: '',
       saleImg: null,
     }
   }
