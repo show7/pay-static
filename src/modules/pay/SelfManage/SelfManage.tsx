@@ -18,7 +18,8 @@ export default class SelfManage extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    mark({module:"打点",function:"音频课课程",action:"进入售卖页"})
+    const {channelAudioMessage = '1'} = this.props.location.query
+    mark({module:"打点",function:"音频课课程",action:"进入售卖页",channelAudioMessage:channelAudioMessage})
     this.getInfo()
     configShare(
       `【圈外同学】请停止无效努力音频课`,
