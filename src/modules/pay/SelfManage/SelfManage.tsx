@@ -152,7 +152,7 @@ export default class SelfManage extends React.Component<any, any> {
                 <p>邀请好友免费体验</p>
               </div>
               <div className="share-content-bottom">
-                <div><p className='desc'>好友成功入学，你将获得{shareContribution}贡献值</p></div>
+                <div><span></span><p className='desc'>好友成功入学，你将获得{shareContribution}贡献值</p></div>
                 <div className="button-bottom" onClick={() => {
                   this.getsShowShare()
                 }}><p>立即邀请</p></div>
