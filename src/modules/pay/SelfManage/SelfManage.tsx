@@ -75,7 +75,8 @@ export default class SelfManage extends React.Component<any, any> {
   }
 
   handleFree() {
-    const { dispatch, riseId } = this.props
+    const { dispatch } = this.props
+    const {riseId} = this.props.location.query
     mark({ module: '打点', function: '音频课课程', action: '点击免费入学' })
     joinAudioCourse(riseId).then(res => {
       if(res.code === 200) {
