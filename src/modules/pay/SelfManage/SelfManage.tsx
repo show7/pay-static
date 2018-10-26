@@ -45,7 +45,9 @@ export default class SelfManage extends React.Component<any, any> {
         })
       }
     })
-    this.loadTask(taskId)
+    if(type == 1 || type ==2) {
+      this.loadTask(taskId)
+    }
     if(type == 1) {
       this.setState({ showShare: true })
     } else if(type == 2 && riseId !== window.ENV.riseId) {
