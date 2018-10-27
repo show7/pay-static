@@ -187,7 +187,7 @@ export class SaleBody extends React.Component {
             mergeStyle({
               url: 'https://static.iqycamp.com/L2-2-ryncimsh.jpg'
             }), mergeStyle({
-              url: 'https://static.iqycamp.com/L2-3-xvppmaur.jpg'
+              url: 'hhttps://static.iqycamp.com/L2-3-xqv43jds.jpg'
             }),{
               dom: <div className="protocol-container l2">
                 <span className="click_text">点击查看</span>
