@@ -22,12 +22,12 @@ export default class SelfManage extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    const { channelAudioMessage = '1', riseId } = this.props.location.query
+    const { channelAudioMessage = '1', riseId,taskId } = this.props.location.query
     mark({ module: '打点', function: '音频课课程', action: '进入售卖页', channelAudioMessage: channelAudioMessage })
     this.getInfo()
     configShare(
       `【圈外同学】请停止无效努力音频课`,
-      `https://${window.location.hostname}/pay/selfmanage?riseId=${window.ENV.riseId}`,
+      `https://${window.location.hostname}/pay/selfmanage?riseId=${window.ENV.riseId}&type=2&taskId=17`,
       'https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg',
       `顶尖咨询总监，8年职场方法论`
     )
@@ -68,7 +68,7 @@ export default class SelfManage extends React.Component<any, any> {
         this.setState({ task: res.msg }, () => {
           configShare(
             `【圈外同学】6天破除职场迷茫`,
-            `https://${window.location.hostname}/pay/selfmanage?riseId=${window.ENV.riseId}&type=2`,
+            `https://${window.location.hostname}/pay/selfmanage?riseId=${window.ENV.riseId}&type=2&taskId=${taskId}`,
             `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
             `${window.ENV.userName}邀请你成为同学，免费体验课程`)
         })
@@ -97,7 +97,7 @@ export default class SelfManage extends React.Component<any, any> {
   getsShowShare() {
     configShare(
       `【圈外同学】6天破除职场迷茫`,
-      `https://${window.location.hostname}/pay/selfmanage?riseId=${window.ENV.riseId}&type=2`,
+      `https://${window.location.hostname}/pay/selfmanage?riseId=${window.ENV.riseId}&type=2&taskId=17`,
       `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
       `${window.ENV.userName}邀请你成为同学，免费体验课程`)
     mark({ module: '打点', function: '关闭弹框l2', action: '点击关闭弹框' })
