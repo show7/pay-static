@@ -1,8 +1,6 @@
 import * as React from 'react'
-import CouponAlert from './components/CouponAlert/CouponAlert'
 import AssetImg from '../../../components/AssetImg'
 import { mark } from '../../../utils/request'
-import { loadPersonalCoupons } from '../async'
 import { configShare } from 'modules/helpers/JsConfig'
 
 import './PayGuide.less'
@@ -24,7 +22,7 @@ export default class PayGuide extends React.Component {
       `【圈外同学】职场提升计划`,
       `https://${window.location.hostname}/pay/guide`,
       `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
-      `${window.ENV.userName}邀请你成为同学，每天30分钟，开启你的职场进阶之旅`,
+      `每天30分钟，开启你的职场进阶之旅`,
     )
   }
 
