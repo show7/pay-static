@@ -14,6 +14,7 @@ import { mark } from 'utils/request'
 import { pay } from '../../helpers/JsConfig'
 import { GoodsType, PayType, saTrack } from '../../../utils/helpers'
 
+const MULTI_PAY_TYPE_PRICE = 10;
 
 interface PayInfoProps {
   /** 显示支付窗口的回调 */
@@ -113,7 +114,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
   handleClickOpen() {
     const { fee } = this.state;
     // 价格小于100 则直接付费
-    if(fee <= 100) {
+    if(fee <= MULTI_PAY_TYPE_PRICE) {
       if(_.isFunction(this.props.afterShow)) {
         this.props.afterShow()
       }
@@ -510,7 +511,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
   choosePayType(payType) {
     const { openPayType, fee } = this.state;
     // console.log(fee);
-    if(fee <= 100) {
+    if(fee <= MULTI_PAY_TYPE_PRICE) {
       return;
     }
     if(!!payType) {
@@ -620,9 +621,9 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
               <li className={classnames({ 'choose': payType == PayType.WECHAT })}
                   onClick={() => this.setState({ payType: PayType.WECHAT })}>微信
               </li>
-              {fee > 100 &&
+              {fee > MULTI_PAY_TYPE_PRICE &&
               <li className={classnames({ 'choose': payType == PayType.ALIPAY })}
-                  onClick={() => this.setState({ payType: PayType.ALIPAY })}>支付宝
+                  onClick={() => this.setState({ payType: PayType.ALIPAY })}>支付宝<span className="pay-type-tips">(支持花呗分期)</span>
               </li>}
             </ul>
           </div>
@@ -760,7 +761,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                   <div className="pay-icon">
                     <Icon type='pay_type_icon_ali'/>
                   </div>
-                  <div className="pay-type-name">支付宝</div>
+                  <div className="pay-type-name">支付宝<span className="pay-type-tips">(支持花呗分期)</span></div>
                 </div>
                 <div className={classnames('chose-btn', {
                   'chose': payType == PayType.ALIPAY
