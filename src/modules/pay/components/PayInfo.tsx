@@ -14,7 +14,8 @@ import { mark } from 'utils/request'
 import { pay } from '../../helpers/JsConfig'
 import { GoodsType, PayType, saTrack } from '../../../utils/helpers'
 
-const MULTI_PAY_TYPE_PRICE = 10;
+/** 超过这个金额时可以选择支付方式 */
+const MULTI_PAY_TYPE_PRICE = 100;
 
 interface PayInfoProps {
   /** 显示支付窗口的回调 */
@@ -676,7 +677,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                   'open': openPayType,
                   'hidden': openCoupon,
                   'just-open-pay-type': justOpenPayType,
-                  'has-arrow': fee > 100
+                  'has-arrow': fee > MULTI_PAY_TYPE_PRICE
                 })}
                 onClick={() => this.choosePayType()}>
                 支付方式
