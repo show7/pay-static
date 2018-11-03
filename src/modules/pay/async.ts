@@ -57,10 +57,6 @@ export function loadGoodsInfo(goodsType, goodsId) {
   return ppost('/signup/load/goods', { goodsType: goodsType, goodsId: goodsId })
 }
 
-export function chooseAuditionCourse() {
-  return ppost('/rise/plan/choose/audition/course')
-}
-
 export function loadWannaMember(goodsId) {
   return pget('/signup/wanna/member', { goodsId: goodsId })
 }
@@ -77,13 +73,6 @@ export function loadInvitation(param) {
 /*得到贡献值*/
 export function loadTask(type) {
   return pget(`/rise/contribution/load/task/contribution?taskId=${type}`)
-}
-
-/**
- * 获取个人所有的优惠券信息
- */
-export function loadPersonalCoupons() {
-  return pget(`/rise/customer/coupon`)
 }
 
 /**
