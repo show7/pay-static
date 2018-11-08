@@ -76,7 +76,7 @@ export function loadTask(type) {
 }
 
 /**
- * 获取自我管理专项课信息
+ * 获取音频课信息
  */
 export function loadActivityCheck(param) {
   return pget(`/signup/rise/member/activity/check/13`, param)
