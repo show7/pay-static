@@ -101,7 +101,7 @@ export default class SelfManageB extends React.Component<any, any> {
           posterShow && posterUrl &&
           <div className="poster-mask2">
             <div className="poster-box">
-              <p>11月12日开课，扫码关注服务号</p>
+              <p>扫码添加班主任</p>
               <img className='posterPic' src={posterUrl} alt=""/>
               <img className='close'
                    onClick={()=>{this.setState({ posterShow:false,})}}
@@ -113,7 +113,7 @@ export default class SelfManageB extends React.Component<any, any> {
           <ul>
             <li style={{ width:'100%',
             background: "rgba(61,81,137,1)",
-            color:"rgba(255,255,255,1)" }} onClick={()=>{this.handleFreeEntry()}}>超级简历用户 免费入学
+            color:"rgba(255,255,255,1)" }} onClick={()=>{this.handleFreeEntry()}}>免费入学
               <span style={{fontSize:'13'}}>（原价69元）</span>
             </li>
           </ul>
