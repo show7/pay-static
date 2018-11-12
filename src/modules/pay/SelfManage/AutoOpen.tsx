@@ -71,8 +71,6 @@ export default class AutoOpen extends React.Component<any, any> {
   render() {
     const {
       saleImg,
-      posterShow,
-      posterUrl,
     } = this.state
     return (
       <div className='self-manage-container'>
@@ -82,18 +80,6 @@ export default class AutoOpen extends React.Component<any, any> {
           })
         }
 
-        {
-          posterShow && posterUrl &&
-          <div className="poster-mask2">
-            <div className="poster-box">
-              <p>扫码添加班主任</p>
-              <img className='posterPic' src={posterUrl} alt=""/>
-              <img className='close'
-                   onClick={()=>{this.setState({ posterShow:false,})}}
-                   src="https://static.iqycamp.com/close-2-t6urec58.png" alt=""/>
-            </div>
-          </div>
-        }
         <div className="bottom-button">
           <ul>
             <li style={{ width:'100%',
