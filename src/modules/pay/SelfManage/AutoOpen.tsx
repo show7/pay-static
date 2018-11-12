@@ -5,6 +5,7 @@ import { loadActivityCheck, autoJoinAudioCourse } from '../async'
 import { alertMsg } from "../../../redux/actions";
 import { configShare } from "../../helpers/JsConfig";
 import { mark } from 'utils/request'
+import { Dialog } from 'react-weui'
 
 @connect(state => state)
 export default class AutoOpen extends React.Component<any, any> {
@@ -20,7 +21,9 @@ export default class AutoOpen extends React.Component<any, any> {
       posterUrl: '',
       posterShow: false,
       subscribe: false,
-      needMember: 0
+      needMember: 0,
+      show: false,
+      msg : ''
     }
   }
 
@@ -62,8 +65,7 @@ export default class AutoOpen extends React.Component<any, any> {
   handleFreeEntry() {
     mark({ module: '打点', function: '音频课入学', action: '自动开课' })
     autoJoinAudioCourse().then(res => {
-      const { dispatch } = this.props
-      dispatch(alertMsg(res.msg))
+      this.setState({msg: res.msg, show: true})
     })
 
   }
@@ -71,6 +73,8 @@ export default class AutoOpen extends React.Component<any, any> {
   render() {
     const {
       saleImg,
+      show,
+      msg
     } = this.state
     return (
       <div className='self-manage-container'>
@@ -79,6 +83,16 @@ export default class AutoOpen extends React.Component<any, any> {
             return <img key={index} src={item} alt=""/>
           })
         }
+
+        <Dialog show={show} buttons={[
+            {
+              label: '去上课', onClick: () => {
+                window.location.href = '/rise/activity/static/promotion/audio?activityId=13';
+              }
+            }
+          ]}>
+          {msg}
+        </Dialog>
 
         <div className="bottom-button">
           <ul>
