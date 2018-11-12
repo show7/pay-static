@@ -93,6 +93,6 @@ export function joinAudioCourse(riseId) {
   return ppost(`/rise/promotion/audio/join`, { riseId: riseId })
 }
 
-export function loadFriendInfo(riseId) {
-    return pget(`/rise/promotion/personal/friend/info?riseId=${riseId}`)
+export function autoJoinAudioCourse(riseId) {
+  return ppost(`/rise/promotion/audio/auto/open`, { riseId: riseId })
 }

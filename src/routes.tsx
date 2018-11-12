@@ -25,6 +25,7 @@ import PayL1 from 'modules/pay/risepay/PayL1'
 import payGift from 'modules/pay/payGift/PayGift'
 import SelfManage from 'modules/pay/SelfManage/SelfManage'
 import SelfManageB from 'modules/pay/SelfManage/SelfManageB'
+import AutoOpen from 'modules/pay/SelfManage/AutoOpen'
 
 const routes = (
   <Route path="/">
@@ -66,6 +67,7 @@ const routes = (
       <Route path="pay/guide" component={PayGuide}/>
       <Route path="pay/selfmanage" component={SelfManage}/>
       <Route path="pay/audiocourse" component={SelfManageB}/>
+      <Route path="pay/audiocourse/autoopen" component={AutoOpen}/>
       <Route path="pay/collegeaudio" component={CollegeAudioPay}/>
     </Route>
     <Route path="*" component={PageNotFound}></Route>
