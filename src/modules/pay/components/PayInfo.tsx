@@ -624,7 +624,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
               </li>
               {fee > MULTI_PAY_TYPE_PRICE &&
               <li className={classnames({ 'choose': payType == PayType.ALIPAY })}
-                  onClick={() => this.setState({ payType: PayType.ALIPAY })}>支付宝<span className="pay-type-tips">(支持花呗分期)</span>
+                  onClick={() => this.setState({ payType: PayType.ALIPAY })}>支付宝/*<span className="pay-type-tips">(支持花呗分期)</span>*/
               </li>}
             </ul>
           </div>
@@ -762,7 +762,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                   <div className="pay-icon">
                     <Icon type='pay_type_icon_ali'/>
                   </div>
-                  <div className="pay-type-name">支付宝<span className="pay-type-tips">(支持花呗分期)</span></div>
+                  <div className="pay-type-name">支付宝{/*<span className="pay-type-tips">(支持花呗分期)</span>*/}</div>
                 </div>
                 <div className={classnames('chose-btn', {
                   'chose': payType == PayType.ALIPAY
