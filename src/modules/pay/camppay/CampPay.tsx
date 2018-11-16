@@ -138,8 +138,7 @@ export default class CampPay extends React.Component<any, any> {
     const { data } = this.state
     const { privilege, errorMsg } = data
     if(!privilege && !!errorMsg) {
-      dispatch(alertMsg('本期招生已满，添加助手号（微信ID：quanquan0388）进行预约'))
-      // dispatch(alertMsg(errorMsg))
+      dispatch(alertMsg(errorMsg))
       return
     }
     const { riseId = '', type = 0 } = this.props.location.query
@@ -154,7 +153,7 @@ export default class CampPay extends React.Component<any, any> {
           if(privilege) {
             this.refs.payInfo.handleClickOpen()
           } else {
-            dispatch(alertMsg('本期招生已满，添加助手号（微信ID：quanquan0388）进行预约'))
+            dispatch(alertMsg(errorMsg))
           }
         } else {
           this.setState({ qrCode: qrCode, showQr: true })
