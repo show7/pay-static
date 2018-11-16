@@ -43,7 +43,7 @@ export default class CampPay extends React.Component<any, any> {
       return
     }
 
-    const {type = 0,taskId = 0} = this.props.location.query;
+    const { type = 0, taskId = 0 } = this.props.location.query;
 
     // 如果有分享组件,则等待分享组件加载完成
     await this.checkShareComponentCompleted();
@@ -51,51 +51,36 @@ export default class CampPay extends React.Component<any, any> {
     const { dispatch } = this.props
 
     //表示是分享点击进入
-    let {riseId} = this.props.location.query
+    let { riseId } = this.props.location.query
     //判断是否是老带新分享的链接
-    if (!_.isEmpty(riseId)) {
-      let param = {
-        riseId: riseId,
-        memberTypeId: 14
-      }
-      let invitationInfo = await loadInvitation(param)
-      this.setState({invitationData: invitationInfo.msg})
-      this.setState({invitationData: invitationInfo.msg})
-      if (invitationInfo.msg.isNewUser && invitationInfo.msg.isReceived) {
-        dispatch(alertMsg('优惠券已经发到你的圈外同学账号咯！'))
-      } else if (invitationInfo.msg.isNewUser) {
-        this.setState({invitationLayout: true})
-      }
-    }
-
+    // if (!_.isEmpty(riseId)) {
+    //   let param = {
+    //     riseId: riseId,
+    //     memberTypeId: 14
+    //   }
+    //   let invitationInfo = await loadInvitation(param)
+    //   this.setState({invitationData: invitationInfo.msg})
+    //   if (invitationInfo.msg.isNewUser && invitationInfo.msg.isReceived) {
+    //     dispatch(alertMsg('优惠券已经发到你的圈外同学账号咯！'))
+    //   } else if (invitationInfo.msg.isNewUser) {
+    //     this.setState({invitationLayout: true})
+    //   }
+    // }
 
     // 查询订单信息
     let res = await getRiseMember(this.state.goodsId);
     if(res.code === 200) {
       this.setState({ data: res.msg })
-      console.log('res:msg', res.msg);
-      const { quanwaiGoods = {}, privilege } = res.msg
-      if(privilege) {
-        saTrack('openSalePayPage', {
-          goodsType: quanwaiGoods.goodsType + '',
-          goodsId: quanwaiGoods.id + '',
-        })
-        mark({ module: '打点', function: quanwaiGoods.goodsType, action: quanwaiGoods.id, memo: '入学页面' })
-      } else {
-        saTrack('openSaleApplyPage', {
-          goodsType: quanwaiGoods.goodsType + '',
-          goodsId: quanwaiGoods.id + '',
-        })
-        mark({ module: '打点', function: quanwaiGoods.goodsType, action: quanwaiGoods.id, memo: '申请页面' })
-      }
+      const { quanwaiGoods = {} } = res.msg
+      mark({ module: '打点', function: quanwaiGoods.goodsType, action: quanwaiGoods.id, memo: '入学页面' })
     } else {
       dispatch(alertMsg(res.msg))
     }
 
-    if (type == 1) {
-      this.setState({showShare: true})
-      this.loadTask(taskId)
-    }
+    // if(type == 1) {
+    //   this.setState({ showShare: true })
+    //   this.loadTask(taskId)
+    // }
 
     configShare(
       `【圈外同学】30天掌握提升工作效率三大利器`,
@@ -157,11 +142,11 @@ export default class CampPay extends React.Component<any, any> {
       // dispatch(alertMsg(errorMsg))
       return
     }
-    const { riseId = '',type=0 } = this.props.location.query
+    const { riseId = '', type = 0 } = this.props.location.query
     this.reConfig()
     dispatch(startLoad())
     // 先检查是否能够支付
-    checkRiseMember(goodsId, riseId,type).then(res => {
+    checkRiseMember(goodsId, riseId, type).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         const { qrCode, privilege, errorMsg, subscribe } = res.msg
@@ -200,22 +185,21 @@ export default class CampPay extends React.Component<any, any> {
   /*获取值贡献*/
   loadTask(type) {
     loadTask(type).then((res) => {
-      if (res.code == 200) {
-        this.setState({task: res.msg})
+      if(res.code == 200) {
+        this.setState({ task: res.msg })
       }
     })
   }
 
   /*投资圈外分享好友*/
   getsShowShare() {
-    mark({module: '打点', function: '关闭专项课弹窗', action: '点击关闭弹框'})
-    this.setState({showShare: false, type: 1})
+    mark({ module: '打点', function: '关闭专项课弹窗', action: '点击关闭弹框' })
+    this.setState({ showShare: false, type: 1 })
   }
 
-
   render() {
-    const { data = {}, showErr, showCodeErr,  goodsId, showQr, invitationLayout, invitationData,qrCode, type, showShare,task={}} = this.state
-    const {shareAmount, shareContribution} = task
+    const { data = {}, showErr, showCodeErr, goodsId, showQr, invitationLayout, invitationData, qrCode, type, showShare, task = {} } = this.state
+    const { shareAmount, shareContribution } = task
     const { privilege, quanwaiGoods = {}, tip } = data
     const { location } = this.props
     let payType = _.get(location, 'query.paytype')
@@ -223,7 +207,7 @@ export default class CampPay extends React.Component<any, any> {
     const renderPay = () => {
       if(!quanwaiGoods.id) return null
       return (
-        <FooterButton third={true} btnArray={[
+        <FooterButton primary={true} btnArray={[
           {
             click: () => this.handleClickOpenPayInfo(quanwaiGoods.id),
             text: '立即入学',
@@ -249,7 +233,6 @@ export default class CampPay extends React.Component<any, any> {
         </div>
       )
     }
-
 
     return (
       <div className="camp-pay-container">
