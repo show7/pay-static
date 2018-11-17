@@ -17,7 +17,7 @@ export default class CollegeAudioPay extends React.Component<any, any> {
     this.state = {
       showQr: false,
       showClassMaster : false,
-      price: 1,
+      price: 399,
       saleImg: null,
       goodsId: 18,
     }
@@ -131,7 +131,7 @@ export default class CollegeAudioPay extends React.Component<any, any> {
           <FooterButton className='college-audio' btnArray={[
           {
             click: () => this.handleClickOpenPayInfo(goodsId),
-            text: '1元付款入学',
+            text: '付款入学',
             module: '打点',
             func: goodsId,
             action: '点击入学按钮',

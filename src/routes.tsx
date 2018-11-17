@@ -2,12 +2,10 @@ import * as React from 'react'
 import { config } from 'modules/helpers/JsConfig'
 import { Route } from 'react-router'
 import Base from 'modules/base/Base'
-import RisePay from 'modules/pay/risepay/RisePay'
+import PayL2 from 'modules/pay/risepay/PayL2'
 import CampPay from 'modules/pay/camppay/CampPay'
-import RiseShare from 'modules/pay/risepay/RiseShare'
 import BusinessApply from './modules/pay/bsapply/BusinessApply'
 import BusinessApplyChoice from './modules/pay/bsapply/BusinessApplyChoice'
-import PreacherPage from 'modules/pay/preacher/PreacherPage'
 import ApplySuccess from 'modules/pay/risepay/ApplySuccess'
 import MemberPaySuccess from 'modules/pay/paysuccess/MemberPaySuccess'
 import CollegeAudioPay from 'modules/pay/audiopay/CollegeAudioPay'
@@ -16,11 +14,9 @@ import PayGuide from './modules/pay/guide/PayGuide'
 import Subscribe from './modules/subscribe/Subscribe'
 import RiseAlipay from './modules/pay/risepay/RiseAlipay'
 import AlipayReturn from './modules/pay/risepay/AlipayReturn'
-import ExperienceDay from './modules/pay/preacher/ExperienceDay'
-import ThoughtPay from './modules/pay/thoughtpay/ThoughtPay'
+import PayL3 from './modules/pay/risepay/PayL3'
 import { notLoadInfoUrls, sa } from './utils/helpers'
 import PageNotFound from './modules/others/pageNotFound/PageNotFound'
-import ProjectIntro from './modules/pay/risepay/intro/ProjectIntro'
 import PayL1 from 'modules/pay/risepay/PayL1'
 import payGift from 'modules/pay/payGift/PayGift'
 import SelfManage from 'modules/pay/SelfManage/SelfManage'
@@ -47,21 +43,15 @@ const routes = (
            }}>
       <Route path="subscribe" component={Subscribe}/>
       <Route path="pay/member/success" component={MemberPaySuccess}/>
-      <Route path="pay/thought" component={ThoughtPay}/>
-      <Route path="pay/rise" component={RisePay}/>
+      <Route path="pay/thought" component={PayL3}/>
+      <Route path="pay/rise" component={PayL2}/>
       <Route path="pay/camp" component={CampPay}/>
-      <Route path="pay/static/rise" component={RisePay}/>
-      <Route path="pay/static/share" component={RiseShare}/>
       <Route path="pay/apply" component={ApplySuccess}/>
-      <Route path="pay/pay" component={RisePay}/>
-      <Route path="pay/preacher" component={PreacherPage}/>
-      <Route path="pay/experience/day" component={ExperienceDay}/>
       <Route path="pay/bsstart" component={BusinessApply}/>
       <Route path="pay/applychoice" component={BusinessApplyChoice}/>
       <Route path="pay/applysubmit" component={BusinessApplySubmitSuccess}/>
       <Route path="pay/alipay/rise" component={RiseAlipay}/>
       <Route path="pay/alipay/return" component={AlipayReturn}/>
-      <Route path="pay/thought/intro" component={ProjectIntro}/>
       <Route path="pay/l1" component={PayL1}/>
       <Route path="pay/gift" component={payGift}/>
       <Route path="pay/guide" component={PayGuide}/>

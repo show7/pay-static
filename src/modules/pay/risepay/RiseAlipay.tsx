@@ -1,5 +1,4 @@
 import * as React from 'react'
-import './RisePay.less'
 import { connect } from 'react-redux'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import * as _ from 'lodash';

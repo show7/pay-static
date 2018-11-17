@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as _ from 'lodash'
-import './RisePay.less'
+import './PayL2.less'
 import { connect } from 'react-redux'
 import { mark } from 'utils/request'
 import { PayType, sa, refreshForPay, saTrack } from 'utils/helpers'
@@ -14,7 +14,7 @@ import { SubscribeAlert } from './components/SubscribeAlert'
 import RenderInBody from '../../../components/RenderInBody'
 
 @connect(state => state)
-export default class RisePay extends React.Component<any, any> {
+export default class PayL2 extends React.Component<any, any> {
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
