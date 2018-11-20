@@ -25,7 +25,8 @@ export default class SelfManageB extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    mark({ module: '打点', function: '音频课入学', action: 'wondercv' })
+    const { memo } = this.props.location.query
+    mark({ module: '打点', function: '音频课入学', action: 'wondercv', memo })
     this.getInfo()
     configShare(
       `【圈外同学】请停止无效努力音频课`,
