@@ -16,6 +16,8 @@ import { GoodsType, PayType, saTrack } from '../../../utils/helpers'
 
 /** 超过这个金额时可以选择支付方式 */
 const MULTI_PAY_TYPE_PRICE = 100;
+/** 在这个金额范围内的可以选择银联支付 */
+const KFQ_PAY_PRICE_RANGE = [ 600, 50000 ];
 
 interface PayInfoProps {
   /** 显示支付窗口的回调 */
@@ -149,7 +151,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
    */
   handleClickPay() {
     // this.props.pay()
-    const { dispatch, goodsType, goodsId,activityId = null } = this.props
+    const { dispatch, goodsType, goodsId, activityId = null } = this.props
     const { chose, final, free, multiCoupons, payType = PayType.WECHAT } = this.state
     if(!goodsId || !goodsType) {
       dispatch(alertMsg('支付信息错误，请联系管理员'))
@@ -160,8 +162,8 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
         param = _.merge({}, param, { couponsIdGroup: chose.couponsIdGroup })
       }
     }
-    if (activityId){  //活动id
-        param = _.merge({}, param, { activityId: activityId })
+    if(activityId) {  //活动id
+      param = _.merge({}, param, { activityId: activityId })
     }
     dispatch(startLoad())
     loadPaymentParam(param).then(res => {
@@ -189,6 +191,8 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
             // 调用阿里支付
             window.location.href = `/pay/alipay/rise?orderId=${productId}&goto=${encodeURIComponent(signParams.alipayUrl)}`;
             // console.log(signParams.alipayUrl);
+          } else if(payType == PayType.KFQ) {
+            window.location.href = signParams.kfqUrl;
           }
         }
         if(_.isFunction(this.props.payedBefore)) {
@@ -543,6 +547,40 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     const hasCoupons = !_.isEmpty(coupons)
 
     /**
+     * 支付icon
+     */
+    const renderPayIcon = (payType) => {
+      switch(payType) {
+        case PayType.WECHAT: {
+          return 'pay_type_icon_wechat';
+        }
+        case PayType.ALIPAY: {
+          return 'pay_type_icon_ali';
+        }
+        default: {
+          return 'pay_type_icon_ali';
+        }
+      }
+    }
+
+    /**
+     * 支付方式名字
+     */
+    const renderPayTypeName = (payType) => {
+      switch(payType) {
+        case PayType.WECHAT: {
+          return '微信支付';
+        }
+        case PayType.ALIPAY: {
+          return '支付宝';
+        }
+        default: {
+          return '银联分期';
+        }
+      }
+    }
+
+    /**
      * 渲染价格
      * @param fee 价格
      * @param final 最终价格（打折后）
@@ -626,6 +664,10 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
               <li className={classnames({ 'choose': payType == PayType.ALIPAY })}
                   onClick={() => this.setState({ payType: PayType.ALIPAY })}>支付宝/*<span className="pay-type-tips">(支持花呗分期)</span>*/
               </li>}
+              {(fee >= KFQ_PAY_PRICE_RANGE[ 0 ] && fee <= KFQ_PAY_PRICE_RANGE[ 1 ]) &&
+              <li className={classnames({ 'choose': payType == PayType.KFQ })}
+                  onClick={() => this.setState({ payType: PayType.KFQ })}>银联分期
+              </li>}
             </ul>
           </div>
           <div className="btn-container">
@@ -684,9 +726,9 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                 {!openPayType &&
                 <div className="small-pay-type-info">
                   <div className="pay-icon">
-                    <Icon type={`pay_type_icon_${payType == PayType.WECHAT ? 'wechat' : 'ali'}`}/>
+                    <Icon type={renderPayIcon(payType)}/>
                   </div>
-                  <div className="pay-type-name">{payType == PayType.WECHAT ? '微信支付' : '支付宝'}</div>
+                  <div className="pay-type-name">{renderPayTypeName(payType)}</div>
                 </div>
                 }
               </div>
@@ -774,6 +816,25 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                   </div>
                 </div>
               </li>
+
+              {(fee >= KFQ_PAY_PRICE_RANGE[ 0 ] && fee <= KFQ_PAY_PRICE_RANGE[ 1 ]) &&
+              <li className="pay-type-item">
+                <div className="pay-type-info">
+                  <div className="pay-icon">
+                    <Icon type='pay_type_icon_ali'/>
+                  </div>
+                  <div className="pay-type-name">银联分期</div>
+                </div>
+                <div className={classnames('chose-btn', {
+                  'chose': payType == PayType.KFQ
+                })}
+                     onClick={() => this.choosePayType(PayType.KFQ)}>
+                  <div className='btn'>
+                  </div>
+                  <div className='mask'>
+                  </div>
+                </div>
+              </li>}
 
             </ul>
           </div>

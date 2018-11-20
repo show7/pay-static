@@ -34,6 +34,7 @@ export class GoodsType {
 export class PayType {
   public static WECHAT = 1;
   public static ALIPAY = 2;
+  public static KFQ = 3;
 }
 
 export class CouponCategory {

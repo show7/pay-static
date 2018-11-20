@@ -156,7 +156,7 @@ export default class PayL2 extends React.Component<any, any> {
       dispatch(endLoad())
       if(res.code === 200) {
         const { qrCode, privilege, errorMsg, subscribe } = res.msg
-        if(subscribe) {
+        if(subscribe || true) {
           this.refs.payInfo.handleClickOpen()
         } else {
           this.setState({ qrCode: qrCode, showQr: true })
