@@ -195,7 +195,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
             window.location.href = signParams.kfqUrl;
           } else {
             // 花呗分期
-
+            window.location.href = `/pay/alipay/rise?orderId=${productId}&goto=${encodeURIComponent(signParams.huabeiUrl)}&type=hb`;
           }
         }
         if(_.isFunction(this.props.payedBefore)) {
