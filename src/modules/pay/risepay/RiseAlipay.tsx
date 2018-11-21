@@ -16,7 +16,13 @@ export default class RiseAlipay extends React.Component<any, any> {
 
   constructor() {
     super()
-    this.state = {}
+    this.state = {
+      showTipPic: false
+    }
+  }
+
+  showTipPic() {
+    this.setState({ showTipPic: true })
   }
 
   componentDidMount() {
@@ -82,17 +88,26 @@ export default class RiseAlipay extends React.Component<any, any> {
 
   render() {
     const { location } = this.props;
-    const { isWechat, imageUrl } = this.state;
+    const { isWechat, imageUrl, showTipPic } = this.state;
+    console.log("state", showTipPic, this.state);
     if(location.query.type == 'hb') {
       // 花呗 https://static.iqycamp.com/hbbg-kjlnkysw.png
       return (
-        <div class="page-rise-alipay">
-          <div class="qrcode-wrapper">
-            <div class="ops-tips">长按保存二维码</div>
-            <div class="img-wrapper">
+        <div className="page-rise-alipay">
+          <div className="qrcode-wrapper">
+            <div className="ops-tips">长按保存二维码</div>
+            <div className="img-wrapper">
               <AssetImg url={imageUrl} width="100%"/>
             </div>
-            <div class="ops-tips"><u>操作步骤</u></div>
+            <div className="ops-tips" onClick={() => this.showTipPic()}><u>操作步骤</u></div>
+          </div>
+          <div className="tips-dialog" style={{ display: showTipPic ? 'block' : 'none' }}>
+            <div className="tips-image-wrapper">
+              <AssetImg url={'https://static.iqycamp.com/hbbg-kjlnkysw.png'} width="100%"/>
+            </div>
+            <div onClick={() => this.setState({ showTipPic: false })} className="tips-btn">
+              确定
+            </div>
           </div>
         </div>
       )
