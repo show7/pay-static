@@ -56,7 +56,11 @@ export default class RiseAlipay extends React.Component<any, any> {
   }
 
   render() {
+    const { location } = this.props;
     const { isWechat, imageUrl } = this.state;
+    if(location.query.payType ) {
+
+    }
     if(isWechat) {
       return (
         <div style={{ padding: '4rem' }}>

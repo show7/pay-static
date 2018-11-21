@@ -35,6 +35,9 @@ export class PayType {
   public static WECHAT = 1;
   public static ALIPAY = 2;
   public static KFQ = 3;
+  public static HUABEI_3 = 4;
+  public static HUABEI_6 = 5;
+  public static HUABEI_12 = 6;
 }
 
 export class CouponCategory {

@@ -193,6 +193,9 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
             // console.log(signParams.alipayUrl);
           } else if(payType == PayType.KFQ) {
             window.location.href = signParams.kfqUrl;
+          } else {
+            // 花呗分期
+
           }
         }
         if(_.isFunction(this.props.payedBefore)) {
@@ -519,6 +522,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     if(fee <= MULTI_PAY_TYPE_PRICE) {
       return;
     }
+    console.log('选择paytype', payType);
     if(!!payType) {
       // 有payType
       this.setState({ payType: payType, openPayType: false })
@@ -557,8 +561,11 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
         case PayType.ALIPAY: {
           return 'pay_type_icon_ali';
         }
+        case PayType.KFQ: {
+          return 'pay_type_icon_bank';
+        }
         default: {
-          return 'pay_type_icon_ali';
+          return 'pay_type_icon_hb';
         }
       }
     }
@@ -574,8 +581,20 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
         case PayType.ALIPAY: {
           return '支付宝';
         }
-        default: {
+        case PayType.KFQ: {
           return '银联分期';
+        }
+        case PayType.HUABEI_3: {
+          return '花呗分期(3期)'
+        }
+        case PayType.HUABEI_6: {
+          return '花呗分期(6期)'
+        }
+        case PayType.HUABEI_12: {
+          return '花呗分期(12期)'
+        }
+        default: {
+          return ''
         }
       }
     }
@@ -668,6 +687,15 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
               <li className={classnames({ 'choose': payType == PayType.KFQ })}
                   onClick={() => this.setState({ payType: PayType.KFQ })}>银联分期
               </li>}
+              <li className={classnames({ 'choose': payType == PayType.HUABEI_3 })}
+                  onClick={() => this.setState({ payType: PayType.HUABEI_3 })}>花呗分期(3期)
+              </li>
+              <li className={classnames({ 'choose': payType == PayType.HUABEI_6 })}
+                  onClick={() => this.setState({ payType: PayType.HUABEI_6 })}>花呗分期(6期)
+              </li>
+              <li className={classnames({ 'choose': payType == PayType.HUABEI_12 })}
+                  onClick={() => this.setState({ payType: PayType.HUABEI_12 })}>花呗分期(12期)
+              </li>
             </ul>
           </div>
           <div className="btn-container">
@@ -821,7 +849,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
               <li className="pay-type-item">
                 <div className="pay-type-info">
                   <div className="pay-icon">
-                    <Icon type='pay_type_icon_ali'/>
+                    <Icon type='pay_type_icon_bank'/>
                   </div>
                   <div className="pay-type-name">银联分期</div>
                 </div>
@@ -835,6 +863,60 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                   </div>
                 </div>
               </li>}
+
+              <li className="pay-type-item">
+                <div className="pay-type-info">
+                  <div className="pay-icon">
+                    <Icon type='pay_type_icon_hb'/>
+                  </div>
+                  <div className="pay-type-name">花呗分期(3期){/*<span className="pay-type-tips">(支持花呗分期)</span>*/}</div>
+                </div>
+                <div className={classnames('chose-btn', {
+                  'chose': payType == PayType.HUABEI_3
+                })}
+                     onClick={() => this.choosePayType(PayType.HUABEI_3)}>
+                  <div className='btn'>
+                  </div>
+                  <div className='mask'>
+                  </div>
+                </div>
+              </li>
+
+              <li className="pay-type-item">
+                <div className="pay-type-info">
+                  <div className="pay-icon">
+                    <Icon type='pay_type_icon_hb'/>
+                  </div>
+                  <div className="pay-type-name">花呗分期(6期){/*<span className="pay-type-tips">(支持花呗分期)</span>*/}</div>
+                </div>
+                <div className={classnames('chose-btn', {
+                  'chose': payType == PayType.HUABEI_6
+                })}
+                     onClick={() => this.choosePayType(PayType.HUABEI_6)}>
+                  <div className='btn'>
+                  </div>
+                  <div className='mask'>
+                  </div>
+                </div>
+              </li>
+
+              <li className="pay-type-item">
+                <div className="pay-type-info">
+                  <div className="pay-icon">
+                    <Icon type='pay_type_icon_hb'/>
+                  </div>
+                  <div className="pay-type-name">花呗分期(12期){/*<span className="pay-type-tips">(支持花呗分期)</span>*/}</div>
+                </div>
+                <div className={classnames('chose-btn', {
+                  'chose': payType == PayType.HUABEI_12
+                })}
+                     onClick={() => this.choosePayType(PayType.HUABEI_12)}>
+                  <div className='btn'>
+                  </div>
+                  <div className='mask'>
+                  </div>
+                </div>
+              </li>
 
             </ul>
           </div>
