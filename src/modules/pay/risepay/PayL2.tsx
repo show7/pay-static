@@ -277,7 +277,7 @@ export default class PayL2 extends React.Component<any, any> {
                         }}>
               </div>
               <div className="qr_dialog_content">
-                <span>扫码后可进行申请哦</span>
+                <span>扫码后可进行报名哦</span>
                 <div className="qr_code">
                   <img src={qrCode}/>
                 </div>
