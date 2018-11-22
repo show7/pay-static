@@ -290,7 +290,7 @@ export default class CampPay extends React.Component<any, any> {
                      this.setState({ showQr: false })
                    }}></div>
               <div className="qr_dialog_content">
-                <span>扫码后可进行申请哦</span>
+                <span>你还没有关注公众号，请先扫码关注哦！</span>
                 <div className="qr_code">
                   <img src={qrCode}/>
                 </div>
