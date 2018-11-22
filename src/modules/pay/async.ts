@@ -109,8 +109,3 @@ export function autoJoinAudioCourse(riseId) {
 export function checkCanPay() {
   return pget('/signup/rise/member/audio/pay/check')
 }
-
-export function loadAudioInfo() {
-  return pget('/promotion/audio/v2/load?activityId=13')
-
-}
