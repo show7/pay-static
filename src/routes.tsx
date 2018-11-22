@@ -62,7 +62,6 @@ const routes = (
       <Route path="pay/audiocourse/autoopen" component={AutoOpen}/>
       <Route path="pay/collegeaudio" component={CollegeAudioPay}/>
       <Route path="pay/challengeaudio" component={ChallengeAudio}/>
-      <Route path="pay/test" component={Test}/>
     </Route>
     <Route path="*" component={PageNotFound}></Route>
   </Route>
