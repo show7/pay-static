@@ -11,6 +11,7 @@ import MemberPaySuccess from 'modules/pay/paysuccess/MemberPaySuccess'
 import CollegeAudioPay from 'modules/pay/audiopay/CollegeAudioPay'
 import BusinessApplySubmitSuccess from './modules/pay/bsapply/BusinessApplySubmitSuccess'
 import PayGuide from './modules/pay/guide/PayGuide'
+import ChallengeAudio from './modules/pay/SelfManage/ChallengeAudio'
 import Subscribe from './modules/subscribe/Subscribe'
 import RiseAlipay from './modules/pay/risepay/RiseAlipay'
 import AlipayReturn from './modules/pay/risepay/AlipayReturn'
@@ -59,6 +60,7 @@ const routes = (
       <Route path="pay/audiocourse" component={SelfManageB}/>
       <Route path="pay/audiocourse/autoopen" component={AutoOpen}/>
       <Route path="pay/collegeaudio" component={CollegeAudioPay}/>
+      <Route path="pay/challengeaudio" component={ChallengeAudio}/>
     </Route>
     <Route path="*" component={PageNotFound}></Route>
   </Route>

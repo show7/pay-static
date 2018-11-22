@@ -300,7 +300,7 @@ export default class PayL1 extends React.Component<any, any> {
                                  this.setState({showQr: false})
                              }}></div>
                         <div className="qr_dialog_content">
-                            <span>扫码后可进行申请哦</span>
+                            <span>扫码后可进行报名哦</span>
                             <div className="qr_code">
                                 <img src={qrCode}/>
                             </div>
