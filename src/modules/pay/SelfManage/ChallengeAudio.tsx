@@ -1,5 +1,5 @@
 import * as React from 'react'
-import './SelfManage.less'
+import './ChallengeAudio.less'
 import { connect } from 'react-redux'
 import { PayType } from '../../../utils/helpers'
 import { joinChallengeAudio, checkAudio, checkCanPay, loadRotate } from '../async'
@@ -126,7 +126,7 @@ export default class ChallengeAudio extends React.Component<any, any> {
       goodsType
     } = this.state
     return (
-      <div className='self-manage-container'>
+      <div className='challenge-audio-container'>
         {
           saleImg && saleImg.map((item, index) => {
             return <img key={index} src={item} alt=""/>
@@ -144,10 +144,11 @@ export default class ChallengeAudio extends React.Component<any, any> {
             </div>
           </div>
         }
-        <div className="bottom-button">
+
+        <div className="audio-bottom-button">
           <ul>
             <li onClick={() => {this.handlePayPopOut()}}>69元付费入学</li>
-            <li onClick={() => {this.handleFreeEntry()}}>0元挑战</li>
+            <li onClick={() => {this.handleFreeEntry()}}>0元挑战入学</li>
           </ul>
         </div>
         {
