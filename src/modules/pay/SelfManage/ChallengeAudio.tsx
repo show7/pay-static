@@ -22,8 +22,8 @@ export default class ChallengeAudio extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    const { memo, source } = this.props.location.query
-    mark({ module: '打点', function: '音频课入学', action: 'challengeaudio', memo, channelAudio: source })
+    const {source } = this.props.location.query
+    mark({ module: '打点', function: '音频课入学', action: 'challengeaudio', memo:source})
     this.getInfo()
     configShare(
       `【圈外同学】请停止无效努力音频课`,
@@ -53,7 +53,7 @@ export default class ChallengeAudio extends React.Component<any, any> {
    */
   handleFreeEntry() {
     const { source } = this.props.location.query
-    mark({ module: '打点', function: '音频课入学', action: 'challengeaudio_click', channelAudio: source })
+    mark({ module: '打点', function: '音频课入学', action: 'challengeaudio_click', memo: source })
     joinChallengeAudio().then(res => {
       if(res.code === 200) {
         let result = res.msg
@@ -70,7 +70,7 @@ export default class ChallengeAudio extends React.Component<any, any> {
   /*点击购买*/
   handlePayPopOut() {
     const { source } = this.props.location.query
-    mark({ module: '打点', function: '音频课入学', action: 'challengepay_click', channelAudio: source })
+    mark({ module: '打点', function: '音频课入学', action: 'challengepay_click', memo: source })
     checkCanPay().then(res => {
       if(res.code === 200) {
         if(_.isEmpty(res.msg)) {
