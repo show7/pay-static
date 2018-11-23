@@ -1,0 +1,155 @@
+.challenge-audio-container{
+  padding-bottom: 5rem;
+  >img{
+    width: 100%;
+  }
+  .audio-bottom-button{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 5rem;
+    background-color: #FFFFFF;
+    >ul{
+      >li{
+        display: inline-block;
+        line-height: 5rem;
+        text-align: center;
+        letter-spacing:3px;
+        &:first-child{
+          font-size:1.4rem;
+          font-weight:300;
+          width: 37%;
+          background:rgba(255,255,255,1);
+          color:rgba(61,81,137,1);
+          position: relative;
+          &:before{
+            content: '';
+            width: 100%;
+            height: 1px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            border-top:1px solid rgba(206,206,206,1);
+            -webkit-transform: scaleY(0.5);
+          }
+        }
+        &:last-child{
+          font-size:1.6rem;
+          font-weight:500;
+          width: 63%;
+          background:rgba(61,81,137,1);
+          color:rgba(255,255,255,1);
+        }
+      }
+    }
+  }
+
+  .poster-mask,.subscribe-mask{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    background:rgba(0,0,0,0.75);
+    overflow-y: scroll;
+    .poster-box{
+      position: absolute;
+      width: 100%;
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+      overflow-y: scroll;
+      >p{
+        font-size:1.6rem;
+        font-weight:600;
+        color:rgba(255,255,255,1);
+        text-align: center;
+        margin-bottom: 2.5rem;
+      }
+      >img.posterPic{
+        width: 82%;
+        margin: 0 auto;
+        display: block;
+      }
+      .close{
+        width: 2.1rem;
+        height: 2.1rem;
+        position: absolute;
+        top: 2.2rem;
+        right: 3.8rem;
+      }
+    }
+
+    .qrCodeUrl-box{
+      margin: 0 auto;
+      text-align: center;
+      position: absolute;
+      top: 20%;
+      left: 0;
+      right: 0;
+      >p{
+        font-size:1.6rem;
+        font-weight:600;
+        color:rgba(255,255,255,1);
+        text-align: center;
+        margin-bottom: 2.5rem;
+      }
+      >img.subscribe{
+        width: 20rem;
+        height: 20rem;
+        margin-bottom: 2rem;
+      }
+      .close{
+        width: 2.1rem;
+        height: 2.1rem;
+        display: block;
+        margin: 0 auto;
+
+      }
+    }
+  }
+
+  .poster-mask2{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    background:rgba(0,0,0,0.75);
+    overflow-y: scroll;
+    .poster-box{
+      position: absolute;
+      width: 100%;
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+      overflow-y: scroll;
+      top: 50%;
+      transform: translateY(-50%);
+      >p{
+        font-size:1.6rem;
+        font-weight:600;
+        color:rgba(255,255,255,1);
+        text-align: center;
+        margin-bottom: 2.5rem;
+      }
+      >.posterPic{
+        width: 82%;
+        margin: 0 auto;
+        display: block;
+      }
+      .close{
+        width: 2.1rem;
+        height: 2.1rem;
+        position: relative;
+        top: 2.2rem;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+
+  }
+}
