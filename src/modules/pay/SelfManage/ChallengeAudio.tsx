@@ -2,12 +2,13 @@ import * as React from 'react'
 import './SelfManage.less'
 import { connect } from 'react-redux'
 import { PayType } from '../../../utils/helpers'
-import { joinChallengeAudio, checkAudio, checkCanPay } from '../async'
+import { joinChallengeAudio, checkAudio, checkCanPay, loadRotate } from '../async'
 import { alertMsg } from '../../../redux/actions'
 import { configShare } from '../../helpers/JsConfig'
 import { mark } from 'utils/request'
 import PayInfo from '../components/PayInfo'
 import {payInfo} from '../components/PayInfo'
+import * as _ from 'lodash'
 
 @connect(state => state)
 export default class ChallengeAudio extends React.Component<any, any> {
@@ -37,9 +38,7 @@ export default class ChallengeAudio extends React.Component<any, any> {
       if(res.code === 200) {
         let result = res.msg
         this.setState({
-          isSubscribe: result.isSubscribe,
           price: result.price,
-          qrCodeUrl: result.qrCodeUrl,
           goodsId: result.goodsId,
           goodsName: result.goodsName,
           goodsType: result.goodsType,
@@ -74,12 +73,12 @@ export default class ChallengeAudio extends React.Component<any, any> {
     mark({ module: '打点', function: '音频课入学', action: 'challengepay_click', channelAudio: source })
     checkCanPay().then(res => {
       if(res.code === 200) {
-        const { isSubscribe } = this.state
-        if(isSubscribe) {
+        if(_.isEmpty(res.msg)) {
           this.refs.payInfo.handleClickOpen()
-        } else {
+        }else{
           this.setState({
-            subscribe: true
+            posterUrl: res.msg,
+            posterShow: true
           })
         }
       } else {
@@ -90,9 +89,15 @@ export default class ChallengeAudio extends React.Component<any, any> {
   }
 
   handlePayedDone() {
-    mark({module: '打点', function: '自我管理专项课', action: '支付成功'})
-    const {dispatch} = this.props
-    dispatch(alertMsg('支付成功'))
+    mark({module: '打点', function: '69元付费报名', action: '支付成功'})
+    loadRotate(13).then(res=>{
+      if(res.code===200){
+        this.setState({
+          posterUrl: res.msg,
+          posterShow: true
+        })
+      }
+    })
   }
 
   /** 处理取消支付的状态 */
@@ -116,8 +121,6 @@ export default class ChallengeAudio extends React.Component<any, any> {
       saleImg,
       posterShow,
       posterUrl,
-      subscribe,
-      qrCodeUrl,
       goodsId,
       goodsName,
       goodsType
@@ -129,7 +132,6 @@ export default class ChallengeAudio extends React.Component<any, any> {
             return <img key={index} src={item} alt=""/>
           })
         }
-
         {
           posterShow && posterUrl &&
           <div className="poster-mask2">
@@ -157,18 +159,6 @@ export default class ChallengeAudio extends React.Component<any, any> {
                    payedError={(res) => this.handlePayedError(res)}
                    payedBefore={() => this.handlePayedBefore()}
                    payType={ PayType.WECHAT}/>
-        }
-        {
-          subscribe && qrCodeUrl &&
-          <div className="subscribe-mask">
-            <div className="qrCodeUrl-box">
-              <p>你还没有关注公众号，请先扫码关注哦！</p>
-              <img className='subscribe' src={qrCodeUrl} alt=""/>
-              <img className='close'
-                   onClick={() => {this.setState({ subscribe: false })}}
-                   src="https://static.iqycamp.com/close-2-t6urec58.png" alt=""/>
-            </div>
-          </div>
         }
       </div>
     )
