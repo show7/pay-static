@@ -149,15 +149,15 @@ export default class CampPay extends React.Component<any, any> {
       dispatch(endLoad())
       if(res.code === 200) {
         const { qrCode, privilege, errorMsg, subscribe } = res.msg
-        if(subscribe) {
+        // if(subscribe) {
           if(privilege) {
             this.refs.payInfo.handleClickOpen()
           } else {
             dispatch(alertMsg(errorMsg))
           }
-        } else {
-          this.setState({ qrCode: qrCode, showQr: true })
-        }
+        // } else {
+        //   this.setState({ qrCode: qrCode, showQr: true })
+        // }
       }
       else {
         dispatch(alertMsg(res.msg))
