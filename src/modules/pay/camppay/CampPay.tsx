@@ -220,7 +220,7 @@ export default class CampPay extends React.Component<any, any> {
       return (
         <div className="pay-btn-wrapper">
           <div className="left">
-            <span style={{ marginLeft: '20px' }}>原价<span
+            <span  className="btn-text">原价<span
               style={{ textDecoration: 'line-through' }}>299元</span>，限时99元</span>
           </div>
           <div className="pay-btn" onClick={() => {
