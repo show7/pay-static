@@ -204,7 +204,9 @@ export default class CampPay extends React.Component<any, any> {
     let payType = _.get(location, 'query.paytype')
 
     const renderPay = () => {
-      if(!quanwaiGoods.id) return null
+      if(!quanwaiGoods.id) {
+        return null
+      }
       // <FooterButton primary={true} btnArray={[
       //   {
       //     click: () => this.handleClickOpenPayInfo(quanwaiGoods.id),
