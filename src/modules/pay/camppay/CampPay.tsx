@@ -150,11 +150,11 @@ export default class CampPay extends React.Component<any, any> {
       if(res.code === 200) {
         const { qrCode, privilege, errorMsg, subscribe } = res.msg
         // if(subscribe) {
-          if(privilege) {
-            this.refs.payInfo.handleClickOpen()
-          } else {
-            dispatch(alertMsg(errorMsg))
-          }
+        if(privilege) {
+          this.refs.payInfo.handleClickOpen()
+        } else {
+          dispatch(alertMsg(errorMsg))
+        }
         // } else {
         //   this.setState({ qrCode: qrCode, showQr: true })
         // }
@@ -205,17 +205,27 @@ export default class CampPay extends React.Component<any, any> {
 
     const renderPay = () => {
       if(!quanwaiGoods.id) return null
+      // <FooterButton primary={true} btnArray={[
+      //   {
+      //     click: () => this.handleClickOpenPayInfo(quanwaiGoods.id),
+      //     text: '立即入学',
+      //     module: '打点',
+      //     func: quanwaiGoods.id,
+      //     action: '点击入学按钮',
+      //     memo: privilege
+      //   }
+      //   ]}/>
       return (
-        <FooterButton primary={true} btnArray={[
-          {
-            click: () => this.handleClickOpenPayInfo(quanwaiGoods.id),
-            text: '立即入学',
-            module: '打点',
-            func: quanwaiGoods.id,
-            action: '点击入学按钮',
-            memo: privilege
-          }
-        ]}/>
+        <div className="pay-btn-wrapper">
+          <div className="left">
+            <span style={{ marginLeft: '20px' }}>原价<span
+              style={{ textDecoration: 'line-through' }}>299元</span>，限时99元</span>
+          </div>
+          <div className="pay-btn">
+            立即报名
+          </div>
+        </div>
+
       )
     }
 
@@ -226,7 +236,7 @@ export default class CampPay extends React.Component<any, any> {
             <h3>好友邀请</h3>
             <p>{invitationData.oldNickName}觉得《{invitationData.memberTypeName}》很适合你，邀请你成为TA的同学，送你一张{invitationData.amount}元的学习优惠券。</p>
             <span className="button" onClick={() => {
-              this.setState({invitationLayout: false})
+              this.setState({ invitationLayout: false })
             }}>知道了</span>
           </div>
         </div>
