@@ -4,6 +4,7 @@ import { Route } from 'react-router'
 import Base from 'modules/base/Base'
 import PayL2 from 'modules/pay/risepay/PayL2'
 import CampPay from 'modules/pay/camppay/CampPay'
+import CoinAudioPay from './modules/pay/audiopay/CoinAudioPay'
 import BusinessApply from './modules/pay/bsapply/BusinessApply'
 import BusinessApplyChoice from './modules/pay/bsapply/BusinessApplyChoice'
 import ApplySuccess from 'modules/pay/risepay/ApplySuccess'
@@ -62,6 +63,7 @@ const routes = (
       <Route path="pay/audiocourse/autoopen" component={AutoOpen}/>
       <Route path="pay/collegeaudio" component={CollegeAudioPay}/>
       <Route path="pay/challengeaudio" component={ChallengeAudio}/>
+      <Route path="pay/coinaudio" component={CoinAudioPay}/>
     </Route>
     <Route path="*" component={PageNotFound}></Route>
   </Route>

@@ -1,17 +1,16 @@
 import * as React from 'react'
-import './ChallengeAudio.less'
+import './CoinAudioPay.less'
 import { connect } from 'react-redux'
 import { PayType } from '../../../utils/helpers'
-import { joinChallengeAudio, checkAudio, checkCanPay, loadRotate } from '../async'
+import {  checkAudio, checkCanPay, loadRotate, checkGoodsInfo } from '../async'
 import { alertMsg } from '../../../redux/actions'
 import { configShare } from '../../helpers/JsConfig'
 import { mark } from 'utils/request'
 import PayInfo from '../components/PayInfo'
-import {payInfo} from '../components/PayInfo'
 import * as _ from 'lodash'
 
 @connect(state => state)
-export default class ChallengeAudio extends React.Component<any, any> {
+export default class CoinAudioPay extends React.Component<any, any> {
   constructor(props) {
     super(props)
     this.state = {
@@ -23,18 +22,18 @@ export default class ChallengeAudio extends React.Component<any, any> {
 
   componentWillMount() {
     const {source } = this.props.location.query
-    mark({ module: '打点', function: '音频课入学', action: 'challengeaudio', memo:source})
+    mark({ module: '打点', function: '音频课入学', action: 'coinaudio', memo:source})
     this.getInfo()
     configShare(
       `【圈外同学】请停止无效努力音频课`,
-      `https://${window.location.hostname}/pay/challengeaudio`,
+      `https://${window.location.hostname}/pay/coinaudio`,
       'https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg',
       `顶尖咨询总监，8年职场方法论`
     )
   }
 
   getInfo() {
-    checkAudio('challenge_audio').then((res) => {
+    checkAudio('coin_audio').then((res) => {
       if(res.code === 200) {
         let result = res.msg
         this.setState({
@@ -53,13 +52,31 @@ export default class ChallengeAudio extends React.Component<any, any> {
    */
   handleFreeEntry() {
     const { source } = this.props.location.query
-    mark({ module: '打点', function: '音频课入学', action: 'challengeaudio_click', memo: source })
-    joinChallengeAudio().then(res => {
+    mark({ module: '打点', function: '音频课入学', action: 'coinaudio_click_1', memo: source })
+    let _this = this
+    checkCanPay().then(res => {
       if(res.code === 200) {
-        let result = res.msg
-        this.setState({
-          posterShow: true, posterUrl: result.url
-        })
+        if(_.isEmpty(res.msg)) {
+          checkGoodsInfo(22).then(res=>{
+            if(res.code===200){
+              let result =res.msg
+              this.setState({
+                price: result.price,
+                goodsId: result.id,
+                goodsName: result.name,
+                goodsType: result.goodsType,
+              },()=>{
+                _this.refs.payInfo.handleClickOpen()
+              })
+
+            }
+          })
+        }else{
+          this.setState({
+            posterUrl: res.msg,
+            posterShow: true
+          })
+        }
       } else {
         const { dispatch } = this.props
         dispatch(alertMsg(res.msg))
@@ -70,11 +87,24 @@ export default class ChallengeAudio extends React.Component<any, any> {
   /*点击购买*/
   handlePayPopOut() {
     const { source } = this.props.location.query
-    mark({ module: '打点', function: '音频课入学', action: 'challengepay_click', memo: source })
+    mark({ module: '打点', function: '音频课入学', action: 'coinaudiopay_click_2', memo: source })
+    let _this =this
     checkCanPay().then(res => {
       if(res.code === 200) {
         if(_.isEmpty(res.msg)) {
-          this.refs.payInfo.handleClickOpen()
+          checkGoodsInfo(21).then(res=>{
+            if(res.code===200){
+              let result =res.msg
+              this.setState({
+                price: result.price,
+                goodsId: result.id,
+                goodsName: result.name,
+                goodsType: result.goodsType,
+              },()=>{
+                _this.refs.payInfo.handleClickOpen()
+              })
+            }
+          })
         }else{
           this.setState({
             posterUrl: res.msg,
@@ -89,7 +119,7 @@ export default class ChallengeAudio extends React.Component<any, any> {
   }
 
   handlePayedDone() {
-    mark({module: '打点', function: '69元付费报名', action: '支付成功'})
+    mark({module: '打点', function: '付费报名', action: '支付成功'})
     loadRotate(13).then(res=>{
       if(res.code===200){
         this.setState({
@@ -126,7 +156,7 @@ export default class ChallengeAudio extends React.Component<any, any> {
       goodsType
     } = this.state
     return (
-      <div className='challenge-audio-container'>
+      <div className='coin-audio-container'>
         {
           saleImg && saleImg.map((item, index) => {
             return <img key={index} src={item} alt=""/>
@@ -148,13 +178,13 @@ export default class ChallengeAudio extends React.Component<any, any> {
         <div className="audio-bottom-button">
           <ul>
             <li onClick={() => {this.handlePayPopOut()}}>69元付费入学</li>
-            <li onClick={() => {this.handleFreeEntry()}}>0元挑战入学</li>
+            <li onClick={() => {this.handleFreeEntry()}}>1元挑战入学</li>
           </ul>
         </div>
         {
           goodsId &&
           <PayInfo ref="payInfo" dispatch={this.props.dispatch} goodsType={goodsType}
-                   goodsId={goodsId} header={goodsName} priceTips={} activityId={17} channel='challenge_audio'
+                   goodsId={goodsId} header={goodsName} priceTips={} activityId={17} channel='coin_audio'
                    payedDone={(goodsId) => this.handlePayedDone()}
                    payedCancel={(res) => this.handlePayedCancel(res)}
                    payedError={(res) => this.handlePayedError(res)}
