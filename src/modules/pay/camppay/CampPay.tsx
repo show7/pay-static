@@ -53,19 +53,19 @@ export default class CampPay extends React.Component<any, any> {
     //表示是分享点击进入
     let { riseId } = this.props.location.query
     //判断是否是老带新分享的链接
-    // if (!_.isEmpty(riseId)) {
-    //   let param = {
-    //     riseId: riseId,
-    //     memberTypeId: 14
-    //   }
-    //   let invitationInfo = await loadInvitation(param)
-    //   this.setState({invitationData: invitationInfo.msg})
-    //   if (invitationInfo.msg.isNewUser && invitationInfo.msg.isReceived) {
-    //     dispatch(alertMsg('优惠券已经发到你的圈外同学账号咯！'))
-    //   } else if (invitationInfo.msg.isNewUser) {
-    //     this.setState({invitationLayout: true})
-    //   }
-    // }
+    if (!_.isEmpty(riseId)) {
+      let param = {
+        riseId: riseId,
+        memberTypeId: 14
+      }
+      let invitationInfo = await loadInvitation(param)
+      this.setState({invitationData: invitationInfo.msg})
+      if (invitationInfo.msg.isNewUser && invitationInfo.msg.isReceived) {
+        dispatch(alertMsg('优惠券已经发到你的圈外同学账号咯！'))
+      } else if (invitationInfo.msg.isNewUser) {
+        this.setState({invitationLayout: true})
+      }
+    }
 
     // 查询订单信息
     let res = await getRiseMember(this.state.goodsId);
@@ -77,13 +77,13 @@ export default class CampPay extends React.Component<any, any> {
       dispatch(alertMsg(res.msg))
     }
 
-    // if(type == 1) {
-    //   this.setState({ showShare: true })
-    //   this.loadTask(taskId)
-    // }
+    if(type == 1) {
+      this.setState({ showShare: true })
+      this.loadTask(taskId)
+    }
 
     configShare(
-      `【圈外同学】30天掌握提升工作效率三大利器`,
+      `「圈外同学」邀请你参加商学院专项课`,
       `https://${window.location.hostname}/pay/camp?riseId=${window.ENV.riseId}&type=2`,
       `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
       `${window.ENV.userName}邀请你成为同学，享受限时优惠`
