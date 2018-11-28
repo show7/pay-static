@@ -4,6 +4,7 @@ import { Route } from 'react-router'
 import Base from 'modules/base/Base'
 import PayL2 from 'modules/pay/risepay/PayL2'
 import CampPay from 'modules/pay/camppay/CampPay'
+import CombatPay from 'modules/pay/combatpay/CombatPay'
 import CoinAudioPay from './modules/pay/audiopay/CoinAudioPay'
 import BusinessApply from './modules/pay/bsapply/BusinessApply'
 import BusinessApplyChoice from './modules/pay/bsapply/BusinessApplyChoice'
@@ -13,7 +14,6 @@ import CollegeAudioPay from 'modules/pay/audiopay/CollegeAudioPay'
 import BusinessApplySubmitSuccess from './modules/pay/bsapply/BusinessApplySubmitSuccess'
 import PayGuide from './modules/pay/guide/PayGuide'
 import ChallengeAudio from './modules/pay/SelfManage/ChallengeAudio'
-import Test from './modules/pay/test/Test'
 import Subscribe from './modules/subscribe/Subscribe'
 import RiseAlipay from './modules/pay/risepay/RiseAlipay'
 import AlipayReturn from './modules/pay/risepay/AlipayReturn'
@@ -47,6 +47,7 @@ const routes = (
       <Route path="subscribe" component={Subscribe}/>
       <Route path="pay/member/success" component={MemberPaySuccess}/>
       <Route path="pay/thought" component={PayL3}/>
+      <Route path="pay/combat" component={CombatPay}/>
       <Route path="pay/rise" component={PayL2}/>
       <Route path="pay/camp" component={CampPay}/>
       <Route path="pay/apply" component={ApplySuccess}/>
