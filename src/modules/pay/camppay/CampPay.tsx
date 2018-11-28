@@ -218,20 +218,20 @@ export default class CampPay extends React.Component<any, any> {
       //   }
       //   ]}/>
       return (
-        <div className="pay-btn-wrapper">
+        <div className="pay-btn-wrapper" onClick={() => {
+          mark({
+            module: '打点',
+            function: quanwaiGoods.id,
+            action: '点击入学按钮',
+            memo: privilege
+          })
+          this.handleClickOpenPayInfo(quanwaiGoods.id)
+        }}>
           <div className="left">
             <span  className="btn-text">原价<span
               style={{ textDecoration: 'line-through' }}>299元</span>，限时99元</span>
           </div>
-          <div className="pay-btn" onClick={() => {
-            mark({
-              module: '打点',
-              function: '立即入学',
-              action: '点击入学按钮',
-              memo: privilege
-            })
-            this.handleClickOpenPayInfo(quanwaiGoods.id)
-          }}>
+          <div className="pay-btn">
             立即报名
           </div>
         </div>
