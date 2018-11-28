@@ -222,6 +222,15 @@ export default class CombatPay extends React.Component<any, any> {
     })
   }
 
+  disableUserProtocol() {
+    this.setState({
+      showModel: false
+    }, () => {
+      // document.getElementById('business-school-intro-pic-container').style.overflow = 'hidden'
+    })
+
+  }
+
   render() {
     const { showModel, data, showErr, showCodeErr, subscribe, saleImg, invitationLayout, showQr, qrCode, invitationData, showShare, type, task = {} } = this.state
     const { privilege, quanwaiGoods = {}, tip } = data;
