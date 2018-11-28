@@ -50,7 +50,7 @@ export default class CombatPay extends React.Component<any, any> {
     if(!_.isEmpty(riseId)) {
       let param = {
         riseId: riseId,
-        memberTypeId: 18,
+        memberTypeId: 19,
       }
       let invitationInfo = await loadInvitation(param)
       this.setState({ invitationData: invitationInfo.msg })
