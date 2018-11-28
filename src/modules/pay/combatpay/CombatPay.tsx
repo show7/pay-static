@@ -259,7 +259,7 @@ export default class CombatPay extends React.Component<any, any> {
             </div>
             <img className="xiaoQ"
                  style={{width: '50%'}}
-                 src="https://static.iqycamp.com/images/code_zsbzr_0703.jpeg?imageslim"/>
+                 src="https://static.iqycamp.com/combat-mkvpoyz5.jpg?imageslim"/>
           </div>
         }
         {
