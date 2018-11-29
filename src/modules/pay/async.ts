@@ -82,6 +82,11 @@ export function loadActivityCheck(param) {
   return pget(`/signup/rise/member/activity/check/13`, param)
 }
 
+export function checkAudio(param) {
+  return pget(`/signup/rise/member/audio/check?channel=${param}`)
+
+}
+
 /**
  * 获取自我管理专项课海报
  */
@@ -93,6 +98,24 @@ export function joinAudioCourse(riseId) {
   return ppost(`/rise/promotion/audio/join`, { riseId: riseId })
 }
 
+export function joinChallengeAudio() {
+  return ppost(`/rise/promotion/audio/challenge/join`)
+}
+
 export function autoJoinAudioCourse(riseId) {
   return ppost(`/rise/promotion/audio/auto/open`, { riseId: riseId })
+}
+
+export function checkCanPay() {
+  return pget('/signup/rise/member/audio/pay/check')
+}
+
+
+export function loadRotate(param) {
+  return pget(`/promotion/audio/load/rotate?activityId=${param}`)
+}
+
+export function checkGoodsInfo(param) {
+  return pget(`/signup/rise/member/audio/load/goods?goodsId=${param}`)
+
 }

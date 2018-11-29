@@ -12,6 +12,7 @@ import PayInfo from '../components/PayInfo'
 import { config, configShare } from '../../helpers/JsConfig'
 import { mark } from '../../../utils/request'
 import { SubscribeAlert } from './components/SubscribeAlert'
+import RenderInBody from '../../../components/RenderInBody'
 
 /**
  * 商业进阶课售卖页
@@ -173,11 +174,15 @@ export default class PayL3 extends Component<any, any> {
     checkRiseMember(showId, riseId, type).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        const { qrCode, privilege, errorMsg } = res.msg
-        if(privilege) {
-          this.refs.payInfo.handleClickOpen()
+        const { qrCode, privilege, errorMsg, subscribe } = res.msg
+        if(subscribe) {
+          if(privilege) {
+            this.refs.payInfo.handleClickOpen()
+          } else {
+            dispatch(alertMsg(errorMsg))
+          }
         } else {
-          dispatch(alertMsg(errorMsg))
+          this.setState({ qrCode: qrCode, showQr: true })
         }
       }
       else {
@@ -199,7 +204,9 @@ export default class PayL3 extends Component<any, any> {
   render() {
     let payType = _.get(location, 'query.paytype')
 
-    const { subscribeAlertTips, privilege, quanwaiGoods, buttonStr, auditionStr, tip, showId, timeOut, showErr, showCodeErr, subscribe, invitationLayout, invitationData, showShare, type, task = {} } = this.state
+    const { subscribeAlertTips, privilege, quanwaiGoods, buttonStr, auditionStr, tip, showId, timeOut,
+      showQr,qrCode,
+      showErr, showCodeErr, subscribe, invitationLayout, invitationData, showShare, type, task = {} } = this.state
     const { shareAmount, shareContribution, finishContribution } = task
     const renderButtons = () => {
       if(typeof(privilege) === 'undefined') {
@@ -207,26 +214,26 @@ export default class PayL3 extends Component<any, any> {
       }
       if(!!privilege) {
         return <FooterButton primary={true} isThought={true} btnArray={[
-                    {
-                        click: () => this.handleClickOpenPayInfo(quanwaiGoods.id),
-                        text: '立即入学',
-                        module: '打点',
-                        func: '进阶课程',
-                        action: '点击立即入学',
-                        memo: '入学页面'
-                    }
-                ]}/>
+          {
+            click: () => this.handleClickOpenPayInfo(quanwaiGoods.id),
+            text: '立即入学',
+            module: '打点',
+            func: '进阶课程',
+            action: '点击立即入学',
+            memo: '入学页面'
+          }
+        ]}/>
       } else {
         return <FooterButton primary={true} isThought={true} btnArray={[
-                    {
-                        click: () => this.redirect(),
-                        text: '马上申请',
-                        module: '打点',
-                        func: '进阶课程',
-                        action: '点击马上预约',
-                        memo: '申请页面'
-                    }
-                ]}/>
+          {
+            click: () => this.redirect(),
+            text: '马上申请',
+            module: '打点',
+            func: '进阶课程',
+            action: '点击马上预约',
+            memo: '申请页面'
+          }
+        ]}/>
       }
     }
     return (
@@ -236,7 +243,7 @@ export default class PayL3 extends Component<any, any> {
         {
           subscribe &&
           <SubscribeAlert tips={subscribeAlertTips.tips} qrCode={subscribeAlertTips.qrCode}
-                          closeFunc={() => this.setState({subscribe: false})}/>
+                          closeFunc={() => this.setState({ subscribe: false })}/>
         }
         {
           quanwaiGoods &&
@@ -250,28 +257,28 @@ export default class PayL3 extends Component<any, any> {
         }
         {
           showCodeErr &&
-          <div className="mask" onClick={() => this.setState({showCodeErr: false})}>
+          <div className="mask" onClick={() => this.setState({ showCodeErr: false })}>
             <div className="tips">
               糟糕，支付不成功<br/> 原因：微信不支持跨公众号支付<br/> 怎么解决：<br/> 1，长按下方二维码，保存到相册；<br/> 2，打开微信扫一扫，点击右上角相册，选择二维码图片；<br/>
               3，在新开的页面完成支付即可<br/>
             </div>
-            <img className="xiaoQ" style={{width: '50%'}}
+            <img className="xiaoQ" style={{ width: '50%' }}
                  src="https://static.iqycamp.com/images/fragment/thought_apply_pro.jpeg?imageslim"/>
           </div>
         }
         {
           timeOut &&
           <div className="mask" onClick={() => {
-                        window.history.back()
-                    }}
+            window.history.back()
+          }}
                style={{
-                             background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center' +
-                             ' center/100% 100%'
-                         }}/>
+                 background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center' +
+                 ' center/100% 100%'
+               }}/>
         }
         {
           showErr &&
-          <div className="mask" onClick={() => this.setState({showErr: false})}>
+          <div className="mask" onClick={() => this.setState({ showErr: false })}>
             <div className="tips">
               出现问题的童鞋看这里<br/> 1如果显示“URL未注册”，请重新刷新页面即可<br/> 2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
             </div>
@@ -283,8 +290,8 @@ export default class PayL3 extends Component<any, any> {
                           amount={invitationData.amount}
                           projectName={invitationData.memberTypeName}
                           callBack={() => {
-                                      this.setState({invitationLayout: false})
-                                  }}/>
+                            this.setState({ invitationLayout: false })
+                          }}/>
         }
 
         {
@@ -299,8 +306,8 @@ export default class PayL3 extends Component<any, any> {
                 <div><span>2</span><p className='desc'>好友在开学1个月内按进度学习并完课，你将获得{finishContribution}贡献值</p>
                 </div>
                 <div className="button-bottom" onClick={() => {
-                                    this.getsShowShare()
-                                }}><p>立即邀请</p></div>
+                  this.getsShowShare()
+                }}><p>立即邀请</p></div>
               </div>
             </dev>
           </div>
@@ -311,6 +318,20 @@ export default class PayL3 extends Component<any, any> {
             <img src="https://static.iqycamp.com/1091533182527_-sc42kog6.pic.jpg" alt="分享图片"/>
           </div>
         }
+        {!!showQr ? <RenderInBody>
+          <div className="qr_dialog">
+            <div className="qr_dialog_mask"
+                 onClick={() => {
+                   this.setState({showQr: false})
+                 }}></div>
+            <div className="qr_dialog_content">
+              <span>你还没有关注公众号，请先扫码关注哦！</span>
+              <div className="qr_code">
+                <img src={qrCode}/>
+              </div>
+            </div>
+          </div>
+        </RenderInBody> : null}
       </div>
     )
   }
