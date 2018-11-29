@@ -166,7 +166,7 @@ export default class CoinAudioPay extends React.Component<any, any> {
           posterShow && posterUrl &&
           <div className="poster-mask2">
             <div className="poster-box">
-              <p>扫码添加班主任</p>
+              <p>扫码添加班主任，才能正常开课！</p>
               <img className='posterPic' src={posterUrl} alt=""/>
               <img className='close'
                    onClick={() => {this.setState({ posterShow: false })}}
