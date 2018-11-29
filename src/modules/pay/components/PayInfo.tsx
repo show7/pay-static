@@ -16,6 +16,8 @@ import { GoodsType, PayType, saTrack } from '../../../utils/helpers'
 
 /** 超过这个金额时可以选择支付方式 */
 const MULTI_PAY_TYPE_PRICE = 100;
+/** 在这个金额范围内的可以选择银联支付 */
+const KFQ_PAY_PRICE_RANGE = [ 600, 50000 ];
 
 interface PayInfoProps {
   /** 显示支付窗口的回调 */
@@ -72,14 +74,16 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
   componentWillMount(type, id) {
     let goodsType = type || this.props.goodsType
     let goodsId = id || this.props.goodsId
-    const { dispatch } = this.props
+    const { dispatch, showKfq = false, showHuabei = false } = this.props
 
     // 获取商品数据
     if(!goodsId || !goodsType) {
       return
     }
     this.setState({
-      justOpenPayType: goodsId == 7 && GoodsType.BS_APPLICATION == goodsType
+      justOpenPayType: goodsId == 7 && GoodsType.BS_APPLICATION == goodsType,
+      showKfq: showKfq,
+      showHuabei: showHuabei
     })
     loadGoodsInfo(goodsType, goodsId).then(res => {
       if(res.code === 200) {
@@ -149,7 +153,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
    */
   handleClickPay() {
     // this.props.pay()
-    const { dispatch, goodsType, goodsId,activityId = null,channel= null } = this.props
+    const { dispatch, goodsType, goodsId, activityId = null, channel = null } = this.props
     const { chose, final, free, multiCoupons, payType = PayType.WECHAT } = this.state
     if(!goodsId || !goodsType) {
       dispatch(alertMsg('支付信息错误，请联系管理员'))
@@ -160,10 +164,10 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
         param = _.merge({}, param, { couponsIdGroup: chose.couponsIdGroup })
       }
     }
-    if (activityId){  //活动id
-        param = _.merge({}, param, { activityId: activityId })
+    if(activityId) {  //活动id
+      param = _.merge({}, param, { activityId: activityId })
     }
-    if(channel){
+    if(channel) {
       param = _.merge({}, param, { channel: channel })
     }
     dispatch(startLoad())
@@ -192,6 +196,11 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
             // 调用阿里支付
             window.location.href = `/pay/alipay/rise?orderId=${productId}&goto=${encodeURIComponent(signParams.alipayUrl)}`;
             // console.log(signParams.alipayUrl);
+          } else if(payType == PayType.KFQ) {
+            window.location.href = signParams.kfqUrl;
+          } else {
+            // 花呗分期
+            window.location.href = `/pay/alipay/rise?orderId=${productId}&goto=${encodeURIComponent(signParams.huabeiUrl)}&type=hb`;
           }
         }
         if(_.isFunction(this.props.payedBefore)) {
@@ -518,6 +527,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     if(fee <= MULTI_PAY_TYPE_PRICE) {
       return;
     }
+    console.log('选择paytype', payType);
     if(!!payType) {
       // 有payType
       this.setState({ payType: payType, openPayType: false })
@@ -539,11 +549,63 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
   }
 
   render() {
-    const { openCoupon, final, fee, chose, free, show, name, startTime, endTime, activity, multiCoupons, openPayType, chooseAll, initPrice, payType, hiddenCoupon = false, justOpenPayType } = this.state
+    const { openCoupon, final, fee, chose, free, show, name,
+      startTime, endTime, activity, multiCoupons, openPayType,
+      chooseAll, initPrice, payType, hiddenCoupon = false,
+      justOpenPayType, showKfq, showHuabei } = this.state
     const { header, goodsId, goodsType } = this.props
     let coupons = _.get(this.state, 'coupons', [])
     // coupons = this.filterCoupons(coupons, goodsType)
     const hasCoupons = !_.isEmpty(coupons)
+
+    /**
+     * 支付icon
+     */
+    const renderPayIcon = (payType) => {
+      switch(payType) {
+        case PayType.WECHAT: {
+          return 'pay_type_icon_wechat';
+        }
+        case PayType.ALIPAY: {
+          return 'pay_type_icon_ali';
+        }
+        case PayType.KFQ: {
+          return 'pay_type_icon_bank';
+        }
+        default: {
+          return 'pay_type_icon_hb';
+        }
+      }
+    }
+
+    /**
+     * 支付方式名字
+     */
+    const renderPayTypeName = (payType) => {
+      switch(payType) {
+        case PayType.WECHAT: {
+          return '微信支付';
+        }
+        case PayType.ALIPAY: {
+          return '支付宝';
+        }
+        case PayType.KFQ: {
+          return '银联分期';
+        }
+        case PayType.HUABEI_3: {
+          return '花呗分期(3期)'
+        }
+        case PayType.HUABEI_6: {
+          return '花呗分期(6期)'
+        }
+        case PayType.HUABEI_12: {
+          return '花呗分期(12期)'
+        }
+        default: {
+          return ''
+        }
+      }
+    }
 
     /**
      * 渲染价格
@@ -629,6 +691,19 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
               <li className={classnames({ 'choose': payType == PayType.ALIPAY })}
                   onClick={() => this.setState({ payType: PayType.ALIPAY })}>支付宝/*<span className="pay-type-tips">(支持花呗分期)</span>*/
               </li>}
+              {(fee >= KFQ_PAY_PRICE_RANGE[ 0 ] && fee <= KFQ_PAY_PRICE_RANGE[ 1 ]) && showKfq &&
+              <li className={classnames({ 'choose': payType == PayType.KFQ })}
+                  onClick={() => this.setState({ payType: PayType.KFQ })}>银联分期
+              </li>}
+              {showHuabei && <li className={classnames({ 'choose': payType == PayType.HUABEI_3 })}
+                                 onClick={() => this.setState({ payType: PayType.HUABEI_3 })}>花呗分期(3期)
+              </li>}
+              {showHuabei && <li className={classnames({ 'choose': payType == PayType.HUABEI_6 })}
+                                 onClick={() => this.setState({ payType: PayType.HUABEI_6 })}>花呗分期(6期)
+              </li>}
+              {showHuabei && <li className={classnames({ 'choose': payType == PayType.HUABEI_12 })}
+                                 onClick={() => this.setState({ payType: PayType.HUABEI_12 })}>花呗分期(12期)
+              </li>}
             </ul>
           </div>
           <div className="btn-container">
@@ -687,9 +762,9 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                 {!openPayType &&
                 <div className="small-pay-type-info">
                   <div className="pay-icon">
-                    <Icon type={`pay_type_icon_${payType == PayType.WECHAT ? 'wechat' : 'ali'}`}/>
+                    <Icon type={renderPayIcon(payType)}/>
                   </div>
-                  <div className="pay-type-name">{payType == PayType.WECHAT ? '微信支付' : '支付宝'}</div>
+                  <div className="pay-type-name">{renderPayTypeName(payType)}</div>
                 </div>
                 }
               </div>
@@ -777,6 +852,79 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                   </div>
                 </div>
               </li>
+
+              {(fee >= KFQ_PAY_PRICE_RANGE[ 0 ] && fee <= KFQ_PAY_PRICE_RANGE[ 1 ]) && showKfq &&
+              <li className="pay-type-item">
+                <div className="pay-type-info">
+                  <div className="pay-icon">
+                    <Icon type='pay_type_icon_bank'/>
+                  </div>
+                  <div className="pay-type-name">银联分期</div>
+                </div>
+                <div className={classnames('chose-btn', {
+                  'chose': payType == PayType.KFQ
+                })}
+                     onClick={() => this.choosePayType(PayType.KFQ)}>
+                  <div className='btn'>
+                  </div>
+                  <div className='mask'>
+                  </div>
+                </div>
+              </li>}
+
+              {showHuabei && <li className="pay-type-item">
+                <div className="pay-type-info">
+                  <div className="pay-icon">
+                    <Icon type='pay_type_icon_hb'/>
+                  </div>
+                  <div className="pay-type-name">花呗分期(3期){/*<span className="pay-type-tips">(支持花呗分期)</span>*/}</div>
+                </div>
+                <div className={classnames('chose-btn', {
+                  'chose': payType == PayType.HUABEI_3
+                })}
+                     onClick={() => this.choosePayType(PayType.HUABEI_3)}>
+                  <div className='btn'>
+                  </div>
+                  <div className='mask'>
+                  </div>
+                </div>
+              </li>}
+
+              {showHuabei && <li className="pay-type-item">
+                <div className="pay-type-info">
+                  <div className="pay-icon">
+                    <Icon type='pay_type_icon_hb'/>
+                  </div>
+                  <div className="pay-type-name">花呗分期(6期){/*<span className="pay-type-tips">(支持花呗分期)</span>*/}</div>
+                </div>
+                <div className={classnames('chose-btn', {
+                  'chose': payType == PayType.HUABEI_6
+                })}
+                     onClick={() => this.choosePayType(PayType.HUABEI_6)}>
+                  <div className='btn'>
+                  </div>
+                  <div className='mask'>
+                  </div>
+                </div>
+              </li>}
+
+              {showHuabei && <li className="pay-type-item">
+                <div className="pay-type-info">
+                  <div className="pay-icon">
+                    <Icon type='pay_type_icon_hb'/>
+                  </div>
+                  <div className="pay-type-name">花呗分期(12期){/*<span className="pay-type-tips">(支持花呗分期)</span>*/}</div>
+                </div>
+                <div className={classnames('chose-btn', {
+                  'chose': payType == PayType.HUABEI_12
+                })}
+                     onClick={() => this.choosePayType(PayType.HUABEI_12)}>
+                  <div className='btn'>
+                  </div>
+                  <div className='mask'>
+                  </div>
+                </div>
+              </li>}
 
             </ul>
           </div>
