@@ -2,6 +2,7 @@ import * as React from 'react'
 import { GoodsType } from '../../../utils/helpers'
 import { queryOrderSuccess } from './async'
 import { alertMsg } from '../../../redux/actions'
+import * as _ from 'lodash';
 
 export default class AlipayReturn extends React.Component<any, any> {
 
