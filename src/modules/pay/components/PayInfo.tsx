@@ -74,14 +74,16 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
   componentWillMount(type, id) {
     let goodsType = type || this.props.goodsType
     let goodsId = id || this.props.goodsId
-    const { dispatch } = this.props
+    const { dispatch, showKfq = false, showHuabei = false } = this.props
 
     // 获取商品数据
     if(!goodsId || !goodsType) {
       return
     }
     this.setState({
-      justOpenPayType: goodsId == 7 && GoodsType.BS_APPLICATION == goodsType
+      justOpenPayType: goodsId == 7 && GoodsType.BS_APPLICATION == goodsType,
+      showKfq: showKfq,
+      showHuabei: showHuabei
     })
     loadGoodsInfo(goodsType, goodsId).then(res => {
       if(res.code === 200) {
@@ -151,7 +153,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
    */
   handleClickPay() {
     // this.props.pay()
-    const { dispatch, goodsType, goodsId, activityId = null,channel= null } = this.props
+    const { dispatch, goodsType, goodsId, activityId = null, channel = null } = this.props
     const { chose, final, free, multiCoupons, payType = PayType.WECHAT } = this.state
     if(!goodsId || !goodsType) {
       dispatch(alertMsg('支付信息错误，请联系管理员'))
@@ -165,7 +167,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     if(activityId) {  //活动id
       param = _.merge({}, param, { activityId: activityId })
     }
-    if(channel){
+    if(channel) {
       param = _.merge({}, param, { channel: channel })
     }
     dispatch(startLoad())
@@ -547,7 +549,10 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
   }
 
   render() {
-    const { openCoupon, final, fee, chose, free, show, name, startTime, endTime, activity, multiCoupons, openPayType, chooseAll, initPrice, payType, hiddenCoupon = false, justOpenPayType } = this.state
+    const { openCoupon, final, fee, chose, free, show, name,
+      startTime, endTime, activity, multiCoupons, openPayType,
+      chooseAll, initPrice, payType, hiddenCoupon = false,
+      justOpenPayType, showKfq, showHuabei } = this.state
     const { header, goodsId, goodsType } = this.props
     let coupons = _.get(this.state, 'coupons', [])
     // coupons = this.filterCoupons(coupons, goodsType)
@@ -686,19 +691,19 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
               <li className={classnames({ 'choose': payType == PayType.ALIPAY })}
                   onClick={() => this.setState({ payType: PayType.ALIPAY })}>支付宝/*<span className="pay-type-tips">(支持花呗分期)</span>*/
               </li>}
-              {(fee >= KFQ_PAY_PRICE_RANGE[ 0 ] && fee <= KFQ_PAY_PRICE_RANGE[ 1 ]) &&
+              {(fee >= KFQ_PAY_PRICE_RANGE[ 0 ] && fee <= KFQ_PAY_PRICE_RANGE[ 1 ]) && showKfq &&
               <li className={classnames({ 'choose': payType == PayType.KFQ })}
                   onClick={() => this.setState({ payType: PayType.KFQ })}>银联分期
               </li>}
-              <li className={classnames({ 'choose': payType == PayType.HUABEI_3 })}
-                  onClick={() => this.setState({ payType: PayType.HUABEI_3 })}>花呗分期(3期)
-              </li>
-              <li className={classnames({ 'choose': payType == PayType.HUABEI_6 })}
-                  onClick={() => this.setState({ payType: PayType.HUABEI_6 })}>花呗分期(6期)
-              </li>
-              <li className={classnames({ 'choose': payType == PayType.HUABEI_12 })}
-                  onClick={() => this.setState({ payType: PayType.HUABEI_12 })}>花呗分期(12期)
-              </li>
+              {showHuabei && <li className={classnames({ 'choose': payType == PayType.HUABEI_3 })}
+                                 onClick={() => this.setState({ payType: PayType.HUABEI_3 })}>花呗分期(3期)
+              </li>}
+              {showHuabei && <li className={classnames({ 'choose': payType == PayType.HUABEI_6 })}
+                                 onClick={() => this.setState({ payType: PayType.HUABEI_6 })}>花呗分期(6期)
+              </li>}
+              {showHuabei && <li className={classnames({ 'choose': payType == PayType.HUABEI_12 })}
+                                 onClick={() => this.setState({ payType: PayType.HUABEI_12 })}>花呗分期(12期)
+              </li>}
             </ul>
           </div>
           <div className="btn-container">
@@ -848,7 +853,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                 </div>
               </li>
 
-              {(fee >= KFQ_PAY_PRICE_RANGE[ 0 ] && fee <= KFQ_PAY_PRICE_RANGE[ 1 ]) &&
+              {(fee >= KFQ_PAY_PRICE_RANGE[ 0 ] && fee <= KFQ_PAY_PRICE_RANGE[ 1 ]) && showKfq &&
               <li className="pay-type-item">
                 <div className="pay-type-info">
                   <div className="pay-icon">
@@ -867,7 +872,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                 </div>
               </li>}
 
-              <li className="pay-type-item">
+              {showHuabei && <li className="pay-type-item">
                 <div className="pay-type-info">
                   <div className="pay-icon">
                     <Icon type='pay_type_icon_hb'/>
@@ -883,9 +888,9 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                   <div className='mask'>
                   </div>
                 </div>
-              </li>
+              </li>}
 
-              <li className="pay-type-item">
+              {showHuabei && <li className="pay-type-item">
                 <div className="pay-type-info">
                   <div className="pay-icon">
                     <Icon type='pay_type_icon_hb'/>
@@ -901,9 +906,9 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                   <div className='mask'>
                   </div>
                 </div>
-              </li>
+              </li>}
 
-              <li className="pay-type-item">
+              {showHuabei && <li className="pay-type-item">
                 <div className="pay-type-info">
                   <div className="pay-icon">
                     <Icon type='pay_type_icon_hb'/>
@@ -919,7 +924,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                   <div className='mask'>
                   </div>
                 </div>
-              </li>
+              </li>}
 
             </ul>
           </div>

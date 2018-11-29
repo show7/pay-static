@@ -105,6 +105,7 @@ export function refreshForPay() {
   // ios／安卓微信支付兼容性
   if(!_.isEmpty(window.ENV.configUrl) &&
     window.ENV.configUrl !== window.location.href) {
+    console.log("微信sdk需要刷新页面")
     window.location.href = window.location.href
     return true;
   } else {
