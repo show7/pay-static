@@ -15,7 +15,7 @@ import { pay } from '../../helpers/JsConfig'
 import { GoodsType, PayType, saTrack } from '../../../utils/helpers'
 
 /** 超过这个金额时可以选择支付方式 */
-const MULTI_PAY_TYPE_PRICE = 0;
+const MULTI_PAY_TYPE_PRICE = 100;
 /** 在这个金额范围内的可以选择银联支付 */
 const KFQ_PAY_PRICE_RANGE = [ 600, 50000 ];
 
