@@ -280,7 +280,7 @@ export class SaleBody extends React.Component {
              id="business-school-intro-pic-container">
           <SequenceDisplay imgList={[
             mergeStyle({
-              url: 'https://static.iqycamp.com/L3-01@2x 1-y8a99yor.jpg'
+              url: 'https://static.iqycamp.com/l3-nxql4s7r.jpeg'
             }),
             {
               dom: <QYVideo fileId='5285890780601189027' videoPoster='https://static.iqycamp.com/images/thought_poster_0723.jpeg?imageslim'/>
