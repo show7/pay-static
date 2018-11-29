@@ -16,6 +16,7 @@ export default class AlipayReturn extends React.Component<any, any> {
   }
 
   componentDidMount() {
+    const { dispatch, location } = this.props;
     let interval = setInterval(() => {
       if(!!window.ENV.Detected.browser.name) {
         clearInterval(interval);
@@ -24,7 +25,7 @@ export default class AlipayReturn extends React.Component<any, any> {
           let orderId = _.get(location, 'query.orderId');
           if(!!orderId) {
             let orderInterval = setInterval(() => {
-              queryOrderSuccess(_.get(location, 'query.orderId')).then(res => {
+              queryOrderSuccess(orderId).then(res => {
                 if(res.code === 200) {
                   clearInterval(orderInterval);
                   const { goodsId, goodsType } = res.msg;
