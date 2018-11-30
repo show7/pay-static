@@ -13,6 +13,7 @@ import { config, configShare } from '../../helpers/JsConfig'
 import { mark } from '../../../utils/request'
 import { SubscribeAlert } from './components/SubscribeAlert'
 import RenderInBody from '../../../components/RenderInBody'
+import SaleShow from '../../../components/SaleShow'
 
 /**
  * 商业进阶课售卖页
@@ -204,9 +205,11 @@ export default class PayL3 extends Component<any, any> {
   render() {
     let payType = _.get(location, 'query.paytype')
 
-    const { subscribeAlertTips, privilege, quanwaiGoods, buttonStr, auditionStr, tip, showId, timeOut,
-      showQr,qrCode,
-      showErr, showCodeErr, subscribe, invitationLayout, invitationData, showShare, type, task = {} } = this.state
+    const {
+      subscribeAlertTips, privilege, quanwaiGoods = {}, buttonStr, auditionStr, tip, showId, timeOut,
+      showQr, qrCode,
+      showErr, showCodeErr, subscribe, invitationLayout, invitationData, showShare, type, task = {}
+    } = this.state
     const { shareAmount, shareContribution, finishContribution } = task
     const renderButtons = () => {
       if(typeof(privilege) === 'undefined') {
@@ -238,7 +241,7 @@ export default class PayL3 extends Component<any, any> {
     }
     return (
       <div className="plus-pay">
-        <SaleBody memberTypeId='8'/>
+        {quanwaiGoods.saleImg && <SaleShow showList={quanwaiGoods.saleImg} name='l3'/>}
         {renderButtons()}
         {
           subscribe &&
@@ -322,7 +325,7 @@ export default class PayL3 extends Component<any, any> {
           <div className="qr_dialog">
             <div className="qr_dialog_mask"
                  onClick={() => {
-                   this.setState({showQr: false})
+                   this.setState({ showQr: false })
                  }}></div>
             <div className="qr_dialog_content">
               <span>请先扫码关注，“圈外同学”公众号，了解报名详情👇</span>

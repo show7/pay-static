@@ -228,7 +228,6 @@ export default class PayL2 extends React.Component<any, any> {
       <div className="rise-pay-container">
         <div className="pay-page l2">
           {quanwaiGoods.saleImg && <SaleShow showList={quanwaiGoods.saleImg} name='l2'/>}
-          {/*<SaleBody memberTypeId="10"/>*/}
           {renderPay()}
         </div>
         {
