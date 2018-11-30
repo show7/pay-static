@@ -12,6 +12,7 @@ import { SaleBody } from './components/SaleBody'
 import { MarkBlock } from '../components/markblock/MarkBlock'
 import { SubscribeAlert } from './components/SubscribeAlert'
 import RenderInBody from '../../../components/RenderInBody'
+import SaleShow from '../../../components/SaleShow'
 
 @connect(state => state)
 export default class PayL2 extends React.Component<any, any> {
@@ -74,7 +75,6 @@ export default class PayL2 extends React.Component<any, any> {
         saTrack('openSalePayPage', {
           goodsType: quanwaiGoods.goodsType + '',
           goodsId: quanwaiGoods.id + '',
-          saleImg: quanwaiGoods.saleImg || []
         })
         mark({ module: '打点', function: quanwaiGoods.goodsType, action: quanwaiGoods.id, memo: '入学页面' })
       } else {
@@ -189,7 +189,7 @@ export default class PayL2 extends React.Component<any, any> {
     const {
       testPay, data, timeOut, showErr, showCodeErr, subscribe,
       invitationLayout, invitationData,
-      showQr, qrCode, showShare, type, task = {}, saleImg
+      showQr, qrCode, showShare, type, task = {}
     } = this.state
     const { privilege, buttonStr, quanwaiGoods = {}, tip } = data
     const { shareAmount, shareContribution, finishContribution } = task
@@ -227,7 +227,8 @@ export default class PayL2 extends React.Component<any, any> {
     return (
       <div className="rise-pay-container">
         <div className="pay-page l2">
-          <SaleBody memberTypeId="10"/>
+          {quanwaiGoods.saleImg && <SaleShow showList={quanwaiGoods.saleImg} name='l2'/>}
+          {/*<SaleBody memberTypeId="10"/>*/}
           {renderPay()}
         </div>
         {
