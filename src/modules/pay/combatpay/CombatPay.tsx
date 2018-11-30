@@ -100,12 +100,12 @@ export default class CombatPay extends React.Component<any, any> {
     loadTask(type).then((res) => {
       if(res.code == 200) {
         this.setState({ task: res.msg }, () => {
-          configShare(
-            `【圈外同学】4个月时间体系化提升，成为职场超强个体`,
-            `https://${window.location.hostname}/pay/l1?riseId=${window.ENV.riseId}&type=2`,
-            `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
-            `${window.ENV.userName}邀请你成为同学，领取${res.msg.shareAmount}元【圈外同学】L1项目入学优惠券`
-          )
+          // configShare(
+          //   `【圈外同学】4个月时间体系化提升，成为职场超强个体`,
+          //   `https://${window.location.hostname}/pay/l1?riseId=${window.ENV.riseId}&type=2`,
+          //   `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
+          //   `${window.ENV.userName}邀请你成为同学，领取${res.msg.shareAmount}元【圈外同学】L1项目入学优惠券`
+          // )
         })
       }
     })
@@ -113,12 +113,12 @@ export default class CombatPay extends React.Component<any, any> {
 
   /*投资圈外分享好友*/
   getsShowShare() {
-    configShare(
-      `【圈外同学】4个月时间体系化提升，成为职场超强个体`,
-      `https://${window.location.hostname}/pay/l1?riseId=${window.ENV.riseId}&type=2`,
-      `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
-      `${window.ENV.userName}邀请你成为同学，领取${this.state.task.shareAmount}元【圈外同学】L1项目入学优惠券`
-    )
+    // configShare(
+    //   `【圈外同学】4个月时间体系化提升，成为职场超强个体`,
+    //   `https://${window.location.hostname}/pay/l1?riseId=${window.ENV.riseId}&type=2`,
+    //   `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
+    //   `${window.ENV.userName}邀请你成为同学，领取${this.state.task.shareAmount}元【圈外同学】L1项目入学优惠券`
+    // )
     mark({ module: '打点', function: '关闭弹框l1', action: '点击关闭弹框' })
     this.setState({ showShare: false, type: 1 })
   }
