@@ -43,7 +43,6 @@ export default class SequenceDisplay extends React.Component<any, any> {
     let newPics = merge([], pics)
     newPics[ index ].loading = false;
     this.setState({ imgList: newPics });
-    console.log('newPics', newPics);
     if(index <= 0) {
       onLoadFirst();
     }
