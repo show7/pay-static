@@ -159,7 +159,7 @@ export default class PayL2 extends React.Component<any, any> {
       dispatch(endLoad())
       if(res.code === 200) {
         const { qrCode, privilege, errorMsg, subscribe } = res.msg
-        if(subscribe || true) {
+        if(subscribe) {
           this.refs.payInfo.handleClickOpen()
         } else {
           this.setState({ qrCode: qrCode, showQr: true })
@@ -286,7 +286,7 @@ export default class PayL2 extends React.Component<any, any> {
             }}>
             </div>
             <div className="qr_dialog_content">
-              <span>你还没有关注公众号，请先扫码关注哦！</span>
+              <span>请先扫码关注，“圈外同学”公众号，了解报名详情👇</span>
               <div className="qr_code">
                 <img src={qrCode}/>
               </div>
