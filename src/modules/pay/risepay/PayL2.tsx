@@ -45,7 +45,6 @@ export default class PayL2 extends React.Component<any, any> {
     const { dispatch } = this.props
     dispatch(startLoad())
 
-    const id = this.props.location.query.riseId
     //表示是分享点击进入
     let { riseId, testPay } = this.props.location.query
     if(testPay == 'true') {
@@ -74,7 +73,8 @@ export default class PayL2 extends React.Component<any, any> {
         const { quanwaiGoods = {} } = res.msg
         saTrack('openSalePayPage', {
           goodsType: quanwaiGoods.goodsType + '',
-          goodsId: quanwaiGoods.id + ''
+          goodsId: quanwaiGoods.id + '',
+          saleImg: quanwaiGoods.saleImg || []
         })
         mark({ module: '打点', function: quanwaiGoods.goodsType, action: quanwaiGoods.id, memo: '入学页面' })
       } else {
@@ -186,7 +186,11 @@ export default class PayL2 extends React.Component<any, any> {
   }
 
   render() {
-    const { testPay, data, timeOut, showErr, showCodeErr, subscribe, invitationLayout, invitationData, showQr, qrCode, showShare, type, task = {} } = this.state
+    const {
+      testPay, data, timeOut, showErr, showCodeErr, subscribe,
+      invitationLayout, invitationData,
+      showQr, qrCode, showShare, type, task = {}, saleImg
+    } = this.state
     const { privilege, buttonStr, quanwaiGoods = {}, tip } = data
     const { shareAmount, shareContribution, finishContribution } = task
     const { location } = this.props
