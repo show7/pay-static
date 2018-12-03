@@ -13,6 +13,7 @@ import { checkRiseMember, getRiseMember, loadInvitation, loadTask } from '../asy
 
 import './CampPay.less'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
+import SaleShow from '../../../components/SaleShow'
 
 @connect(state => state)
 export default class CampPay extends React.Component<any, any> {
@@ -262,7 +263,7 @@ export default class CampPay extends React.Component<any, any> {
     return (
       <div className="camp-pay-container">
         <div className="pay-page">
-          <SaleBody memberTypeId={goodsId}/>
+          {quanwaiGoods.saleImg && <SaleShow showList={quanwaiGoods.saleImg} name='l1'/>}
           {renderPay()}
         </div>
         {
