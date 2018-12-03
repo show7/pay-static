@@ -204,40 +204,46 @@ export default class CampPay extends React.Component<any, any> {
     let payType = _.get(location, 'query.paytype')
 
     const renderPay = () => {
-      if(!quanwaiGoods.id) {
-        return null
-      }
-      // <FooterButton primary={true} btnArray={[
-      //   {
-      //     click: () => this.handleClickOpenPayInfo(quanwaiGoods.id),
-      //     text: '立即入学',
-      //     module: '打点',
-      //     func: quanwaiGoods.id,
-      //     action: '点击入学按钮',
-      //     memo: privilege
-      //   }
-      //   ]}/>
+      if(!quanwaiGoods.id) return null
       return (
-        <div className="pay-btn-wrapper" onClick={() => {
-          mark({
+        <FooterButton primary={true} btnArray={[
+          {
+            click: () => this.handleClickOpenPayInfo(quanwaiGoods.id),
+            text: '立即入学',
             module: '打点',
-            function: quanwaiGoods.id,
+            func: quanwaiGoods.id,
             action: '点击入学按钮',
             memo: privilege
-          })
-          this.handleClickOpenPayInfo(quanwaiGoods.id)
-        }}>
-          <div className="left">
-            <span  className="btn-text">原价<span
-              style={{ textDecoration: 'line-through' }}>299元</span>，限时99元</span>
-          </div>
-          <div className="pay-btn">
-            立即报名
-          </div>
-        </div>
-
+          }
+        ]}/>
       )
     }
+
+    // const renderPay = () => {
+    //   if(!quanwaiGoods.id) {
+    //     return null
+    //   }
+    //   return (
+    //     <div className="pay-btn-wrapper" onClick={() => {
+    //       mark({
+    //         module: '打点',
+    //         function: quanwaiGoods.id,
+    //         action: '点击入学按钮',
+    //         memo: privilege
+    //       })
+    //       this.handleClickOpenPayInfo(quanwaiGoods.id)
+    //     }}>
+    //       <div className="left">
+    //         <span  className="btn-text">原价<span
+    //           style={{ textDecoration: 'line-through' }}>299元</span>，限时99元</span>
+    //       </div>
+    //       <div className="pay-btn">
+    //         立即报名
+    //       </div>
+    //     </div>
+    //
+    //   )
+    // }
 
     const renderLayout = () => {
       return (
