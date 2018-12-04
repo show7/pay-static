@@ -90,14 +90,14 @@ export default class CombatPay extends React.Component<any, any> {
 
     const { type = 0, taskId = 18 } = this.props.location.query;
     this.loadTask(taskId)
-    if(type == 18) {
+    if(type == 1) {
       this.setState({ showShare: true });
     }
   }
 
   /*获取值贡献*/
-  loadTask(type) {
-    loadTask(type).then((res) => {
+  loadTask(taskId) {
+    loadTask(taskId).then((res) => {
       if(res.code == 200) {
         this.setState({ task: res.msg }, () => {
           configShare(
@@ -117,7 +117,7 @@ export default class CombatPay extends React.Component<any, any> {
       `企业实战项目，帮公司创始人做一份营销战略方案，为你的履历增加项目`,
       `https://${window.location.hostname}/pay/combat?riseId=${window.ENV.riseId}&type=2`,
       `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
-      `${window.ENV.userName}邀请你成为同学，领取${res.msg.shareAmount}元【圈外同学】企业实战项目入学优惠券`
+      `${window.ENV.userName}邀请你成为同学，领取${this.state.task.shareAmount}元【圈外同学】企业实战项目入学优惠券`
     )
     mark({ module: '打点', function: '关闭弹框实战项目', action: '点击关闭弹框' })
     this.setState({ showShare: false, type: 1 })
