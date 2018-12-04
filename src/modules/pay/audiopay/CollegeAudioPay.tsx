@@ -143,7 +143,7 @@ export default class CollegeAudioPay extends React.Component<any, any> {
           showQr &&
           <div className="subscribe-mask">
             <div className="qrCodeUrl-box">
-              <p>你还没有关注公众号，请先扫码关注哦！</p>
+              <p>请先扫码关注，“圈外同学”公众号，了解报名详情👇</p>
               <img className='subscribe' src="https://static.iqycamp.com/college_audio_u6ysw4ck-ubq63v11.jpg" alt=""/>
               <img className='close'
                    onClick={()=>{this.setState({ showQr:false})}}

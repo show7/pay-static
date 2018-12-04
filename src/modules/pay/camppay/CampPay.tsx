@@ -13,6 +13,7 @@ import { checkRiseMember, getRiseMember, loadInvitation, loadTask } from '../asy
 
 import './CampPay.less'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
+import SaleShow from '../../../components/SaleShow'
 
 @connect(state => state)
 export default class CampPay extends React.Component<any, any> {
@@ -204,40 +205,46 @@ export default class CampPay extends React.Component<any, any> {
     let payType = _.get(location, 'query.paytype')
 
     const renderPay = () => {
-      if(!quanwaiGoods.id) {
-        return null
-      }
-      // <FooterButton primary={true} btnArray={[
-      //   {
-      //     click: () => this.handleClickOpenPayInfo(quanwaiGoods.id),
-      //     text: '立即入学',
-      //     module: '打点',
-      //     func: quanwaiGoods.id,
-      //     action: '点击入学按钮',
-      //     memo: privilege
-      //   }
-      //   ]}/>
+      if(!quanwaiGoods.id) return null
       return (
-        <div className="pay-btn-wrapper" onClick={() => {
-          mark({
+        <FooterButton primary={true} btnArray={[
+          {
+            click: () => this.handleClickOpenPayInfo(quanwaiGoods.id),
+            text: '立即入学',
             module: '打点',
-            function: quanwaiGoods.id,
+            func: quanwaiGoods.id,
             action: '点击入学按钮',
             memo: privilege
-          })
-          this.handleClickOpenPayInfo(quanwaiGoods.id)
-        }}>
-          <div className="left">
-            <span  className="btn-text">原价<span
-              style={{ textDecoration: 'line-through' }}>299元</span>，限时99元</span>
-          </div>
-          <div className="pay-btn">
-            立即报名
-          </div>
-        </div>
-
+          }
+        ]}/>
       )
     }
+
+    // const renderPay = () => {
+    //   if(!quanwaiGoods.id) {
+    //     return null
+    //   }
+    //   return (
+    //     <div className="pay-btn-wrapper" onClick={() => {
+    //       mark({
+    //         module: '打点',
+    //         function: quanwaiGoods.id,
+    //         action: '点击入学按钮',
+    //         memo: privilege
+    //       })
+    //       this.handleClickOpenPayInfo(quanwaiGoods.id)
+    //     }}>
+    //       <div className="left">
+    //         <span  className="btn-text">原价<span
+    //           style={{ textDecoration: 'line-through' }}>299元</span>，限时99元</span>
+    //       </div>
+    //       <div className="pay-btn">
+    //         立即报名
+    //       </div>
+    //     </div>
+    //
+    //   )
+    // }
 
     const renderLayout = () => {
       return (
@@ -256,7 +263,7 @@ export default class CampPay extends React.Component<any, any> {
     return (
       <div className="camp-pay-container">
         <div className="pay-page">
-          <SaleBody memberTypeId={goodsId}/>
+          {quanwaiGoods.saleImg && <SaleShow showList={quanwaiGoods.saleImg} name='l1'/>}
           {renderPay()}
         </div>
         {
@@ -310,7 +317,7 @@ export default class CampPay extends React.Component<any, any> {
                      this.setState({ showQr: false })
                    }}></div>
               <div className="qr_dialog_content">
-                <span>你还没有关注公众号，请先扫码关注哦！</span>
+                <span>请先扫码关注，“圈外同学”公众号，了解报名详情👇</span>
                 <div className="qr_code">
                   <img src={qrCode}/>
                 </div>

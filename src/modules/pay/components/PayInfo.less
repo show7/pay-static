@@ -419,13 +419,16 @@
       opacity: 1;
       margin: 0 15px;
       list-style: none;
+      height: 222px;
       &.open {
         opacity: 1;
-        height: 310px;
+        height: @payInfoNoCouponHeight;
       }
-      height: 222px;
       > li {
         position: relative;
+        &:last-of-type {
+          margin-bottom: 50px;
+        }
         .chose-btn {
           position: absolute;
           top: 50%;

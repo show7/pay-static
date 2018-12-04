@@ -184,7 +184,7 @@ export default class SelfManage extends React.Component<any, any> {
           subscribe && qrCodeUrl &&
           <div className="subscribe-mask">
             <div className="qrCodeUrl-box">
-              <p>你还没有关注公众号，请先扫码关注哦！</p>
+              <p>请先扫码关注，“圈外同学”公众号，了解报名详情👇</p>
               <img  className='subscribe' src={qrCodeUrl} alt=""/>
               <img className='close'
                    onClick={()=>{this.setState({ subscribe:false,})}}

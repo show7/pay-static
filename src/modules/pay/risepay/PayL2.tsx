@@ -12,6 +12,7 @@ import { SaleBody } from './components/SaleBody'
 import { MarkBlock } from '../components/markblock/MarkBlock'
 import { SubscribeAlert } from './components/SubscribeAlert'
 import RenderInBody from '../../../components/RenderInBody'
+import SaleShow from '../../../components/SaleShow'
 
 @connect(state => state)
 export default class PayL2 extends React.Component<any, any> {
@@ -45,9 +46,11 @@ export default class PayL2 extends React.Component<any, any> {
     const { dispatch } = this.props
     dispatch(startLoad())
 
-    const id = this.props.location.query.riseId
     //表示是分享点击进入
-    let { riseId } = this.props.location.query
+    let { riseId, testPay } = this.props.location.query
+    if(testPay == 'true') {
+      this.setState({ testPay: true })
+    }
     //判断是否是老带新分享的链接
     if(!_.isEmpty(riseId)) {
       let param = {
@@ -71,7 +74,7 @@ export default class PayL2 extends React.Component<any, any> {
         const { quanwaiGoods = {} } = res.msg
         saTrack('openSalePayPage', {
           goodsType: quanwaiGoods.goodsType + '',
-          goodsId: quanwaiGoods.id + ''
+          goodsId: quanwaiGoods.id + '',
         })
         mark({ module: '打点', function: quanwaiGoods.goodsType, action: quanwaiGoods.id, memo: '入学页面' })
       } else {
@@ -92,14 +95,14 @@ export default class PayL2 extends React.Component<any, any> {
   loadTask(type) {
     loadTask(type).then((res) => {
       if(res.code == 200) {
-        this.setState({ task: res.msg },()=>{
-              configShare(
-                  `【圈外同学】企业实战训练，成为优秀的部门leader`,
-                  `https://${window.location.hostname}/pay/rise?riseId=${window.ENV.riseId}&type=2`,
-                  `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
-                  `${window.ENV.userName}邀请你成为同学，领取${res.msg.shareAmount}元【圈外同学】L2项目入学优惠券`
-              )
-          })
+        this.setState({ task: res.msg }, () => {
+          configShare(
+            `【圈外同学】企业实战训练，成为优秀的部门leader`,
+            `https://${window.location.hostname}/pay/rise?riseId=${window.ENV.riseId}&type=2`,
+            `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
+            `${window.ENV.userName}邀请你成为同学，领取${res.msg.shareAmount}元【圈外同学】L2项目入学优惠券`
+          )
+        })
       }
     })
   }
@@ -183,7 +186,11 @@ export default class PayL2 extends React.Component<any, any> {
   }
 
   render() {
-    const { data, timeOut, showErr, showCodeErr, subscribe, invitationLayout, invitationData, showQr, qrCode, showShare, type, task = {} } = this.state
+    const {
+      testPay, data, timeOut, showErr, showCodeErr, subscribe,
+      invitationLayout, invitationData,
+      showQr, qrCode, showShare, type, task = {}
+    } = this.state
     const { privilege, buttonStr, quanwaiGoods = {}, tip } = data
     const { shareAmount, shareContribution, finishContribution } = task
     const { location } = this.props
@@ -210,8 +217,8 @@ export default class PayL2 extends React.Component<any, any> {
             <h3>好友邀请</h3>
             <p>{invitationData.oldNickName}觉得《{invitationData.memberTypeName}》很适合你，邀请你成为TA的同学，送你一张{invitationData.amount}元的学习优惠券。</p>
             <span className="button" onClick={() => {
-                            this.setState({invitationLayout: false})
-                        }}>知道了</span>
+              this.setState({ invitationLayout: false })
+            }}>知道了</span>
           </div>
         </div>
       )
@@ -220,22 +227,22 @@ export default class PayL2 extends React.Component<any, any> {
     return (
       <div className="rise-pay-container">
         <div className="pay-page l2">
-          <SaleBody memberTypeId="10"/>
+          {quanwaiGoods.saleImg && <SaleShow showList={quanwaiGoods.saleImg} name='l2'/>}
           {renderPay()}
         </div>
         {
           timeOut &&
           <div className="mask" onClick={() => {
-                        window.history.back()
-                    }}
+            window.history.back()
+          }}
                style={{
-                             background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center' +
-                             ' center/100% 100%'
-                         }}/>
+                 background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center' +
+                 ' center/100% 100%'
+               }}/>
         }
         {
           showErr &&
-          <div className="mask" onClick={() => this.setState({showErr: false})}>
+          <div className="mask" onClick={() => this.setState({ showErr: false })}>
             <div className="tips">
               出现问题的童鞋看这里<br/> 1如果显示“URL未注册”，请重新刷新页面即可<br/> 2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
             </div>
@@ -244,12 +251,12 @@ export default class PayL2 extends React.Component<any, any> {
         }
         {
           showCodeErr &&
-          <div className="mask" onClick={() => this.setState({showCodeErr: false})}>
+          <div className="mask" onClick={() => this.setState({ showCodeErr: false })}>
             <div className="tips">
               糟糕，支付不成功<br/> 原因：微信不支持跨公众号支付<br/> 怎么解决：<br/> 1，长按下方二维码，保存到相册；<br/> 2，打开微信扫一扫，点击右上角相册，选择二维码图片；<br/>
               3，在新开的页面完成支付即可<br/>
             </div>
-            <img className="xiaoQ" style={{width: '50%'}}
+            <img className="xiaoQ" style={{ width: '50%' }}
                  src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
           </div>
         }
@@ -261,29 +268,31 @@ export default class PayL2 extends React.Component<any, any> {
                    payedCancel={(res) => this.handlePayedCancel(res)}
                    payedError={(res) => this.handlePayedError(res)}
                    payedBefore={() => this.handlePayedBefore()}
-                   payType={payType || PayType.WECHAT}/>
+                   payType={payType || PayType.WECHAT}
+                   showHuabei={!!testPay}
+                   showKfq={!!testPay}/>
         }
         {
-          subscribe && <SubscribeAlert closeFunc={() => this.setState({subscribe: false})}/>
+          subscribe && <SubscribeAlert closeFunc={() => this.setState({ subscribe: false })}/>
         }
         {invitationLayout &&
         renderLayout()
         }
 
         {!!showQr ? <RenderInBody>
-            <div className="qr_dialog">
-              <div className="qr_dialog_mask" onClick={() => {
-                            this.setState({showQr: false})
-                        }}>
-              </div>
-              <div className="qr_dialog_content">
-                <span>你还没有关注公众号，请先扫码关注哦！</span>
-                <div className="qr_code">
-                  <img src={qrCode}/>
-                </div>
+          <div className="qr_dialog">
+            <div className="qr_dialog_mask" onClick={() => {
+              this.setState({ showQr: false })
+            }}>
+            </div>
+            <div className="qr_dialog_content">
+              <span>请先扫码关注，“圈外同学”公众号，了解报名详情👇</span>
+              <div className="qr_code">
+                <img src={qrCode}/>
               </div>
             </div>
-          </RenderInBody> : null}
+          </div>
+        </RenderInBody> : null}
         {
           showShare &&
           <div className="share-mask-box">
@@ -296,8 +305,8 @@ export default class PayL2 extends React.Component<any, any> {
                 <div><span>2</span><p className='desc'>好友在开学1个月内按进度学习并完课，你将获得{finishContribution}贡献值</p>
                 </div>
                 <div className="button-bottom" onClick={() => {
-                                    this.getsShowShare()
-                                }}><p>立即邀请</p></div>
+                  this.getsShowShare()
+                }}><p>立即邀请</p></div>
               </div>
             </dev>
           </div>
