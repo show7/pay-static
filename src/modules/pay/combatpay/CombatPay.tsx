@@ -101,7 +101,7 @@ export default class CombatPay extends React.Component<any, any> {
       if(res.code == 200) {
         this.setState({ task: res.msg }, () => {
           configShare(
-            `企业实战项目，帮公司创始人做一份营销战略方案，为你的履历增加项目`,
+            `企业实战项目，帮公司创始人做一份营销战略方案，为你的履历增加项目经历`,
             `https://${window.location.hostname}/pay/combat?riseId=${window.ENV.riseId}&type=2`,
             `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
             `${window.ENV.userName}邀请你成为同学，领取${res.msg.shareAmount}元【圈外同学】企业实战项目入学优惠券`
@@ -114,7 +114,7 @@ export default class CombatPay extends React.Component<any, any> {
   /*投资圈外分享好友*/
   getsShowShare() {
     configShare(
-      `企业实战项目，帮公司创始人做一份营销战略方案，为你的履历增加项目`,
+      `企业实战项目，帮公司创始人做一份营销战略方案，为你的履历增加项目经历`,
       `https://${window.location.hostname}/pay/combat?riseId=${window.ENV.riseId}&type=2`,
       `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
       `${window.ENV.userName}邀请你成为同学，领取${this.state.task.shareAmount}元【圈外同学】企业实战项目入学优惠券`
