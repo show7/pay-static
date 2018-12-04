@@ -88,9 +88,9 @@ export default class CombatPay extends React.Component<any, any> {
       dispatch(endLoad())
     })
 
-    const { type = 0, taskId = 1 } = this.props.location.query;
+    const { type = 0, taskId = 18 } = this.props.location.query;
     this.loadTask(taskId)
-    if(type == 1) {
+    if(type == 18) {
       this.setState({ showShare: true });
     }
   }
