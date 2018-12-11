@@ -268,9 +268,7 @@ export default class PayL2 extends React.Component<any, any> {
                    payedCancel={(res) => this.handlePayedCancel(res)}
                    payedError={(res) => this.handlePayedError(res)}
                    payedBefore={() => this.handlePayedBefore()}
-                   payType={payType || PayType.WECHAT}
-                   showHuabei={!!testPay}
-                   showKfq={!!testPay}/>
+                   payType={payType || PayType.WECHAT}/>
         }
         {
           subscribe && <SubscribeAlert closeFunc={() => this.setState({ subscribe: false })}/>

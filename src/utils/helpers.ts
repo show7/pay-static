@@ -135,6 +135,29 @@ export function randomStr (len) {
   }
   return pwd
 }
+/**
+ * 获取参数
+ * @param url 链接
+ * @param name 获取参数名
+ * @return {*} 参数值
+ */
+export function getQueryString (url, name) {
+  if (!url) {
+    return null
+  }
+  let urlArr = url.split('?')
+  if (urlArr.length !== 2) {
+    return null
+  }
+  let query = urlArr[1]
+  let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
+  let r = query.match(reg)
+  if (r != null) {
+    return unescape(r[2])
+  }
+  return null
+}
+
 
 
 

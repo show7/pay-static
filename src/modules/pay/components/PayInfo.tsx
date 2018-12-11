@@ -1,3 +1,4 @@
+///<reference path="../../../utils/helpers.ts"/>
 import * as React from 'react'
 import './PayInfo.less'
 import Icon from '../../../components/Icon'
@@ -12,7 +13,7 @@ import {
 import { mark } from 'utils/request'
 
 import { pay } from '../../helpers/JsConfig'
-import { GoodsType, PayType, saTrack } from '../../../utils/helpers'
+import { getQueryString, GoodsType, PayType, saTrack } from '../../../utils/helpers'
 
 /** 超过这个金额时可以选择支付方式 */
 const MULTI_PAY_TYPE_PRICE = 100;
@@ -74,16 +75,17 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
   componentWillMount(type, id) {
     let goodsType = type || this.props.goodsType
     let goodsId = id || this.props.goodsId
-    const { dispatch, showKfq = false, showHuabei = false } = this.props
+    const { dispatch } = this.props
 
+    let payMethod = getQueryString(window.location.href, 'pay');
     // 获取商品数据
     if(!goodsId || !goodsType) {
       return
     }
     this.setState({
       justOpenPayType: goodsId == 7 && GoodsType.BS_APPLICATION == goodsType,
-      showKfq: showKfq,
-      showHuabei: showHuabei
+      showKfq: !!payMethod,
+      showHuabei: !!payMethod
     })
     loadGoodsInfo(goodsType, goodsId).then(res => {
       if(res.code === 200) {
