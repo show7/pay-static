@@ -46,6 +46,8 @@ export default class PayL2 extends React.Component<any, any> {
     const { dispatch } = this.props
     dispatch(startLoad())
 
+    let amount = 0
+
     //表示是分享点击进入
     let { riseId, testPay } = this.props.location.query
     if(testPay == 'true') {
@@ -59,12 +61,14 @@ export default class PayL2 extends React.Component<any, any> {
       }
       let invitationInfo = await loadInvitation(param)
       this.setState({ invitationData: invitationInfo.msg })
-      this.setState({ invitationData: invitationInfo.msg })
-      if(invitationInfo.msg.isNewUser && invitationInfo.msg.isReceived) {
-        dispatch(alertMsg('优惠券已经发到你的圈外同学账号咯！'))
-      } else if(invitationInfo.msg.isNewUser) {
-        this.setState({ invitationLayout: true })
-      }
+      amount = invitationInfo.msg.amount
+      if(amount !== 0) {
+        if(invitationInfo.msg.isNewUser && invitationInfo.msg.isReceived) {
+          dispatch(alertMsg('优惠券已经发到你的圈外同学账号咯！'))
+        } else if(invitationInfo.msg.isNewUser) {
+          this.setState({ invitationLayout: true })
+        }
+    }
     }
     // 查询订单信息
     getRiseMember(this.state.goodsId).then(res => {
@@ -86,7 +90,7 @@ export default class PayL2 extends React.Component<any, any> {
     })
     const { type = 0, taskId = 2 } = this.props.location.query;
     this.loadTask(taskId)
-    if(type == 1) {
+    if(type == 1 && amount!=0) {
       this.setState({ showShare: true })
     }
   }

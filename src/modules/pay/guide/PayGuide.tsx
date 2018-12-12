@@ -18,27 +18,57 @@ export default class PayGuide extends React.Component {
 
   async componentDidMount () {
     mark({ module: '打点', function: '售卖介绍页', action: '进入页面' })
+    const {riseId} = this.props.location.query
+    let targetRiseId
+    if(riseId){
+      targetRiseId = riseId
+    } else{
+      targetRiseId = window.ENV.riseId
+    }
+
     configShare(
       `【圈外同学】职场提升计划`,
-      `https://${window.location.hostname}/pay/guide`,
+      `https://${window.location.hostname}/pay/guide?riseId=${targetRiseId}&type=2`,
       `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
       `每天30分钟，开启你的职场进阶之旅`,
     )
   }
 
   handleClickGoL1 () {
+    const {riseId} = this.props.location.query
+    let targetRiseId;
     mark({ module: '打点', function: '售卖介绍页', action: '点击 L1' })
-    window.location.href = '/pay/l1'
+    if(riseId){
+      targetRiseId = riseId
+    } else{
+      targetRiseId = window.ENV.riseId
+    }
+    window.location.href = `/pay/l1?riseId=${targetRiseId}&type=2`
   }
 
   handleClickGoL2 () {
+    const {riseId} = this.props.location.query
+    let targetRiseId;
+    if(riseId){
+      targetRiseId = riseId
+    } else{
+      targetRiseId = window.ENV.riseId
+    }
     mark({ module: '打点', function: '售卖介绍页', action: '点击 L2' })
-    window.location.href = '/pay/rise'
+
+    window.location.href = `/pay/rise?riseId=${targetRiseId}&type=2`
   }
 
   handleClickGoL3 () {
+    const {riseId} = this.props.location.query
+    let targetRiseId;
+    if(riseId){
+      targetRiseId = riseId
+    } else{
+      targetRiseId = window.ENV.riseId
+    }
     mark({ module: '打点', function: '售卖介绍页', action: '点击 L3' })
-    window.location.href = '/pay/thought'
+    window.location.href = `/pay/thought?riseId=${targetRiseId}&type=2`
   }
 
   render () {

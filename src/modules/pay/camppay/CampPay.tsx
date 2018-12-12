@@ -46,6 +46,8 @@ export default class CampPay extends React.Component<any, any> {
 
     const { type = 0, taskId = 0 } = this.props.location.query;
 
+    let amount = 0;
+
     // 如果有分享组件,则等待分享组件加载完成
     await this.checkShareComponentCompleted();
 
@@ -61,10 +63,13 @@ export default class CampPay extends React.Component<any, any> {
       }
       let invitationInfo = await loadInvitation(param)
       this.setState({invitationData: invitationInfo.msg})
-      if (invitationInfo.msg.isNewUser && invitationInfo.msg.isReceived) {
-        dispatch(alertMsg('优惠券已经发到你的圈外同学账号咯！'))
-      } else if (invitationInfo.msg.isNewUser) {
-        this.setState({invitationLayout: true})
+      amount =invitationInfo.msg.amount
+      if(amount!==0) {
+        if(invitationInfo.msg.isNewUser && invitationInfo.msg.isReceived) {
+          dispatch(alertMsg('优惠券已经发到你的圈外同学账号咯！'))
+        } else if(invitationInfo.msg.isNewUser) {
+          this.setState({ invitationLayout: true })
+        }
       }
     }
 
@@ -78,7 +83,7 @@ export default class CampPay extends React.Component<any, any> {
       dispatch(alertMsg(res.msg))
     }
 
-    if(type == 1) {
+    if(type == 1 &&amount!==0 ) {
       this.setState({ showShare: true })
       this.loadTask(taskId)
     }
@@ -198,7 +203,7 @@ export default class CampPay extends React.Component<any, any> {
   }
 
   render() {
-    const { data = {}, showErr, showCodeErr, goodsId, showQr, invitationLayout, invitationData, qrCode, type, showShare, task = {} } = this.state
+    const { data = {}, showErr, showCodeErr,showQr, invitationLayout, invitationData, qrCode, type, showShare, task = {} } = this.state
     const { shareAmount, shareContribution } = task
     const { privilege, quanwaiGoods = {}, tip } = data
     const { location } = this.props
@@ -219,32 +224,6 @@ export default class CampPay extends React.Component<any, any> {
         ]}/>
       )
     }
-
-    // const renderPay = () => {
-    //   if(!quanwaiGoods.id) {
-    //     return null
-    //   }
-    //   return (
-    //     <div className="pay-btn-wrapper" onClick={() => {
-    //       mark({
-    //         module: '打点',
-    //         function: quanwaiGoods.id,
-    //         action: '点击入学按钮',
-    //         memo: privilege
-    //       })
-    //       this.handleClickOpenPayInfo(quanwaiGoods.id)
-    //     }}>
-    //       <div className="left">
-    //         <span  className="btn-text">原价<span
-    //           style={{ textDecoration: 'line-through' }}>299元</span>，限时99元</span>
-    //       </div>
-    //       <div className="pay-btn">
-    //         立即报名
-    //       </div>
-    //     </div>
-    //
-    //   )
-    // }
 
     const renderLayout = () => {
       return (
