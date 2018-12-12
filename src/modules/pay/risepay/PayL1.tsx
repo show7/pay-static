@@ -45,6 +45,8 @@ export default class PayL1 extends React.Component<any, any> {
     const { dispatch } = this.props
     dispatch(startLoad())
 
+    let amount = 0
+
     let { riseId } = this.props.location.query
     //判断是否是老带新分享的链接
     if(!_.isEmpty(riseId)) {
@@ -54,10 +56,15 @@ export default class PayL1 extends React.Component<any, any> {
       }
       let invitationInfo = await loadInvitation(param)
       this.setState({ invitationData: invitationInfo.msg })
-      if(invitationInfo.msg.isNewUser && invitationInfo.msg.isReceived) {
-        dispatch(alertMsg('优惠券已经发到你的圈外同学账号咯！'))
-      } else if(invitationInfo.msg.isNewUser) {
-        this.setState({ invitationLayout: true })
+
+      amount = invitationInfo.msg.amount
+
+      if(amount!==0) {
+        if(invitationInfo.msg.isNewUser && invitationInfo.msg.isReceived) {
+          dispatch(alertMsg('优惠券已经发到你的圈外同学账号咯！'))
+        } else if(invitationInfo.msg.isNewUser) {
+          this.setState({ invitationLayout: true })
+        }
       }
     }
     // 查询订单信息
@@ -90,7 +97,7 @@ export default class PayL1 extends React.Component<any, any> {
 
     const { type = 0, taskId = 1 } = this.props.location.query;
     this.loadTask(taskId)
-    if(type == 1) {
+    if(type == 1 && amount!=0) {
       this.setState({ showShare: true });
     }
   }
