@@ -29,10 +29,11 @@ export default class AlipayReturn extends React.Component<any, any> {
                 if(res.code === 200) {
                   clearInterval(orderInterval);
                   const { goodsId, goodsType } = res.msg;
-                  if(goodsType == GoodsType.FRAG_MEMBER || goodsType == GoodsType.FRAG_CAMP) {
-                    window.location.href = `/pay/member/success?goodsId=${goodsId}`
-                  } else if(goodsType == GoodsType.BS_APPLICATION) {
+                  // if(goodsType == GoodsType.FRAG_MEMBER || goodsType == GoodsType.FRAG_CAMP || goodsType == GoodsType.COMBAT) {
+                  if(goodsType == GoodsType.BS_APPLICATION) {
                     window.location.href = `/pay/applysubmit?goodsId=${goodsId}`
+                  } else {
+                    window.location.href = `/pay/member/success?goodsId=${goodsId}`
                   }
                 }
               }).catch(ex => {
