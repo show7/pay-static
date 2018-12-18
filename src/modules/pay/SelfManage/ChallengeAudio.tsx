@@ -54,7 +54,7 @@ export default class ChallengeAudio extends React.Component<any, any> {
   handleFreeEntry() {
     const { source } = this.props.location.query
     mark({ module: '打点', function: '音频课入学', action: 'challengeaudio_click', memo: source })
-    joinChallengeAudio().then(res => {
+    joinChallengeAudio(source).then(res => {
       if(res.code === 200) {
         let result = res.msg
         this.setState({

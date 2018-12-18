@@ -98,8 +98,8 @@ export function joinAudioCourse(riseId) {
   return ppost(`/rise/promotion/audio/join`, { riseId: riseId })
 }
 
-export function joinChallengeAudio() {
-  return ppost(`/rise/promotion/audio/challenge/join`)
+export function joinChallengeAudio(source) {
+  return ppost(`/rise/promotion/audio/challenge/join`, { source: source })
 }
 
 export function autoJoinAudioCourse(riseId) {
