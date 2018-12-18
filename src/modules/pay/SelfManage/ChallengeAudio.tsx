@@ -89,7 +89,8 @@ export default class ChallengeAudio extends React.Component<any, any> {
   }
 
   handlePayedDone() {
-    mark({module: '打点', function: '69元付费报名', action: '支付成功'})
+    const { source } = this.props.location.query
+    mark({ module: '打点', function: '69元付费报名', action: '支付成功', memo: source })
     loadRotate(13).then(res=>{
       if(res.code===200){
         this.setState({
@@ -113,7 +114,8 @@ export default class ChallengeAudio extends React.Component<any, any> {
   }
 
   handlePayedBefore() {
-    mark({module: '打点', function: '进阶课程', action: '点击付费'})
+    const { source } = this.props.location.query
+    mark({module: '打点', function: '进阶课程', action: '点击付费', memo: source })
   }
 
   render() {
