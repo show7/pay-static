@@ -17,7 +17,9 @@ export default class RedPurchaseButton extends React.Component {
     return (
       <div className="red-purchase-button-component">
         <div className="purchase-tip">
-          <span className="common">坚持打卡学习 退全额学费（原价 299 ）</span>
+          <span className="common">坚持打卡学习 退全额学费（原价&nbsp;</span>
+          <span className="remove">299</span>
+          <span className="common"> ）</span>
           <span className="special">限时特价</span>
           <span className="super-special">99</span>
         </div>
