@@ -14,6 +14,7 @@ import { checkRiseMember, getRiseMember, loadInvitation, loadTask } from '../asy
 import './CampPay.less'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 import SaleShow from '../../../components/SaleShow'
+import RedPurchaseButton from './components/RedPurchaseButton/RedPurchaseButton'
 
 @connect(state => state)
 export default class CampPay extends React.Component<any, any> {
@@ -22,7 +23,7 @@ export default class CampPay extends React.Component<any, any> {
     router: React.PropTypes.object.isRequired,
   }
 
-  constructor() {
+  constructor () {
     super()
     this.state = {
       goodsId: 14,
@@ -34,24 +35,22 @@ export default class CampPay extends React.Component<any, any> {
       invitationData: {}, //分享的优惠券数据
       riseId: '',       //分享来源
       showShare: false, //不显示分享
-      type: 0
+      type: 0,
     }
   }
 
-  async componentDidMount() {
+  async componentDidMount () {
     // ios／安卓微信支付兼容性
-    if(refreshForPay()) {
+    if (refreshForPay()) {
       return
     }
 
-    const { type = 0, taskId = 0 } = this.props.location.query;
-
-    let amount = 0;
+    const { dispatch } = this.props
+    const { type = 0, taskId = 0 } = this.props.location.query
+    let amount = 0
 
     // 如果有分享组件,则等待分享组件加载完成
-    await this.checkShareComponentCompleted();
-
-    const { dispatch } = this.props
+    await this.checkShareComponentCompleted()
 
     //表示是分享点击进入
     let { riseId } = this.props.location.query
@@ -59,23 +58,23 @@ export default class CampPay extends React.Component<any, any> {
     if (!_.isEmpty(riseId)) {
       let param = {
         riseId: riseId,
-        memberTypeId: 14
+        memberTypeId: 14,
       }
       let invitationInfo = await loadInvitation(param)
-      this.setState({invitationData: invitationInfo.msg})
-      amount =invitationInfo.msg.amount
-      if(amount!==0) {
-        if(invitationInfo.msg.isNewUser && invitationInfo.msg.isReceived) {
+      this.setState({ invitationData: invitationInfo.msg })
+      amount = invitationInfo.msg.amount
+      if (amount !== 0) {
+        if (invitationInfo.msg.isNewUser && invitationInfo.msg.isReceived) {
           dispatch(alertMsg('优惠券已经发到你的圈外同学账号咯！'))
-        } else if(invitationInfo.msg.isNewUser) {
+        } else if (invitationInfo.msg.isNewUser) {
           this.setState({ invitationLayout: true })
         }
       }
     }
 
     // 查询订单信息
-    let res = await getRiseMember(this.state.goodsId);
-    if(res.code === 200) {
+    let res = await getRiseMember(this.state.goodsId)
+    if (res.code === 200) {
       this.setState({ data: res.msg })
       const { quanwaiGoods = {} } = res.msg
       mark({ module: '打点', function: quanwaiGoods.goodsType, action: quanwaiGoods.id, memo: '入学页面' })
@@ -83,7 +82,7 @@ export default class CampPay extends React.Component<any, any> {
       dispatch(alertMsg(res.msg))
     }
 
-    if(type == 1 &&amount!==0 ) {
+    if (type == 1 && amount !== 0) {
       this.setState({ showShare: true })
       this.loadTask(taskId)
     }
@@ -92,22 +91,21 @@ export default class CampPay extends React.Component<any, any> {
       `「圈外同学」邀请你参加商学院专项课`,
       `https://${window.location.hostname}/pay/camp?riseId=${window.ENV.riseId}&type=2`,
       `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
-      `领取20元入学优惠券`
+      `领取20元入学优惠券`,
     )
-
   }
 
   /**
    * 如果有
    * @return {Promise<void>}
    */
-  async checkShareComponentCompleted() {
-    if(this.refs.shareComponent && this.refs.shareComponent.operationShareCompleted) {
-      await this.refs.shareComponent.operationShareCompleted();
+  async checkShareComponentCompleted () {
+    if (this.refs.shareComponent && this.refs.shareComponent.operationShareCompleted) {
+      await this.refs.shareComponent.operationShareCompleted()
     }
   }
 
-  handlePayedDone() {
+  handlePayedDone () {
     const { data } = this.state
     const { quanwaiGoods = {} } = data
     mark({ module: '打点', function: '商学院会员', action: '支付成功', memo: quanwaiGoods.id })
@@ -120,9 +118,9 @@ export default class CampPay extends React.Component<any, any> {
   }
 
   /** 处理支付失败的状态 */
-  handlePayedError(res) {
+  handlePayedError (res) {
     let param = _.get(res, 'err_desc', _.get(res, 'errMsg', ''))
-    if(param.indexOf('跨公众号发起') != -1) {
+    if (param.indexOf('跨公众号发起') != -1) {
       // 跨公众号
       this.setState({ showCodeErr: true })
     } else {
@@ -131,7 +129,7 @@ export default class CampPay extends React.Component<any, any> {
   }
 
   /** 处理取消支付的状态 */
-  handlePayedCancel() {
+  handlePayedCancel () {
     this.setState({ showErr: true })
   }
 
@@ -139,11 +137,11 @@ export default class CampPay extends React.Component<any, any> {
    * 打开支付窗口
    * @param goodsId 会员类型id
    */
-  handleClickOpenPayInfo(goodsId) {
+  handleClickOpenPayInfo (goodsId) {
     const { dispatch } = this.props
     const { data } = this.state
     const { privilege, errorMsg } = data
-    if(!privilege && !!errorMsg) {
+    if (!privilege && !!errorMsg) {
       dispatch(alertMsg(errorMsg))
       return
     }
@@ -153,17 +151,14 @@ export default class CampPay extends React.Component<any, any> {
     // 先检查是否能够支付
     checkRiseMember(goodsId, riseId, type).then(res => {
       dispatch(endLoad())
-      if(res.code === 200) {
+      if (res.code === 200) {
         const { qrCode, privilege, errorMsg, subscribe } = res.msg
         // if(subscribe) {
-        if(privilege) {
+        if (privilege) {
           this.refs.payInfo.handleClickOpen()
         } else {
           dispatch(alertMsg(errorMsg))
         }
-        // } else {
-        //   this.setState({ qrCode: qrCode, showQr: true })
-        // }
       }
       else {
         dispatch(alertMsg(res.msg))
@@ -172,9 +167,10 @@ export default class CampPay extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
+    mark({ module: '打点', function: quanwaiGoods.id, action: '点击入学按钮', memo: privilege })
   }
 
-  handlePayedBefore() {
+  handlePayedBefore () {
     const { data } = this.state
     const { quanwaiGoods = {} } = data
     mark({ module: '打点', function: '商学院会员', action: '点击付费', memo: quanwaiGoods.id })
@@ -183,46 +179,52 @@ export default class CampPay extends React.Component<any, any> {
   /**
    * 重新注册页面签名
    */
-  reConfig() {
-    config([ 'chooseWXPay' ])
+  reConfig () {
+    config(['chooseWXPay'])
   }
 
   /*获取值贡献*/
-  loadTask(type) {
+  loadTask (type) {
     loadTask(type).then((res) => {
-      if(res.code == 200) {
+      if (res.code == 200) {
         this.setState({ task: res.msg })
       }
     })
   }
 
   /*投资圈外分享好友*/
-  getsShowShare() {
+  getsShowShare () {
     mark({ module: '打点', function: '关闭专项课弹窗', action: '点击关闭弹框' })
     this.setState({ showShare: false, type: 1 })
   }
 
-  render() {
-    const { data = {}, showErr, showCodeErr,showQr, invitationLayout, invitationData, qrCode, type, showShare, task = {} } = this.state
+  render () {
+    const { data = {}, showErr, showCodeErr, showQr, invitationLayout, invitationData, qrCode, type, showShare, task = {} } = this.state
     const { shareAmount, shareContribution } = task
     const { privilege, quanwaiGoods = {}, tip } = data
     const { location } = this.props
     let payType = _.get(location, 'query.paytype')
 
     const renderPay = () => {
-      if(!quanwaiGoods.id) return null
-      return (
-        <FooterButton primary={true} btnArray={[
-          {
-            click: () => this.handleClickOpenPayInfo(quanwaiGoods.id),
-            text: '立即入学',
-            module: '打点',
-            func: quanwaiGoods.id,
-            action: '点击入学按钮',
-            memo: privilege
-          }
-        ]}/>
-      )
+      if (quanwaiGoods && quanwaiGoods.id) {
+        // return (
+        //   <FooterButton primary={true}
+        //                 btnArray={[
+        //                   {
+        //                     click: () => this.handleClickOpenPayInfo(quanwaiGoods.id),
+        //                     text: '立即入学',
+        //                     module: '打点',
+        //                     func: quanwaiGoods.id,
+        //                     action: '点击入学按钮',
+        //                     memo: privilege,
+        //                   },
+        //                 ]}/>
+        //
+        // )
+        return (
+          <RedPurchaseButton onClick={() => this.handleClickOpenPayInfo(quanwaiGoods.id)}/>
+        )
+      }
     }
 
     const renderLayout = () => {
@@ -231,9 +233,8 @@ export default class CampPay extends React.Component<any, any> {
           <div className="layout-box">
             <h3>好友邀请</h3>
             <p>{invitationData.oldNickName}觉得《{invitationData.memberTypeName}》很适合你，邀请你成为TA的同学，送你一张{invitationData.amount}元的学习优惠券。</p>
-            <span className="button" onClick={() => {
-              this.setState({ invitationLayout: false })
-            }}>知道了</span>
+            <span className="button"
+                  onClick={() => this.setState({ invitationLayout: false })}>知道了</span>
           </div>
         </div>
       )
@@ -242,7 +243,11 @@ export default class CampPay extends React.Component<any, any> {
     return (
       <div className="camp-pay-container">
         <div className="pay-page">
-          {quanwaiGoods.saleImg && <SaleShow showList={quanwaiGoods.saleImg} name='l1'/>}
+          {
+            quanwaiGoods.saleImg &&
+            <SaleShow showList={quanwaiGoods.saleImg}
+                      name='l1'/>
+          }
           {renderPay()}
         </div>
         {
@@ -283,18 +288,16 @@ export default class CampPay extends React.Component<any, any> {
                    payedBefore={() => this.handlePayedBefore()}
                    payType={payType || PayType.WECHAT}/>
         }
-        {invitationLayout &&
-        renderLayout()
+        {
+          invitationLayout &&
+          renderLayout()
         }
-
         {
           showQr &&
           <RenderInBody>
             <div className="qr_dialog">
               <div className="qr_dialog_mask"
-                   onClick={() => {
-                     this.setState({ showQr: false })
-                   }}></div>
+                   onClick={() => this.setState({ showQr: false })}></div>
               <div className="qr_dialog_content">
                 <span>请先扫码关注，“圈外同学”公众号，了解报名详情👇</span>
                 <div className="qr_code">
@@ -313,9 +316,8 @@ export default class CampPay extends React.Component<any, any> {
               </div>
               <div className="share-content-bottom">
                 <div><span>1</span><p className='desc'>好友成功入学，你将获得{shareContribution}贡献值</p></div>
-                <div className="button-bottom" onClick={() => {
-                  this.getsShowShare()
-                }}><p>立即邀请</p></div>
+                <div className="button-bottom"
+                     onClick={() => this.getsShowShare()}><p>立即邀请</p></div>
               </div>
             </dev>
           </div>
@@ -323,10 +325,10 @@ export default class CampPay extends React.Component<any, any> {
         {
           type == 1 &&
           <div className="type-share">
-            <img src="https://static.iqycamp.com/1091533182527_-sc42kog6.pic.jpg" alt="分享图片"/>
+            <img src="https://static.iqycamp.com/1091533182527_-sc42kog6.pic.jpg"
+                 alt="分享图片"/>
           </div>
         }
-
       </div>
     )
   }
