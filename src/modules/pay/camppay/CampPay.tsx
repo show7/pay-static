@@ -91,7 +91,7 @@ export default class CampPay extends React.Component<any, any> {
       `「圈外同学」邀请你参加商学院专项课`,
       `https://${window.location.hostname}/pay/camp?riseId=${window.ENV.riseId}&type=2`,
       `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
-      `领取20元入学优惠券`,
+      `领取10元入学优惠券`,
     )
   }
 
