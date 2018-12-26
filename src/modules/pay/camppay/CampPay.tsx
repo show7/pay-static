@@ -153,14 +153,16 @@ export default class CampPay extends React.Component<any, any> {
       dispatch(endLoad())
       if (res.code === 200) {
         const { qrCode, privilege, errorMsg, subscribe } = res.msg
-        // if(subscribe) {
-        if (privilege) {
-          this.refs.payInfo.handleClickOpen()
+        if (subscribe) {
+          if (privilege) {
+            this.refs.payInfo.handleClickOpen()
+          } else {
+            dispatch(alertMsg(errorMsg))
+          }
         } else {
-          dispatch(alertMsg(errorMsg))
+          this.setState({ qrCode: qrCode, showQr: true })
         }
-      }
-      else {
+      } else {
         dispatch(alertMsg(res.msg))
       }
     }).catch(ex => {
@@ -207,20 +209,6 @@ export default class CampPay extends React.Component<any, any> {
 
     const renderPay = () => {
       if (quanwaiGoods && quanwaiGoods.id) {
-        // return (
-        //   <FooterButton primary={true}
-        //                 btnArray={[
-        //                   {
-        //                     click: () => this.handleClickOpenPayInfo(quanwaiGoods.id),
-        //                     text: '立即入学',
-        //                     module: '打点',
-        //                     func: quanwaiGoods.id,
-        //                     action: '点击入学按钮',
-        //                     memo: privilege,
-        //                   },
-        //                 ]}/>
-        //
-        // )
         return (
           <RedPurchaseButton onClick={() => this.handleClickOpenPayInfo(quanwaiGoods.id)}/>
         )
