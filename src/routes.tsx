@@ -12,6 +12,7 @@ import ApplySuccess from 'modules/pay/risepay/ApplySuccess'
 import MemberPaySuccess from 'modules/pay/paysuccess/MemberPaySuccess'
 import CollegeAudioPay from 'modules/pay/audiopay/CollegeAudioPay'
 import BusinessApplySubmitSuccess from './modules/pay/bsapply/BusinessApplySubmitSuccess'
+import ExchangePay from './modules/pay/exchange/ExchangePay'
 import PayGuide from './modules/pay/guide/PayGuide'
 import ChallengeAudio from './modules/pay/SelfManage/ChallengeAudio'
 import Subscribe from './modules/subscribe/Subscribe'
@@ -65,6 +66,7 @@ const routes = (
       <Route path="pay/collegeaudio" component={CollegeAudioPay}/>
       <Route path="pay/challengeaudio" component={ChallengeAudio}/>
       <Route path="pay/coinaudio" component={CoinAudioPay}/>
+      <Route path="pay/exchange" component={ExchangePay}/>
     </Route>
     <Route path="*" component={PageNotFound}></Route>
   </Route>
