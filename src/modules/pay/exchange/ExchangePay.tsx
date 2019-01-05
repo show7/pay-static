@@ -1,7 +1,7 @@
 import * as React from 'react'
 import SaleShow from '../../../components/SaleShow'
 import { connect } from 'react-redux'
-import { alertMsg } from '../../../redux/actions'
+import { alertMsg,startLoad,endLoad } from '../../../redux/actions'
 import { exchangeRiseMemberByCode, getRiseMember } from '../async'
 
 import './ExchangePay.less'
@@ -43,7 +43,9 @@ export default class ExchangePay extends React.Component {
     }
     if (submitable) {
       this.setState({ submitable: false }, () => {
+        dispatch(startLoad())
         exchangeRiseMemberByCode(exchangeCode, goodsId).then(exchangeResult => {
+          dispatch(endLoad())
           dispatch(alertMsg(exchangeResult.msg))
           this.setState({ submitable: true, exchangeCode: '' })
         })
