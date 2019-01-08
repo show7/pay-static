@@ -1,14 +1,13 @@
 import * as React from "react";
-import "./SelfManage.less";
+import "./AudioCourse.less";
 import { connect } from "react-redux";
-import { loadActivityCheck, autoJoinAudioCourse } from '../async'
+import { loadActivityCheck, joinAudioCourse } from '../async'
 import { alertMsg } from "../../../redux/actions";
 import { configShare } from "../../helpers/JsConfig";
 import { mark } from 'utils/request'
-import { Dialog } from 'react-weui'
 
 @connect(state => state)
-export default class AutoOpen extends React.Component<any, any> {
+export default class AudioCourse extends React.Component<any, any> {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,14 +20,13 @@ export default class AutoOpen extends React.Component<any, any> {
       posterUrl: '',
       posterShow: false,
       subscribe: false,
-      needMember: 0,
-      show: false,
-      msg : ''
+      needMember: 0
     }
   }
 
   componentWillMount() {
-    mark({ module: '打点', function: '音频课入学', action: 'wondercv' })
+    const { source } = this.props.location.query
+    mark({ module: '打点', function: '音频课入学', action: 'wondercv', memo:source })
     this.getInfo()
     configShare(
       `【圈外同学】请停止无效努力音频课`,
@@ -63,9 +61,18 @@ export default class AutoOpen extends React.Component<any, any> {
    * 点击免费入学
    */
   handleFreeEntry() {
-    mark({ module: '打点', function: '音频课入学', action: '自动开课' })
-    autoJoinAudioCourse().then(res => {
-      this.setState({msg: res.msg, show: true})
+    const { source = 'normal_audio', riseId = null} = this.props.location.query
+    mark({ module: '打点', function: '音频课入学', action: 'wondercv_click' })
+    joinAudioCourse({source, riseId}).then(res => {
+      if(res.code === 200) {
+        let result = res.msg;
+        this.setState({
+          posterShow: true, posterUrl: result.url
+        })
+      } else {
+        const { dispatch } = this.props
+        dispatch(alertMsg(res.msg))
+      }
     })
 
   }
@@ -73,8 +80,8 @@ export default class AutoOpen extends React.Component<any, any> {
   render() {
     const {
       saleImg,
-      show,
-      msg
+      posterShow,
+      posterUrl,
     } = this.state
     return (
       <div className='self-manage-container'>
@@ -84,21 +91,25 @@ export default class AutoOpen extends React.Component<any, any> {
           })
         }
 
-        <Dialog show={show} buttons={[
-            {
-              label: '去上课', onClick: () => {
-                window.location.href = '/rise/activity/static/promotion/audio?activityId=13';
-              }
-            }
-          ]}>
-          {msg}
-        </Dialog>
-
+        {
+          posterShow && posterUrl &&
+          <div className="poster-mask2">
+            <div className="poster-box">
+              <p>扫码添加班主任，才能正常开课！</p>
+              <p>（不添加班主任无法开课）</p>
+              <img className='posterPic' src={posterUrl} alt=""/>
+              <img className='close'
+                   onClick={()=>{this.setState({ posterShow:false,})}}
+                   src="https://static.iqycamp.com/close-2-t6urec58.png" alt=""/>
+            </div>
+          </div>
+        }
         <div className="bottom-button">
           <ul>
             <li style={{ width:'100%',
             background: "rgba(61,81,137,1)",
-            color:"rgba(255,255,255,1)" }} onClick={()=>{this.handleFreeEntry()}}>点击开课
+            color:"rgba(255,255,255,1)" }} onClick={()=>{this.handleFreeEntry()}}>免费入学
+              <span style={{fontSize:'13'}}>（原价69元）</span>
             </li>
           </ul>
         </div>

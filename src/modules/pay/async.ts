@@ -87,15 +87,8 @@ export function checkAudio (param) {
 
 }
 
-/**
- * 获取自我管理专项课海报
- */
-export function loadPoster (param) {
-  return pget(`/rise/share/get/poster`, param)
-}
-
-export function joinAudioCourse (riseId) {
-  return ppost(`/rise/promotion/audio/join`, { riseId: riseId })
+export function joinAudioCourse (param) {
+  return ppost(`/rise/promotion/audio/join`, param)
 }
 
 export function joinChallengeAudio (source) {
