@@ -1,5 +1,5 @@
 import * as React from "react";
-import "./SelfManage.less";
+import "./AudioCourse.less";
 import { connect } from "react-redux";
 import { loadActivityCheck, joinAudioCourse } from '../async'
 import { alertMsg } from "../../../redux/actions";
@@ -7,7 +7,7 @@ import { configShare } from "../../helpers/JsConfig";
 import { mark } from 'utils/request'
 
 @connect(state => state)
-export default class SelfManageB extends React.Component<any, any> {
+export default class AudioCourse extends React.Component<any, any> {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,8 +25,8 @@ export default class SelfManageB extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    const { memo } = this.props.location.query
-    mark({ module: '打点', function: '音频课入学', action: 'wondercv', memo })
+    const { source } = this.props.location.query
+    mark({ module: '打点', function: '音频课入学', action: 'wondercv', memo:source })
     this.getInfo()
     configShare(
       `【圈外同学】请停止无效努力音频课`,
@@ -61,8 +61,9 @@ export default class SelfManageB extends React.Component<any, any> {
    * 点击免费入学
    */
   handleFreeEntry() {
+    const { source = 'normal_audio', riseId = null} = this.props.location.query
     mark({ module: '打点', function: '音频课入学', action: 'wondercv_click' })
-    joinAudioCourse().then(res => {
+    joinAudioCourse({source, riseId}).then(res => {
       if(res.code === 200) {
         let result = res.msg;
         this.setState({
@@ -78,17 +79,9 @@ export default class SelfManageB extends React.Component<any, any> {
 
   render() {
     const {
-      price,
-      qrCodeUrl,
       saleImg,
-      goodsId,
-      goodsName,
-      goodsType,
       posterShow,
-      content,
       posterUrl,
-      subscribe,
-      needMember
     } = this.state
     return (
       <div className='self-manage-container'>

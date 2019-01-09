@@ -14,7 +14,6 @@ import CollegeAudioPay from 'modules/pay/audiopay/CollegeAudioPay'
 import BusinessApplySubmitSuccess from './modules/pay/bsapply/BusinessApplySubmitSuccess'
 import ExchangePay from './modules/pay/exchange/ExchangePay'
 import PayGuide from './modules/pay/guide/PayGuide'
-import ChallengeAudio from './modules/pay/SelfManage/ChallengeAudio'
 import Subscribe from './modules/subscribe/Subscribe'
 import RiseAlipay from './modules/pay/risepay/RiseAlipay'
 import AlipayReturn from './modules/pay/risepay/AlipayReturn'
@@ -23,9 +22,10 @@ import { notLoadInfoUrls, sa } from './utils/helpers'
 import PageNotFound from './modules/others/pageNotFound/PageNotFound'
 import PayL1 from 'modules/pay/risepay/PayL1'
 import payGift from 'modules/pay/payGift/PayGift'
-import SelfManage from 'modules/pay/SelfManage/SelfManage'
-import SelfManageB from 'modules/pay/SelfManage/SelfManageB'
-import AutoOpen from 'modules/pay/SelfManage/AutoOpen'
+import AudioCourse from 'modules/pay/audio/AudioCourse'
+import AutoOpen from 'modules/pay/audio/AutoOpen'
+import ChallengeAudio from './modules/pay/audio/ChallengeAudio'
+import ReadCourse from './modules/pay/read/ReadCourse'
 
 const routes = (
   <Route path="/">
@@ -60,13 +60,13 @@ const routes = (
       <Route path="pay/l1" component={PayL1}/>
       <Route path="pay/gift" component={payGift}/>
       <Route path="pay/guide" component={PayGuide}/>
-      <Route path="pay/selfmanage" component={SelfManage}/>
-      <Route path="pay/audiocourse" component={SelfManageB}/>
+      <Route path="pay/audiocourse" component={AudioCourse}/>
       <Route path="pay/audiocourse/autoopen" component={AutoOpen}/>
       <Route path="pay/collegeaudio" component={CollegeAudioPay}/>
       <Route path="pay/challengeaudio" component={ChallengeAudio}/>
       <Route path="pay/coinaudio" component={CoinAudioPay}/>
       <Route path="pay/exchange" component={ExchangePay}/>
+      <Route path="pay/read" component={ReadCourse}/>
     </Route>
     <Route path="*" component={PageNotFound}></Route>
   </Route>

@@ -1,14 +1,13 @@
 import * as React from "react";
-import "./SelfManage.less";
+import "./ReadCourse.less";
 import { connect } from "react-redux";
 import { loadActivityCheck, autoJoinAudioCourse } from '../async'
 import { alertMsg } from "../../../redux/actions";
-import { configShare } from "../../helpers/JsConfig";
 import { mark } from 'utils/request'
 import { Dialog } from 'react-weui'
 
 @connect(state => state)
-export default class AutoOpen extends React.Component<any, any> {
+export default class ReadCourse extends React.Component<any, any> {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,14 +27,8 @@ export default class AutoOpen extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    mark({ module: '打点', function: '音频课入学', action: 'wondercv' })
+    mark({ module: '打点', function: '阅读课入学', action: '进入页面' })
     this.getInfo()
-    configShare(
-      `【圈外同学】请停止无效努力音频课`,
-      `https://${window.location.hostname}/pay/audiocourse`,
-      'https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg',
-      `顶尖咨询总监，8年职场方法论`,
-    )
   }
 
   getInfo() {
@@ -63,7 +56,7 @@ export default class AutoOpen extends React.Component<any, any> {
    * 点击免费入学
    */
   handleFreeEntry() {
-    mark({ module: '打点', function: '音频课入学', action: '自动开课' })
+    mark({ module: '打点', function: '阅读课入学', action: '自动开课' })
     autoJoinAudioCourse().then(res => {
       this.setState({msg: res.msg, show: true})
     })
@@ -77,7 +70,7 @@ export default class AutoOpen extends React.Component<any, any> {
       msg
     } = this.state
     return (
-      <div className='self-manage-container'>
+      <div className='read-course-container'>
         {
           saleImg && saleImg.map((item, index) => {
             return <img key={index} src={item} alt=""/>
@@ -87,7 +80,7 @@ export default class AutoOpen extends React.Component<any, any> {
         <Dialog show={show} buttons={[
             {
               label: '去上课', onClick: () => {
-                window.location.href = '/rise/activity/static/promotion/audio?activityId=13';
+                window.location.href = '/rise/static/learn';
               }
             }
           ]}>

@@ -7,7 +7,7 @@ import { alertMsg } from '../../../redux/actions'
 import { configShare } from '../../helpers/JsConfig'
 import { mark } from 'utils/request'
 import PayInfo from '../components/PayInfo'
-import {payInfo} from '../components/PayInfo'
+import { payInfo } from '../components/PayInfo'
 import * as _ from 'lodash'
 
 @connect(state => state)
@@ -22,8 +22,8 @@ export default class ChallengeAudio extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    const {source } = this.props.location.query
-    mark({ module: '打点', function: '音频课入学', action: 'challengeaudio', memo:source})
+    const { source } = this.props.location.query
+    mark({ module: '打点', function: '音频课入学', action: 'challengeaudio', memo: source })
     this.getInfo()
     configShare(
       `【圈外同学】请停止无效努力音频课`,
@@ -52,7 +52,7 @@ export default class ChallengeAudio extends React.Component<any, any> {
    * 点击免费入学
    */
   handleFreeEntry() {
-    const { source } = this.props.location.query
+    let { source = 'challenge_audio' } = this.props.location.query
     mark({ module: '打点', function: '音频课入学', action: 'challengeaudio_click', memo: source })
     joinChallengeAudio(source).then(res => {
       if(res.code === 200) {
@@ -75,7 +75,7 @@ export default class ChallengeAudio extends React.Component<any, any> {
       if(res.code === 200) {
         if(_.isEmpty(res.msg)) {
           this.refs.payInfo.handleClickOpen()
-        }else{
+        } else {
           this.setState({
             posterUrl: res.msg,
             posterShow: true
@@ -91,8 +91,8 @@ export default class ChallengeAudio extends React.Component<any, any> {
   handlePayedDone() {
     const { source } = this.props.location.query
     mark({ module: '打点', function: '69元付费报名', action: '支付成功', memo: source })
-    loadRotate(13).then(res=>{
-      if(res.code===200){
+    loadRotate(13).then(res => {
+      if(res.code === 200) {
         this.setState({
           posterUrl: res.msg,
           posterShow: true
@@ -103,19 +103,19 @@ export default class ChallengeAudio extends React.Component<any, any> {
 
   /** 处理取消支付的状态 */
   handlePayedCancel(res) {
-    const {dispatch} = this.props
+    const { dispatch } = this.props
     dispatch(alertMsg('已取消支付'))
   }
 
   /** 处理支付失败的状态 */
   handlePayedError(res) {
-    const {dispatch} = this.props
+    const { dispatch } = this.props
     dispatch(alertMsg('支付失败'))
   }
 
   handlePayedBefore() {
     const { source } = this.props.location.query
-    mark({module: '打点', function: '进阶课程', action: '点击付费', memo: source })
+    mark({ module: '打点', function: '进阶课程', action: '点击付费', memo: source })
   }
 
   render() {
