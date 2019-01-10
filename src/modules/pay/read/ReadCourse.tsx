@@ -1,7 +1,7 @@
 import * as React from "react";
 import "./ReadCourse.less";
 import { connect } from "react-redux";
-import { loadActivityCheck, autoJoinAudioCourse } from '../async'
+import { loadActivityCheck, autoJoinReadCourse } from '../async'
 import { alertMsg } from "../../../redux/actions";
 import { mark } from 'utils/request'
 import { Dialog } from 'react-weui'
@@ -34,7 +34,7 @@ export default class ReadCourse extends React.Component<any, any> {
   getInfo() {
     const { riseId = null } = this.props.location.query
     let param = riseId ? Object.assign({}, { riseId: riseId }) : {};
-    loadActivityCheck(param).then((res) => {
+    loadActivityCheck(5, param).then((res) => {
       if(res.code === 200) {
         let result = res.msg;
         this.setState({
@@ -57,7 +57,7 @@ export default class ReadCourse extends React.Component<any, any> {
    */
   handleFreeEntry() {
     mark({ module: '打点', function: '阅读课入学', action: '自动开课' })
-    autoJoinAudioCourse().then(res => {
+    autoJoinReadCourse().then(res => {
       this.setState({msg: res.msg, show: true})
     })
 

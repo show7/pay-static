@@ -78,8 +78,8 @@ export function loadTask (type) {
 /**
  * 获取音频课信息
  */
-export function loadActivityCheck (param) {
-  return pget(`/signup/rise/member/activity/check/13`, param)
+export function loadActivityCheck (goodsId, param) {
+  return pget(`/signup/rise/member/activity/check/${goodsId}`, param)
 }
 
 export function checkAudio (param) {
@@ -95,8 +95,8 @@ export function joinChallengeAudio (source) {
   return ppost(`/rise/promotion/audio/challenge/join`, { source: source })
 }
 
-export function autoJoinAudioCourse (riseId) {
-  return ppost(`/rise/promotion/audio/auto/open`, { riseId: riseId })
+export function autoJoinReadCourse (riseId) {
+  return ppost(`/promotion/audio/camp/open`)
 }
 
 export function checkCanPay () {

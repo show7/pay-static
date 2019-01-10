@@ -34,7 +34,7 @@ export default class AutoOpen extends React.Component<any, any> {
   getInfo() {
     const { riseId = null } = this.props.location.query
     let param = riseId ? Object.assign({}, { riseId: riseId }) : {};
-    loadActivityCheck(param).then((res) => {
+    loadActivityCheck(17, param).then((res) => {
       if(res.code === 200) {
         let result = res.msg;
         this.setState({
