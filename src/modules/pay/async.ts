@@ -99,6 +99,10 @@ export function autoJoinReadCourse (riseId) {
   return ppost(`/promotion/audio/camp/open`)
 }
 
+export function autoJoinAudioCourse (riseId) {
+  return ppost(`/rise/promotion/audio/auto/open`, { riseId: riseId })
+}
+
 export function checkCanPay () {
   return pget('/signup/rise/member/audio/pay/check')
 }
