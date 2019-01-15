@@ -96,7 +96,7 @@ export default class ReadCourse extends React.Component<any, any> {
           <ul>
             <li style={{ width:'100%',
             background: "rgba(61,81,137,1)",
-            color:"rgba(255,255,255,1)" }} onClick={()=>{this.handleFreeEntry()}}>点击开课
+            color:"rgba(255,255,255,1)" }} onClick={()=>{this.handleFreeEntry()}}>免费入学
             </li>
           </ul>
         </div>
