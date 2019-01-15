@@ -35,7 +35,8 @@ export class GoodsType {
 export class PayType {
   // public static WECHAT = 1;
   public static WECHAT = 7;
-  public static ALIPAY = 2;
+  // public static ALIPAY = 2;
+  public static ALIPAY = 8;
   public static KFQ = 3;
   public static HUABEI_3 = 4;
   public static HUABEI_6 = 5;
