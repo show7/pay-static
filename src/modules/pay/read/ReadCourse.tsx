@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { loadActivityCheck, autoJoinReadCourse } from '../async'
 import { alertMsg } from "../../../redux/actions";
 import { mark } from 'utils/request'
-import { Dialog } from 'react-weui'
 
 @connect(state => state)
 export default class ReadCourse extends React.Component<any, any> {
@@ -22,7 +21,7 @@ export default class ReadCourse extends React.Component<any, any> {
       subscribe: false,
       needMember: 0,
       show: false,
-      msg : ''
+      posterUrl: '',
     }
   }
 
@@ -56,9 +55,10 @@ export default class ReadCourse extends React.Component<any, any> {
    * 点击免费入学
    */
   handleFreeEntry() {
+    const { source = null } = this.props.location.query
     mark({ module: '打点', function: '阅读课入学', action: '自动开课' })
-    autoJoinReadCourse().then(res => {
-      this.setState({msg: res.msg, show: true})
+    autoJoinReadCourse(source).then(res => {
+      this.setState({ posterUrl: res.msg, show: true })
     })
 
   }
@@ -66,9 +66,10 @@ export default class ReadCourse extends React.Component<any, any> {
   render() {
     const {
       saleImg,
-      show,
-      msg
+      posterUrl,
+      show
     } = this.state
+
     return (
       <div className='read-course-container'>
         {
@@ -77,15 +78,19 @@ export default class ReadCourse extends React.Component<any, any> {
           })
         }
 
-        <Dialog show={show} buttons={[
-            {
-              label: '去上课', onClick: () => {
-                window.location.href = '/rise/static/learn';
-              }
-            }
-          ]}>
-          {msg}
-        </Dialog>
+        {
+          show && posterUrl &&
+          <div className="poster-mask2">
+            <div className="poster-box">
+              <p>扫码添加班主任，才能正常开课！</p>
+              <p>（不添加班主任无法开课）</p>
+              <img className='posterPic' src={posterUrl} alt=""/>
+              <img className='close'
+                   onClick={() => {this.setState({ show: false })}}
+                   src="https://static.iqycamp.com/close-2-t6urec58.png" alt=""/>
+            </div>
+          </div>
+        }
 
         <div className="bottom-button">
           <ul>
