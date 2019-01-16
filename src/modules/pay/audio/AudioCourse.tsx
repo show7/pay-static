@@ -30,7 +30,7 @@ export default class AudioCourse extends React.Component<any, any> {
     this.getInfo()
     configShare(
       `【圈外同学】请停止无效努力音频课`,
-      `https://${window.location.hostname}/pay/audiocourse`,
+      `https://${window.location.hostname}/pay/audiocourse?riseId=${window.ENV.riseId}&type=2`,
       'https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg',
       `顶尖咨询总监，8年职场方法论`,
     )
@@ -83,6 +83,7 @@ export default class AudioCourse extends React.Component<any, any> {
       posterShow,
       posterUrl,
     } = this.state
+    const { type } = this.props.location.query
     return (
       <div className='self-manage-container'>
         {
@@ -91,6 +92,12 @@ export default class AudioCourse extends React.Component<any, any> {
           })
         }
 
+        {
+          type == 1 &&
+          <div className="type-share">
+            <img src="https://static.iqycamp.com/1091533182527_-sc42kog6.pic.jpg" alt="分享图片"/>
+          </div>
+        }
         {
           posterShow && posterUrl &&
           <div className="poster-mask2">
