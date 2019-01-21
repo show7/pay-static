@@ -196,9 +196,9 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
         } else {
           if(payType == PayType.WECHAT) {
             // 收费，调微信支付
-            this.handleH5Pay(signParams)
+            // this.handleH5Pay(signParams)
             // 暂时跳转到新连接
-            // window.location.href = signParams.weChatBrowserUrl;
+            window.location.href = signParams.weChatBrowserUrl;
           } else if(payType == PayType.ALIPAY) {
             // 调用阿里支付
             window.location.href = `/pay/alipay/rise?orderId=${productId}&goto=${encodeURIComponent(signParams.alipayUrl)}&type=hb`;
