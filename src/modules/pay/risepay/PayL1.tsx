@@ -8,9 +8,7 @@ import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { config, configShare } from 'modules/helpers/JsConfig'
 import PayInfo from '../components/PayInfo'
 import { checkRiseMember, getRiseMember, loadInvitation, loadTask } from '../async'
-import { SaleBody } from './components/SaleBody'
 import { MarkBlock } from '../components/markblock/MarkBlock'
-import { SubscribeAlert } from './components/SubscribeAlert'
 import { SubscribeAlert } from './components/SubscribeAlert'
 import InvitationLayout from '../components/invitationLayout/InvitationLayout'
 import RenderInBody from '../../../components/RenderInBody'
@@ -294,7 +292,7 @@ export default class PayL1 extends React.Component<any, any> {
         }
 
         {invitationLayout &&
-        <InvitationLayout oldNickName={invitationData.oldNickName}
+          <InvitationLayout oldNickName={invitationData.oldNickName}
                           amount={invitationData.amount}
                           projectName={invitationData.memberTypeName}
                           callBack={() => {

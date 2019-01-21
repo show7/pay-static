@@ -8,7 +8,7 @@ import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { config, configShare } from 'modules/helpers/JsConfig'
 import PayInfo from '../components/PayInfo'
 import { checkRiseMember, getRiseMember, loadInvitation, loadTask } from '../async'
-import { SaleBody } from './components/SaleBody'
+import InvitationLayout from '../components/invitationLayout/InvitationLayout'
 import { MarkBlock } from '../components/markblock/MarkBlock'
 import { SubscribeAlert } from './components/SubscribeAlert'
 import RenderInBody from '../../../components/RenderInBody'
@@ -68,7 +68,7 @@ export default class PayL2 extends React.Component<any, any> {
         } else if(invitationInfo.msg.isNewUser) {
           this.setState({ invitationLayout: true })
         }
-    }
+      }
     }
     // 查询订单信息
     getRiseMember(this.state.goodsId).then(res => {
@@ -214,19 +214,6 @@ export default class PayL2 extends React.Component<any, any> {
       )
 
     }
-    const renderLayout = () => {
-      return (
-        <div className="invitation-layout">
-          <div className="layout-box">
-            <h3>好友邀请</h3>
-            <p>{invitationData.oldNickName}觉得《{invitationData.memberTypeName}》很适合你，邀请你成为TA的同学，送你一张{invitationData.amount}元的学习优惠券。</p>
-            <span className="button" onClick={() => {
-              this.setState({ invitationLayout: false })
-            }}>知道了</span>
-          </div>
-        </div>
-      )
-    }
 
     return (
       <div className="rise-pay-container">
@@ -278,7 +265,12 @@ export default class PayL2 extends React.Component<any, any> {
           subscribe && <SubscribeAlert closeFunc={() => this.setState({ subscribe: false })}/>
         }
         {invitationLayout &&
-        renderLayout()
+          <InvitationLayout oldNickName={invitationData.oldNickName}
+                          amount={invitationData.amount}
+                          projectName={invitationData.memberTypeName}
+                          callBack={() => {
+                            this.setState({ invitationLayout: false })
+                          }}/>
         }
 
         {!!showQr ? <RenderInBody>

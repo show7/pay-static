@@ -13,10 +13,10 @@ export default class InvitationLayout extends React.Component {
     return (
       <div className="invitation-layout">
         <div className="layout-box">
-          <h3>好友邀请</h3>
-          <p>{oldNickName}觉得《{projectName}》很适合你，邀请你成为TA的同学，送你一张{amount}元的{projectName}专属学习优惠券。</p>
+          <h3>限时优惠券</h3>
+          <p>{amount}元奖学金，48小时后过期</p>
           <span className="button"
-                onClick={callBack}>知道了</span>
+                onClick={callBack}>点击领取</span>
         </div>
       </div>
     )
