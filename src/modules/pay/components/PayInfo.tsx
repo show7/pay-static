@@ -181,6 +181,9 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
           goodsId: Number(this.props.goodsId).toString(),
           payType: payType
         })
+        if(_.isFunction(this.props.payedBefore)) {
+          this.props.payedBefore();
+        }
         const { fee, free, signParams, productId } = res.msg
         this.setState({ productId: productId })
         if(!_.isNumber(fee)) {
@@ -207,12 +210,9 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
             window.location.href = `/pay/alipay/rise?orderId=${productId}&goto=${encodeURIComponent(signParams.huabeiUrl)}&type=hb`;
           }
         }
-        if(_.isFunction(this.props.payedBefore)) {
-          this.props.payedBefore();
-        }
       } else {
         dispatch(alertMsg(res.msg))
-      }``
+      }
     }).catch(err => {
       dispatch(endLoad())
       dispatch(alertMsg(err))
