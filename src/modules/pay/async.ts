@@ -53,8 +53,8 @@ export function entryRiseMember (riseMember) {
  * @param goodsType 商品类型
  * @param goodsId 商品id
  */
-export function loadGoodsInfo (goodsType, goodsId) {
-  return ppost('/signup/load/goods', { goodsType: goodsType, goodsId: goodsId })
+export function loadGoodsInfo(goodsType, goodsId, priceActivityId) {
+  return ppost('/signup/load/goods', { goodsType: goodsType, goodsId: goodsId, priceActivityId: priceActivityId })
 }
 
 export function loadWannaMember (goodsId) {

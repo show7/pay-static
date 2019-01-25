@@ -6,7 +6,7 @@ import numeral from 'numeral'
 import {loadGoodsInfo, loadPaymentParam, logPay} from '../async'
 import {mark} from "../../../utils/request";
 import _ from 'lodash'
-import { GoodsType, PayType, saTrack ,refreshForPay} from '../../../utils/helpers'
+import { GoodsType, PayType, saTrack, refreshForPay, getQueryString } from '../../../utils/helpers'
 import { alertMsg } from "redux/actions";
 import {configShare,pay} from '../../helpers/JsConfig'
 import { connect } from "react-redux";
@@ -61,22 +61,26 @@ export default class PayGift extends React.Component<any, any> {
     /**
      *  获取课程单价信息
      */
-    loadGoodsInfo(){
-        const { goodsId , goodsType } =this.props.location.query;
-        loadGoodsInfo(goodsType,goodsId).then((res)=>{
-          if (res.code===200){
-              this.setState({totalNum: 1, unitPrice: res.msg.fee,projectName:res.msg.name,sellImgs:res.msg.sellImgs,memberTypeId:res.msg.memberTypeId});
-          }
-        })
+    loadGoodsInfo() {
+      const { goodsId, goodsType, paId } = this.props.location.query;
+
+      loadGoodsInfo(goodsType, goodsId, paId).then((res) => {
+        if(res.code === 200) {
+          this.setState({
+            totalNum: 1, unitPrice: res.msg.fee, projectName: res.msg.name, sellImgs: res.msg.sellImgs, memberTypeId: res.msg.memberTypeId
+          });
+        }
+      })
     }
 
     /**
      * 点击支付
      */
     handleClickPay(){
-        const { goodsId , goodsType } =this.props.location.query;
+        const { goodsId , goodsType , paId} =this.props.location.query;
+
         const { chosedWayId ,totalNum} = this.state;
-        let param = { goodsId: goodsId, goodsType: goodsType,sum:totalNum, payType: chosedWayId };
+        let param = { goodsId: goodsId, goodsType: goodsType, sum: totalNum, payType: chosedWayId, priceActivityId: paId };
         loadPaymentParam(param).then((res)=>{
             if (res.code===200){
                 const { fee, free, signParams, productId } = res.msg ;
