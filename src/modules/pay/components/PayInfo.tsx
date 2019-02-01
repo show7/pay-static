@@ -78,6 +78,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     const { dispatch } = this.props
 
     let payMethod = getQueryString(window.location.href, 'pay');
+    let priceActivityId = getQueryString(window.location.href, 'paId');
     // 获取商品数据
     if(!goodsId || !goodsType) {
       return
@@ -85,9 +86,10 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     this.setState({
       justOpenPayType: goodsId == 7 && GoodsType.BS_APPLICATION == goodsType,
       showKfq: !!payMethod,
-      showHuabei: !!payMethod
+      showHuabei: !!payMethod,
+      priceActivityId: priceActivityId
     })
-    loadGoodsInfo(goodsType, goodsId).then(res => {
+    loadGoodsInfo(goodsType, goodsId, priceActivityId).then(res => {
       if(res.code === 200) {
         this.setState(res.msg, () => {
           // 如果autoChose有值则自动选择优惠券
@@ -160,7 +162,9 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     if(!goodsId || !goodsType) {
       dispatch(alertMsg('支付信息错误，请联系管理员'))
     }
-    let param = { goodsId: goodsId, goodsType: goodsType, payType: payType }
+    let priceActivityId = getQueryString(window.location.href, 'paId');
+
+    let param = { goodsId: goodsId, goodsType: goodsType, payType: payType, priceActivityId: priceActivityId }
     if(chose) {
       if(!_.isEmpty(chose.couponsIdGroup)) {
         param = _.merge({}, param, { couponsIdGroup: chose.couponsIdGroup })
@@ -196,9 +200,9 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
         } else {
           if(payType == PayType.WECHAT) {
             // 收费，调微信支付
-            // this.handleH5Pay(signParams)
+            this.handleH5Pay(signParams)
             // 暂时跳转到新连接
-            window.location.href = signParams.weChatBrowserUrl;
+            // window.location.href = signParams.weChatBrowserUrl;
           } else if(payType == PayType.ALIPAY) {
             // 调用阿里支付
             window.location.href = `/pay/alipay/rise?orderId=${productId}&goto=${encodeURIComponent(signParams.alipayUrl)}&type=hb`;
@@ -322,13 +326,15 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       total: 0,
       used: false,
     }
-    let param = { goodsId: goodsId, goodsType: goodsType }
+    let priceActivityId = getQueryString(window.location.href, 'paId');
+    let param = { goodsId: goodsId, goodsType: goodsType, priceActivityId: priceActivityId }
 
     chose.used = true;
     for(let i = 0; i < autoCoupons.length; i++) {
       chose.couponsIdGroup.push(autoCoupons[ i ].id);
       chose.total += autoCoupons[ i ].amount;
     }
+
     _.merge(param, { couponsIdGroup: chose.couponsIdGroup });
     calculateCoupons(param).then((res) => {
       dispatch(endLoad())
@@ -359,7 +365,9 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     // coupons = this.filterCoupons(coupons, goodsType)
     let chose = _.get(this.state, 'chose', {});
     dispatch(startLoad())
-    let param = { goodsId: goodsId, goodsType: goodsType }
+    let priceActivityId = getQueryString(window.location.href, 'paId');
+
+    let param = { goodsId: goodsId, goodsType: goodsType, priceActivityId: priceActivityId }
     // 可以选择多个优惠券
     if(chose === null) {
       chose = {
@@ -508,8 +516,9 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
         chose.couponsIdGroup = choseList;
         chose.used = true;
       }
+      let priceActivityId = getQueryString(window.location.href, 'paId');
 
-      let param = { goodsId: goodsId, goodsType: goodsType, couponsIdGroup: chose.couponsIdGroup };
+      let param = { goodsId: goodsId, goodsType: goodsType, couponsIdGroup: chose.couponsIdGroup, priceActivityId: priceActivityId };
       dispatch(startLoad())
       calculateCoupons(param).then((res) => {
         dispatch(endLoad())
@@ -553,10 +562,12 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
   }
 
   render() {
-    const { openCoupon, final, fee, chose, free, show, name,
+    const {
+      openCoupon, final, fee, chose, free, show, name,
       startTime, endTime, activity, multiCoupons, openPayType,
       chooseAll, initPrice, payType, hiddenCoupon = false,
-      justOpenPayType, showKfq, showHuabei } = this.state
+      justOpenPayType, showKfq, showHuabei
+    } = this.state
     const { header, goodsId, goodsType } = this.props
     let coupons = _.get(this.state, 'coupons', [])
     // coupons = this.filterCoupons(coupons, goodsType)
