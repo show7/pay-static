@@ -88,11 +88,11 @@ export function checkAudio (param) {
 }
 
 export function joinAudioCourse (param) {
-  return ppost(`/rise/promotion/audio/join`, param)
+  return ppost(`/promotion/audio/join`, param)
 }
 
 export function joinChallengeAudio (source) {
-  return ppost(`/rise/promotion/audio/challenge/join`, { source: source })
+  return ppost(`/promotion/audio/challenge/join`, { source: source })
 }
 
 export function autoJoinReadCourse (source) {
@@ -100,7 +100,7 @@ export function autoJoinReadCourse (source) {
 }
 
 export function autoJoinAudioCourse (riseId) {
-  return ppost(`/rise/promotion/audio/auto/open`, { riseId: riseId })
+  return ppost(`/promotion/audio/auto/open`, { riseId: riseId })
 }
 
 export function checkCanPay () {
