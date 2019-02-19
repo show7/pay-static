@@ -71,20 +71,12 @@ export default class PayL1 extends React.Component<any, any> {
       if(res.code === 200) {
         this.setState({ data: res.msg })
         const { quanwaiGoods = {} } = res.msg
-        const { privilege } = res.msg
-        if(privilege) {
-          saTrack('openSalePayPage', {
-            goodsType: quanwaiGoods.goodsType + '',
-            goodsId: quanwaiGoods.id + '',
-          })
-          mark({ module: '打点', function: quanwaiGoods.goodsType, action: quanwaiGoods.id, memo: '入学页面' })
-        } else {
-          saTrack('openSaleApplyPage', {
-            goodsType: quanwaiGoods.goodsType + '',
-            goodsId: quanwaiGoods.id + '',
-          })
-          mark({ module: '打点', function: quanwaiGoods.goodsType, action: quanwaiGoods.id, memo: '申请页面' })
-        }
+
+        saTrack('openSalePayPage', {
+          goodsType: quanwaiGoods.goodsType + '',
+          goodsId: quanwaiGoods.id + '',
+        })
+        mark({ module: '打点', function: quanwaiGoods.goodsType, action: quanwaiGoods.id, memo: '入学页面' })
       } else {
         dispatch(alertMsg(res.msg))
       }

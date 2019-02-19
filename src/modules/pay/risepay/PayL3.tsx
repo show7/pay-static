@@ -73,6 +73,9 @@ export default class PayL3 extends Component<any, any> {
     if(res.code === 200) {
       const { privilege, quanwaiGoods, tip, buttonStr, auditionStr, remainHour, remainMinute } = res.msg
       this.setState({ privilege, quanwaiGoods, tip, buttonStr, auditionStr, remainHour, remainMinute })
+
+      mark({ module: '打点', function: quanwaiGoods.goodsType, action: quanwaiGoods.id, memo: '入学页面' })
+
       // 进行打点
       if(privilege) {
         sa.track('openSalePayPage', {
