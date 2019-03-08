@@ -1,11 +1,9 @@
 import * as React from 'react'
-import AssetImg from '../../../components/AssetImg'
+import QYVideo from '../../../components/QYVideo/QYVideo'
 import { mark } from '../../../utils/request'
 import { configShare } from 'modules/helpers/JsConfig'
 
 import './PayGuide.less'
-import { relative } from 'path';
-import List from '../../../components/List/List'
 
 export default class PayGuide extends React.Component {
 
@@ -31,7 +29,7 @@ export default class PayGuide extends React.Component {
           imgSrc: 'https://static.iqycamp.com/L2Img-1kzlil60.png',
           title: '成为有话语权的中坚力量',
           imgBg: 'https://static.iqycamp.com/L2bg-3z1xki1f.png',
-          timeTxt: '4个月课程',
+          timeTxt: '5个月课程',
           timeImg: 'https://static.iqycamp.com/time-5qkw5u7c.png',
           subtimeTxt: '1个月实战',
           bittonTxt: '了解详情>'
@@ -40,7 +38,7 @@ export default class PayGuide extends React.Component {
           imgSrc: 'https://static.iqycamp.com/L3Img-vqam0n2l.png',
           title: '成为未来的商业领导者',
           imgBg: 'https://static.iqycamp.com/L3bg-e05fpehi.png',
-          timeTxt: '4个月课程',
+          timeTxt: '6个月课程',
           timeImg: 'https://static.iqycamp.com/time-5qkw5u7c.png',
           subtimeTxt: '2个月实战',
           bittonTxt: '了解详情>'
@@ -155,17 +153,8 @@ export default class PayGuide extends React.Component {
           <img className="arrow" src="https://static.iqycamp.com/bootomImg-cws44aut.png" />
           <div className="footerCont">
             <div className="videoCont">
-              <video id="quanwaiVideo" className="quanwaiVideo">
-                <source src="https://vd.yinyuetai.com/hc.yinyuetai.com/uploads/videos/common/D9D7016946B858C7358786E66AE0F650.mp4" type="video/mp4" />
-              </video>
-              <div className="videoMask" style={this.state.videoMaskShow === true ? {display:"block"} : {display:"none"}} onClick={() => this.playVideo()}>
-                <div className="imgCont">
-                <div className="imgPosition">
-                <img className="quanwaiIcon" src="https://static.iqycamp.com/videoHeader-ebr90ug2.png" />
-                <img className="playImg" src="https://static.iqycamp.com/playIcon-3oxe2us3.png" />
-                </div>
-                </div>
-              </div>
+              <QYVideo fileId={'5285890780601189027'}
+                       videoPoster={'https://static.iqycamp.com/images/thought_poster_0723.jpeg?imageslim'}/>
             </div>
           </div>
           <ul className="introduceCont">
