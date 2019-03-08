@@ -156,30 +156,30 @@ export default class PayGuide extends React.Component {
           </div>
           <div className="footerCont">
             <div className="videoCont">
-              <QYVideo fileId={'5285890780601189027'}
+              <QYVideo className="videoContent" fileId={'5285890780601189027'}
                        videoPoster={'https://static.iqycamp.com/images/thought_poster_0723.jpeg?imageslim'}/>
             </div>
           </div>
           <ul className="introduceCont">
             <li className="introduce">
               <img className="inroduceImg" src="https://static.iqycamp.com/listIcon-kslhuvki.png" />
-              <div>由全球第一人力咨询公司前总监孙圈圈创立</div>
+              <div>由全球第一人力咨询公司前总监<span className="notice">孙圈圈</span>创立</div>
             </li>
             <li className="introduce">
               <img className="inroduceImg" src="https://static.iqycamp.com/listIcon-kslhuvki.png" />
-              <div>持续帮助10000+ 学员通过课程完成能力提升</div>
+              <div>持续帮助<span className="notice">10000+ 学员</span>通过课程完成能力提升</div>
             </li>
             <li className="introduce">
               <img className="inroduceImg" src="https://static.iqycamp.com/listIcon-kslhuvki.png" />
-              <div>国内唯一与哈佛、INSEAD等顶尖商学院合作案例教学的教育公司</div>
+              <div>国内唯一与<span className="notice">哈佛、INSEAD</span>等顶尖商学院合作案例教学的教育公司</div>
             </li>
             <li className="introduce">
               <img className="inroduceImg" src="https://static.iqycamp.com/listIcon-kslhuvki.png" />
-              <div>中国银联、国家电网、上汽集团等诸多顶尖公司选圈外的方法培养人才</div>
+              <div><span className="notice">中国银联、国家电网、上汽集团</span>等诸多顶尖公司选圈外的方法培养人才</div>
             </li>
             <li className="introduce">
               <img className="inroduceImg" src="https://static.iqycamp.com/listIcon-kslhuvki.png" />
-              <div>课程经专业教研团队持续迭代，线上社群服务保障90%+的逆天完课率</div>
+              <div>课程经专业教研团队持续迭代，线上社群<span className="notice">服务保障90%+</span>的逆天完课率</div>
             </li>
           </ul>
         </footer>
