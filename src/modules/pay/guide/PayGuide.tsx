@@ -31,7 +31,7 @@ export default class PayGuide extends React.Component {
           imgSrc: 'https://static.iqycamp.com/L2Img-1kzlil60.png',
           title: '成为有话语权的中坚力量',
           imgBg: 'https://static.iqycamp.com/L2bg-3z1xki1f.png',
-          timeTxt: '4个月课程',
+          timeTxt: '5个月课程',
           timeImg: 'https://static.iqycamp.com/time-5qkw5u7c.png',
           subtimeTxt: '1个月实战',
           bittonTxt: '了解详情>'
@@ -40,7 +40,7 @@ export default class PayGuide extends React.Component {
           imgSrc: 'https://static.iqycamp.com/L3Img-vqam0n2l.png',
           title: '成为未来的商业领导者',
           imgBg: 'https://static.iqycamp.com/L3bg-e05fpehi.png',
-          timeTxt: '4个月课程',
+          timeTxt: '6个月课程',
           timeImg: 'https://static.iqycamp.com/time-5qkw5u7c.png',
           subtimeTxt: '2个月实战',
           bittonTxt: '了解详情>'
@@ -152,7 +152,10 @@ export default class PayGuide extends React.Component {
         </ul>
         </section>
         <footer>
-          <img className="arrow" src="https://static.iqycamp.com/bootomImg-cws44aut.png" />
+          <div style={{position:"relative"}}>
+            <img className="arrow" src="https://static.iqycamp.com/bootomImg-cws44aut.png" />
+            <img className="arrowIcon" src="https://static.iqycamp.com/showMore-klrhl6x0.png" />
+          </div>
           <div className="footerCont">
             <div className="videoCont">
               <video id="quanwaiVideo" className="quanwaiVideo">
