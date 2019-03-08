@@ -1,11 +1,9 @@
 import * as React from 'react'
-import AssetImg from '../../../components/AssetImg'
+import QYVideo from '../../../components/QYVideo/QYVideo'
 import { mark } from '../../../utils/request'
 import { configShare } from 'modules/helpers/JsConfig'
 
 import './PayGuide.less'
-import { relative } from 'path';
-import List from '../../../components/List/List'
 
 export default class PayGuide extends React.Component {
 
@@ -158,17 +156,8 @@ export default class PayGuide extends React.Component {
           </div>
           <div className="footerCont">
             <div className="videoCont">
-              <video id="quanwaiVideo" className="quanwaiVideo">
-                <source src="https://vd.yinyuetai.com/hc.yinyuetai.com/uploads/videos/common/D9D7016946B858C7358786E66AE0F650.mp4" type="video/mp4" />
-              </video>
-              <div className="videoMask" style={this.state.videoMaskShow === true ? {display:"block"} : {display:"none"}} onClick={() => this.playVideo()}>
-                <div className="imgCont">
-                <div className="imgPosition">
-                <img className="quanwaiIcon" src="https://static.iqycamp.com/videoHeader-ebr90ug2.png" />
-                <img className="playImg" src="https://static.iqycamp.com/playIcon-3oxe2us3.png" />
-                </div>
-                </div>
-              </div>
+              <QYVideo fileId={'5285890780601189027'}
+                       videoPoster={'https://static.iqycamp.com/images/thought_poster_0723.jpeg?imageslim'}/>
             </div>
           </div>
           <ul className="introduceCont">
