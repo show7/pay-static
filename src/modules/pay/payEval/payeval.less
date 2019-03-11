@@ -1,0 +1,123 @@
+@import "../../../style/variable";
+@import "../../../style/mixins";
+
+.self-init-component {
+  min-height: 100vh;
+  .self-init-container {
+    margin: 0 2rem;
+  }
+  h2.self-init-title {
+    font-size: 2.2rem;
+    line-height: 3rem;
+    text-align: center;
+    padding-top: 2.6rem;
+  }
+  .self-init-title-tips {
+    line-height: 4.8rem;
+    font-size: 1.2rem;
+    letter-spacing: -0.2px;
+    text-align: center;
+    color: @color_help;
+  }
+  .self-init-price {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+    text-align: center;
+    color: @color-green;
+    .price-delete {
+      font-size: 1.2rem;
+      font-weight: normal;
+      color: @color_help;
+      text-decoration: line-through;
+    }
+  }
+  .self-init-point-tips {
+    display: flex;
+    .point-tips {
+      .tips-text {
+        .dot(@color-green);
+      }
+      &.first {
+        text-align: left;
+        flex: 1;
+      }
+      &.last {
+        text-align: right;
+        flex: 1;
+      }
+      line-height: 4.8rem;
+      font-size: 1.2rem;
+      letter-spacing: -0.2px;
+      text-align: center;
+      color: @color_help;
+      flex: 2;
+      flex-direction: column;
+    }
+  }
+
+  .grey-block {
+    height: 1rem;
+    background-color: @color_weak_line;
+  }
+
+  .self-init-block-title {
+    padding-top: 3.4rem;
+    line-height: 3.2rem;
+    font-size: 2.2rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-align: left;
+    color: @color_title_black;
+    .block-title-text {
+      .text {
+        position: relative;
+        z-index: 10;
+      }
+      .bottomLine(@color-green);
+    }
+
+  }
+
+  h4 {
+    font-size: 1.5rem;
+    line-height: 2.6rem;
+  }
+  .self-init-context {
+    letter-spacing: -0.3px;
+    text-align: left;
+    color: @color_title;
+    font-size: 1.4rem;
+    line-height: 175%;
+    font-weight: 300;
+    padding-top: 2rem;
+  }
+  .should-know {
+    padding-bottom: 4.8rem;
+    display: block;
+  }
+
+  .high-line-text {
+    color: @color-green;
+  }
+  .buy-button{
+      width: 12.5rem;
+      margin: auto;
+  }
+  .user-satisfaction-wrap{
+      display:flex;
+      width: 100%;
+      justify-content: space-between;
+      border:1px solid red;
+
+  }
+  .user-satisfaction-item{
+      padding: 1.6rem 1.6rem .9rem 1.6rem;
+      box-shadow:0 0 .9rem 0 rgba(0,0,0,0.1);
+      border-radius:.7rem;
+  }
+  .circleChart{
+      width: 6.2rem;
+      height: 6.2rem;
+  }
+}
