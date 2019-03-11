@@ -156,8 +156,8 @@ export default class PayGuide extends React.Component {
           </div>
           <div className="footerCont">
             <div className="videoCont">
-              <QYVideo className="videoContent" fileId={'5285890780601189027'}
-                       videoPoster={'https://static.iqycamp.com/images/thought_poster_0723.jpeg?imageslim'}/>
+              <QYVideo className="videoContent" fileId='5285890780601189027'
+                       videoPoster='https://static.iqycamp.com/images/thought_poster_0723.jpeg?imageslim'/>
             </div>
           </div>
           <ul className="introduceCont">
