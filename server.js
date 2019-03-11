@@ -55,10 +55,10 @@ if (Boolean(PROXY)) {
   }
 }
 
-new WebpackDevServer(webpack(devConfig), serverConfig).listen(4000, "0.0.0.0", function(err, result) {
+new WebpackDevServer(webpack(devConfig), serverConfig).listen(4000, "localhost", function(err, result) {
   if (err) {
     console.log(err);
   }
 
-  console.log(chalk.cyan("开发服务器启动完毕 http://0.0.0.0:4000, 请等待 webpack 编译完成"));
+  console.log(chalk.cyan("开发服务器启动完毕 http://localhost:4000, 请等待 webpack 编译完成"));
 })
