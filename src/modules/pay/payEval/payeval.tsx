@@ -2,6 +2,7 @@ import * as React from "react";
 import "./payeval.less";
 import { connect } from "react-redux";
 import { PayType, sa, refreshForPay, saTrack } from 'utils/helpers'
+import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { FooterButton } from "../../../components/submitbutton/FooterButton";
 import {SubmitButton} from "../../../components/submitbutton/SubmitButton"
 import AssetImg from "../../../components/AssetImg";
@@ -84,16 +85,16 @@ componentWillMount(){
     const { goodsInfo } = this.state
     const { privilege, errorMsg } = goodsInfo
     if(!privilege && !!errorMsg) {
-    //   dispatch(alertMsg(errorMsg))
+      dispatch(alertMsg(errorMsg))
       return
     }
     const { riseId = '', type = 0 } = this.props
 
     this.reConfig()
-    // dispatch(startLoad())
+    dispatch(startLoad())
     // 先检查是否能够支付
     checkRiseMember(goodsId, riseId, type).then(res => {
-    //   dispatch(endLoad())
+      dispatch(endLoad())
       if(res.code === 200) {
           console.log(res.msg)
         const { qrCode, privilege, errorMsg, subscribe } = res.msg
@@ -102,18 +103,18 @@ componentWillMount(){
             console.log('可以支付',this.refs.payInfo,this.refs.payInfo.handleClickOpen);
             this.refs.payInfo.handleClickOpen()
           } else {
-            // dispatch(alertMsg(errorMsg))
+            dispatch(alertMsg(errorMsg))
           }
         } else {
-        //   this.setState({ qrCode: qrCode, showQr: true })
+          this.setState({ qrCode: qrCode, showQr: true })
         }
       }
       else {
-        // dispatch(alertMsg(res.msg))
+        dispatch(alertMsg(res.msg))
       }
     }).catch(ex => {
-    //   dispatch(endLoad())
-    //   dispatch(alertMsg(ex))
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
     })
   }
 
