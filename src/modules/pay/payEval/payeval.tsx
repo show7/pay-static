@@ -278,6 +278,7 @@ componentWillMount(){
             {   quanwaiGoods &&
                 <PayInfo
                     ref="payInfo"
+                    dispatch={this.props.dispatch}
                     goodsType={quanwaiGoods.goodsType}
                     goodsId={quanwaiGoods.id}
                     header={quanwaiGoods.name}
