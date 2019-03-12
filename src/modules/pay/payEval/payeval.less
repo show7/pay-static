@@ -2,6 +2,7 @@
 @import "../../../style/mixins";
 
 .self-init-component {
+    position: relative;
   min-height: 100vh;
   .self-init-container {
     margin: 0 2rem;
@@ -11,6 +12,7 @@
     line-height: 3rem;
     text-align: center;
     padding-top: 2.6rem;
+    color:@color_title2;
   }
   .self-init-title-tips {
     line-height: 4.8rem;
@@ -104,6 +106,25 @@
       width: 12.5rem;
       margin: auto;
   }
+  .fiexd-buy-button{
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 1;
+      height: 100vh;
+    .button-footer-component{
+        position: absolute;
+        left: 0;
+        box-shadow: 2px 2px 10px rgba(125, 190, 0, 0.62);
+        background: #7DBE00;
+        .submit-btn{
+            background:initial;
+            color: #fff;
+        }
+    }
+  }
   .user-satisfaction-wrap{
       display:flex;
       width: 100%;
@@ -111,13 +132,5 @@
       border:1px solid red;
 
   }
-  .user-satisfaction-item{
-      padding: 1.6rem 1.6rem .9rem 1.6rem;
-      box-shadow:0 0 .9rem 0 rgba(0,0,0,0.1);
-      border-radius:.7rem;
-  }
-  .circleChart{
-      width: 6.2rem;
-      height: 6.2rem;
-  }
+ 
 }

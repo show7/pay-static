@@ -121,9 +121,11 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
   }
 
   handleClickOpen() {
+    console.log('error')
     const { fee } = this.state;
     // 价格小于100 则直接付费
     if(fee <= MULTI_PAY_TYPE_PRICE) {
+      console.log('<100')
       if(_.isFunction(this.props.afterShow)) {
         this.props.afterShow()
       }
