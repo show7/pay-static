@@ -98,7 +98,7 @@
     padding-bottom: 8rem;
     display: block;
   }
-
+  
   .high-line-text {
     color: @color_title2;
     font-weight: 400;
@@ -131,12 +131,41 @@
   }
   .user-satisfaction-wrap{
       >div{
-            margin-top: 1.7rem;
-            padding: 1.7rem 1.5rem 1.5rem .8rem;
-            box-shadow:0 .3rem 2rem .4rem rgba(222,225,240,0.58);
-            border-radius:.4rem;
+        display: flex;
+        align-items: center;
+        margin-top: 1.7rem;
+        padding: 1.7rem 1rem 1.5rem .8rem;
+        box-shadow:0 .3rem 2rem .4rem rgba(222,225,240,0.58);
+        border-radius:.4rem;
+        .assetImg{
+            width: 6.4rem;
+            height: 6.4rem;
+            border-radius: 100%;
+            margin-right: 2.7rem;
+        }
+        h1{
+            color:@color_title2;
+            font-size: @font_title;
+        }
+        .user-comment-times{
+            color:@color_help;
+            font-size: @font_index;
+            line-height: 2rem;
+        }
+        .user-comment-text{
+            color:@color_title;
+            font-size: ~"calc(100vw * (13 / 375))";
+        }
       }
 
   }
+  .top-quotation-marks{
+    font-size: 1.5rem;
+    color: @color-title-under-line;
+    font-weight: 500;
+    position: relative;
+    top: -.2rem;
+    
+}
  
 }

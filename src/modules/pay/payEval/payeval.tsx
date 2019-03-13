@@ -247,12 +247,22 @@ async componentWillMount(){
                 </h4>
                 <div className="user-satisfaction-wrap">
                     <div>
-                        <AssetImg url='https://static.iqycamp.com/userComment-w0rq5d0h.png' width='100%'
-                            style={{ display: 'block', margin: '0 auto'}}/>
+                        <AssetImg url='https://static.iqycamp.com/avartor-v052od1u.png'
+                            style={{ display: 'block'}}/>
+                        <div>
+                            <h1>月半小王瑞</h1>
+                            <div className="user-comment-times">发布时间：05月20日</div>
+                            <div className="user-comment-text"><span className="top-quotation-marks">“</span>在班级群里，回答大家的问题，收获了教练大大和圈柚们的认可。连我自己也吃惊于自己的进步！<span className="top-quotation-marks">”</span></div>
+                        </div>
                     </div>
                     <div>
-                        <AssetImg url='https://static.iqycamp.com/userComment-w0rq5d0h.png' width='100%'
-                            style={{ display: 'block', margin: '0 auto'}}/>
+                        <AssetImg url='https://static.iqycamp.com/avartor-v052od1u.png'
+                            style={{ display: 'block'}}/>
+                        <div>
+                            <h1>月半小王瑞</h1>
+                            <div className="user-comment-times">发布时间：05月20日</div>
+                            <div className="user-comment-text"><span className="top-quotation-marks">“</span>在班级群里，回答大家的问题，收获了教练大大和圈柚们的认可。连我自己也吃惊于自己的进步！<span className="top-quotation-marks">”</span></div>
+                        </div>
                     </div>
                 </div>
                 <h4 className="self-init-block-title">

@@ -1,7 +1,7 @@
 var app = require("./app")
 
 var port = process.env.EXPRESS_PORT || 3000
-var ip = "0.0.0.0"
+var ip = "localhost"
 
 console.info("正在启动 server")
 
@@ -10,5 +10,5 @@ app.listen(port, ip, function(err) {
     console.log(err);
     return
   }
-  console.info("==> 🌎 启动完毕, 地址为: http://0.0.0.0:%s/", port)
+  console.info("==> 🌎 启动完毕, 地址为: http://localhost:%s/", port)
 })
