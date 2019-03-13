@@ -4,14 +4,13 @@ import { connect } from "react-redux";
 import { PayType, sa, refreshForPay, saTrack } from 'utils/helpers'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { FooterButton } from "../../../components/submitbutton/FooterButton";
-import {SubmitButton} from "../../../components/submitbutton/SubmitButton"
 import AssetImg from "../../../components/AssetImg";
 import RenderInBody from "../../../components/RenderInBody";
 import { mark } from "../../../utils/request";
 import {Button} from  "../../../components/button/button"
 import PayInfo from '../components/PayInfo'
 import { config, configShare } from 'modules/helpers/JsConfig'
-import { checkRiseMember, getRiseMember, loadInvitation, loadTask } from '../async'
+import { checkRiseMember, getRiseMember,courseBuyValidate, loadInvitation, loadTask } from '../async'
 
 
 @connect(state => state)
@@ -56,7 +55,16 @@ export default class SelfInit extends React.Component<any, any> {
         
 
 }
-componentWillMount(){
+async componentWillMount(){
+    
+    const { msg } = await courseBuyValidate()
+    const { paid, submit, submitId }= msg
+    console.log(msg,'msg')
+    if(submit){
+        window.location.href=`/rise/activity/static/guest/value/evaluation/self/complete?selfSubmitId=${submitId}`
+    }else if(paid){
+        window.location.href="/rise/activity/static/guest/value/evaluation/self/question"
+    }
     // ios／安卓微信支付兼容性
     if(refreshForPay()) {
         return
@@ -140,7 +148,9 @@ componentWillMount(){
       this.setState({ showQrCode: true });
     }
   }
-
+  goResultPage(){
+      window.location.href="/rise/activity/static/guest/value/evaluation/self/question"
+  }
   closeCode() {
     this.setState({ showQrCode: false });
   }
@@ -207,8 +217,8 @@ componentWillMount(){
                     <span className='text'>职业发展潜能模型</span>
                     </span>
                 </h4>
-                <AssetImg url='https://static.iqycamp.com/step-qeey5w7m.png' width='70%'
-                            style={{ display: 'block', margin: '0 auto', padding: '3rem 0 5rem' }}/>
+                <AssetImg url='https://static.iqycamp.com/tree-esjik4i4.png' width='100%'
+                            style={{ display: 'block', margin: '0 auto', padding: '3rem 0 0rem 0' }}/>
 
 
 
@@ -278,11 +288,12 @@ componentWillMount(){
             {   quanwaiGoods &&
                 <PayInfo
                     ref="payInfo"
+                    dispatch={this.props.dispatch}
                     goodsType={quanwaiGoods.goodsType}
                     goodsId={quanwaiGoods.id}
                     header={quanwaiGoods.name}
                     priceTips={tip}
-                    payedDone={(goodsId) => {}}
+                    payedDone={() => {this.goResultPage()}}
                     payedCancel={(res) => {}}
                     payedError={(res) => {}}
                     payedBefore={() => {}}

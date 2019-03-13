@@ -6,7 +6,10 @@ import { pget, ppost } from 'utils/request'
 export function loadPaymentParam (param) {
   return ppost('/signup/load/pay/param', param)
 }
-
+/**
+ * 是否购买过测评售卖课程
+ */
+export const courseBuyValidate = ()=> pget('/rise/survey/validate')
 /**
  * 计算优惠券信息
  */
