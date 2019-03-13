@@ -27,6 +27,7 @@ export default class SelfInit extends React.Component<any, any> {
       fiexdBuyButton:false,
       goodsId:26,
       goodsInfo:{},
+      pageIsShow:false,
       tip:'9.9',
     };
   }
@@ -51,20 +52,27 @@ export default class SelfInit extends React.Component<any, any> {
         this.setState({
             fiexdBuyButton:(scroll_top>buyButtonOffsetTop)
         })
-        console.log(this.state.fiexdBuyButton)
         
 
 }
 async componentWillMount(){
-    
-    const { msg } = await courseBuyValidate()
-    const { paid, submit, submitId }= msg
-    console.log(msg,'msg')
-    if(submit){
-        window.location.href=`/rise/activity/static/guest/value/evaluation/self/complete?selfSubmitId=${submitId}`
-    }else if(paid){
-        window.location.href="/rise/activity/static/guest/value/evaluation/self/question"
+    const { dispatch } = this.props
+    try{
+        const { msg } = await courseBuyValidate()
+        const { paid, submit, submitId }= msg
+        this.setState({
+            pageIsShow: !( paid || submit )
+        })
+        // 提交过跳转结果页面&&&购买过跳转评测页面
+        if(submit){
+            window.location.href=`/rise/activity/static/guest/value/evaluation/self/complete?selfSubmitId=${submitId}`
+        }else if(paid){
+            window.location.href="/rise/activity/static/guest/value/evaluation/self/question"
+        }
+    }catch(error){
+        dispatch(alertMsg(error))
     }
+    
     // ios／安卓微信支付兼容性
     if(refreshForPay()) {
         return
@@ -155,10 +163,10 @@ async componentWillMount(){
     this.setState({ showQrCode: false });
   }
   render() {
-    const { showQrCode,fiexdBuyButton,goodsId, qrCode,tip,goodsInfo } = this.state;
+    const { showQrCode,pageIsShow,fiexdBuyButton,goodsId, qrCode,tip,goodsInfo } = this.state;
     const { quanwaiGoods={} } = goodsInfo
     return (
-        <div className="self-init-component">
+        pageIsShow && <div className="self-init-component">
             <div>
                 {/*<-- 头图 -->*/}
                 <AssetImg url='https://static.iqycamp.com/banner-as4kx76a.png' width='100%'/>
@@ -232,8 +240,21 @@ async componentWillMount(){
                     <p>2、测评题数较多，可能需要几秒的加载时间，建议在稳定的网络环境里完成测评；</p><br></br>
                     <p>3、测评结果会永久保留在圈外同学微信服务号里，可以随时进入查看。</p>
                 </div>
-
-
+                <h4 className="self-init-block-title">
+                    <span className="block-title-text">
+                    <span className='text'>用户评价</span>
+                    </span>
+                </h4>
+                <div className="user-satisfaction-wrap">
+                    <div>
+                        <AssetImg url='https://static.iqycamp.com/userComment-w0rq5d0h.png' width='100%'
+                            style={{ display: 'block', margin: '0 auto'}}/>
+                    </div>
+                    <div>
+                        <AssetImg url='https://static.iqycamp.com/userComment-w0rq5d0h.png' width='100%'
+                            style={{ display: 'block', margin: '0 auto'}}/>
+                    </div>
+                </div>
                 <h4 className="self-init-block-title">
                     <span className="block-title-text">
                     <span className='text'>测评须知</span>
@@ -245,14 +266,7 @@ async componentWillMount(){
                 2、测评题数较多，可能需要几秒的加载时间，建议在稳定的网络环境里完成测评；<br/><br/>
 
                 3、测评结果会永久保留在圈外同学微信服务号里，可以随时进入查看。
-                <h4 className="self-init-block-title">
-                    <span className="block-title-text">
-                    <span className='text'>用户评价</span>
-                    </span>
-                </h4>
-                <div className="user-satisfaction-wrap">
-                    
-                </div>
+                
                 </span>
                 {/* <div style={{ width: '100%', height: '4.5rem' }}/> */}
                 
