@@ -180,7 +180,6 @@ export default class PayGuide extends React.Component {
               <img className="inroduceImg" src="https://static.iqycamp.com/listIcon-kslhuvki.png" />
               <div>课程经专业教研团队持续迭代，线上社群<span className="notice">服务保障90%+</span>的逆天完课率</div>
             </li>
-            <h1>asdasdsad</h1>
           </ul>
         </footer>
       </div>
