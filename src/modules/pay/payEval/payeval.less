@@ -2,6 +2,7 @@
 @import "../../../style/mixins";
 
 .self-init-component {
+    position: relative;
   min-height: 100vh;
   .self-init-container {
     margin: 0 2rem;
@@ -11,9 +12,10 @@
     line-height: 3rem;
     text-align: center;
     padding-top: 2.6rem;
+    color:@color_title2;
   }
   .self-init-title-tips {
-    line-height: 4.8rem;
+    line-height: 2.8rem;
     font-size: 1.2rem;
     letter-spacing: -0.2px;
     text-align: center;
@@ -24,7 +26,7 @@
     font-weight: 600;
     letter-spacing: -0.2px;
     text-align: center;
-    color: @color-green;
+    color: @color-red;
     .price-delete {
       font-size: 1.2rem;
       font-weight: normal;
@@ -74,7 +76,7 @@
         position: relative;
         z-index: 10;
       }
-      .bottomLine(@color-green);
+      .bottomLine(@color-title-under-line);
     }
 
   }
@@ -93,31 +95,77 @@
     padding-top: 2rem;
   }
   .should-know {
-    padding-bottom: 4.8rem;
+    padding-bottom: 8rem;
     display: block;
   }
-
+  
   .high-line-text {
-    color: @color-green;
+    color: @color_title2;
+    font-weight: 400;
   }
   .buy-button{
       width: 12.5rem;
-      margin: auto;
+      margin: .3rem auto 0 auto;
+      .button-component{
+          font-size: 1.4rem;
+      }
+  }
+  .fiexd-buy-button{
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      height: 100vh;
+    .button-footer-component{
+        position: absolute;
+        left: 0;
+        background:rgba(244,223,165,1);
+        box-shadow:2px 2px 6px 0px rgba(95,70,0,0.18);
+        .submit-btn{
+            background:none;
+            font-size: 1.6rem;
+        }
+    }
   }
   .user-satisfaction-wrap{
-      display:flex;
-      width: 100%;
-      justify-content: space-between;
-      border:1px solid red;
+      >div{
+        display: flex;
+        align-items: center;
+        margin-top: 1.7rem;
+        padding: 1.7rem 1rem 1.5rem .8rem;
+        box-shadow:0 .3rem 2rem .4rem rgba(222,225,240,0.58);
+        border-radius:.4rem;
+        .assetImg{
+            width: 6.4rem;
+            height: 6.4rem;
+            border-radius: 100%;
+            margin-right: 2.7rem;
+        }
+        h1{
+            color:@color_title2;
+            font-size: @font_title;
+        }
+        .user-comment-times{
+            color:@color_help;
+            font-size: @font_index;
+            line-height: 2rem;
+        }
+        .user-comment-text{
+            color:@color_title;
+            font-size: ~"calc(100vw * (13 / 375))";
+        }
+      }
 
   }
-  .user-satisfaction-item{
-      padding: 1.6rem 1.6rem .9rem 1.6rem;
-      box-shadow:0 0 .9rem 0 rgba(0,0,0,0.1);
-      border-radius:.7rem;
-  }
-  .circleChart{
-      width: 6.2rem;
-      height: 6.2rem;
-  }
+  .top-quotation-marks{
+    font-size: 1.5rem;
+    color: @color-title-under-line;
+    font-weight: 500;
+    position: relative;
+    top: -.2rem;
+    
+}
+ 
 }

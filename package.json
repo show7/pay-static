@@ -7,7 +7,7 @@
   "scripts": {
     "mock": "nodemon --watch mock --exec node mock",
     "start": "node server",
-    "dev": "set PROXY=http://beta.confucius.mobi&&npm start",
+    "dev": "PROXY=http://beta.confucius.mobi npm start",
     "dist": "NODE_ENV=production webpack",
     "ftp": "set NODE_ENV=production&&webpack&&gulp ftp",
     "beta": "NODE_ENV=production webpack; gulp beta",
@@ -45,6 +45,7 @@
     "sa-sdk-javascript": "^1.10.1",
     "swiper": "3.4.2",
     "ua-device": "^0.1.10",
+    "vconsole": "^3.3.0",
     "weui": "^1.1.0"
   },
   "devDependencies": {
