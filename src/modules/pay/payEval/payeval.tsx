@@ -156,12 +156,17 @@ async componentWillMount(){
       this.setState({ showQrCode: true });
     }
   }
-  goResultPage(){
-      window.location.href="/rise/activity/static/guest/value/evaluation/self/question"
-  }
   closeCode() {
     this.setState({ showQrCode: false });
   }
+
+  handlePayedDone() {
+    const { goodsInfo } = this.state
+    const { quanwaiGoods = {} } = goodsInfo
+    mark({ module: '打点', function: '测评售卖课购买', action: '支付成功', memo: quanwaiGoods.id })
+    window.location.replace("/rise/activity/static/guest/value/evaluation/self/question")
+  }
+
   render() {
     const { showQrCode,pageIsShow,fiexdBuyButton,goodsId, qrCode,tip,goodsInfo } = this.state;
     const { quanwaiGoods={} } = goodsInfo
@@ -317,8 +322,8 @@ async componentWillMount(){
                     goodsId={quanwaiGoods.id}
                     header={quanwaiGoods.name}
                     priceTips={tip}
-                    payedDone={() => {this.goResultPage()}}
-                    payedCancel={(res) => {}}
+                    payedDone={(goodsId) => this.handlePayedDone(goodsId)}
+                    payedCancel={()=>{}}
                     payedError={(res) => {}}
                     payedBefore={() => {}}
                     payType={PayType.WECHAT}/>

@@ -19,6 +19,7 @@ export default class paper extends React.Component<any,any>{
     }
 
     componentWillMount(){
+        document.title = '又更新了'
         const { pageMap } = this.state
         console.log(getQuery('pageType'))
         this.setState({
