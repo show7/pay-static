@@ -1,0 +1,28 @@
+.dot(@color:#50505A) {
+  &:before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: @color;
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: middle;
+    margin-top: -3px;
+  }
+}
+
+.bottomLine(@color:#7DBE00) {
+  position: relative;
+  &:before {
+    content: '';
+    width: 95%;
+    height: .5rem;
+    background: @color;
+    display: inline-block;
+    position: absolute;
+    bottom: .3rem;
+    left: 1rem;
+    z-index: 1;
+  }
+}

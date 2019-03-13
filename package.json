@@ -73,6 +73,7 @@
     "gulp-ftp": "^1.1.0",
     "gulp-util": "^3.0.7",
     "ip": "^1.1.3",
+    "jquery-circlechart": "^2.3.0",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
     "nodemon": "^1.10.0",

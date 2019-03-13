@@ -1,0 +1,80 @@
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 1. 项目名称：platon-static
+ 2. 文件名称：src -> style -> mixins -> pixel-border.less(混合 -> 1px边框)
+ 3. 作者：liyang@iquanwai.com
+ 4. 备注：这个混合是为了解决在移动端1px边框有些浏览器看起来呈现2px或者更大值的问题
+                使用这个混合的前提是被赋予混合的dom节点是脱离文档流的，也就是position为：absolute | relative | fixed之中的一种
+ -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+ .pixel-border-top() {
+     &:before {
+        border-top : 1px solid #D3D3D3 ;
+        top : 0 ;
+        content : "" ;
+        height : 1px ;
+        position : absolute ;
+        left : 0 ;
+        .scale(1 , .5) ;
+        width : 100% ;
+     }
+ }
+
+  .pixel-border-bottom() {
+     &:after {
+        border-bottom : 1px solid #D3D3D3 ;
+        bottom : 0 ;
+        content : "" ;
+        height : 1px ;
+        position : absolute ;
+        left : 0 ;
+        .scale(1 , .5) ;
+        width : 100% ;
+     }
+ }
+
+ .pixel-border-left() {
+     &:before {
+        border-left : 1px solid #D3D3D3 ;
+        top : 0 ;
+        content : "" ;
+        height : 100% ;
+        position : absolute ;
+        left : 0 ;
+        .scale(.5 , 1) ;
+        width : 1px ;
+     }
+ }
+
+  .pixel-border-right() {
+     &:after {
+        border-right : 1px solid #D3D3D3 ;
+        top : 0 ;
+        content : "" ;
+        height : 100% ;
+        position : absolute ;
+        right : 0 ;
+        .scale(.5 , 1) ;
+        width : 1px ;
+     }
+ }
+
+ .pixel-borders(@color, @border-radius : 1px){
+    position: relative;
+    border: none;
+
+    &:after{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        border: 1px solid @color;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        width: 200%;
+        height: 200%;
+        -webkit-transform: scale(0.5);
+        transform: scale(0.5);
+        -webkit-transform-origin: left top;
+        transform-origin: left top;
+        .border-radius(@border-radius);
+      }
+ }
