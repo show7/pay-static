@@ -65,9 +65,9 @@ async componentWillMount(){
         })
         // 提交过跳转结果页面&&&购买过跳转评测页面
         if(submit){
-            window.location.href=`/rise/activity/static/guest/value/evaluation/self/complete?selfSubmitId=${submitId}`
+            window.location.replace(`/rise/activity/static/guest/value/evaluation/self/complete?selfSubmitId=${submitId}`)
         }else if(paid){
-            window.location.href="/rise/activity/static/guest/value/evaluation/self/question"
+            window.location.replace("/rise/activity/static/guest/value/evaluation/self/question")
         }
     }catch(error){
         dispatch(alertMsg(error))
