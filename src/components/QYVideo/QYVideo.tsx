@@ -16,6 +16,7 @@ export default class QYVideo extends React.Component {
     const { fileId } = this.props
     if(fileId) {
       // 初始化腾讯播放器
+      console.log(TCPlayer);
       this.player = new TCPlayer(`fileId${this.playerId}`, { // player-container-id 为播放器容器ID，必须与html中一致
         fileID: fileId, // 请传入需要播放的视频fileID 必须
         appID: '1256115011', // 请传入点播账号的appID 必须

@@ -156,8 +156,7 @@ export default class PayGuide extends React.Component {
           </div>
           <div className="footerCont">
             <div className="videoCont">
-              <QYVideo className="videoContent" fileId={'5285890780601189027'}
-                       videoPoster={'https://static.iqycamp.com/images/thought_poster_0723.jpeg?imageslim'}/>
+              <QYVideo fileId='5285890780601189027' videoPoster='https://static.iqycamp.com/images/thought_poster_0723.jpeg?imageslim' />
             </div>
           </div>
           <ul className="introduceCont">
@@ -181,6 +180,7 @@ export default class PayGuide extends React.Component {
               <img className="inroduceImg" src="https://static.iqycamp.com/listIcon-kslhuvki.png" />
               <div>课程经专业教研团队持续迭代，线上社群<span className="notice">服务保障90%+</span>的逆天完课率</div>
             </li>
+            <h1>asdasdsad</h1>
           </ul>
         </footer>
       </div>
