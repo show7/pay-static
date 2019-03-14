@@ -135,13 +135,13 @@ export default class PayGuide extends React.Component {
         <ul className="listContent">
           {
             this.state.listArr.map((item, index) =>
-            <li className="listItem">
+            <li className="listItem" onClick={() => this.handleClickGo(index)}>
             <img className="listBg" src={item.imgBg} />
             <div className="listCont">
               <div style={{flex: 1,paddingLeft:"10px"}}>
                 <div className="listTit">{item.title}</div>
                 <div className="timeCont"><img className="timeImg" src={item.timeImg} /><div>{item.timeTxt}<span className="moreTxt">{item.subtimeTxt === '' ? '' : `+${item.subtimeTxt}`}</span></div></div>
-                <div className="more"><span onClick={() => this.handleClickGo(index)}>{item.bittonTxt}</span></div>
+                <div className="more"><span>{item.bittonTxt}</span></div>
               </div>
               <div className="Listimg" style={{backgroundImage: `url(${item.imgSrc})`}}></div>
             </div>
