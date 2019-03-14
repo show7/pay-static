@@ -26,7 +26,6 @@ import AudioCourse from 'modules/pay/audio/AudioCourse'
 import AutoOpen from 'modules/pay/audio/AutoOpen'
 import ChallengeAudio from './modules/pay/audio/ChallengeAudio'
 import ReadCourse from './modules/pay/read/ReadCourse'
-import payEval from './modules/pay/payEval/payEval'
 const routes = (
   <Route path="/">
     <Route component={Base}
@@ -67,7 +66,6 @@ const routes = (
       <Route path="pay/coinaudio" component={CoinAudioPay}/>
       <Route path="pay/exchange" component={ExchangePay}/>
       <Route path="pay/read" component={ReadCourse}/>
-      <Route path="pay/eval" component={payEval}/>
     </Route>
     <Route path="*" component={PageNotFound}></Route>
   </Route>
