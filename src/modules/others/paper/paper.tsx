@@ -3,6 +3,8 @@ import "./paper.less"
 import AssetImg from "../../../components/AssetImg";
 import { mark } from "../../../utils/request";
 import { getQuery } from "../../../utils/getQuery";
+var VConsole = require('vconsole/dist/vconsole.min.js');
+
 export default class paper extends React.Component<any,any>{
     constructor(){
         super()
@@ -20,6 +22,7 @@ export default class paper extends React.Component<any,any>{
 
     componentWillMount(){
         document.title = '又更新了'
+        var vConsole = new VConsole();
         const { pageMap } = this.state
         console.log(getQuery('pageType'))
         this.setState({

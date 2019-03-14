@@ -12,7 +12,6 @@ import PayInfo from '../components/PayInfo'
 import { config, configShare } from 'modules/helpers/JsConfig'
 import { checkRiseMember, getRiseMember,courseBuyValidate, loadInvitation, loadTask } from '../async'
 
-
 @connect(state => state)
 export default class SelfInit extends React.Component<any, any> {
 
