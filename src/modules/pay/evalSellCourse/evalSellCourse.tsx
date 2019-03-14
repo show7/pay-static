@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as _ from 'lodash'
-import './evalSellCours.less'
+import './evalSellCourse.less'
 import {connect} from 'react-redux'
 import {mark} from 'utils/request'
 import {PayType, sa, refreshForPay, saTrack} from 'utils/helpers'
