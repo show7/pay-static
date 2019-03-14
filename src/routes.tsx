@@ -21,12 +21,11 @@ import PayL3 from './modules/pay/risepay/PayL3'
 import { notLoadInfoUrls, sa } from './utils/helpers'
 import PageNotFound from './modules/others/pageNotFound/PageNotFound'
 import PayL1 from 'modules/pay/risepay/PayL1'
-import payGift from 'modules/pay/payGift/PayGift'
+import PayGift from 'modules/pay/payGift/PayGift'
 import AudioCourse from 'modules/pay/audio/AudioCourse'
 import AutoOpen from 'modules/pay/audio/AutoOpen'
 import ChallengeAudio from './modules/pay/audio/ChallengeAudio'
 import ReadCourse from './modules/pay/read/ReadCourse'
-import payEval from './modules/pay/payEval/payEval'
 const routes = (
   <Route path="/">
     <Route component={Base}
@@ -58,7 +57,7 @@ const routes = (
       <Route path="pay/alipay/rise" component={RiseAlipay}/>
       <Route path="pay/alipay/return" component={AlipayReturn}/>
       <Route path="pay/l1" component={PayL1}/>
-      <Route path="pay/gift" component={payGift}/>
+      <Route path="pay/gift" component={PayGift}/>
       <Route path="pay/guide" component={PayGuide}/>
       <Route path="pay/audiocourse" component={AudioCourse}/>
       <Route path="pay/audiocourse/autoopen" component={AutoOpen}/>
@@ -67,7 +66,6 @@ const routes = (
       <Route path="pay/coinaudio" component={CoinAudioPay}/>
       <Route path="pay/exchange" component={ExchangePay}/>
       <Route path="pay/read" component={ReadCourse}/>
-      <Route path="pay/eval" component={payEval}/>
     </Route>
     <Route path="*" component={PageNotFound}></Route>
   </Route>
