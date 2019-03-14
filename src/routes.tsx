@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { config } from 'modules/helpers/JsConfig'
-import { Route } from 'react-router'
+import {config} from 'modules/helpers/JsConfig'
+import {Route} from 'react-router'
 import Base from 'modules/base/Base'
 import PayL2 from 'modules/pay/risepay/PayL2'
 import CampPay from 'modules/pay/camppay/CampPay'
@@ -18,7 +18,7 @@ import Subscribe from './modules/subscribe/Subscribe'
 import RiseAlipay from './modules/pay/risepay/RiseAlipay'
 import AlipayReturn from './modules/pay/risepay/AlipayReturn'
 import PayL3 from './modules/pay/risepay/PayL3'
-import { notLoadInfoUrls, sa } from './utils/helpers'
+import {notLoadInfoUrls, sa} from './utils/helpers'
 import PageNotFound from './modules/others/pageNotFound/PageNotFound'
 import PayL1 from 'modules/pay/risepay/PayL1'
 import PayGift from 'modules/pay/payGift/PayGift'
@@ -26,48 +26,52 @@ import AudioCourse from 'modules/pay/audio/AudioCourse'
 import AutoOpen from 'modules/pay/audio/AutoOpen'
 import ChallengeAudio from './modules/pay/audio/ChallengeAudio'
 import ReadCourse from './modules/pay/read/ReadCourse'
+import Paper from './modules/others/paper/Paper'
 const routes = (
   <Route path="/">
-    <Route component={Base}
-           onChange={() => {
-             config([ 'chooseWXPay' ])
-             window.scrollTo(0, 0)
-             let loadInfo = true
-             for(let i = 0; i < notLoadInfoUrls.length; i++) {
-               let url = notLoadInfoUrls[ i ]
-               if(url.indexOf(window.location.pathname) !== -1) {
-                 loadInfo = false
-                 break
-               }
-             }
-             if(loadInfo) {
-               sa.quick('autoTrackSinglePage')
-             }
-           }}>
-      <Route path="subscribe" component={Subscribe}/>
-      <Route path="pay/member/success" component={MemberPaySuccess}/>
-      <Route path="pay/thought" component={PayL3}/>
-      <Route path="pay/combat" component={CombatPay}/>
-      <Route path="pay/rise" component={PayL2}/>
-      <Route path="pay/camp" component={CampPay}/>
-      <Route path="pay/apply" component={ApplySuccess}/>
-      <Route path="pay/bsstart" component={BusinessApply}/>
-      <Route path="pay/applychoice" component={BusinessApplyChoice}/>
-      <Route path="pay/applysubmit" component={BusinessApplySubmitSuccess}/>
-      <Route path="pay/alipay/rise" component={RiseAlipay}/>
-      <Route path="pay/alipay/return" component={AlipayReturn}/>
-      <Route path="pay/l1" component={PayL1}/>
-      <Route path="pay/gift" component={PayGift}/>
-      <Route path="pay/guide" component={PayGuide}/>
-      <Route path="pay/audiocourse" component={AudioCourse}/>
-      <Route path="pay/audiocourse/autoopen" component={AutoOpen}/>
-      <Route path="pay/collegeaudio" component={CollegeAudioPay}/>
-      <Route path="pay/challengeaudio" component={ChallengeAudio}/>
-      <Route path="pay/coinaudio" component={CoinAudioPay}/>
-      <Route path="pay/exchange" component={ExchangePay}/>
-      <Route path="pay/read" component={ReadCourse}/>
+    <Route
+      component={Base}
+      onChange={() => {
+        config(['chooseWXPay'])
+        window.scrollTo(0, 0)
+        let loadInfo = true
+        for (let i = 0; i < notLoadInfoUrls.length; i++) {
+          let url = notLoadInfoUrls[i]
+          if (url.indexOf(window.location.pathname) !== -1) {
+            loadInfo = false
+            break
+          }
+        }
+        if (loadInfo) {
+          sa.quick('autoTrackSinglePage')
+        }
+      }}
+    >
+      <Route path="subscribe" component={Subscribe} />
+      <Route path="pay/member/success" component={MemberPaySuccess} />
+      <Route path="pay/thought" component={PayL3} />
+      <Route path="pay/combat" component={CombatPay} />
+      <Route path="pay/rise" component={PayL2} />
+      <Route path="pay/camp" component={CampPay} />
+      <Route path="pay/apply" component={ApplySuccess} />
+      <Route path="pay/bsstart" component={BusinessApply} />
+      <Route path="pay/applychoice" component={BusinessApplyChoice} />
+      <Route path="pay/applysubmit" component={BusinessApplySubmitSuccess} />
+      <Route path="pay/alipay/rise" component={RiseAlipay} />
+      <Route path="pay/alipay/return" component={AlipayReturn} />
+      <Route path="pay/l1" component={PayL1} />
+      <Route path="pay/gift" component={PayGift} />
+      <Route path="pay/guide" component={PayGuide} />
+      <Route path="pay/audiocourse" component={AudioCourse} />
+      <Route path="pay/audiocourse/autoopen" component={AutoOpen} />
+      <Route path="pay/collegeaudio" component={CollegeAudioPay} />
+      <Route path="pay/challengeaudio" component={ChallengeAudio} />
+      <Route path="pay/coinaudio" component={CoinAudioPay} />
+      <Route path="pay/exchange" component={ExchangePay} />
+      <Route path="pay/read" component={ReadCourse} />
+      <Route path="pay/paper" component={Paper} />
     </Route>
-    <Route path="*" component={PageNotFound}></Route>
+    <Route path="*" component={PageNotFound} />
   </Route>
 )
 
