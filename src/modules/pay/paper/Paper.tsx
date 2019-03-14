@@ -1,5 +1,5 @@
 import * as React from 'react'
-import './paper.less'
+import './Paper.less'
 import AssetImg from '../../../components/AssetImg'
 import {mark} from '../../../utils/request'
 import {getQuery} from '../../../utils/getQuery'
