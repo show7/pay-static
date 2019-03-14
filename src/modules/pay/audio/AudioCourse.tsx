@@ -20,7 +20,8 @@ export default class AudioCourse extends React.Component<any, any> {
       posterUrl: '',
       posterShow: false,
       subscribe: false,
-      needMember: 0
+      needMember: 0,
+      canClick: true
     }
   }
 
@@ -61,6 +62,10 @@ export default class AudioCourse extends React.Component<any, any> {
    * 点击免费入学
    */
   handleFreeEntry() {
+    if (!this.state.canClick) return
+    this.setState({
+      canClick: false
+    })
     const { source = 'normal_audio', riseId = null} = this.props.location.query
     mark({ module: '打点', function: '音频课入学', action: 'wondercv_click' })
     joinAudioCourse({source, riseId}).then(res => {

@@ -21,7 +21,6 @@ export default class PayL1 extends React.Component<any, any> {
   static contextTypes = {
     router: React.PropTypes.object.isRequired,
   }
-
   constructor() {
     super()
     this.state = {
