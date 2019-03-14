@@ -2,7 +2,7 @@ import * as React from 'react'
 import './Paper.less'
 import AssetImg from '../../../components/AssetImg'
 import {mark} from '../../../utils/request'
-import {getQuery} from '../../../utils/getQuery'
+import {getQuery} from '../../../utils/getquery'
 import {changeTitle} from '../../../utils/helpers'
 
 export default class Paper extends React.Component<any, any> {
