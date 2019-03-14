@@ -26,7 +26,7 @@ import AudioCourse from 'modules/pay/audio/AudioCourse'
 import AutoOpen from 'modules/pay/audio/AutoOpen'
 import ChallengeAudio from './modules/pay/audio/ChallengeAudio'
 import ReadCourse from './modules/pay/read/ReadCourse'
-import Paper from './modules/others/paper/Paper'
+import Paper from './modules/pay/paper/Paper'
 const routes = (
   <Route path="/">
     <Route
