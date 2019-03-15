@@ -18,6 +18,10 @@ export default class Paper extends React.Component<any, any> {
           memo: '又更新了2019/03/15',
           imgUrl: 'https://static.iqycamp.com/3-15-jz3m47tj.jpg',
         },
+        {
+          memo: '又更新了2019/03/16',
+          imgUrl: 'https://static.iqycamp.com/3-16-rqs2vazb.jpg',
+        },
       ],
       currentPage: {},
     }
