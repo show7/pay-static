@@ -175,9 +175,9 @@ async componentWillMount(){
                 {/*<-- 头图 -->*/}
                 <AssetImg url='https://static.iqycamp.com/banner-as4kx76a.png' width='100%'/>
                 <section className="self-init-container">
-                <h2 className="self-init-title">职业发展潜能测评</h2>
+                <h2 className="self-init-title">职业发展竞争力测评</h2>
                 <div className="self-init-title-tips">
-                    了解你的职场核心竞争力
+                  看看你有哪些没被充分开发的潜能？
                 </div>
                 <div className="self-init-price">
                     ￥{tip} <span className='price-delete'>￥99</span>
@@ -198,7 +198,7 @@ async componentWillMount(){
                     </div>
                     <div className="point-tips last">
                     <span className="tips-text">
-                    自评+他评
+                    7684人亲测
                     </span>
                     </div>
                 </div>
@@ -211,18 +211,20 @@ async componentWillMount(){
                     </span>
             </h4>
                 <div className="self-init-context">
-                    关于自己，你真的了解吗？<br/><br/>
+                  你是最了解自己的人，但你未必是最擅长<span className='high-line-text'>发现自我优势</span>的人。<br/><br/>
 
-                    职场上，每个人都有自己的优势与不足：<br/>
-                    -可能你思维活跃脑洞大开，但是执行力不足；<br/>
-                    -可能你擅长逻辑分析，但是不喜欢和人打交道；<br/>
-                    -可能你管理能力出众，但又容易趋于保守；<br/><br/>
+                  大学读了一个”父母觉得前景好“的专业，毕业了做着一份说不出到底喜不喜欢的工作，拿着一份不高也不低的工资，想要做点什么来改变，可又不知道自己到底想要做什么，办了健身卡、买了知识付费产品、还打算考几个证，每天把自己折腾得很忙，但想想还是觉得前方一片迷茫，不知道该往哪儿走。<br/><br/>
 
-                    要想发挥职场潜能，你需要对自己的能力做一次清晰盘点，并且有针对性地扬长补短。<br/><br/>
+                  而这些迷茫，归根到底，就是对自己的不了解 。我们每个人都有自己的特点和优势，自我定位也因此而不同。如果忽略了自己的优势，照搬别人的成功故事，或者做自己不擅长的事情，是性价比最低的努力方式。<br/><br/>
 
-                    所以<span className='high-line-text'>圈外同学</span>联合<span className='high-line-text'>华东师范大学教育教练研究组</span>，共同开发职业发展潜能测评，让你对自己有一个清晰的定位。<br/><br/>
+                  职业选择中，也是如此：<br/>
+                  - 可能你思维活跃，但是<span className='high-line-text'>执行效率一般</span><br/>
+                  - 可能你喜欢分析解决问题，但是<span className='high-line-text'>不喜欢和人打交道</span><br/>
+                  - 可能你擅长团队合作，但是<span className='high-line-text'>管理工作容易陷入细节</span><br/><br/>
 
-                    测评通过<span className='high-line-text'>4大模块、12项职业能力和心理品质</span>，全面评估你的职业发展潜能，帮助你制订个人能力提升的策略和计划。
+                  每个人都有自己的优势和不足，想要发挥职场潜能，你需要对自己的能力做一次彻底地盘点，并且有针对性地扬长补短<br/><br/>
+
+                  圈外同学联合<span className='high-line-text'>华东师范大学教育教练研究组</span>，共同开发职业发展潜能测评，通过四大模块、12项专业指标的全面评估，展现你的职业发展潜能，帮你给自己<span className='high-line-text'>制定清晰合理的个人发展计划</span>。
                 </div>
                 <h4 className="self-init-block-title">
                     <span className="block-title-text">
@@ -275,12 +277,11 @@ async componentWillMount(){
                     </span>
                 </h4>
                 <span className="self-init-context should-know">
-                1、为确保我们能够为你提供准确的评估和发展建议，请按客观情况认真填写测评问卷，答题结束你将获得一份专业的测评报告；<br/><br/>
+                  1、测评需要5-10分钟，为确保准确性，测评不能重复进行，请根据自己真实的行为表现完成问卷，不要去想自己想要什么，或者别人怎么看你。测评完成，你将获得一份专业的测评报告；<br/><br/>
 
-                2、测评题数较多，可能需要几秒的加载时间，建议在稳定的网络环境里完成测评；<br/><br/>
+                  2、测评过程中会自动保存你的回答，由于专业测评题目较多，可能需要几秒的加载时间，建议在稳定的网络环境下完成；<br/><br/>
 
-                3、测评结果会永久保留在圈外同学微信服务号里，可以随时进入查看。
-                
+                  3、测评结果会永久保存在“圈外职场学园”微信公众号，可以随时进入回复“竞争力测评”查看
                 </span>
                 {/* <div style={{ width: '100%', height: '4.5rem' }}/> */}
                 
