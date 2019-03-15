@@ -21,7 +21,7 @@ import SaleShow from '../../../components/SaleShow'
 import {getQuery} from '../../../utils/getQuery'
 
 @connect(state => state)
-export default class PayL1 extends React.Component<any, any> {
+export default class evalSellCourse extends React.Component<any, any> {
   static contextTypes = {
     router: React.PropTypes.object.isRequired,
   }
