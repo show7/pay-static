@@ -27,7 +27,7 @@ import AutoOpen from 'modules/pay/audio/AutoOpen'
 import ChallengeAudio from './modules/pay/audio/ChallengeAudio'
 import ReadCourse from './modules/pay/read/ReadCourse'
 import payEval from './modules/pay/payEval/payeval'
-import evalSellCours from './modules/pay/evalSellCourse/evalSellCourse'
+import evalSellCourse from './modules/pay/evalSellCourse/evalSellCourse'
 // import Paper from './modules/others/paper/paper'
 
 import Paper from './modules/pay/paper/Paper'
