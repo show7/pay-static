@@ -74,7 +74,7 @@ const routes = (
       <Route path="pay/exchange" component={ExchangePay} />
       <Route path="pay/read" component={ReadCourse} />
       <Route path="pay/eval" component={payEval} />
-      <Route path="pay/eval_sell_course" component={evalSellCours} />
+      <Route path="pay/evalSellCourse" component={evalSellCours} />
       <Route path="pay/paper" component={Paper} />
     </Route>
     <Route path="*" component={PageNotFound} />
