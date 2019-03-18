@@ -298,13 +298,7 @@ export default class SelfInit extends React.Component<any, any> {
               <div className="self-init-context">
                 你是最了解自己的人，但你未必是最擅长
                 <span className="high-line-text">发现自我优势</span>的人。
-                <br />
-                <br />
-                大学读了一个”父母觉得前景好“的专业，毕业了做着一份说不出到底喜不喜欢的工作，拿着一份不高也不低的工资，想要做点什么来改变，可又不知道自己到底想要做什么，办了健身卡、买了知识付费产品、还打算考几个证，每天把自己折腾得很忙，但想想还是觉得前方一片迷茫，不知道该往哪儿走。
-                <br />
-                <br />
-                而这些迷茫，归根到底，就是对自己的不了解
-                。我们每个人都有自己的特点和优势，自我定位也因此而不同。如果忽略了自己的优势，照搬别人的成功故事，或者做自己不擅长的事情，是性价比最低的努力方式。
+                如果忽略了自己的优势，照搬别人的成功故事，或者做自己不擅长的事情，是性价比最低的努力方式。
                 <br />
                 <br />
                 职业选择中，也是如此：
@@ -335,7 +329,7 @@ export default class SelfInit extends React.Component<any, any> {
                 </span>
               </h4>
               <AssetImg
-                url="https://static.iqycamp.com/tree-robzmioh.png"
+                url="https://static.iqycamp.com/screenshot-0ejtwqc0.png"
                 width="100%"
                 style={{
                   display: 'block',
@@ -350,17 +344,15 @@ export default class SelfInit extends React.Component<any, any> {
                 </span>
               </h4>
               <div className="self-init-context">
-                <p>
-                  1、为确保我们能够为你提供准确的评估和发展建议，请按客观情况认真填写测评问卷，答题结束你将获得一份专业的测评报告。
-                </p>
-                <br />
-                <p>
-                  2、测评题数较多，可能需要几秒的加载时间，建议在稳定的网络环境里完成测评。
-                </p>
-                <br />
-                <p>
-                  3、测评结果会永久保留在圈外同学微信服务号里，可以随时进入查看。
-                </p>
+                <AssetImg
+                  url="https://static.iqycamp.com/tree-q1udn0xf.png"
+                  width="100%"
+                  style={{
+                    display: 'block',
+                    margin: '0 auto',
+                    padding: '3rem 0 0rem 0',
+                  }}
+                />
               </div>
               <h4 className="self-init-block-title">
                 <span className="block-title-text">
