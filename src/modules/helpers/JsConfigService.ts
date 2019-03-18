@@ -25,7 +25,7 @@ class ConfigBean {
   }
 }
 
-let whiteList = ['/pay/alipay/rise', '/pay/evalSellCourse']
+let whiteList = ['/pay/alipay/rise']
 
 /**
  * 微信JS SDK签名服务
