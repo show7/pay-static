@@ -18,7 +18,7 @@ import {SubscribeAlert} from '../risepay/components/SubscribeAlert'
 import InvitationLayout from '../components/invitationLayout/InvitationLayout'
 import RenderInBody from '../../../components/RenderInBody'
 import SaleShow from '../../../components/SaleShow'
-import {getQuery} from '../../../utils/getQuery'
+import {getQuery} from '../../../utils/getquery'
 
 @connect(state => state)
 export default class evalSellCourse extends React.Component<any, any> {
