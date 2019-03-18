@@ -218,11 +218,11 @@ async componentWillMount(){
                   而这些迷茫，归根到底，就是对自己的不了解 。我们每个人都有自己的特点和优势，自我定位也因此而不同。如果忽略了自己的优势，照搬别人的成功故事，或者做自己不擅长的事情，是性价比最低的努力方式。<br/><br/>
 
                   职业选择中，也是如此：<br/>
-                  - 可能你思维活跃，但是<span className='high-line-text'>执行效率一般</span><br/>
-                  - 可能你喜欢分析解决问题，但是<span className='high-line-text'>不喜欢和人打交道</span><br/>
-                  - 可能你擅长团队合作，但是<span className='high-line-text'>管理工作容易陷入细节</span><br/><br/>
+                  - 可能你思维活跃，但是<span className='high-line-text'>执行效率一般;</span><br/>
+                  - 可能你喜欢分析解决问题，但是<span className='high-line-text'>不喜欢和人打交道;</span><br/>
+                  - 可能你擅长团队合作，但是<span className='high-line-text'>管理工作容易陷入细节。</span><br/><br/>
 
-                  每个人都有自己的优势和不足，想要发挥职场潜能，你需要对自己的能力做一次彻底地盘点，并且有针对性地扬长补短<br/><br/>
+                  每个人都有自己的优势和不足，想要发挥职场潜能，你需要对自己的能力做一次彻底地盘点，并且有针对性地扬长补短。<br/><br/>
 
                   圈外同学联合<span className='high-line-text'>华东师范大学教育教练研究组</span>，共同开发职业发展潜能测评，通过四大模块、12项专业指标的全面评估，展现你的职业发展潜能，帮你给自己<span className='high-line-text'>制定清晰合理的个人发展计划</span>。
                 </div>
@@ -242,8 +242,8 @@ async componentWillMount(){
                     </span>
                 </h4>
                 <div className="self-init-context">
-                    <p>1、为确保我们能够为你提供准确的评估和发展建议，请按客观情况认真填写测评问卷，答题结束你将获得一份专业的测评报告；</p><br></br>
-                    <p>2、测评题数较多，可能需要几秒的加载时间，建议在稳定的网络环境里完成测评；</p><br></br>
+                    <p>1、为确保我们能够为你提供准确的评估和发展建议，请按客观情况认真填写测评问卷，答题结束你将获得一份专业的测评报告。</p><br></br>
+                    <p>2、测评题数较多，可能需要几秒的加载时间，建议在稳定的网络环境里完成测评。</p><br></br>
                     <p>3、测评结果会永久保留在圈外同学微信服务号里，可以随时进入查看。</p>
                 </div>
                 <h4 className="self-init-block-title">
