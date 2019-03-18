@@ -38,10 +38,7 @@
     display: flex;
     .point-tips {
       .tips-text {
-        &:before {
-          background: @color_orange !important;
-        }
-        .dot(@color-green);
+        .dot(@color-dot);
       }
       &.first {
         text-align: left;
@@ -110,6 +107,7 @@
     margin: 0.3rem auto 0 auto;
     .button-component {
       font-size: 1.4rem;
+      line-height: 3.6rem;
     }
   }
   .fiexd-buy-button {
@@ -143,7 +141,7 @@
         width: 6.4rem;
         height: 6.4rem;
         border-radius: 100%;
-        margin-right: 2.7rem;
+        margin-right: 2.5rem;
       }
       h1 {
         color: @color_title2;
@@ -156,7 +154,7 @@
       }
       .user-comment-text {
         color: @color_title;
-        font-size: ~'calc(100vw * (13 / 375))';
+        font-size: ~'calc(100vw * (12.2 / 375))';
       }
     }
   }
