@@ -84,12 +84,12 @@ export default class evalSellCourse extends React.Component<any, any> {
   }
   configShare(goodsId, goodsName) {
     configShare(
-      `圈外商学院--你负责努力，我们负责帮你赢`,
+      goodsName,
       `https://${
         window.location.hostname
       }/pay/evalSellCourse?goodsId=${goodsId}`,
       'https://static.iqycamp.com/images/rise_share.jpg?imageslim',
-      `课程名称${goodsName}`
+      `我发现了一门好课，分享给你。现在还有早鸟价，快来看看吧！`
     )
   }
   // componentDidMount() {

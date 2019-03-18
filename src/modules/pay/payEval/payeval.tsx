@@ -52,6 +52,12 @@ export default class SelfInit extends React.Component<any, any> {
     }
   }
   componentDidMount() {
+    configShare(
+      `职业发展潜能测试`,
+      `https://${window.location.hostname}/pay/eval`,
+      'https://static.iqycamp.com/images/rise_share.jpg?imageslim',
+      `快来测试一下你的职业发展潜能，洞察职场核心竞争力，由圈外商学院和华师大联合开发！`
+    )
     window.addEventListener('scroll', this.setBuyButtonShow.bind(this))
   }
   componentWillUnmount() {
