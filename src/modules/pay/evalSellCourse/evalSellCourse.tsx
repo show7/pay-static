@@ -69,7 +69,7 @@ export default class evalSellCourse extends React.Component<any, any> {
                 module: '打点',
                 function: quanwaiGoods.goodsType,
                 action: quanwaiGoods.id,
-                memo: '课程售卖页面',
+                memo: '课程售卖页面曝光点',
               })
             } else {
               dispatch(alertMsg(res.msg))

@@ -53,12 +53,20 @@ export default class SelfInit extends React.Component<any, any> {
   }
 
   componentDidMount() {
+    //设置分享配置
     configShare(
       `职业发展潜能测试`,
       `https://${window.location.hostname}/pay/eval`,
       'https://static.iqycamp.com/images/rise_share.jpg?imageslim',
       `快来测试一下你的职业发展潜能，洞察职场核心竞争力，由圈外商学院和华师大联合开发！`
     )
+    mark({
+      module: '打点',
+      function: '测评售卖页曝光点',
+      action: `进入测评售卖页${window.location.href}`,
+      memo: '测评售卖页曝光点',
+    })
+    //添加滚动监听（fiexd-button）
     window.addEventListener('scroll', this.setBuyButtonShow.bind(this))
   }
 
@@ -197,13 +205,23 @@ export default class SelfInit extends React.Component<any, any> {
     const {quanwaiGoods = {}} = goodsInfo
     mark({
       module: '打点',
-      function: '测评售卖课购买',
+      function: '测评售卖页点击点',
       action: '支付成功',
       memo: quanwaiGoods.id,
     })
     window.location.replace(
       '/rise/activity/static/guest/value/evaluation/self/question'
     )
+  }
+  handlepayedCancel() {
+    const {goodsInfo} = this.state
+    const {quanwaiGoods = {}} = goodsInfo
+    mark({
+      module: '打点',
+      function: '测评售卖页点击点',
+      action: '取消支付',
+      memo: quanwaiGoods.id,
+    })
   }
 
   render() {
@@ -413,8 +431,8 @@ export default class SelfInit extends React.Component<any, any> {
                 header={quanwaiGoods.name}
                 priceTips={tip}
                 payedDone={goodsId => this.handlePayedDone(goodsId)}
-                payedCancel={() => {}}
-                payedError={res => {}}
+                payedCancel={goodsId => this.handlepayedCancel(goodsId)}
+                payedError={res => this.payedError()}
                 payedBefore={() => {}}
                 payType={PayType.WECHAT}
               />
