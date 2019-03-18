@@ -1,5 +1,5 @@
 import * as React from 'react'
-import './payeval.less'
+import './Payeval.less'
 import {connect} from 'react-redux'
 import {PayType, sa, refreshForPay, saTrack} from 'utils/helpers'
 import {set, startLoad, endLoad, alertMsg} from 'redux/actions'

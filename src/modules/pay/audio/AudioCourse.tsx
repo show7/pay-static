@@ -69,6 +69,9 @@ export default class AudioCourse extends React.Component<any, any> {
     const { source = 'normal_audio', riseId = null} = this.props.location.query
     mark({ module: '打点', function: '音频课入学', action: 'wondercv_click' })
     joinAudioCourse({source, riseId}).then(res => {
+      this.setState({
+        canClick: true
+      })
       if(res.code === 200) {
         let result = res.msg;
         this.setState({
