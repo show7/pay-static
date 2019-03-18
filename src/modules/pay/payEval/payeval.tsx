@@ -39,7 +39,7 @@ export default class SelfInit extends React.Component<any, any> {
           releaseTime: '3月11日',
           avatar: 'https://static.iqycamp.com/user1-chw7adcf.png',
           releaseContent:
-            '平时很少有机会去回顾自己的工作习惯和工作方法，这次对自己的能力认真做了个盘点。',
+            '平时很少有机会去回顾自己的工作习惯和工作方法，这次对自己的能力认真做了个盘点,确实在思维方面需要提升。',
         },
         {
           userName: '魏昊',
@@ -211,10 +211,10 @@ export default class SelfInit extends React.Component<any, any> {
     } = this.state
     const { quanwaiGoods = {} } = goodsInfo
     const userEvaluationItem = userEvaluation.map(item => {
-      let { userName, releaseTime, releaseContent } = item
+      let { userName, avatar, releaseTime, releaseContent } = item
       return (
         <div key={userName}>
-          <AssetImg url="" style={{ display: 'block' }}/>
+          <AssetImg url={avatar} style={{ display: 'block' }}/>
           <div>
             <h1>{userName}</h1>
             <div className="user-comment-times">发布时间：{releaseTime}</div>
