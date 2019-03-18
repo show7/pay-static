@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as _ from 'lodash'
-import './PayL1.less'
+import './evalSellCourse.less'
 import {connect} from 'react-redux'
 import {mark} from 'utils/request'
 import {PayType, sa, refreshForPay, saTrack} from 'utils/helpers'
@@ -14,17 +14,17 @@ import {
   loadTask,
 } from '../async'
 import {MarkBlock} from '../components/markblock/MarkBlock'
-import {SubscribeAlert} from './components/SubscribeAlert'
+import {SubscribeAlert} from '../risepay/components/SubscribeAlert'
 import InvitationLayout from '../components/invitationLayout/InvitationLayout'
 import RenderInBody from '../../../components/RenderInBody'
 import SaleShow from '../../../components/SaleShow'
+import {getQuery} from '../../../utils/getquery'
 
 @connect(state => state)
-export default class PayL1 extends React.Component<any, any> {
+export default class evalSellCourse extends React.Component<any, any> {
   static contextTypes = {
     router: React.PropTypes.object.isRequired,
   }
-
   constructor() {
     super()
     this.state = {
@@ -39,122 +39,75 @@ export default class PayL1 extends React.Component<any, any> {
     }
   }
 
-  async componentWillMount() {
-    // ios／安卓微信支付兼容性
-    if (refreshForPay()) {
-      return
-    }
-    const {dispatch} = this.props
-    dispatch(startLoad())
-
-    let amount = 0
-
-    let {riseId} = this.props.location.query
-    //判断是否是老带新分享的链接
-    if (!_.isEmpty(riseId)) {
-      let param = {
-        riseId: riseId,
-        memberTypeId: 12,
-      }
-      let invitationInfo = await loadInvitation(param)
-      this.setState({invitationData: invitationInfo.msg})
-
-      amount = invitationInfo.msg.amount
-
-      if (amount !== 0) {
-        if (invitationInfo.msg.isNewUser && invitationInfo.msg.isReceived) {
-          dispatch(alertMsg('优惠券已经发到你的圈外同学账号咯！'))
-        } else if (invitationInfo.msg.isNewUser) {
-          this.setState({invitationLayout: true})
-        }
-      }
-    }
-    // 查询订单信息
-    getRiseMember(this.state.goodsId)
-      .then(res => {
-        dispatch(endLoad())
-        if (res.code === 200) {
-          this.setState({data: res.msg})
-          const {quanwaiGoods = {}} = res.msg
-
-          saTrack('openSalePayPage', {
-            goodsType: quanwaiGoods.goodsType + '',
-            goodsId: quanwaiGoods.id + '',
-          })
-          mark({
-            module: '打点',
-            function: quanwaiGoods.goodsType,
-            action: quanwaiGoods.id,
-            memo: '入学页面',
-          })
-        } else {
-          dispatch(alertMsg(res.msg))
-        }
-      })
-      .catch(err => {
-        dispatch(endLoad())
-        dispatch(alertMsg(err))
-      })
-
-    const {type = 0, taskId = 1} = this.props.location.query
-    this.loadTask(taskId)
-    if (type == 1 && amount != 0) {
-      this.setState({showShare: true})
-    }
-  }
-
-  /*获取值贡献*/
-  loadTask(type) {
-    loadTask(type).then(res => {
-      if (res.code == 200) {
-        this.setState({task: res.msg}, () => {
-          configShare(
-            `【圈外同学】4个月时间体系化提升，成为职场超强个体`,
-            `https://${window.location.hostname}/pay/l1?riseId=${
-              window.ENV.riseId
-            }&type=2`,
-            `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
-            `${window.ENV.userName}邀请你成为同学，领取${
-              res.msg.shareAmount
-            }元【圈外同学】L1项目入学优惠券`
-          )
-        })
-      }
-    })
-  }
-
-  /*投资圈外分享好友*/
-  getsShowShare() {
-    configShare(
-      `【圈外同学】4个月时间体系化提升，成为职场超强个体`,
-      `https://${window.location.hostname}/pay/l1?riseId=${
-        window.ENV.riseId
-      }&type=2`,
-      `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
-      `${window.ENV.userName}邀请你成为同学，领取${
-        this.state.task.shareAmount
-      }元【圈外同学】L1项目入学优惠券`
-    )
-    mark({module: '打点', function: '关闭弹框l1', action: '点击关闭弹框'})
-    this.setState({showShare: false, type: 1})
-  }
-
   componentDidMount() {
-    // TODO 设置分享
-    // configShare(
-    //   `圈外商学院--你负责努力，我们负责帮你赢`,
-    //   `https://${window.location.hostname}/pay/rise`,
-    //   'https://static.iqycamp.com/images/rise_share.jpg?imageslim',
-    //   '最实用的竞争力提升课程，搭建最优质的人脉圈，解决最困扰的职场难题'
-    // )
+    this.setState(
+      {
+        goodsId: getQuery('goodsId') || '',
+      },
+      () => {
+        const {goodsId} = this.state
+        console.log(goodsId)
+        // ios／安卓微信支付兼容性
+        if (refreshForPay()) {
+          return
+        }
+        const {dispatch} = this.props
+        dispatch(startLoad())
+        // 查询订单信息
+        getRiseMember(this.state.goodsId)
+          .then(res => {
+            dispatch(endLoad())
+            if (res.code === 200) {
+              this.setState({data: res.msg})
+              const {quanwaiGoods = {}} = res.msg
+              this.configShare(quanwaiGoods.id, quanwaiGoods.name)
+              saTrack('openSalePayPage', {
+                goodsType: quanwaiGoods.goodsType + '',
+                goodsId: quanwaiGoods.id + '',
+              })
+              mark({
+                module: '打点',
+                function: quanwaiGoods.goodsType,
+                action: quanwaiGoods.id,
+                memo: '课程售卖页面曝光点',
+              })
+            } else {
+              dispatch(alertMsg(res.msg))
+            }
+          })
+          .catch(err => {
+            dispatch(endLoad())
+            dispatch(alertMsg(err))
+          })
+      }
+    )
   }
+  configShare(goodsId, goodsName) {
+    configShare(
+      goodsName,
+      `https://${
+        window.location.hostname
+      }/pay/evalSellCourse?goodsId=${goodsId}`,
+      'https://static.iqycamp.com/images/rise_share.jpg?imageslim',
+      `我发现了一门好课，分享给你。现在还有早鸟价，快来看看吧！`
+    )
+  }
+  // componentDidMount() {
+  // TODO 设置分享
+  // configShare(
+  //   `圈外商学院--你负责努力，我们负责帮你赢`,
+  //   `https://${window.location.hostname}/pay/rise`,
+  //   'https://static.iqycamp.com/images/rise_share.jpg?imageslim',
+  //   '最实用的竞争力提升课程，搭建最优质的人脉圈，解决最困扰的职场难题'
+  // )
+  // }
 
   handlePayedDone() {
     const {data} = this.state
     const {quanwaiGoods = {}} = data
     mark({
       module: '打点',
-      function: '商学院会员',
+      function: '课程售卖页',
       action: '支付成功',
       memo: quanwaiGoods.id,
     })
@@ -228,7 +181,7 @@ export default class PayL1 extends React.Component<any, any> {
     const {quanwaiGoods = {}} = data
     mark({
       module: '打点',
-      function: '商学院会员',
+      function: '课程售卖页',
       action: '点击付费',
       memo: quanwaiGoods.id,
     })
