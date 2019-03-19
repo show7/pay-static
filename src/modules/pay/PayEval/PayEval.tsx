@@ -63,7 +63,7 @@ export default class SelfInit extends React.Component<any, any> {
     mark({
       module: '打点',
       function: '测评售卖页曝光点',
-      action: `进入测评售卖页${window.location.href}`,
+      action: `进入测评售卖页`,
       memo: '测评售卖页曝光点',
     })
     //添加滚动监听（fiexd-button）
