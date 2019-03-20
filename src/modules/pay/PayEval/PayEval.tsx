@@ -149,28 +149,24 @@ export default class SelfInit extends React.Component<any, any> {
     dispatch(startLoad())
     // 先检查是否能够支付
     checkRiseMember(goodsId, riseId, type)
-    .then(res => {
-      dispatch(endLoad())
-      if (res.code === 200) {
-        console.log(res.msg)
-        const {qrCode, privilege, errorMsg, subscribe} = res.msg
-        if (subscribe) {
+      .then(res => {
+        dispatch(endLoad())
+        if (res.code === 200) {
+          console.log(res.msg)
+          const {privilege, errorMsg} = res.msg
           if (privilege) {
             this.refs.payInfo.handleClickOpen()
           } else {
             dispatch(alertMsg(errorMsg))
           }
         } else {
-          this.setState({qrCode: qrCode, showQr: true})
+          dispatch(alertMsg(res.msg))
         }
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    })
-    .catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-    })
+      })
+      .catch(ex => {
+        dispatch(endLoad())
+        dispatch(alertMsg(ex))
+      })
   }
 
   handleClickStart() {
