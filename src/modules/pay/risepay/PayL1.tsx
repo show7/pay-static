@@ -211,7 +211,13 @@ export default class PayL1 extends React.Component<any, any> {
               dispatch(alertMsg(errorMsg))
             }
           } else {
-            this.setState({qrCode: qrCode, showQr: true})
+            this.context.router.push({
+              pathname: '/pay/oldBeltNew',
+              query: {
+                goodsId: goodsId
+              },
+            })
+            // this.setState({qrCode: qrCode, showQr: true})
           }
         } else {
           dispatch(alertMsg(res.msg))
