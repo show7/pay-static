@@ -1,0 +1,227 @@
+@import '../../../style/variable.less';
+
+.old-belt-new-wrap {
+  padding: 5.5rem 2rem 2.8rem 2rem;
+}
+.user-name {
+  font-size: @font_user_name;
+  color: @color_title2;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+.input-wrap {
+  display: flex;
+  align-items: flex-end;
+  .input-befor {
+    border-left: 0.2rem solid @color-green;
+    height: 2.8rem;
+    border-radius: 0.2rem;
+  }
+  .phone-number {
+    width: 13.9rem;
+    height: 2.4rem;
+    margin-left: 0.5rem;
+    font-size: @font_title;
+  }
+}
+.line {
+  width: 100%;
+  border-top: 1px solid @color_weak_line;
+}
+.course-information-wrap {
+  width: 100%;
+  height: 15.1rem;
+  margin-top: 2rem;
+  padding: 1.3rem 2.9rem 1.2rem 2.9rem;
+  box-sizing: border-box;
+  color: @color_white;
+  background: url('https://static.iqycamp.com/01-rknewuql.png') no-repeat center;
+  background-size: 100% 100%;
+
+  & > :first-child {
+    font-size: 2.2rem;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 0.1rem;
+  }
+  & > :last-child {
+    margin-top: 2.4rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: @font_index;
+    .times {
+      font-size: 1.8rem;
+    }
+  }
+}
+
+.coupon-wrap {
+  display: flex;
+  align-items: center;
+  padding: 1.8rem 0 2rem 0;
+  justify-content: space-between;
+  font-size: @font_context;
+  color: @color_title2;
+  & > :last-child {
+    display: flex;
+    align-items: center;
+  }
+  // .coupon-label {
+  //   display: inline-block;
+  //   width: 6.3rem;
+  //   text-align: center;
+  //   height: 1.8rem;
+  //   border-radius: 2.2rem;
+  //   margin-right: 1.2rem;
+  //   font-size: 1.1rem;
+  //   font-weight: 400;
+  //   color: @color-red;
+  //   border: 1px solid @color-red;
+  // }
+  .coupon-right-icon {
+    display: inline-block;
+    width: 0.7rem;
+    height: 1.4rem;
+    img {
+      width: 100%;
+    }
+  }
+}
+.pay-mode-wrap {
+  list-style: none;
+  li {
+    display: flex;
+    height: 4rem;
+    justify-content: space-between;
+    align-items: center;
+    color: @color_title2;
+    font-size: @font_context;
+    & > :first-child {
+      display: flex;
+      align-items: center;
+    }
+    .pay-icon {
+      display: inline-block;
+      width: 2.2rem;
+      height: 2.2rem;
+      margin-right: 0.7rem;
+      img {
+        width: 100%;
+      }
+    }
+  }
+  .pay-select-wrap {
+    width: 2rem;
+    height: 2rem;
+    img {
+      width: 100%;
+    }
+  }
+}
+
+.fixed-button-wrap {
+  position: fixed;
+  width: 100%;
+  height: 5rem;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  .submit-button {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 2.8rem;
+    width: 28.5rem;
+    height: 3.9rem;
+    margin: auto;
+    font-size: 1.5rem;
+    color: #fff;
+    text-align: center;
+    line-height: 3.9rem;
+    background: linear-gradient(
+      270deg,
+      rgba(165, 230, 40, 1) 0%,
+      rgba(125, 190, 0, 1) 100%
+    );
+    border-radius: 2rem;
+    z-index: 10;
+    .rmb-sign {
+      font-size: 1.2rem;
+    }
+    .price {
+      font-size: 1.9rem;
+      font-weight: 400;
+    }
+  }
+}
+.coupon-select-wrap {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.6);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  .coupon-box-wrap {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 28.8rem;
+
+    background: @color_white;
+    border-radius: 1rem 1rem 0px 0px;
+    padding: 2.1rem 1.9rem 0 1.9rem;
+    h1 {
+      font-size: 1.9rem;
+      color: @color_title2;
+    }
+    ul {
+      list-style: none;
+      max-height: 18rem;
+      overflow-y: scroll;
+      li {
+        display: flex;
+        padding: 1.6rem 0;
+        justify-content: space-between;
+        align-items: center;
+        font-size: @font_context;
+        img {
+          width: 2rem;
+          height: 2rem;
+          border-radius: 0.2rem;
+        }
+      }
+    }
+    .close-coupon {
+      position: absolute;
+      top: 1.2rem;
+      right: 0.6rem;
+      width: 3.5rem;
+      height: 3.5rem;
+      img {
+        width: 100;
+      }
+    }
+  }
+  .use-coupon {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 2.8rem;
+    width: 28.5rem;
+    height: 3.9rem;
+    margin: auto;
+    background: linear-gradient(
+      270deg,
+      rgba(165, 230, 40, 1) 0%,
+      rgba(125, 190, 0, 1) 100%
+    );
+    box-shadow: 0 0.3rem 1rem 0 rgba(125, 190, 0, 0.38);
+    border-radius: 2rem;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: @color_white;
+    line-height: 3.9rem;
+    text-align: center;
+  }
+}

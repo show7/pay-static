@@ -20,9 +20,9 @@ import {
 
 @connect(state => state)
 export default class SelfInit extends React.Component<any, any> {
-  static contextTypes = {
-    router: React.PropTypes.object.isRequired,
-  }
+  // static contextTypes = {
+  //   router: React.PropTypes.object.isRequired,
+  // }
 
   constructor() {
     super()
@@ -75,18 +75,19 @@ export default class SelfInit extends React.Component<any, any> {
   }
 
   setBuyButtonShow() {
-    var scroll_top = 0
-    if (document.documentElement && document.documentElement.scrollTop) {
-      scroll_top = document.documentElement.scrollTop
-    } else if (document.body) {
-      scroll_top = document.body.scrollTop
-    }
-    const buyButtonOffsetTop =
-      document.getElementsByClassName('buy-button')[0].offsetTop +
-      document.getElementsByClassName('buy-button')[0].offsetHeight
-    this.setState({
-      fiexdBuyButton: scroll_top > buyButtonOffsetTop,
-    })
+    alert(123)
+    // var scroll_top = 0
+    // if (document.documentElement && document.documentElement.scrollTop) {
+    //   scroll_top = document.documentElement.scrollTop
+    // } else if (document.body) {
+    //   scroll_top = document.body.scrollTop
+    // }
+    // const buyButtonOffsetTop =
+    //   document.getElementsByClassName('buy-button')[0].offsetTop +
+    //   document.getElementsByClassName('buy-button')[0].offsetHeight
+    // this.setState({
+    //   fiexdBuyButton: scroll_top > buyButtonOffsetTop,
+    // })
   }
 
   async componentWillMount() {

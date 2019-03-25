@@ -28,6 +28,8 @@ import ChallengeAudio from './modules/pay/audio/ChallengeAudio'
 import ReadCourse from './modules/pay/read/ReadCourse'
 import payEval from './modules/pay/PayEval/PayEval'
 import evalSellCourse from './modules/pay/EvalSellCourse/EvalSellCourse'
+import OldBeltNew from './modules/pay/oldBeltNew/OldBeltNew'
+import OldBelNewPaySuccess from './modules/pay/paysuccess/OldBelNewPaySuccess'
 // import Paper from './modules/others/paper/paper'
 
 import Paper from './modules/pay/paper/Paper'
@@ -53,6 +55,7 @@ const routes = (
     >
       <Route path="subscribe" component={Subscribe} />
       <Route path="pay/member/success" component={MemberPaySuccess} />
+      <Route path="pay/oldBelNew/success" component={OldBelNewPaySuccess} />
       <Route path="pay/thought" component={PayL3} />
       <Route path="pay/combat" component={CombatPay} />
       <Route path="pay/rise" component={PayL2} />
@@ -74,6 +77,7 @@ const routes = (
       <Route path="pay/exchange" component={ExchangePay} />
       <Route path="pay/read" component={ReadCourse} />
       <Route path="pay/eval" component={payEval} />
+      <Route path="pay/oldBeltNew" component={OldBeltNew} />
       <Route path="pay/evalSellCourse" component={evalSellCourse} />
       <Route path="pay/paper" component={Paper} />
     </Route>
