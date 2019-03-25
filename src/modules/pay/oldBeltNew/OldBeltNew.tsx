@@ -4,6 +4,7 @@ import {set, startLoad, endLoad, alertMsg} from 'redux/actions'
 import {getQuery} from '../../../utils/getquery'
 import {mark} from 'utils/request'
 import {pay} from '../../helpers/JsConfig'
+import * as _ from 'lodash';
 
 import {
   checkRiseMember,
