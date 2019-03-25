@@ -26,11 +26,13 @@ export default class OldBeltNew extends Component<any, any> {
   constructor(props) {
     super(props)
     this.state = {
+      mobile: '',
       selectPayIndex: 0,
       payTypeMap: [payType.WECHAT, payType.ALIPAY, payType.ALIPAY],
       isShowCouponSelect: false,
       coupons: [],
       subjectinfor: {},
+      couponsIdCroup: [],
     }
   }
   async componentDidMount() {
@@ -54,16 +56,18 @@ export default class OldBeltNew extends Component<any, any> {
         autoCoupons,
         name,
         fee,
+        multiCoupons,
         sellingDeadline,
         openDate,
       } = loadMsg
       let autoCouponsIdList = autoCoupons.map(item => item.id)
       coupons.forEach(coupon => {
-        Object.assign(coupon, {auto: autoCouponsIdList.includes(coupon.id)})
+        Object.assign(coupon, {isSelect: autoCouponsIdList.includes(coupon.id)})
       })
       console.log('coupons', coupons)
       this.setState({
         coupons,
+        multiCoupons,
         subjectinfor: {name, fee, sellingDeadline, openDate},
       })
     } catch (e) {
@@ -85,11 +89,15 @@ export default class OldBeltNew extends Component<any, any> {
       const {privilege, errorMsg} = checkMsg
       console.log(privilege)
       if (!privilege) throw errorMsg
-      const {selectPayIndex, payTypeMap} = this.state
+      const {selectPayIndex, payTypeMap, multiCoupons, mobile} = this.state
+      if (!/^1[34578]\d{9}$/.test(mobile))
+        return dispatch(alertMsg('请检查手机号格式是否有误'))
       const params = {
         goodsType,
         goodsId,
         payType: payTypeMap[selectPayIndex],
+        multiCoupons,
+        mobile,
       }
       const {code: loadPayCode, msg: loadPayMsg} = await loadPaymentParam(
         params
@@ -195,6 +203,28 @@ export default class OldBeltNew extends Component<any, any> {
   handlePayDone() {
     //支付成功
   }
+  selectedCoupon(i) {
+    const {dispatch} = this.props
+    const {coupons, multiCoupons} = this.state
+    if (multiCoupons) {
+      coupons[i].isSelect = !coupons[i].isSelect
+    } else {
+      let SelectArr = coupons.filter(item => (item.isSelect ? item.id : ''))
+      !!SelectArr
+        ? dispatch(alertMsg('本次订单只能选择一张优惠劵呢～'))
+        : (coupons[i].isSelect = !coupons[i].isSelect)
+    }
+    let couponsIdCroup = coupons
+      .map(item => (item.isSelect ? item.id : ''))
+      .filter(id => id !== '')
+    console.log(couponsIdCroup)
+    console.log(coupons[i].isSelect)
+    this.setState({
+      coupons,
+      couponsIdCroup,
+    })
+  }
+
   payedError() {
     // 支付失败
   }
@@ -241,15 +271,20 @@ export default class OldBeltNew extends Component<any, any> {
             </div>
             <h1>优惠券</h1>
             <ul>
-              {coupons.map(coupon => {
-                const {amount, auto, id} = coupon
+              {coupons.map((coupon, i) => {
+                const {amount, isSelect} = coupon
                 return (
-                  <li key={id}>
+                  <li
+                    key={i}
+                    onClick={() => {
+                      this.selectedCoupon(i)
+                    }}
+                  >
                     <div>{amount}元优惠劵</div>
                     <div>
                       <img
                         src={
-                          auto
+                          isSelect
                             ? 'https://static.iqycamp.com/11881553238103_-cok78lwd.pic.jpg'
                             : 'https://static.iqycamp.com/11871553238103_-02irvze3.pic.jpg'
                         }
@@ -260,7 +295,12 @@ export default class OldBeltNew extends Component<any, any> {
                 )
               })}
             </ul>
-            <div className="use-coupon" onClick={() => {}}>
+            <div
+              className="use-coupon"
+              onClick={() => {
+                this.setState({isShowCouponSelect: false})
+              }}
+            >
               确认使用
             </div>
           </div>
@@ -276,6 +316,7 @@ export default class OldBeltNew extends Component<any, any> {
             <input
               className="phone-number"
               type="text"
+              value={this.state.mobile}
               placeholder="请输入你的手机号"
             />
           </div>
