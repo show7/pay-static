@@ -67,7 +67,6 @@ export default class OldBeltNew extends Component<any, any> {
       coupons.forEach(coupon => {
         Object.assign(coupon, {isSelect: autoCouponsIdList.includes(coupon.id)})
       })
-      console.log('coupons', coupons)
       this.setState({
         coupons,
         multiCoupons,
@@ -91,7 +90,6 @@ export default class OldBeltNew extends Component<any, any> {
       )
       if (checkCode !== 200) throw '支付校验失败'
       const {privilege, errorMsg} = checkMsg
-      console.log(privilege)
       if (!privilege) throw errorMsg
       const {selectPayIndex, payTypeMap, couponsIdGroup} = this.state
       const mobile = this.refs.mobile.value
@@ -134,9 +132,7 @@ export default class OldBeltNew extends Component<any, any> {
         : (window.location.href = `/pay/alipay/rise?orderId=${productId}&goto=${encodeURIComponent(
             signParams.alipayUrl
           )}&type=hb`)
-      console.log('goodsInfor', goodsType)
     } catch (e) {
-      console.log(e)
       dispatch(alertMsg(e))
     }
   }
@@ -218,9 +214,6 @@ export default class OldBeltNew extends Component<any, any> {
             ',url:' +
             window.location.href
         )
-        if (_.isFunction(this.props.payedError)) {
-          this.payedError(res)
-        }
       }
     )
   }
@@ -249,8 +242,6 @@ export default class OldBeltNew extends Component<any, any> {
           ? `${couponsCroup[0].amount}元优惠劵`
           : `${couponsCroup.length}张优惠劵合计${favorablePrice}元`
         : '未选择优惠劵'
-
-    console.log(favorablePrice)
     this.setState({
       couponsIdGroup,
       couponTip,
@@ -278,9 +269,6 @@ export default class OldBeltNew extends Component<any, any> {
    */
   reConfig() {
     config(['chooseWXPay'])
-  }
-  payedError() {
-    // 支付失败
   }
   render() {
     const payModelist = [
