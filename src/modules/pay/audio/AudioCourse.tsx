@@ -26,7 +26,14 @@ export default class AudioCourse extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    const { source } = this.props.location.query
+    const { source,markScene } = this.props.location.query
+    if(markScene){
+      mark({
+        module: '打点',
+        function: '普通打点链接',
+        action: markScene
+      })
+    }
     mark({ module: '打点', function: '音频课入学', action: 'wondercv', memo:source })
     this.getInfo()
     configShare(
