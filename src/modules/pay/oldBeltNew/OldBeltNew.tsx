@@ -43,7 +43,7 @@ export default class OldBeltNew extends Component<any, any> {
     const goodsId = getQuery('goodsId') || ''
     try {
       const {code: riseCode, msg: riseMsg} = await getRiseMember(goodsId)
-      if (riseCode !== 200) throw riseMsg
+      if (riseCode !== 200) throw '信息校验失败'
       const {quanwaiGoods} = riseMsg
       const {goodsType, priceActivityId = ''} = quanwaiGoods
       this.setState({goodsType, goodsId})
@@ -53,7 +53,7 @@ export default class OldBeltNew extends Component<any, any> {
         goodsId,
         priceActivityId
       )
-      if (loadCode !== 200) throw loadMsg
+      if (loadCode !== 200) throw '加载商品信息失败'
       const {
         coupons,
         autoCoupons,
@@ -89,7 +89,7 @@ export default class OldBeltNew extends Component<any, any> {
         riseId,
         type
       )
-      if (checkCode !== 200) throw checkMsg
+      if (checkCode !== 200) throw '支付校验失败'
       const {privilege, errorMsg} = checkMsg
       console.log(privilege)
       if (!privilege) throw errorMsg
@@ -127,7 +127,7 @@ export default class OldBeltNew extends Component<any, any> {
         params
       )
       const {fee, free, signParams, productId} = loadPayMsg
-      if (loadPayCode !== 200) throw loadPayMsg
+      if (loadPayCode !== 200) throw '获取支付信息失败'
       if (!Number(fee) && free) return this.handlePayDone()
       payTypeMap[selectPayIndex] === payType.WECHAT
         ? this.handleH5Pay(signParams, goodsType)
