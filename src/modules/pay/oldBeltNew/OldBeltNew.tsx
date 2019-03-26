@@ -99,7 +99,6 @@ export default class OldBeltNew extends Component<any, any> {
     const mobile = this.refs.mobile.value
     if (!/^1[34578]\d{9}$/.test(mobile))
       return dispatch(alertMsg('请检查手机号格式是否有误'))
-    dispatch(startLoad())
     mark({
       module: '购课落地页',
       function: '支付页',
@@ -228,7 +227,6 @@ export default class OldBeltNew extends Component<any, any> {
   handlePayDone(goodsId) {
     //成功跳转到报名成功页面
     const {dispatch} = this.props
-    dispatch(endLoad())
     mark({
       module: '购课落地页',
       function: '支付页',
