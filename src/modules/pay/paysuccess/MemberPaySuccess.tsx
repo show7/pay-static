@@ -3,7 +3,7 @@ import './MemberPaySuccess.less'
 import {connect} from 'react-redux'
 import {set, startLoad, endLoad, alertMsg} from '../../../redux/actions'
 import {entryRiseMember} from '../async'
-
+import {mark} from 'utils/request'
 @connect(state => state)
 export default class MemberPaySuccess extends React.Component<any, any> {
   static contextTypes = {
@@ -42,6 +42,12 @@ export default class MemberPaySuccess extends React.Component<any, any> {
             openDate,
             wechatPublicUrl,
           } = res.msg
+          mark({
+            module: '购课落地页',
+            function: '支付页',
+            action: '支付成功页面（曝光点）',
+            memo: `entryCode=${entryCode}&goodsName=${goodsName}`,
+          })
           this.setState({
             entryCode,
             goodsName,
