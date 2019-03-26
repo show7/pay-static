@@ -83,7 +83,7 @@ export default class MemberPaySuccess extends React.Component<any, any> {
       <div className="pay-success">
         {/* <div className="gutter" style={{height: `${this.topPd}px`}} /> */}
         <div className="user-header">
-          <img src={window.ENV.headimgurl} alt="" />
+          <img src={window.ENV.headImgUrl} alt="" />
         </div>
         <div className="pay-sucess-text align-center">恭喜你成功报名</div>
         <div className="pay-sucess-goods-name align-center">{goodsName}</div>
