@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {set, startLoad, endLoad, alertMsg} from 'redux/actions'
 import {getQuery} from '../../../utils/getquery'
 import {mark} from 'utils/request'
-import {pay} from '../../helpers/JsConfig'
+import {pay, config, configShare} from '../../helpers/JsConfig'
 
 import {
   checkRiseMember,
@@ -12,6 +12,7 @@ import {
   loadPaymentParam,
   courseBuyValidate,
   logPay,
+  calculateCoupons,
   loadInvitation,
   loadTask,
 } from '../async'
@@ -27,13 +28,14 @@ export default class OldBeltNew extends Component<any, any> {
   constructor(props) {
     super(props)
     this.state = {
-      mobile: '',
       selectPayIndex: 0,
       payTypeMap: [payType.WECHAT, payType.ALIPAY, payType.HUABEI],
       isShowCouponSelect: false,
       coupons: [],
       subjectinfor: {},
-      couponsIdCroup: [],
+      couponsIdGroup: [],
+      couponTip: '',
+      favorablePrice: '',
     }
   }
   async componentDidMount() {
@@ -71,6 +73,7 @@ export default class OldBeltNew extends Component<any, any> {
         multiCoupons,
         subjectinfor: {name, fee, sellingDeadline, openDate},
       })
+      this.setCoupon()
     } catch (e) {
       dispatch(alertMsg(e))
     }
@@ -90,7 +93,8 @@ export default class OldBeltNew extends Component<any, any> {
       const {privilege, errorMsg} = checkMsg
       console.log(privilege)
       if (!privilege) throw errorMsg
-      const {selectPayIndex, payTypeMap, multiCoupons, mobile} = this.state
+      const {selectPayIndex, payTypeMap, couponsIdGroup} = this.state
+      const mobile = this.refs.mobile.value
       if (!/^1[34578]\d{9}$/.test(mobile))
         return dispatch(alertMsg('请检查手机号格式是否有误'))
       mark({
@@ -116,7 +120,7 @@ export default class OldBeltNew extends Component<any, any> {
         goodsType,
         goodsId,
         payType: payTypeMap[selectPayIndex],
-        multiCoupons,
+        couponsIdGroup,
         mobile,
       }
       const {code: loadPayCode, msg: loadPayMsg} = await loadPaymentParam(
@@ -124,6 +128,7 @@ export default class OldBeltNew extends Component<any, any> {
       )
       const {fee, free, signParams, productId} = loadPayMsg
       if (loadPayCode !== 200) throw loadPayMsg
+      if (!Number(fee) && free) return this.handlePayDone()
       payTypeMap[selectPayIndex] === payType.WECHAT
         ? this.handleH5Pay(signParams, goodsType)
         : (window.location.href = `/pay/alipay/rise?orderId=${productId}&goto=${encodeURIComponent(
@@ -139,6 +144,7 @@ export default class OldBeltNew extends Component<any, any> {
    * @param signParams
    */
   handleH5Pay(signParams, goodsType = '未知商品') {
+    this.reConfig()
     let functionName = goodsType
     mark({
       module: '支付',
@@ -229,6 +235,27 @@ export default class OldBeltNew extends Component<any, any> {
       pathname: '/pay/member/success',
     })
   }
+  setCoupon() {
+    const {coupons} = this.state
+    const couponsCroup = coupons
+      .map(item => (item.isSelect ? item : ''))
+      .filter(id => id !== '')
+    const couponsIdGroup = couponsCroup.map(item => item.id)
+    let favorablePrice = couponsCroup.reduce((pre, cur) => pre + cur.amount, 0)
+    const couponTip =
+      !!couponsCroup && couponsCroup.length
+        ? couponsCroup.length == 1
+          ? `${couponsCroup[0].amount}元优惠劵`
+          : `${couponsCroup.length}张优惠劵合计${favorablePrice}元`
+        : '未选择优惠劵'
+
+    console.log(favorablePrice)
+    this.setState({
+      couponsIdGroup,
+      couponTip,
+      favorablePrice,
+    })
+  }
   selectedCoupon(i) {
     const {dispatch} = this.props
     const {coupons, multiCoupons} = this.state
@@ -240,17 +267,17 @@ export default class OldBeltNew extends Component<any, any> {
         ? dispatch(alertMsg('本次订单只能选择一张优惠劵呢～'))
         : (coupons[i].isSelect = !coupons[i].isSelect)
     }
-    let couponsIdCroup = coupons
-      .map(item => (item.isSelect ? item.id : ''))
-      .filter(id => id !== '')
-    console.log(couponsIdCroup)
-    console.log(coupons[i].isSelect)
+    this.setCoupon()
     this.setState({
       coupons,
-      couponsIdCroup,
     })
   }
-
+  /**
+   * 重新注册页面签名
+   */
+  reConfig() {
+    config(['chooseWXPay'])
+  }
   payedError() {
     // 支付失败
   }
@@ -274,6 +301,8 @@ export default class OldBeltNew extends Component<any, any> {
       isShowCouponSelect,
       coupons,
       subjectinfor,
+      couponTip,
+      favorablePrice,
     } = this.state
     const {name, fee, openDate, sellingDeadline} = subjectinfor
     const CouponSelectComponent = props => {
@@ -298,7 +327,7 @@ export default class OldBeltNew extends Component<any, any> {
             <h1>优惠券</h1>
             <ul>
               {coupons.map((coupon, i) => {
-                const {amount, isSelect} = coupon
+                const {amount, isSelect, expired} = coupon
                 return (
                   <li
                     key={i}
@@ -308,6 +337,7 @@ export default class OldBeltNew extends Component<any, any> {
                   >
                     <div>{amount}元优惠劵</div>
                     <div>
+                      <span className="coupon-time">{expired}前使用</span>
                       <img
                         src={
                           isSelect
@@ -336,13 +366,13 @@ export default class OldBeltNew extends Component<any, any> {
     return (
       <div className="old-belt-new-wrap">
         <div>
-          <div className="user-name">{window.nickname}</div>
+          <div className="user-name">{window.ENV.userName}</div>
           <div className="input-wrap">
             <div className="input-befor" />
             <input
               className="phone-number"
-              type="text"
-              value={this.state.mobile}
+              type="tel"
+              ref="mobile"
               placeholder="请输入你的手机号"
             />
           </div>
@@ -358,7 +388,7 @@ export default class OldBeltNew extends Component<any, any> {
             <div>
               <div>报名截止日期</div>
               <div className="times">
-                {openDate ? sellingDeadline.replace(/-/g, '.') : ''}
+                {sellingDeadline ? sellingDeadline.replace(/-/g, '.') : ''}
               </div>
             </div>
             <div>
@@ -377,7 +407,7 @@ export default class OldBeltNew extends Component<any, any> {
         >
           <div>
             <span>已选择：</span>
-            <span>100元优惠券</span>
+            <span>{couponTip}</span>
           </div>
           <div>
             {/* <span className="coupon-label">即将过期</span> */}
@@ -419,8 +449,10 @@ export default class OldBeltNew extends Component<any, any> {
         </ul>
         <div className="fixed-button-wrap">
           <div className="submit-button" onClick={() => this.goPay()}>
-            立即入学<span className="rmb-sign">¥</span>
-            <span className="price">1180</span>
+            立即入学<span className="rmb-sign"> ¥</span>
+            <span className="price">
+              {fee - favorablePrice < 0 ? 0 : fee - favorablePrice}
+            </span>
           </div>
         </div>
         <CouponSelectComponent isShow={isShowCouponSelect} />

@@ -22,6 +22,9 @@
     height: 2.4rem;
     margin-left: 0.5rem;
     font-size: @font_title;
+    border: 0; // 去除未选中状态边框
+    outline: none; // 去除选中状态边框
+    background-color: rgba(0, 0, 0, 0); // 透明背景
   }
 }
 .line {
@@ -45,7 +48,7 @@
     letter-spacing: 0.1rem;
   }
   & > :last-child {
-    margin-top: 2.4rem;
+    margin-top: 1.5rem;
     display: flex;
     justify-content: space-between;
     font-size: @font_index;
@@ -167,7 +170,6 @@
     left: 0;
     right: 0;
     height: 28.8rem;
-
     background: @color_white;
     border-radius: 1rem 1rem 0px 0px;
     padding: 2.1rem 1.9rem 0 1.9rem;
@@ -185,6 +187,13 @@
         justify-content: space-between;
         align-items: center;
         font-size: @font_context;
+        div:nth-child(2) {
+          display: flex;
+          align-items: center;
+          .coupon-time {
+            margin-right: 2rem;
+          }
+        }
         img {
           width: 2rem;
           height: 2rem;
@@ -202,6 +211,10 @@
         width: 100;
       }
     }
+  }
+  .coupon-time {
+    color: @color_help;
+    font-size: @font_index;
   }
   .use-coupon {
     position: absolute;
