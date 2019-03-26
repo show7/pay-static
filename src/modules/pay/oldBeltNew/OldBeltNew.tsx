@@ -325,32 +325,37 @@ export default class OldBeltNew extends Component<any, any> {
               />
             </div>
             <h1>优惠券</h1>
-            <ul>
-              {coupons.map((coupon, i) => {
-                const {amount, isSelect, expired} = coupon
-                return (
-                  <li
-                    key={i}
-                    onClick={() => {
-                      this.selectedCoupon(i)
-                    }}
-                  >
-                    <div>{amount}元优惠劵</div>
-                    <div>
-                      <span className="coupon-time">{expired}前使用</span>
-                      <img
-                        src={
-                          isSelect
-                            ? 'https://static.iqycamp.com/11881553238103_-cok78lwd.pic.jpg'
-                            : 'https://static.iqycamp.com/11871553238103_-02irvze3.pic.jpg'
-                        }
-                        alt=""
-                      />
-                    </div>
-                  </li>
-                )
-              })}
-            </ul>
+            {!!coupons && coupons.length > 0 ? (
+              <ul>
+                {coupons.map((coupon, i) => {
+                  const {amount, isSelect, expired} = coupon
+                  return (
+                    <li
+                      key={i}
+                      onClick={() => {
+                        this.selectedCoupon(i)
+                      }}
+                    >
+                      <div>{amount}元优惠劵</div>
+                      <div>
+                        <span className="coupon-time">{expired}前使用</span>
+                        <img
+                          src={
+                            isSelect
+                              ? 'https://static.iqycamp.com/11881553238103_-cok78lwd.pic.jpg'
+                              : 'https://static.iqycamp.com/11871553238103_-02irvze3.pic.jpg'
+                          }
+                          alt=""
+                        />
+                      </div>
+                    </li>
+                  )
+                })}
+              </ul>
+            ) : (
+              <div className="zero-coupon">您的背包空空如也～</div>
+            )}
+
             <div
               className="use-coupon"
               onClick={() => {
