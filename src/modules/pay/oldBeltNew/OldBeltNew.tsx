@@ -85,7 +85,7 @@ export default class OldBeltNew extends Component<any, any> {
     const {riseId = '', type = 0} = this.props
     const {goodsId, goodsType} = this.state
     const {dispatch} = this.props
-    dispatch(startLoad())
+
     //try {
     const {code: checkCode, msg: checkMsg} = await checkRiseMember(
       goodsId,
@@ -99,6 +99,7 @@ export default class OldBeltNew extends Component<any, any> {
     const mobile = this.refs.mobile.value
     if (!/^1[34578]\d{9}$/.test(mobile))
       return dispatch(alertMsg('请检查手机号格式是否有误'))
+    dispatch(startLoad())
     mark({
       module: '购课落地页',
       function: '支付页',
