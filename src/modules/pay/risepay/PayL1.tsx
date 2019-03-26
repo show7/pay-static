@@ -214,7 +214,7 @@ export default class PayL1 extends React.Component<any, any> {
             this.context.router.push({
               pathname: '/pay/oldBeltNew',
               query: {
-                goodsId: goodsId
+                goodsId: goodsId,
               },
             })
             // this.setState({qrCode: qrCode, showQr: true})
