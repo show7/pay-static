@@ -39,106 +39,107 @@ export default class OldBeltNew extends Component<any, any> {
       favorablePrice: '',
     }
   }
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired,
+  }
   async componentDidMount() {
     const {dispatch} = this.props
     const goodsId = getQuery('goodsId') || ''
-    try {
-      const {code: riseCode, msg: riseMsg} = await getRiseMember(goodsId)
-      if (riseCode !== 200) throw '信息校验失败'
-      const {quanwaiGoods} = riseMsg
-      const {goodsType, priceActivityId = ''} = quanwaiGoods
-      this.setState({goodsType, goodsId})
+    //try {
+    const {code: riseCode, msg: riseMsg} = await getRiseMember(goodsId)
+    if (riseCode !== 200) throw '信息校验失败'
+    const {quanwaiGoods} = riseMsg
+    const {goodsType, priceActivityId = ''} = quanwaiGoods
+    this.setState({goodsType, goodsId})
 
-      const {code: loadCode, msg: loadMsg} = await loadGoodsInfo(
-        goodsType,
-        goodsId,
-        priceActivityId
-      )
-      if (loadCode !== 200) throw '加载商品信息失败'
-      const {
-        coupons,
-        autoCoupons,
-        name,
-        fee,
-        multiCoupons,
-        sellingDeadline,
-        openDate,
-      } = loadMsg
-      let autoCouponsIdList = autoCoupons.map(item => item.id)
-      coupons.forEach(coupon => {
-        Object.assign(coupon, {isSelect: autoCouponsIdList.includes(coupon.id)})
-      })
-      this.setState({
-        coupons,
-        multiCoupons,
-        subjectinfor: {name, fee, sellingDeadline, openDate},
-      })
-      this.setCoupon()
-    } catch (e) {
-      dispatch(alertMsg(e))
-    }
+    const {code: loadCode, msg: loadMsg} = await loadGoodsInfo(
+      goodsType,
+      goodsId,
+      priceActivityId
+    )
+    if (loadCode !== 200) throw '加载商品信息失败'
+    const {
+      coupons,
+      autoCoupons,
+      name,
+      fee,
+      multiCoupons,
+      sellingDeadline,
+      openDate,
+    } = loadMsg
+    let autoCouponsIdList = autoCoupons.map(item => item.id)
+    coupons.forEach(coupon => {
+      Object.assign(coupon, {isSelect: autoCouponsIdList.includes(coupon.id)})
+    })
+    this.setState({
+      coupons,
+      multiCoupons,
+      subjectinfor: {name, fee, sellingDeadline, openDate},
+    })
+    this.setCoupon()
+    //} catch (e) {
+    //dispatch(alertMsg(e))
+    //}
   }
   async goPay() {
     const {riseId = '', type = 0} = this.props
     const {goodsId, goodsType} = this.state
     const {dispatch} = this.props
 
-    try {
-      const {code: checkCode, msg: checkMsg} = await checkRiseMember(
-        goodsId,
-        riseId,
-        type
-      )
-      if (checkCode !== 200) throw '支付校验失败'
-      const {privilege, errorMsg} = checkMsg
-      if (!privilege) throw errorMsg
-      const {selectPayIndex, payTypeMap, couponsIdGroup} = this.state
-      const mobile = this.refs.mobile.value
-      if (!/^1[34578]\d{9}$/.test(mobile))
-        return dispatch(alertMsg('请检查手机号格式是否有误'))
-      mark({
-        module: '购课落地页',
-        function: '支付页',
-        action: '进入支付页后输入手机号',
-        memo: `mobile=${mobile}`,
-      })
-      const payMap = ['微信', '支付宝', '花呗']
-      mark({
-        module: '购课落地页',
-        function: '支付页',
-        action: '进入支付页后选择支付方式',
-        memo: `payType=${payMap[selectPayIndex]}`,
-      })
-      mark({
-        module: '购课落地页',
-        function: '支付页',
-        action: '点击立即支付',
-        memo: `mobile=${mobile}&payTypeMap=${payTypeMap[selectPayIndex]}`,
-      })
-      const params = {
-        goodsType,
-        goodsId,
-        payType: payTypeMap[selectPayIndex],
-        couponsIdGroup,
-        mobile,
-      }
-      const {code: loadPayCode, msg: loadPayMsg} = await loadPaymentParam(
-        params
-      )
-      const {fee, free, signParams, productId} = loadPayMsg
-      if (loadPayCode !== 200) throw '获取支付信息失败'
-      if (Number(fee) === 0 && free) {
-        const {code: freePayDoneCode} = await afterPayDone(productId)
-        if (freePayDoneCode === 200) return this.handlePayDone()
-      }
-      payTypeMap[selectPayIndex] === payType.WECHAT
-        ? this.handleH5Pay(signParams, goodsType)
-        : (window.location.href = `/pay/alipay/rise?orderId=${productId}&goto=${encodeURIComponent(
-            signParams.alipayUrl
-          )}&type=hb`)
-    } catch (e) {
-      dispatch(alertMsg(e))
+    //try {
+    const {code: checkCode, msg: checkMsg} = await checkRiseMember(
+      goodsId,
+      riseId,
+      type
+    )
+    if (checkCode !== 200) throw '支付校验失败'
+    const {privilege, errorMsg} = checkMsg
+    if (!privilege) throw errorMsg
+    const {selectPayIndex, payTypeMap, couponsIdGroup} = this.state
+    const mobile = this.refs.mobile.value
+    if (!/^1[34578]\d{9}$/.test(mobile))
+      return dispatch(alertMsg('请检查手机号格式是否有误'))
+    mark({
+      module: '购课落地页',
+      function: '支付页',
+      action: '进入支付页后输入手机号',
+      memo: `mobile=${mobile}`,
+    })
+    const payMap = ['微信', '支付宝', '花呗']
+    mark({
+      module: '购课落地页',
+      function: '支付页',
+      action: '进入支付页后选择支付方式',
+      memo: `payType=${payMap[selectPayIndex]}`,
+    })
+    mark({
+      module: '购课落地页',
+      function: '支付页',
+      action: '点击立即支付',
+      memo: `mobile=${mobile}&payTypeMap=${payTypeMap[selectPayIndex]}`,
+    })
+    const params = {
+      goodsType,
+      goodsId,
+      payType: payTypeMap[selectPayIndex],
+      couponsIdGroup,
+      mobile,
     }
+    const {code: loadPayCode, msg: loadPayMsg} = await loadPaymentParam(params)
+    const {fee, free, signParams, productId} = loadPayMsg
+    if (loadPayCode !== 200) throw '获取支付信息失败'
+    if (Number(fee) === 0 && free) {
+      const {code: freePayDoneCode} = await afterPayDone(productId)
+      if (freePayDoneCode === 200) return this.handlePayDone(goodsId)
+    }
+    payTypeMap[selectPayIndex] === payType.WECHAT
+      ? this.handleH5Pay(signParams, goodsType)
+      : (window.location.href = `/pay/alipay/rise?orderId=${productId}&goto=${encodeURIComponent(
+          signParams.alipayUrl
+        )}&type=hb`)
+    //} catch (e) {
+    // dispatch(alertMsg(e))
+    //}
   }
   /**
    * 调起H5支付
@@ -147,6 +148,7 @@ export default class OldBeltNew extends Component<any, any> {
   handleH5Pay(signParams, goodsType = '未知商品') {
     this.reConfig()
     let functionName = goodsType
+    const {goodsId} = this.state
     mark({
       module: '支付',
       function: functionName,
@@ -193,7 +195,7 @@ export default class OldBeltNew extends Component<any, any> {
           action: 'success',
           memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo,
         })
-        this.handlePayDone()
+        this.handlePayDone(goodsId)
       },
       res => {
         // 用户点击取消的回调
@@ -221,7 +223,7 @@ export default class OldBeltNew extends Component<any, any> {
       }
     )
   }
-  handlePayDone() {
+  handlePayDone(goodsId) {
     //成功跳转到报名成功页面
     mark({
       module: '购课落地页',
@@ -230,7 +232,7 @@ export default class OldBeltNew extends Component<any, any> {
       memo: '进入支付成功页面的人数',
     })
     this.context.router.push({
-      pathname: '/pay/member/success',
+      pathname: `/pay/member/?goodsId=${goodsId}`,
     })
   }
   setCoupon() {
