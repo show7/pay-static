@@ -236,7 +236,10 @@ export default class OldBeltNew extends Component<any, any> {
       memo: '进入支付成功页面的人数',
     })
     this.context.router.push({
-      pathname: `/pay/member/success?goodsId=${goodsId}`,
+      pathname: `/pay/member/success`,
+      query: {
+        goodsId,
+      },
     })
   }
   setCoupon() {
