@@ -201,7 +201,7 @@ export default class PayL3 extends Component<any, any> {
           this.context.router.push({
             pathname: '/pay/oldBeltNew',
             query: {
-              goodsId: goodsId
+              goodsId: showId
             },
           })
           // this.setState({ qrCode: qrCode, showQr: true })
