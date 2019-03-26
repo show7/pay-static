@@ -20,6 +20,7 @@ import './OldBeltNew.less'
 enum payType {
   WECHAT = 1,
   ALIPAY = 8,
+  HUABEI = 8,
 }
 @connect(state => state)
 export default class OldBeltNew extends Component<any, any> {
@@ -28,7 +29,7 @@ export default class OldBeltNew extends Component<any, any> {
     this.state = {
       mobile: '',
       selectPayIndex: 0,
-      payTypeMap: [payType.WECHAT, payType.ALIPAY, payType.ALIPAY],
+      payTypeMap: [payType.WECHAT, payType.ALIPAY, payType.HUABEI],
       isShowCouponSelect: false,
       coupons: [],
       subjectinfor: {},
@@ -92,6 +93,25 @@ export default class OldBeltNew extends Component<any, any> {
       const {selectPayIndex, payTypeMap, multiCoupons, mobile} = this.state
       if (!/^1[34578]\d{9}$/.test(mobile))
         return dispatch(alertMsg('请检查手机号格式是否有误'))
+      mark({
+        module: '购课落地页',
+        function: '支付页',
+        action: '进入支付页后输入手机号',
+        memo: `mobile=${mobile}`,
+      })
+      const payMap = ['微信', '支付宝', '花呗']
+      mark({
+        module: '购课落地页',
+        function: '支付页',
+        action: '进入支付页后选择支付方式',
+        memo: `payType=${payMap[selectPayIndex]}`,
+      })
+      mark({
+        module: '购课落地页',
+        function: '支付页',
+        action: '点击立即支付',
+        memo: `mobile=${mobile}&payTypeMap=${payTypeMap[selectPayIndex]}`,
+      })
       const params = {
         goodsType,
         goodsId,
@@ -199,6 +219,12 @@ export default class OldBeltNew extends Component<any, any> {
   }
   handlePayDone() {
     //成功跳转到报名成功页面
+    mark({
+      module: '购课落地页',
+      function: '支付页',
+      action: '进入支付成功页面的人数',
+      memo: '进入支付成功页面的人数',
+    })
     this.context.router.push({
       pathname: '/pay/member/success',
     })
