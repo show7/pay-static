@@ -4,6 +4,7 @@ import {set, startLoad, endLoad, alertMsg} from 'redux/actions'
 import {getQuery} from '../../../utils/getquery'
 import {mark} from 'utils/request'
 import {pay} from '../../helpers/JsConfig'
+import * as _ from 'lodash';
 
 import {
   checkRiseMember,
@@ -228,6 +229,11 @@ export default class OldBeltNew extends Component<any, any> {
   payedError() {
     // 支付失败
   }
+
+  onChangeMobile(value){
+    this.setState({ mobile: value });
+  }
+
   render() {
     const payModelist = [
       {
@@ -316,6 +322,7 @@ export default class OldBeltNew extends Component<any, any> {
             <input
               className="phone-number"
               type="text"
+              onChange={(e) => this.onChangeMobile(e.target.value)}
               value={this.state.mobile}
               placeholder="请输入你的手机号"
             />
