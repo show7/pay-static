@@ -31,6 +31,7 @@ export default class MemberPaySuccess extends React.Component<any, any> {
             entryCode: res.msg.entryCode,
             goodsName: res.msg.goodsName,
             operateUrl: res.msg.operateUrl,
+            headimgurl: res.msg.headimgurl,
           })
         } else {
           dispatch(alertMsg(res.msg))
@@ -43,7 +44,7 @@ export default class MemberPaySuccess extends React.Component<any, any> {
   }
 
   render() {
-    const {entryCode, goodsName, operateUrl} = this.state
+    const {entryCode, goodsName, operateUrl, headimgurl} = this.state
 
     const renderQrCode = () => {
       return <img src={operateUrl} alt="班主任" className="qrcode" />
@@ -51,8 +52,10 @@ export default class MemberPaySuccess extends React.Component<any, any> {
 
     return (
       <div className="pay-success">
-        <div className="gutter" style={{height: `${this.topPd}px`}} />
-        <div className="success-header">报名成功</div>
+        {/* <div className="gutter" style={{height: `${this.topPd}px`}} /> */}
+        <div className="user-header">
+          <img src={headimgurl} alt="" />
+        </div>
         <div className="success-tips">
           Hi, {window.ENV.userName}，欢迎加入{goodsName}
         </div>
