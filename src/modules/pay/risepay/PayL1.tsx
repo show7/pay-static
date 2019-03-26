@@ -49,8 +49,15 @@ export default class PayL1 extends React.Component<any, any> {
 
     let amount = 0
 
-    let {riseId} = this.props.location.query
+    let {riseId,markScene} = this.props.location.query
     //判断是否是老带新分享的链接
+    if(markScene){
+      mark({
+        module: '打点',
+        function: '普通打点链接',
+        action: markScene
+      })
+    }
     if (!_.isEmpty(riseId)) {
       let param = {
         riseId: riseId,
@@ -211,7 +218,13 @@ export default class PayL1 extends React.Component<any, any> {
               dispatch(alertMsg(errorMsg))
             }
           } else {
-            this.setState({qrCode: qrCode, showQr: true})
+            this.context.router.push({
+              pathname: '/pay/oldBeltNew',
+              query: {
+                goodsId: goodsId,
+              },
+            })
+            // this.setState({qrCode: qrCode, showQr: true})
           }
         } else {
           dispatch(alertMsg(res.msg))

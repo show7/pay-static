@@ -49,9 +49,16 @@ export default class PayL2 extends React.Component<any, any> {
     let amount = 0
 
     //表示是分享点击进入
-    let { riseId, testPay } = this.props.location.query
+    let { riseId, testPay, markScene } = this.props.location.query
     if(testPay == 'true') {
       this.setState({ testPay: true })
+    }
+    if(markScene){
+      mark({
+        module: '打点',
+        function: '普通打点链接',
+        action: markScene
+      })
     }
     //判断是否是老带新分享的链接
     if(!_.isEmpty(riseId)) {
@@ -166,7 +173,13 @@ export default class PayL2 extends React.Component<any, any> {
         if(subscribe) {
           this.refs.payInfo.handleClickOpen()
         } else {
-          this.setState({ qrCode: qrCode, showQr: true })
+          this.context.router.push({
+            pathname: '/pay/oldBeltNew',
+            query: {
+              goodsId: goodsId
+            },
+          })
+          // this.setState({ qrCode: qrCode, showQr: true })
         }
       }
       else {
