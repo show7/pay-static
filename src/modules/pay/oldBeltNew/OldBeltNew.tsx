@@ -85,7 +85,7 @@ export default class OldBeltNew extends Component<any, any> {
     const {riseId = '', type = 0} = this.props
     const {goodsId, goodsType} = this.state
     const {dispatch} = this.props
-
+    dispatch(startLoad())
     //try {
     const {code: checkCode, msg: checkMsg} = await checkRiseMember(
       goodsId,
@@ -128,6 +128,7 @@ export default class OldBeltNew extends Component<any, any> {
     const {code: loadPayCode, msg: loadPayMsg} = await loadPaymentParam(params)
     const {fee, free, signParams, productId} = loadPayMsg
     if (loadPayCode !== 200) throw '获取支付信息失败'
+
     if (Number(fee) === 0 && free) {
       const {code: freePayDoneCode} = await afterPayDone(productId)
       if (freePayDoneCode === 200) return this.handlePayDone(goodsId)
@@ -225,6 +226,8 @@ export default class OldBeltNew extends Component<any, any> {
   }
   handlePayDone(goodsId) {
     //成功跳转到报名成功页面
+    const {dispatch} = this.props
+    dispatch(endLoad())
     mark({
       module: '购课落地页',
       function: '支付页',
@@ -232,7 +235,7 @@ export default class OldBeltNew extends Component<any, any> {
       memo: '进入支付成功页面的人数',
     })
     this.context.router.push({
-      pathname: `/pay/member/?goodsId=${goodsId}`,
+      pathname: `/pay/member/success?goodsId=${goodsId}`,
     })
   }
   setCoupon() {
