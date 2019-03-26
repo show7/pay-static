@@ -4,7 +4,7 @@ import {set, startLoad, endLoad, alertMsg} from 'redux/actions'
 import {getQuery} from '../../../utils/getquery'
 import {mark} from 'utils/request'
 import {pay, config, configShare} from '../../helpers/JsConfig'
-
+import * as _ from 'lodash'
 import {
   checkRiseMember,
   getRiseMember,
@@ -136,6 +136,7 @@ export default class OldBeltNew extends Component<any, any> {
           )}&type=hb`)
       console.log('goodsInfor', goodsType)
     } catch (e) {
+      console.log(e)
       dispatch(alertMsg(e))
     }
   }
