@@ -12,6 +12,7 @@ import {
   loadPaymentParam,
   courseBuyValidate,
   logPay,
+  afterPayDone,
   calculateCoupons,
   loadInvitation,
   loadTask,
@@ -126,7 +127,10 @@ export default class OldBeltNew extends Component<any, any> {
       )
       const {fee, free, signParams, productId} = loadPayMsg
       if (loadPayCode !== 200) throw '获取支付信息失败'
-      if (!Number(fee) && free) return this.handlePayDone()
+      if (Number(fee) === 0 && free) {
+        const {code: freePayDoneCode} = await afterPayDone(productId)
+        if (freePayDoneCode === 200) return this.handlePayDone()
+      }
       payTypeMap[selectPayIndex] === payType.WECHAT
         ? this.handleH5Pay(signParams, goodsType)
         : (window.location.href = `/pay/alipay/rise?orderId=${productId}&goto=${encodeURIComponent(
