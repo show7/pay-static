@@ -25,9 +25,9 @@ function pget(url: string, query?: Object) {
     }
   }).then((res) => res.data).catch(error => {
     if(error.response) {
-      log(JSON.stringify(error.response), window.location ? window.location.href : null, JSON.stringify(_getBrowser()))
+      log(JSON.stringify(error.response), (window.location ? window.location.href : null) + ';' + url, JSON.stringify(_getBrowser()))
     } else {
-      log(error.message, window.location ? window.location.href : null, JSON.stringify(_getBrowser()))
+      log(error.message, (window.location ? window.location.href : null) + ';' + url, JSON.stringify(_getBrowser()))
     }
   })
 }
@@ -35,10 +35,10 @@ function pget(url: string, query?: Object) {
 function ppost(url: string, body: Object) {
   return post(url, body).then((res) => res.data).catch(error => {
     if(error.response) {
-      log(JSON.stringify(error.response), window.location ? window.location.href : null, JSON.stringify(_getBrowser()))
+      log(JSON.stringify(error.response), (window.location ? window.location.href : null) + ';' + url, JSON.stringify(_getBrowser()))
 
     } else {
-      log(error.message, window.location ? window.location.href : null, JSON.stringify(_getBrowser()))
+      log(error.message, (window.location ? window.location.href : null) + ';' + url, JSON.stringify(_getBrowser()))
     }
   })
 }

@@ -26,6 +26,11 @@ import AudioCourse from 'modules/pay/audio/AudioCourse'
 import AutoOpen from 'modules/pay/audio/AutoOpen'
 import ChallengeAudio from './modules/pay/audio/ChallengeAudio'
 import ReadCourse from './modules/pay/read/ReadCourse'
+import payEval from './modules/pay/PayEval/PayEval'
+import evalSellCourse from './modules/pay/EvalSellCourse/EvalSellCourse'
+import OldBeltNew from './modules/pay/oldBeltNew/OldBeltNew'
+// import Paper from './modules/others/paper/paper'
+
 import Paper from './modules/pay/paper/Paper'
 const routes = (
   <Route path="/">
@@ -69,6 +74,9 @@ const routes = (
       <Route path="pay/coinaudio" component={CoinAudioPay} />
       <Route path="pay/exchange" component={ExchangePay} />
       <Route path="pay/read" component={ReadCourse} />
+      <Route path="pay/eval" component={payEval} />
+      <Route path="pay/oldBeltNew" component={OldBeltNew} />
+      <Route path="pay/evalSellCourse" component={evalSellCourse} />
       <Route path="pay/paper" component={Paper} />
     </Route>
     <Route path="*" component={PageNotFound} />

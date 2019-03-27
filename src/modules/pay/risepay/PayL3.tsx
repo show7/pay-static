@@ -50,7 +50,14 @@ export default class PayL3 extends Component<any, any> {
 
     let amount = 0
     //分享优惠券
-    const { riseId } = this.props.location.query
+    const { riseId,markScene } = this.props.location.query
+    if(markScene){
+      mark({
+        module: '打点',
+        function: '普通打点链接',
+        action: markScene
+      })
+    }
     if(riseId) {
       let param = {
         riseId: riseId,
@@ -193,7 +200,13 @@ export default class PayL3 extends Component<any, any> {
             dispatch(alertMsg(errorMsg))
           }
         } else {
-          this.setState({ qrCode: qrCode, showQr: true })
+          this.context.router.push({
+            pathname: '/pay/oldBeltNew',
+            query: {
+              goodsId: showId
+            },
+          })
+          // this.setState({ qrCode: qrCode, showQr: true })
         }
       }
       else {

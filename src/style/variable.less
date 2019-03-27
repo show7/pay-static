@@ -1,38 +1,44 @@
 // 颜色
-@color_white: #FFF;
-@color_theme: #5BCACA;
-@color_strong: #55CBCB;
-@color_weak: #CCC;
-@color_weak_background: #F3F4F6;
-@color_weak_line: #F5F5F5;
+@color-dot: #f4dfa5;
+@color_white: #fff;
+@color_theme: #5bcaca;
+@color_strong: #55cbcb;
+@color_weak: #ccc;
+@color_weak_background: #f3f4f6;
+@color_weak_line: #f5f5f5;
 @color_context: #333;
 @color_title: #666;
 @color_help: #999;
-@color_title2:#50505A;
-@color_ios_btn: #0076FF;
-@color-green: #7DBE00;
-@color-red: #ED4A47;
-@color-title-under-line:#EEB87B;
+@color_title2: #50505a;
+@color_ios_btn: #0076ff;
+@color-green: #7dbe00;
+@color-red: #ed4a47;
+@color_orange: #f4dfa5;
+@color-title-under-line: #eeb87b;
 // 字体
 @font_title: 17px;
 @font_context: 16px;
 @font_click: 13px;
 @font_index: 12px;
 @font_help: 11px;
+@font_user_name: 19px;
 // 圆角
 @border-radius: 4px;
 // 按钮
 @button_circle_height: 45px;
 @button_footer_height: 49px;
-@color_title_black: #50505A;
-
+@color_title_black: #50505a;
+//对其方式
+.align-center {
+  text-align: center;
+}
 // cdn fragment 目录
-@imgPathRoot: "https://static.iqycamp.com/images";
-@imgPathFragment: "https://static.iqycamp.com/images/fragment";
+@imgPathRoot: 'https://static.iqycamp.com/images';
+@imgPathFragment: 'https://static.iqycamp.com/images/fragment';
 
-@imgBusinessBackground: "https://static.iqycamp.com/images/bg_diwen.png?imageslim";
+@imgBusinessBackground: 'https://static.iqycamp.com/images/bg_diwen.png?imageslim';
 
-.cycle-dot(@color:#50505A,@size:.5rem,@margin-right:.5rem) {
+.cycle-dot(@color:#50505a,@size:0.5rem,@margin-right:0.5rem) {
   &:before {
     content: '';
     width: @size;
@@ -46,7 +52,7 @@
   }
 }
 
-.square-dot(@color:#50505A,@size:.5rem,@margin-right:.5rem) {
+.square-dot(@color:#50505a,@size:0.5rem,@margin-right:0.5rem) {
   &:before {
     content: '';
     width: @size;
@@ -59,7 +65,7 @@
   }
 }
 
-.bottomLine(@color:#7DBE00,@margin-left:1rem) {
+.bottomLine(@color:#7dbe00,@margin-left:1rem) {
   position: relative;
   span {
     z-index: 10;
@@ -68,11 +74,11 @@
   &:before {
     content: '';
     width: 95%;
-    height: .5rem;
+    height: 0.5rem;
     background: @color;
     display: inline-block;
     position: absolute;
-    bottom: .3rem;
+    bottom: 0.3rem;
     left: @margin-left;
     z-index: 1;
   }
