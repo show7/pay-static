@@ -167,7 +167,9 @@ export default class PayL3 extends Component<any, any> {
   }
 
   handlePayedBefore() {
-    mark({ module: '打点', function: '进阶课程', action: '点击付费' })
+    const { data } = this.state
+    const { quanwaiGoods = {} } = data
+    mark({ module: '打点', function: '进阶课程', action: '点击付费', memo: quanwaiGoods.id })
   }
 
   /**
