@@ -57,7 +57,8 @@ export default class PayL2 extends React.Component<any, any> {
       mark({
         module: '打点',
         function: '普通打点链接',
-        action: markScene
+        action: markScene,
+        memo: riseId
       })
     }
     //判断是否是老带新分享的链接
