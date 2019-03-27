@@ -55,7 +55,8 @@ export default class PayL3 extends Component<any, any> {
       mark({
         module: '打点',
         function: '普通打点链接',
-        action: markScene
+        action: markScene,
+        memo: riseId
       })
     }
     if(riseId) {

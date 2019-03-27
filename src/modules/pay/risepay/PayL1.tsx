@@ -55,7 +55,8 @@ export default class PayL1 extends React.Component<any, any> {
       mark({
         module: '打点',
         function: '普通打点链接',
-        action: markScene
+        action: markScene,
+        memo: riseId
       })
     }
     if (!_.isEmpty(riseId)) {
