@@ -454,7 +454,7 @@ export default class OldBeltNew extends Component<any, any> {
         </ul>
         <div className="fixed-button-wrap">
           <div className="submit-button" onClick={() => this.goPay()}>
-            立即入学<span className="rmb-sign"> ¥</span>
+            确认支付<span className="rmb-sign"> ¥</span>
             <span className="price">
               {fee - favorablePrice < 0 ? 0 : fee - favorablePrice}
             </span>
