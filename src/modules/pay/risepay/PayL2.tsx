@@ -172,7 +172,11 @@ export default class PayL2 extends React.Component<any, any> {
       if(res.code === 200) {
         const { qrCode, privilege, errorMsg, subscribe } = res.msg
         if(subscribe) {
-          this.refs.payInfo.handleClickOpen()
+          if(privilege) {
+            this.refs.payInfo.handleClickOpen()
+          } else {
+            dispatch(alertMsg(errorMsg))
+          }
         } else {
           this.context.router.push({
             pathname: '/pay/oldBeltNew',
@@ -193,7 +197,9 @@ export default class PayL2 extends React.Component<any, any> {
   }
 
   handlePayedBefore() {
-    mark({ module: '打点', function: '商学院会员', action: '点击付费' })
+    const { data } = this.state
+    const { quanwaiGoods = {} } = data
+    mark({ module: '打点', function: '商学院会员', action: '点击付费', memo: quanwaiGoods.id })
   }
 
   /**
@@ -205,7 +211,7 @@ export default class PayL2 extends React.Component<any, any> {
 
   render() {
     const {
-      testPay, data, timeOut, showErr, showCodeErr, subscribe,
+      data, timeOut, showErr, showCodeErr, subscribe,
       invitationLayout, invitationData,
       showQr, qrCode, showShare, type, task = {}
     } = this.state
