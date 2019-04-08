@@ -264,7 +264,7 @@ export default class PayL3 extends Component<any, any> {
     }
     return (
       <div className="plus-pay">
-        {quanwaiGoods.saleImg && <SaleShow showList={quanwaiGoods.saleImg} name='l3'/>}
+        {quanwaiGoods.saleImg && <SaleShow goods={quanwaiGoods} showList={quanwaiGoods.saleImg} name='l3'/>}
         {renderButtons()}
         {
           subscribe &&
