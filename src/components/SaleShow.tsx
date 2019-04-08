@@ -7,6 +7,7 @@ import { mark } from '../utils/request'
 interface SaleShowProps {
   showList: object,
   name?: string,
+  goods?: object,
 }
 
 const ELE_PIC = 1
@@ -44,6 +45,9 @@ export default class SaleShow extends Component<SaleShowProps, any> {
           return this.buildElement(item, ELE_PIC)
         }
         case '.jpeg': {
+          return this.buildElement(item, ELE_PIC)
+        }
+        case '.png': {
           return this.buildElement(item, ELE_PIC)
         }
         case '.dom': {
@@ -144,8 +148,9 @@ export default class SaleShow extends Component<SaleShowProps, any> {
   }
 
   render () {
-    const { showList } = this.props
+    const { showList, goods, name } = this.props
     const { showModel } = this.state
+    console.log(goods);
 
     const showUserProtocol = () => {
       return (
@@ -252,11 +257,35 @@ export default class SaleShow extends Component<SaleShowProps, any> {
       )
     }
 
+    const renderGoodsInfo = () => {
+      return (
+        <div className={`goods-panel ${name}`}>
+          <div className="goods-name">{goods.name}</div>
+          <div className="goods-price">
+            <span className="tips">限额福利价</span><span className="real-fee">￥{goods.fee}</span> &nbsp;&nbsp;<span className="old-price">原价 ￥{goods.initPrice}</span>
+          </div>
+          <div className="rise-tips">
+            即将涨价￥{goods.nextPrice}
+          </div>
+          <div className="date-tips-area">
+            <div className="date-deadline">
+              <div className="tip-words">报名截止时间</div>
+              <div className="date">{goods.endDate}</div>
+            </div>
+            <div className="date-startdate">
+              <div className="tip-words">开学时间</div>
+              <div className="date">{goods.startDate}</div>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
     return (
       <div className="sale-show-component"
            id="sale-show">
         {showList && showList.length > 0 && <SequenceDisplay imgList={this.convertSaleList(showList)}/>}
-
+        {goods && renderGoodsInfo()}
         {showModel && showUserProtocol()}
       </div>
     )

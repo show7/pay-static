@@ -297,7 +297,7 @@ export default class PayL1 extends React.Component<any, any> {
       <div className="rise-pay-container">
         <div className="pay-page">
           {quanwaiGoods.saleImg && (
-            <SaleShow showList={quanwaiGoods.saleImg} name="l1" />
+            <SaleShow goods={quanwaiGoods} showList={quanwaiGoods.saleImg} name="l1" />
           )}
           {renderPay()}
         </div>
