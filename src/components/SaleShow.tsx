@@ -22,7 +22,7 @@ const VIDEO_GROUP = {
 }
 
 export default class SaleShow extends Component<SaleShowProps, any> {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       showModel: false,
@@ -32,15 +32,15 @@ export default class SaleShow extends Component<SaleShowProps, any> {
   /**
    * 售卖页的元素url转换
    */
-  convertSaleList (showList) {
-    if (!showList) {
+  convertSaleList(showList) {
+    if(!showList) {
       return []
     }
     let showArr = showList.split(',')
     return showArr.map(item => {
       let prefix = item.slice(0, item.lastIndexOf('.'))
       let suffix = item.slice(item.lastIndexOf('.'))
-      switch (suffix) {
+      switch(suffix) {
         case '.jpg': {
           return this.buildElement(item, ELE_PIC)
         }
@@ -69,9 +69,9 @@ export default class SaleShow extends Component<SaleShowProps, any> {
    * @param info 元素信息
    * @param type 类型
    */
-  buildElement (info, type) {
+  buildElement(info, type) {
     const { name = '' } = this.props
-    switch (type) {
+    switch(type) {
       case ELE_PIC: {
         // 图片
         return {
@@ -88,7 +88,7 @@ export default class SaleShow extends Component<SaleShowProps, any> {
         }
       }
       case ELE_DOM: {
-        switch (info) {
+        switch(info) {
           case 'protocol': {
             return {
               dom: (
@@ -109,8 +109,8 @@ export default class SaleShow extends Component<SaleShowProps, any> {
         break
       }
       case ELE_VIDEO: {
-        let video = VIDEO_GROUP[info]
-        if (!video) {
+        let video = VIDEO_GROUP[ info ]
+        if(!video) {
           console.error('未定义视频', info)
         } else {
           return {
@@ -127,14 +127,14 @@ export default class SaleShow extends Component<SaleShowProps, any> {
     }
   }
 
-  disableUserProtocol () {
+  disableUserProtocol() {
     this.setState({
       showModel: false,
     })
 
   }
 
-  clickUserProtocol () {
+  clickUserProtocol() {
     this.setState({
       showModel: true,
     }, () => {
@@ -147,7 +147,7 @@ export default class SaleShow extends Component<SaleShowProps, any> {
     })
   }
 
-  render () {
+  render() {
     const { showList, goods, name } = this.props
     const { showModel } = this.state
     console.log(goods);
@@ -161,7 +161,7 @@ export default class SaleShow extends Component<SaleShowProps, any> {
               <div className="welcome">欢迎您来到圈外同学</div>
               <div className="content">
                 <p>请您仔细阅读以下条款，如果您对本协议的任何条款表示异议，您可以选择不进入圈外同学。当您进入圈外同学，或者是直接或通过各类方式（如站外API引用等）
-                   间接使用圈外同学服务和数据的行为，都将被视作已无条件接受本声明所涉全部内容。</p>
+                  间接使用圈外同学服务和数据的行为，都将被视作已无条件接受本声明所涉全部内容。</p>
                 <p>若您对本声明的任何条款有异议，请停止使用圈外同学所提供的全部服务。</p>
                 <p className="q mg"> 使用规则</p>
                 <p>1、为了保证你的学习效果，在圈外同学学习期间，同时最多可以开启3门课程的学习。</p>
@@ -259,14 +259,18 @@ export default class SaleShow extends Component<SaleShowProps, any> {
 
     const renderGoodsInfo = () => {
       return (
-        <div className={`goods-panel ${name}`}>
+        <div className={`goods-panel ${name} ${goods.stepPrice ? 'step-price' : ''}`}>
           <div className="goods-name">{goods.name}</div>
-          <div className="goods-price">
-            <span className="tips">限额福利价</span><span className="real-fee">￥{goods.fee}</span> &nbsp;&nbsp;<span className="old-price">原价 ￥{goods.initPrice}</span>
-          </div>
-          <div className="rise-tips">
+          {goods.stepPrice ? <div className="goods-price">
+            <span className="tips">限额福利价</span><span className="real-fee">￥{goods.fee}</span> &nbsp;&nbsp;<span
+            className="old-price">原价 ￥{goods.initPrice}</span>
+          </div> :
+          <div className={`goods-price normal`}>
+            学费 ￥{goods.fee} &nbsp;&nbsp;{goods.initPrice !== goods.fee && <span className="old-price">原价 ￥{goods.initPrice}</span>}
+          </div>}
+          {goods.stepPrice && <div className="rise-tips">
             即将涨价￥{goods.nextPrice}
-          </div>
+          </div>}
           <div className="date-tips-area">
             <div className="date-deadline">
               <div className="tip-words">报名截止时间</div>
