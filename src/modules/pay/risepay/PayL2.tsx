@@ -109,10 +109,10 @@ export default class PayL2 extends React.Component<any, any> {
       if(res.code == 200) {
         this.setState({ task: res.msg }, () => {
           configShare(
-            `【圈外同学】企业实战训练，成为优秀的部门leader`,
+            `【${window.ENV.userName}@你】发现一门课程不错，推荐给你一起提升吧`,
             `https://${window.location.hostname}/pay/rise?riseId=${window.ENV.riseId}&type=2`,
             `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
-            `${window.ENV.userName}邀请你成为同学，领取${res.msg.shareAmount}元【圈外同学】L2项目入学优惠券`
+            `实战训练，相信它能帮你成为优秀部门leader`
           )
         })
       }

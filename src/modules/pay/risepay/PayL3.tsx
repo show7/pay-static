@@ -114,10 +114,10 @@ export default class PayL3 extends Component<any, any> {
       if(res.code == 200) {
         this.setState({ task: res.msg }, () => {
           configShare(
-            `【圈外同学】哈佛案例教学，顶尖MBA名师授课`,
+            `【${window.ENV.userName}@你】发现一门课程不错，推荐给你一起提升吧`,
             `https://${window.location.hostname}/pay/thought?riseId=${window.ENV.riseId}&type=2`,
             `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
-            `${window.ENV.userName}邀请你成为同学，领取${res.msg.shareAmount}元【圈外同学】L3项目入学优惠券`
+            `哈佛案例教学，相信能帮你获得高管思维`
           )
         })
       }
