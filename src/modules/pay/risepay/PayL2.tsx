@@ -222,17 +222,35 @@ export default class PayL2 extends React.Component<any, any> {
 
     const renderPay = () => {
       if(!quanwaiGoods) return null
+      if(quanwaiGoods.stepPrice){
+        return (
+          <div className="button-footer step-wrapper">
+            <div className="price-tips-wrapper">
+              课程福利价: <span className="real-price">￥{quanwaiGoods.fee}  </span>（名额仅剩 <span className="remain">{quanwaiGoods.remain}个</span>）
+            </div>
+            <MarkBlock
+              module={'打点'}
+              func={quanwaiGoods.id}
+              action={'点击入学按钮'}
+              memo={privilege}
+              className="footer-btn"
+              onClick={() => this.handleClickOpenPayInfo(quanwaiGoods.id)}
+            >
+              立即入学
+            </MarkBlock>
+          </div>
+        )
+      } else {
+        return (
+          <div className="button-footer">
+            <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'} memo={data ? buttonStr : ''}
+                       className="footer-btn" onClick={() => this.handleClickOpenPayInfo(quanwaiGoods.id)}>
+              {buttonStr || '立即入学'}
+            </MarkBlock>
 
-      return (
-        <div className="button-footer">
-          <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'} memo={data ? buttonStr : ''}
-                     className="footer-btn" onClick={() => this.handleClickOpenPayInfo(quanwaiGoods.id)}>
-            {buttonStr || '立即入学'}
-          </MarkBlock>
-
-        </div>
-      )
-
+          </div>
+        )
+      }
     }
 
     return (

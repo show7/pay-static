@@ -228,16 +228,12 @@ export default class PayL3 extends Component<any, any> {
   render() {
     let payType = _.get(location, 'query.paytype')
 
-    const {
-      subscribeAlertTips, privilege, quanwaiGoods = {}, buttonStr, auditionStr, tip, showId, timeOut,
-      showQr, qrCode,
-      showErr, showCodeErr, subscribe, invitationLayout, invitationData, showShare, type, task = {}
-    } = this.state
-    const { shareAmount, shareContribution, finishContribution } = task
-    const renderButtons = () => {
-      if(typeof(privilege) === 'undefined') {
-        return null
-      }
+    const renderRightPayButton = ()=>{
+      const {
+        subscribeAlertTips, privilege, quanwaiGoods = {}, buttonStr, auditionStr, tip, showId, timeOut,
+        showQr, qrCode,
+        showErr, showCodeErr, subscribe, invitationLayout, invitationData, showShare, type, task = {}
+      } = this.state
       if(!!privilege) {
         return <FooterButton primary={true} isThought={true} btnArray={[
           {
@@ -260,6 +256,52 @@ export default class PayL3 extends Component<any, any> {
             memo: '申请页面'
           }
         ]}/>
+      }
+    }
+
+    const {
+      subscribeAlertTips, privilege, quanwaiGoods = {}, buttonStr, auditionStr, tip, showId, timeOut,
+      showQr, qrCode,
+      showErr, showCodeErr, subscribe, invitationLayout, invitationData, showShare, type, task = {}
+    } = this.state
+    const { shareAmount, shareContribution, finishContribution } = task
+    const renderButtons = () => {
+      if(typeof(privilege) === 'undefined') {
+        return null
+      }
+      if(quanwaiGoods.stepPrice){
+        return (
+          <div className="button-footer step-wrapper">
+            <div className="price-tips-wrapper">
+              课程福利价: <span className="real-price">￥{quanwaiGoods.fee}  </span>（名额仅剩 <span className="remain">{quanwaiGoods.remain}个</span>）
+            </div>
+            {renderRightPayButton()}
+          </div>
+        )
+      } else {
+        if(!!privilege) {
+          return <FooterButton primary={true} isThought={true} btnArray={[
+            {
+              click: () => this.handleClickOpenPayInfo(quanwaiGoods.id),
+              text: '立即入学',
+              module: '打点',
+              func: '进阶课程',
+              action: '点击立即入学',
+              memo: '入学页面'
+            }
+          ]}/>
+        } else {
+          return <FooterButton primary={true} isThought={true} btnArray={[
+            {
+              click: () => this.redirect(),
+              text: '马上申请',
+              module: '打点',
+              func: '进阶课程',
+              action: '点击马上预约',
+              memo: '申请页面'
+            }
+          ]}/>
+        }
       }
     }
     return (

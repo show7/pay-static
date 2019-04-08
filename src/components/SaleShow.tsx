@@ -260,17 +260,21 @@ export default class SaleShow extends Component<SaleShowProps, any> {
     const renderGoodsInfo = () => {
       return (
         <div className={`goods-panel ${name} ${goods.stepPrice ? 'step-price' : ''}`}>
-          <div className="goods-name">{goods.name}</div>
-          {goods.stepPrice ? <div className="goods-price">
-            <span className="tips">限额福利价</span><span className="real-fee">￥{goods.fee}</span> &nbsp;&nbsp;<span
-            className="old-price">原价 ￥{goods.initPrice}</span>
-          </div> :
-          <div className={`goods-price normal`}>
-            学费 ￥{goods.fee} &nbsp;&nbsp;{goods.initPrice !== goods.fee && <span className="old-price">原价 ￥{goods.initPrice}</span>}
-          </div>}
-          {goods.stepPrice && <div className="rise-tips">
-            即将涨价￥{goods.nextPrice}
-          </div>}
+          <div className="goods-area">
+            <div className="goods-name">{goods.name}</div>
+            {goods.stepPrice ?
+              <div className="goods-price">
+                <span className="tips">限额福利价</span><span className="real-fee">￥{goods.fee}</span> &nbsp;&nbsp;<span
+                className="old-price">原价 ￥{goods.initPrice}</span>
+              </div> :
+              <div className={`goods-price normal`}>
+                学费 ￥{goods.fee} &nbsp;&nbsp;{goods.initPrice !== goods.fee && <span className="old-price">原价 ￥{goods.initPrice}</span>}
+              </div>}
+            {goods.stepPrice &&
+            <div className="rise-tips">
+              即将涨价￥{goods.nextPrice}
+            </div>}
+          </div>
           <div className="date-tips-area">
             <div className="date-deadline">
               <div className="tip-words">报名截止时间</div>
