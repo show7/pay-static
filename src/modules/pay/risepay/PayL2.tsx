@@ -302,7 +302,7 @@ export default class PayL2 extends React.Component<any, any> {
         {
           subscribe && <SubscribeAlert closeFunc={() => this.setState({ subscribe: false })}/>
         }
-        {invitationLayout &&
+        {(invitationLayout && quanwaiGoods.stepPrice) &&
           <InvitationLayout oldNickName={invitationData.oldNickName}
                           amount={invitationData.amount}
                           projectName={invitationData.memberTypeName}
