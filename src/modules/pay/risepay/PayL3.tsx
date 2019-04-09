@@ -13,6 +13,7 @@ import { mark } from '../../../utils/request'
 import { SubscribeAlert } from './components/SubscribeAlert'
 import RenderInBody from '../../../components/RenderInBody'
 import SaleShow from '../../../components/SaleShow'
+import { StepFooterButton } from '../../../components/submitbutton/StepFooterButton'
 
 /**
  * 商业进阶课售卖页
@@ -269,6 +270,11 @@ export default class PayL3 extends Component<any, any> {
       if(typeof(privilege) === 'undefined') {
         return null
       }
+
+      // return (
+      //   <StepFooterButton goods={quanwaiGoods} name='l3'/>
+      // );
+
       if(quanwaiGoods.stepPrice){
         return (
           <div className="button-footer step-wrapper">
