@@ -76,18 +76,18 @@ export default class SelfInit extends React.Component<any, any> {
 
   setBuyButtonShow() {
     // alert(123)
-    // var scroll_top = 0
-    // if (document.documentElement && document.documentElement.scrollTop) {
-    //   scroll_top = document.documentElement.scrollTop
-    // } else if (document.body) {
-    //   scroll_top = document.body.scrollTop
-    // }
-    // const buyButtonOffsetTop =
-    //   document.getElementsByClassName('buy-button')[0].offsetTop +
-    //   document.getElementsByClassName('buy-button')[0].offsetHeight
-    // this.setState({
-    //   fiexdBuyButton: scroll_top > buyButtonOffsetTop,
-    // })
+    var scroll_top = 0
+    if (document.documentElement && document.documentElement.scrollTop) {
+      scroll_top = document.documentElement.scrollTop
+    } else if (document.body) {
+      scroll_top = document.body.scrollTop
+    }
+    const buyButtonOffsetTop =
+      document.getElementsByClassName('buy-button')[0].offsetTop +
+      document.getElementsByClassName('buy-button')[0].offsetHeight
+    this.setState({
+      fiexdBuyButton: scroll_top > buyButtonOffsetTop
+    })
   }
 
   async componentWillMount() {
