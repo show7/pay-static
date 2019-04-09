@@ -18,6 +18,7 @@ import {SubscribeAlert} from './components/SubscribeAlert'
 import InvitationLayout from '../components/invitationLayout/InvitationLayout'
 import RenderInBody from '../../../components/RenderInBody'
 import SaleShow from '../../../components/SaleShow'
+import { StepFooterButton } from '../../../components/submitbutton/StepFooterButton'
 
 @connect(state => state)
 export default class PayL1 extends React.Component<any, any> {
@@ -275,40 +276,17 @@ export default class PayL1 extends React.Component<any, any> {
 
     const renderPay = () => {
       if (!quanwaiGoods.id) return null
-      if(quanwaiGoods.stepPrice){
-        return (
-          <div className="button-footer step-wrapper">
-            <div className="price-tips-wrapper">
-              课程福利价: <span className="real-price">￥{quanwaiGoods.fee}  </span>（名额仅剩 <span className="remain">{quanwaiGoods.remain}个</span>）
-            </div>
-            <MarkBlock
-              module={'打点'}
-              func={quanwaiGoods.id}
-              action={'点击入学按钮'}
-              memo={privilege}
-              className="footer-btn"
-              onClick={() => this.handleClickOpenPayInfo(quanwaiGoods.id)}
-            >
-              立即入学
-            </MarkBlock>
-          </div>
-        )
-      } else {
-        return (
-          <div className="button-footer">
-            <MarkBlock
-              module={'打点'}
-              func={quanwaiGoods.id}
-              action={'点击入学按钮'}
-              memo={privilege}
-              className="footer-btn"
-              onClick={() => this.handleClickOpenPayInfo(quanwaiGoods.id)}
-            >
-              立即入学
-            </MarkBlock>
-          </div>
-        )
-      }
+      return (
+        <StepFooterButton goods={quanwaiGoods} name='l1' onClick={() => {
+          mark({
+            module: '打点',
+            func: quanwaiGoods.id+'',
+            action: '点击入学按钮',
+            memo: privilege + ''
+          })
+          this.handleClickOpenPayInfo(quanwaiGoods.id)
+        }}/>
+      )
     }
 
     return (
