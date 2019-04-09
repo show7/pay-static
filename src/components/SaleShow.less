@@ -1,4 +1,106 @@
 .sale-show-component {
+  position: relative;
+  .goods-panel {
+    color: #FFF;
+    width: 90vw;
+    height: 50vw;
+    position: absolute;
+    top: 90vw;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    transform: translateX(-50%);
+    &.l1 {
+      background: url('https://static.iqycamp.com/L1-panel-h3mmsi4l.png') no-repeat center center/100% auto;
+    }
+    &.l2 {
+      background: url('https://static.iqycamp.com/L2-panel-q6megs0h.png') no-repeat center center/100% auto;
+    }
+    &.l3 {
+      top: 60vw;
+      background: url('https://static.iqycamp.com/L3-pannel-a3a9s1n3.png') no-repeat center center/100% auto;
+      .date-tips-area {
+        color: #414141;
+      }
+      .goods-area .goods-price .real-fee {
+        color: #F2DDAC;
+      }
+    }
+    &.step-price {
+      .goods-name {
+        //margin: 12px auto 0;
+      }
+    }
+    .goods-area {
+      height: 33vw;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      .goods-name {
+        font-size: 22px;
+        line-height: 22px;
+        text-align: center;
+        margin-top: 15px;
+      }
+      .goods-price {
+        text-align: center;
+        &.normal {
+          font-size: 20px;
+          margin-bottom: 15px;
+        }
+
+        .tips {
+          font-size: 15px;
+        }
+        .real-fee {
+          font-size: 22px;
+          line-height: 15px;
+          color: #FFF036;
+          font-weight: 900;
+        }
+        .old-price {
+          font-size: 12px;
+          text-decoration: line-through;
+        }
+      }
+      .rise-tips {
+        text-align: center;
+        line-height: 22px;
+        font-size: 12px;
+        width: 125px;
+        height: 22px;
+        background: rgba(0, 0, 0, 0.13);
+        border-radius: 11px;
+        border: 1px solid rgba(255, 255, 255, 1);
+        margin-bottom: 15px;
+      }
+    }
+    .date-tips-area {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      height: 17.8vw;
+      width: 100%;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-around;
+      .tip-words {
+        font-size: 12px;
+        line-height: 15px;
+      }
+      .date {
+        font-size: 17px;
+        line-height: 17px;
+        font-weight: 800;
+      }
+
+    }
+  }
   .protocol-container {
     width: 100%;
     box-sizing: border-box;
@@ -37,9 +139,6 @@
       }
     }
   }
-
-
-
 
   .shadow-container {
     position: fixed;

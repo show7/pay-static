@@ -109,10 +109,10 @@ export default class PayL2 extends React.Component<any, any> {
       if(res.code == 200) {
         this.setState({ task: res.msg }, () => {
           configShare(
-            `【圈外同学】企业实战训练，成为优秀的部门leader`,
+            `【${window.ENV.userName}@你】发现一门课程不错，推荐给你一起提升吧`,
             `https://${window.location.hostname}/pay/rise?riseId=${window.ENV.riseId}&type=2`,
             `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
-            `${window.ENV.userName}邀请你成为同学，领取${res.msg.shareAmount}元【圈外同学】L2项目入学优惠券`
+            `实战训练，相信它能帮你成为优秀部门leader`
           )
         })
       }
@@ -222,23 +222,41 @@ export default class PayL2 extends React.Component<any, any> {
 
     const renderPay = () => {
       if(!quanwaiGoods) return null
+      if(quanwaiGoods.stepPrice){
+        return (
+          <div className="button-footer step-wrapper">
+            <div className="price-tips-wrapper">
+              课程福利价: <span className="real-price">￥{quanwaiGoods.fee}  </span>（名额仅剩 <span className="remain">{quanwaiGoods.remain}个</span>）
+            </div>
+            <MarkBlock
+              module={'打点'}
+              func={quanwaiGoods.id}
+              action={'点击入学按钮'}
+              memo={privilege}
+              className="footer-btn"
+              onClick={() => this.handleClickOpenPayInfo(quanwaiGoods.id)}
+            >
+              立即入学
+            </MarkBlock>
+          </div>
+        )
+      } else {
+        return (
+          <div className="button-footer">
+            <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'} memo={data ? buttonStr : ''}
+                       className="footer-btn" onClick={() => this.handleClickOpenPayInfo(quanwaiGoods.id)}>
+              {buttonStr || '立即入学'}
+            </MarkBlock>
 
-      return (
-        <div className="button-footer">
-          <MarkBlock module={'打点'} func={'商学院会员'} action={'点击入学按钮'} memo={data ? buttonStr : ''}
-                     className="footer-btn" onClick={() => this.handleClickOpenPayInfo(quanwaiGoods.id)}>
-            {buttonStr || '立即入学'}
-          </MarkBlock>
-
-        </div>
-      )
-
+          </div>
+        )
+      }
     }
 
     return (
       <div className="rise-pay-container">
         <div className="pay-page l2">
-          {quanwaiGoods.saleImg && <SaleShow showList={quanwaiGoods.saleImg} name='l2'/>}
+          {quanwaiGoods.saleImg && <SaleShow goods={quanwaiGoods} showList={quanwaiGoods.saleImg} name='l2'/>}
           {renderPay()}
         </div>
         {
@@ -284,7 +302,7 @@ export default class PayL2 extends React.Component<any, any> {
         {
           subscribe && <SubscribeAlert closeFunc={() => this.setState({ subscribe: false })}/>
         }
-        {invitationLayout &&
+        {(invitationLayout && !quanwaiGoods.stepPrice) &&
           <InvitationLayout oldNickName={invitationData.oldNickName}
                           amount={invitationData.amount}
                           projectName={invitationData.memberTypeName}

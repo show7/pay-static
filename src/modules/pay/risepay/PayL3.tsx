@@ -13,6 +13,7 @@ import { mark } from '../../../utils/request'
 import { SubscribeAlert } from './components/SubscribeAlert'
 import RenderInBody from '../../../components/RenderInBody'
 import SaleShow from '../../../components/SaleShow'
+import { StepFooterButton } from '../../../components/submitbutton/StepFooterButton'
 
 /**
  * 商业进阶课售卖页
@@ -114,10 +115,10 @@ export default class PayL3 extends Component<any, any> {
       if(res.code == 200) {
         this.setState({ task: res.msg }, () => {
           configShare(
-            `【圈外同学】哈佛案例教学，顶尖MBA名师授课`,
+            `【${window.ENV.userName}@你】发现一门课程不错，推荐给你一起提升吧`,
             `https://${window.location.hostname}/pay/thought?riseId=${window.ENV.riseId}&type=2`,
             `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
-            `${window.ENV.userName}邀请你成为同学，领取${res.msg.shareAmount}元【圈外同学】L3项目入学优惠券`
+            `哈佛案例教学，相信能帮你获得高管思维`
           )
         })
       }
@@ -228,16 +229,12 @@ export default class PayL3 extends Component<any, any> {
   render() {
     let payType = _.get(location, 'query.paytype')
 
-    const {
-      subscribeAlertTips, privilege, quanwaiGoods = {}, buttonStr, auditionStr, tip, showId, timeOut,
-      showQr, qrCode,
-      showErr, showCodeErr, subscribe, invitationLayout, invitationData, showShare, type, task = {}
-    } = this.state
-    const { shareAmount, shareContribution, finishContribution } = task
-    const renderButtons = () => {
-      if(typeof(privilege) === 'undefined') {
-        return null
-      }
+    const renderRightPayButton = ()=>{
+      const {
+        subscribeAlertTips, privilege, quanwaiGoods = {}, buttonStr, auditionStr, tip, showId, timeOut,
+        showQr, qrCode,
+        showErr, showCodeErr, subscribe, invitationLayout, invitationData, showShare, type, task = {}
+      } = this.state
       if(!!privilege) {
         return <FooterButton primary={true} isThought={true} btnArray={[
           {
@@ -262,9 +259,60 @@ export default class PayL3 extends Component<any, any> {
         ]}/>
       }
     }
+
+    const {
+      subscribeAlertTips, privilege, quanwaiGoods = {}, buttonStr, auditionStr, tip, showId, timeOut,
+      showQr, qrCode,
+      showErr, showCodeErr, subscribe, invitationLayout, invitationData, showShare, type, task = {}
+    } = this.state
+    const { shareAmount, shareContribution, finishContribution } = task
+    const renderButtons = () => {
+      if(typeof(privilege) === 'undefined') {
+        return null
+      }
+
+      // return (
+      //   <StepFooterButton goods={quanwaiGoods} name='l3'/>
+      // );
+
+      if(quanwaiGoods.stepPrice){
+        return (
+          <div className="button-footer step-wrapper">
+            <div className="price-tips-wrapper">
+              课程福利价: <span className="real-price">￥{quanwaiGoods.fee}  </span>（名额仅剩 <span className="remain">{quanwaiGoods.remain}个</span>）
+            </div>
+            {renderRightPayButton()}
+          </div>
+        )
+      } else {
+        if(!!privilege) {
+          return <FooterButton primary={true} isThought={true} btnArray={[
+            {
+              click: () => this.handleClickOpenPayInfo(quanwaiGoods.id),
+              text: '立即入学',
+              module: '打点',
+              func: '进阶课程',
+              action: '点击立即入学',
+              memo: '入学页面'
+            }
+          ]}/>
+        } else {
+          return <FooterButton primary={true} isThought={true} btnArray={[
+            {
+              click: () => this.redirect(),
+              text: '马上申请',
+              module: '打点',
+              func: '进阶课程',
+              action: '点击马上预约',
+              memo: '申请页面'
+            }
+          ]}/>
+        }
+      }
+    }
     return (
       <div className="plus-pay">
-        {quanwaiGoods.saleImg && <SaleShow showList={quanwaiGoods.saleImg} name='l3'/>}
+        {quanwaiGoods.saleImg && <SaleShow goods={quanwaiGoods} showList={quanwaiGoods.saleImg} name='l3'/>}
         {renderButtons()}
         {
           subscribe &&
@@ -311,7 +359,7 @@ export default class PayL3 extends Component<any, any> {
             <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
           </div>
         }
-        {invitationLayout &&
+        {(invitationLayout && !quanwaiGoods.stepPrice) &&
         <InvitationLayout oldNickName={invitationData.oldNickName}
                           amount={invitationData.amount}
                           projectName={invitationData.memberTypeName}

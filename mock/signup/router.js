@@ -1044,3 +1044,46 @@ router.post ('/signup/payment/coupon/calculate', (req, res) => {
 });
 
 module.exports = router;
+
+
+
+router.get ('/signup/rise/member/*', (req, res) => {
+  setTimeout (() => {
+    res.status(200).json({
+      "msg": {
+        "openId": null,
+        "couponIdGroup": null,
+        "memberTypes": null,
+        "quanwaiGoods": {
+          "id": 12,
+          "goodsType": "fragment_member",
+          "name": "圈外商学院L1项目",
+          "saleUrl": null,
+          "fee": 1280.0,
+          "initPrice": null,
+          "category": 1,
+          "saleImg": "https://static.iqycamp.com/L1-01-mr6wi5tc.jpg,https://static.iqycamp.com/L1-02-jdpy44s6.jpg,protocol.dom,https://static.iqycamp.com/images/fragment/thought_sale_page_5_0523_1.jpg",
+          "del": false,
+          "stepPrice":true, //是否应用阶梯定价
+          "nextPrice": 230.3, // 即将涨价
+          "startDate": '2019-03-02', // 开始时间
+          "endDate": '2019-04-05', // 结束时间
+          "remain": 3, // 剩余名额
+        },
+        "tip": null,
+        "privilege": true,
+        "errorMsg": "ok",
+        "elite": null,
+        "buttonStr": null,
+        "auditionStr": null,
+        "qrCode": null,
+        "subscribe": null,
+        "remainHour": 0,
+        "remainMinute": 0,
+        "remainSeconds": 86400,
+        "admission": null,
+        "isSubmitSurvey": null
+      }, "code": 200
+    });
+  });
+});
