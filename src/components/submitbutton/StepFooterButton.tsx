@@ -13,7 +13,6 @@ export class StepFooterButton extends React.Component<any, any> {
 
   render() {
     const { goods, name, clickText = '立即报名', onClick = () => {} } = this.props;
-    console.log('goods', goods);
     if(goods && goods.stepPrice) {
       return (
         <div className="step-button-wrapper">
