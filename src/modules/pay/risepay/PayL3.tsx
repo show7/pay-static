@@ -60,6 +60,7 @@ export default class PayL3 extends Component<any, any> {
         memo: riseId
       })
     }
+    let alertMsgText = undefined;
     if(riseId) {
       let param = {
         riseId: riseId,
@@ -71,7 +72,7 @@ export default class PayL3 extends Component<any, any> {
       amount = invitationInfo.msg.amount
       if(amount !== 0) {
         if(invitationInfo.msg.isNewUser && invitationInfo.msg.isReceived) {
-          dispatch(alertMsg('优惠券已经发到你的圈外同学账号咯！'))
+          alertMsgText = '优惠券已经发到你的圈外同学账号咯！';
         } else if(invitationInfo.msg.isNewUser) {
           this.setState({ invitationLayout: true })
         }
@@ -82,7 +83,9 @@ export default class PayL3 extends Component<any, any> {
     if(res.code === 200) {
       const { privilege, quanwaiGoods, tip, buttonStr, auditionStr, remainHour, remainMinute } = res.msg
       this.setState({ privilege, quanwaiGoods, tip, buttonStr, auditionStr, remainHour, remainMinute })
-
+      if(!quanwaiGoods.stepPrice && alertMsgText) {
+        dispatch(alertMsg(alertMsgText))
+      }
       mark({ module: '打点', function: quanwaiGoods.goodsType, action: quanwaiGoods.id, memo: '入学页面' })
 
       // 进行打点

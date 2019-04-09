@@ -60,6 +60,7 @@ export default class PayL1 extends React.Component<any, any> {
         memo: riseId
       })
     }
+    let alertMsgText = undefined;
     if (!_.isEmpty(riseId)) {
       let param = {
         riseId: riseId,
@@ -72,7 +73,7 @@ export default class PayL1 extends React.Component<any, any> {
 
       if (amount !== 0) {
         if (invitationInfo.msg.isNewUser && invitationInfo.msg.isReceived) {
-          dispatch(alertMsg('优惠券已经发到你的圈外同学账号咯！'))
+          alertMsgText = '优惠券已经发到你的圈外同学账号咯！';
         } else if (invitationInfo.msg.isNewUser) {
           this.setState({invitationLayout: true})
         }
@@ -96,6 +97,9 @@ export default class PayL1 extends React.Component<any, any> {
             action: quanwaiGoods.id,
             memo: '入学页面',
           })
+          if(!quanwaiGoods.stepPrice && alertMsgText) {
+            dispatch(alertMsg(alertMsgText))
+          }
         } else {
           dispatch(alertMsg(res.msg))
         }
