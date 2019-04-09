@@ -353,7 +353,7 @@ export default class PayL3 extends Component<any, any> {
             <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
           </div>
         }
-        {(invitationLayout && quanwaiGoods.stepPrice) &&
+        {(invitationLayout && !quanwaiGoods.stepPrice) &&
         <InvitationLayout oldNickName={invitationData.oldNickName}
                           amount={invitationData.amount}
                           projectName={invitationData.memberTypeName}
