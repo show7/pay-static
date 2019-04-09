@@ -97,7 +97,7 @@ export default class OldBeltNew extends Component<any, any> {
     if (!privilege) throw errorMsg
     const {selectPayIndex, payTypeMap, couponsIdGroup} = this.state
     const mobile = this.refs.mobile.value
-    if (!/^1[3456789]\d{9}$/.test(mobile))
+    if (!/^1\d{10}$/.test(mobile))
       return dispatch(alertMsg('请检查手机号格式是否有误'))
     mark({
       module: '购课落地页',
