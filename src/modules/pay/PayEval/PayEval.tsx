@@ -1,21 +1,21 @@
 import * as React from 'react'
 import './PayEval.less'
-import {connect} from 'react-redux'
-import {PayType, sa, refreshForPay, saTrack} from 'utils/helpers'
-import {set, startLoad, endLoad, alertMsg} from 'redux/actions'
-import {FooterButton} from '../../../components/submitbutton/FooterButton'
+import { connect } from 'react-redux'
+import { PayType, sa, refreshForPay, saTrack } from 'utils/helpers'
+import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
+import { FooterButton } from '../../../components/submitbutton/FooterButton'
 import AssetImg from '../../../components/AssetImg'
 import RenderInBody from '../../../components/RenderInBody'
-import {mark} from '../../../utils/request'
-import {Button} from '../../../components/button/Button'
+import { mark } from '../../../utils/request'
+import { Button } from '../../../components/button/Button'
 import PayInfo from '../components/PayInfo'
-import {config, configShare} from 'modules/helpers/JsConfig'
+import { config, configShare } from 'modules/helpers/JsConfig'
 import {
   checkRiseMember,
   getRiseMember,
   courseBuyValidate,
   loadInvitation,
-  loadTask,
+  loadTask
 } from '../async'
 
 @connect(state => state)
@@ -39,16 +39,16 @@ export default class SelfInit extends React.Component<any, any> {
           releaseTime: '3月11日',
           avatar: 'https://static.iqycamp.com/user1-chw7adcf.png',
           releaseContent:
-            '平时很少有机会去回顾自己的工作习惯和工作方法，这次对自己的能力认真做了个盘点,确实在思维方面需要提升。',
+            '平时很少有机会去回顾自己的工作习惯和工作方法，这次对自己的能力认真做了个盘点,确实在思维方面需要提升。'
         },
         {
           userName: '魏昊',
           releaseTime: '2月13日',
           avatar: 'https://static.iqycamp.com/user2-3d2gii0x.png',
           releaseContent:
-            '优缺点分析得蛮透彻的，进一步提高自己的方法也说得很到位，已经在工作里用起来啦，希望能坚持下去。',
-        },
-      ],
+            '优缺点分析得蛮透彻的，进一步提高自己的方法也说得很到位，已经在工作里用起来啦，希望能坚持下去。'
+        }
+      ]
     }
   }
 
@@ -64,7 +64,7 @@ export default class SelfInit extends React.Component<any, any> {
       module: '打点',
       function: '测评售卖页曝光点',
       action: `进入测评售卖页`,
-      memo: '测评售卖页曝光点',
+      memo: '测评售卖页曝光点'
     })
     //添加滚动监听（fiexd-button）
     window.addEventListener('scroll', this.setBuyButtonShow.bind(this))
@@ -75,28 +75,28 @@ export default class SelfInit extends React.Component<any, any> {
   }
 
   setBuyButtonShow() {
-    alert(123)
-    // var scroll_top = 0
-    // if (document.documentElement && document.documentElement.scrollTop) {
-    //   scroll_top = document.documentElement.scrollTop
-    // } else if (document.body) {
-    //   scroll_top = document.body.scrollTop
-    // }
-    // const buyButtonOffsetTop =
-    //   document.getElementsByClassName('buy-button')[0].offsetTop +
-    //   document.getElementsByClassName('buy-button')[0].offsetHeight
-    // this.setState({
-    //   fiexdBuyButton: scroll_top > buyButtonOffsetTop,
-    // })
+    // alert(123)
+    var scroll_top = 0
+    if (document.documentElement && document.documentElement.scrollTop) {
+      scroll_top = document.documentElement.scrollTop
+    } else if (document.body) {
+      scroll_top = document.body.scrollTop
+    }
+    const buyButtonOffsetTop =
+      document.getElementsByClassName('buy-button')[0].offsetTop +
+      document.getElementsByClassName('buy-button')[0].offsetHeight
+    this.setState({
+      fiexdBuyButton: scroll_top > buyButtonOffsetTop
+    })
   }
 
   async componentWillMount() {
-    const {dispatch} = this.props
+    const { dispatch } = this.props
     try {
-      const {msg} = await courseBuyValidate()
-      const {paid, submit, submitId} = msg
+      const { msg } = await courseBuyValidate()
+      const { paid, submit, submitId } = msg
       this.setState({
-        pageIsShow: !(paid || submit),
+        pageIsShow: !(paid || submit)
       })
       // 提交过跳转结果页面&&&购买过跳转评测页面
       if (submit) {
@@ -116,11 +116,11 @@ export default class SelfInit extends React.Component<any, any> {
     if (refreshForPay()) {
       return
     }
-    const {goodsId} = this.state
+    const { goodsId } = this.state
     getRiseMember(goodsId).then(res => {
       console.log(res)
       if (res.code === 200) {
-        this.setState({goodsInfo: res.msg})
+        this.setState({ goodsInfo: res.msg })
       }
     })
   }
@@ -137,14 +137,14 @@ export default class SelfInit extends React.Component<any, any> {
    * @param goodsId 会员类型id
    */
   handleClickOpenPayInfo(goodsId) {
-    const {dispatch} = this.props
-    const {goodsInfo} = this.state
-    const {privilege, errorMsg} = goodsInfo
+    const { dispatch } = this.props
+    const { goodsInfo } = this.state
+    const { privilege, errorMsg } = goodsInfo
     if (!privilege && !!errorMsg) {
       dispatch(alertMsg(errorMsg))
       return
     }
-    const {riseId = '', type = 0} = this.props
+    const { riseId = '', type = 0 } = this.props
 
     this.reConfig()
     dispatch(startLoad())
@@ -154,7 +154,7 @@ export default class SelfInit extends React.Component<any, any> {
         dispatch(endLoad())
         if (res.code === 200) {
           console.log(res.msg)
-          const {privilege, errorMsg} = res.msg
+          const { privilege, errorMsg } = res.msg
           if (privilege) {
             this.refs.payInfo.handleClickOpen()
           } else {
@@ -171,53 +171,53 @@ export default class SelfInit extends React.Component<any, any> {
   }
 
   handleClickStart() {
-    const {subscribe} = this.state
+    const { subscribe } = this.state
     if (!!subscribe) {
       mark({
         module: '打点',
         function: '价值观测评',
         action: '点击开始',
-        memo: '已关注',
+        memo: '已关注'
       })
       this.context.router.push({
-        pathname: '/rise/activity/static/guest/value/evaluation/self/question',
+        pathname: '/rise/activity/static/guest/value/evaluation/self/question'
       })
     } else {
       mark({
         module: '打点',
         function: '价值观测评',
         action: '点击开始',
-        memo: '未关注',
+        memo: '未关注'
       })
-      this.setState({showQrCode: true})
+      this.setState({ showQrCode: true })
     }
   }
 
   closeCode() {
-    this.setState({showQrCode: false})
+    this.setState({ showQrCode: false })
   }
 
   handlePayedDone() {
-    const {goodsInfo} = this.state
-    const {quanwaiGoods = {}} = goodsInfo
+    const { goodsInfo } = this.state
+    const { quanwaiGoods = {} } = goodsInfo
     mark({
       module: '打点',
       function: '测评售卖页点击点',
       action: '支付成功',
-      memo: quanwaiGoods.id,
+      memo: quanwaiGoods.id
     })
     window.location.replace(
       '/rise/activity/static/guest/value/evaluation/self/question'
     )
   }
   handlepayedCancel() {
-    const {goodsInfo} = this.state
-    const {quanwaiGoods = {}} = goodsInfo
+    const { goodsInfo } = this.state
+    const { quanwaiGoods = {} } = goodsInfo
     mark({
       module: '打点',
       function: '测评售卖页点击点',
       action: '取消支付',
-      memo: quanwaiGoods.id,
+      memo: quanwaiGoods.id
     })
   }
 
@@ -230,14 +230,14 @@ export default class SelfInit extends React.Component<any, any> {
       qrCode,
       tip,
       goodsInfo,
-      userEvaluation,
+      userEvaluation
     } = this.state
-    const {quanwaiGoods = {}} = goodsInfo
+    const { quanwaiGoods = {} } = goodsInfo
     const userEvaluationItem = userEvaluation.map(item => {
-      let {userName, avatar, releaseTime, releaseContent} = item
+      let { userName, avatar, releaseTime, releaseContent } = item
       return (
         <div key={userName}>
-          <AssetImg url={avatar} style={{display: 'block'}} />
+          <AssetImg url={avatar} style={{ display: 'block' }} />
           <div>
             <h1>{userName}</h1>
             <div className="user-comment-times">发布时间：{releaseTime}</div>
@@ -331,7 +331,7 @@ export default class SelfInit extends React.Component<any, any> {
                 style={{
                   display: 'block',
                   margin: '0 auto',
-                  padding: '3rem 0 0rem 0',
+                  padding: '3rem 0 0rem 0'
                 }}
               />
 
@@ -347,7 +347,7 @@ export default class SelfInit extends React.Component<any, any> {
                   style={{
                     display: 'block',
                     margin: '0 auto',
-                    padding: '3rem 0 0rem 0',
+                    padding: '3rem 0 0rem 0'
                   }}
                 />
               </div>
@@ -401,8 +401,8 @@ export default class SelfInit extends React.Component<any, any> {
                   btnArray={[
                     {
                       click: () => this.handleClickOpenPayInfo(goodsId),
-                      text: `¥ ${tip} 限时购买`,
-                    },
+                      text: `¥ ${tip} 限时购买`
+                    }
                   ]}
                 />
               </div>
