@@ -51,8 +51,8 @@ export default class PayL3 extends Component<any, any> {
 
     let amount = 0
     //分享优惠券
-    const { riseId,markScene } = this.props.location.query
-    if(markScene){
+    const { riseId, markScene } = this.props.location.query
+    if(markScene) {
       mark({
         module: '打点',
         function: '普通打点链接',
@@ -69,7 +69,7 @@ export default class PayL3 extends Component<any, any> {
       let invitationInfo = await loadInvitation(param)
       this.setState({ invitationData: invitationInfo.msg })
       amount = invitationInfo.msg.amount
-      if(amount!==0) {
+      if(amount !== 0) {
         if(invitationInfo.msg.isNewUser && invitationInfo.msg.isReceived) {
           dispatch(alertMsg('优惠券已经发到你的圈外同学账号咯！'))
         } else if(invitationInfo.msg.isNewUser) {
@@ -104,7 +104,7 @@ export default class PayL3 extends Component<any, any> {
     }
     const { type = 0, taskId = 3 } = this.props.location.query
     this.loadTask(taskId);
-    if(type == 1 && amount!==0) {
+    if(type == 1 && amount !== 0) {
       this.setState({ showShare: true });
     }
   }
@@ -229,7 +229,7 @@ export default class PayL3 extends Component<any, any> {
   render() {
     let payType = _.get(location, 'query.paytype')
 
-    const renderRightPayButton = ()=>{
+    const renderRightPayButton = () => {
       const {
         subscribeAlertTips, privilege, quanwaiGoods = {}, buttonStr, auditionStr, tip, showId, timeOut,
         showQr, qrCode,
@@ -271,44 +271,66 @@ export default class PayL3 extends Component<any, any> {
         return null
       }
 
-      // return (
-      //   <StepFooterButton goods={quanwaiGoods} name='l3'/>
-      // );
-
-      if(quanwaiGoods.stepPrice){
+      if(!!privilege) {
         return (
-          <div className="button-footer step-wrapper">
-            <div className="price-tips-wrapper">
-              课程福利价: <span className="real-price">￥{quanwaiGoods.fee}  </span>（名额仅剩 <span className="remain">{quanwaiGoods.remain}个</span>）
-            </div>
-            {renderRightPayButton()}
-          </div>
-        )
-      } else {
-        if(!!privilege) {
-          return <FooterButton primary={true} isThought={true} btnArray={[
-            {
-              click: () => this.handleClickOpenPayInfo(quanwaiGoods.id),
-              text: '立即入学',
+          <StepFooterButton goods={quanwaiGoods} name='l3' onClick={() => {
+            mark({
               module: '打点',
               func: '进阶课程',
               action: '点击立即入学',
               memo: '入学页面'
-            }
-          ]}/>
-        } else {
-          return <FooterButton primary={true} isThought={true} btnArray={[
-            {
-              click: () => this.redirect(),
-              text: '马上申请',
+            })
+            this.handleClickOpenPayInfo(quanwaiGoods.id)
+          }}/>
+        );
+      } else {
+        return (
+          <StepFooterButton goods={quanwaiGoods} name='l3' clickText='马上申请' onClick={() => {
+            mark({
               module: '打点',
               func: '进阶课程',
               action: '点击马上预约',
               memo: '申请页面'
-            }
-          ]}/>
-        }
+            })
+            this.redirect()
+          }}/>
+        );
       }
+
+      // if(quanwaiGoods.stepPrice) {
+      //   return (
+      //     <div className="button-footer step-wrapper">
+      //       <div className="price-tips-wrapper">
+      //         课程福利价: <span className="real-price">￥{quanwaiGoods.fee}  </span>（名额仅剩 <span className="remain">{quanwaiGoods.remain}个</span>）
+      //       </div>
+      //       {renderRightPayButton()}
+      //     </div>
+      //   )
+      // } else {
+      //   if(!!privilege) {
+      //     return <FooterButton primary={true} isThought={true} btnArray={[
+      //       {
+      //         click: () => this.handleClickOpenPayInfo(quanwaiGoods.id),
+      //         text: '立即入学',
+      //         module: '打点',
+      //         func: '进阶课程',
+      //         action: '点击立即入学',
+      //         memo: '入学页面'
+      //       }
+      //     ]}/>
+      //   } else {
+      //     return <FooterButton primary={true} isThought={true} btnArray={[
+      //       {
+      //         click: () => this.redirect(),
+      //         text: '马上申请',
+      //         module: '打点',
+      //         func: '进阶课程',
+      //         action: '点击马上预约',
+      //         memo: '申请页面'
+      //       }
+      //     ]}/>
+      //   }
+      // }
     }
     return (
       <div className="plus-pay">
