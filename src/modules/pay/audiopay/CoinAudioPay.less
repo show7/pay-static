@@ -9,45 +9,73 @@
     left: 0;
     right: 0;
     width: 100%;
-    height: 5rem;
     background-color: #ffffff;
-    display: flex;
     align-items: center;
     justify-content: space-between;
+    .numberContent {
+      display: flex;
+      font-size: 1.2rem;
+      background: linear-gradient(
+        to right,
+        rgba(255, 251, 228, 1),
+        rgba(255, 245, 196, 1)
+      );
+      padding: 4px 0;
+      .surplus {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .surplusText {
+          margin-left: 0.5rem;
+        }
+      }
+      > div {
+        flex-grow: 1;
+        flex-shrink: 1;
+        text-align: center;
+      }
+    }
+    .priceContent {
+      background: linear-gradient(
+        270deg,
+        rgba(254, 32, 66, 1) 0%,
+        rgba(255, 149, 9, 1) 100%
+      );
+      display: flex;
+      justify-content: space-between;
+      height: 6rem;
+      align-items: center;
+    }
     .leftContent {
       display: flex;
+      align-items: baseline;
+      color: #fff;
       .nowPrice {
         font-size: 2rem;
-        color: rgba(237, 74, 71, 1);
-        font-weight: bold;
         margin: 0 1rem 0 2rem;
         span {
-          font-weight: normal;
-          font-size: 1.2rem;
+          font-weight: bold;
+          font-size: 3rem;
+          font-weight: bold;
         }
       }
       .surplus {
         font-size: 1.2rem;
       }
       del {
-        color: rgba(153, 153, 153, 1);
-        font-size: 1.1rem;
+        font-size: 1.2rem;
       }
     }
     .rightContent {
+      margin-right: 1rem;
       text-align: center;
       width: 12rem;
-      height: 5rem;
+      height: 4.2rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: -webkit-gradient(
-        linear,
-        left center,
-        right center,
-        from(rgba(165, 230, 40, 1)),
-        to(rgba(125, 190, 0, 1))
-      );
+      background-color: #fff;
+      border-radius: 2.1rem;
       .cooldown {
         font-size: 1.3rem;
         display: flex;
@@ -59,7 +87,7 @@
       }
       .signText {
         font-size: 1.7rem;
-        color: #fff;
+        color: rgba(254, 32, 66, 1);
         font-weight: bold;
       }
     }

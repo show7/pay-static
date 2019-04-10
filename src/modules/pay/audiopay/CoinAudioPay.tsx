@@ -281,7 +281,28 @@ export default class CoinAudioPay extends React.Component<any, any> {
             <li onClick={() => {this.handlePayPopOut()}}>69元付费入学</li>
             <li onClick={() => {this.handleFreeEntry()}}>1元挑战入学</li>
           </ul> */}
-          <div className="leftContent">
+          <div className="numberContent">
+            <div className="surplus">
+              <Icon type="time" size="1.2rem" />
+              <div className="surplusText">本期剩余：{surplus}个名额</div>
+            </div>
+            <div>距结束还有：{cooldown}</div>
+          </div>
+          <div className="priceContent">
+            <div className="leftContent">
+              <div className="nowPrice">
+                ￥<span>9.00</span>
+              </div>
+              <del>原价￥199.00</del>
+            </div>
+            <div
+              className="rightContent"
+              onClick={() => this.handleFreeEntry()}
+            >
+              <div className="signText">立即报名></div>
+            </div>
+          </div>
+          {/* <div className="leftContent">
             <div className="nowPrice">
               <span>￥</span>9.00
             </div>
@@ -298,7 +319,7 @@ export default class CoinAudioPay extends React.Component<any, any> {
                 {cooldown}
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
         {/* <Dialog {...this.state.alert} show={this.state.showModal}>
           真的要放弃报名吗？
