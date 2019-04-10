@@ -1,6 +1,6 @@
 import * as React from 'react'
-import {config} from 'modules/helpers/JsConfig'
-import {Route} from 'react-router'
+import { config } from 'modules/helpers/JsConfig'
+import { Route } from 'react-router'
 import Base from 'modules/base/Base'
 import PayL2 from 'modules/pay/risepay/PayL2'
 import CampPay from 'modules/pay/camppay/CampPay'
@@ -18,7 +18,7 @@ import Subscribe from './modules/subscribe/Subscribe'
 import RiseAlipay from './modules/pay/risepay/RiseAlipay'
 import AlipayReturn from './modules/pay/risepay/AlipayReturn'
 import PayL3 from './modules/pay/risepay/PayL3'
-import {notLoadInfoUrls, sa} from './utils/helpers'
+import { notLoadInfoUrls, sa } from './utils/helpers'
 import PageNotFound from './modules/others/pageNotFound/PageNotFound'
 import PayL1 from 'modules/pay/risepay/PayL1'
 import PayGift from 'modules/pay/payGift/PayGift'
@@ -30,7 +30,7 @@ import payEval from './modules/pay/PayEval/PayEval'
 import evalSellCourse from './modules/pay/EvalSellCourse/EvalSellCourse'
 import OldBeltNew from './modules/pay/oldBeltNew/OldBeltNew'
 // import Paper from './modules/others/paper/paper'
-
+import audioPaySuccess from './modules/pay/audioPaySuccess/AudioPaySuccess'
 import Paper from './modules/pay/paper/Paper'
 const routes = (
   <Route path="/">
@@ -54,6 +54,7 @@ const routes = (
     >
       <Route path="subscribe" component={Subscribe} />
       <Route path="pay/member/success" component={MemberPaySuccess} />
+      <Route path="pay/audioPaySuccess" component={audioPaySuccess} />
       <Route path="pay/thought" component={PayL3} />
       <Route path="pay/combat" component={CombatPay} />
       <Route path="pay/rise" component={PayL2} />

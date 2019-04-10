@@ -4,7 +4,8 @@ import { connect } from 'react-redux'
 import { PayType } from '../../../utils/helpers'
 import { checkAudio, checkCanPay, loadRotate, checkGoodsInfo } from '../async'
 import { alertMsg } from '../../../redux/actions'
-import { Dialog, ALert } from 'react-weui'
+import { Alert } from '../../../components/alert/Alert'
+import { Dialog } from '../../../components/dialog/Dialog'
 import { configShare } from '../../helpers/JsConfig'
 import { mark } from 'utils/request'
 import PayInfo from '../components/PayInfo'
@@ -16,6 +17,7 @@ export default class CoinAudioPay extends React.Component<any, any> {
   constructor(props) {
     super(props)
     this.state = {
+      isCanBuy: true,
       saleImg: null,
       posterUrl: '',
       posterShow: false,
@@ -49,7 +51,8 @@ export default class CoinAudioPay extends React.Component<any, any> {
             onClick: () => this.reload()
           }
         ]
-      }
+      },
+      isSubscribe: false
     }
   }
   static contextTypes = {
@@ -58,7 +61,7 @@ export default class CoinAudioPay extends React.Component<any, any> {
   reload() {
     window.location.href = '/pay/coinaudio?random=' + Math.random()
   }
-  componentWillMount() {
+  async componentWillMount() {
     const { source } = this.props.location.query
     mark({
       module: '打点',
@@ -66,50 +69,57 @@ export default class CoinAudioPay extends React.Component<any, any> {
       action: 'coinaudio',
       memo: source
     })
-    this.getInfo()
+    let res = await checkAudio('coin_audio')
+    if (res.code === 200) {
+      let result = res.msg
+      this.setState({
+        price: result.price,
+        goodsId: result.goodsId,
+        goodsName: result.goodsName,
+        goodsType: result.goodsType,
+        saleImg: result.saleImg,
+        isCanBuy: result.isCanBuy,
+        isSubscribe: result.isSubscribe
+      })
+      if (!this.state.isCanBuy) {
+        if (this.state.isSubscribe) {
+          // window.location.href = `www.baidu.com`
+        } else {
+          this.context.router.push(
+            `/pay/audioPaySuccess?goodsId=${this.state.goodsId}`
+          )
+        }
+      } else {
+        let _timer = setInterval(() => {
+          if (this.state.downTime <= 0) {
+            clearInterval(_timer)
+            return
+          }
+          this.state.downTime -= 5
+          this.setState({
+            cooldown: DataFormat(this.state.downTime)
+          })
+        }, 5)
+        let _number = setInterval(() => {
+          this.state.surplus =
+            this.state.surplus - (Math.round(Math.random() * (5 - 3)) + 3) <= 0
+              ? 0
+              : this.state.surplus - (Math.round(Math.random() * (5 - 3)) + 3)
+          if (this.state.surplus <= 0) {
+            clearInterval(_number)
+            this.setState({
+              showModal1: true
+            })
+          }
+        }, 1000 * 3)
+      }
+    }
     configShare(
       `【圈外同学】请停止无效努力音频课`,
       `https://${window.location.hostname}/pay/coinaudio`,
       'https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg',
       `顶尖咨询总监，8年职场方法论`
     )
-    let _timer = setInterval(() => {
-      if (this.state.downTime <= 0) {
-        clearInterval(_timer)
-        return
-      }
-      this.state.downTime -= 5
-      this.setState({
-        cooldown: DataFormat(this.state.downTime)
-      })
-    }, 5)
-    let _number = setInterval(() => {
-      this.state.surplus =
-        this.state.surplus - (Math.round(Math.random() * (5 - 3)) + 3) <= 0
-          ? 0
-          : this.state.surplus - (Math.round(Math.random() * (5 - 3)) + 3)
-      if (this.state.surplus <= 0) {
-        clearInterval(_number)
-        this.setState({
-          showModal2: true
-        })
-      }
-    }, 1000 * 3)
-  }
-
-  getInfo() {
-    checkAudio('coin_audio').then(res => {
-      if (res.code === 200) {
-        let result = res.msg
-        this.setState({
-          price: result.price,
-          goodsId: result.goodsId,
-          goodsName: result.goodsName,
-          goodsType: result.goodsType,
-          saleImg: result.saleImg
-        })
-      }
-    })
   }
 
   /**
@@ -202,11 +212,12 @@ export default class CoinAudioPay extends React.Component<any, any> {
     mark({ module: '打点', function: '付费报名', action: '支付成功' })
     loadRotate(13).then(res => {
       if (res.code === 200) {
-        // this.setState({
-        //   posterUrl: res.msg,
-        //   posterShow: true
-        // })
-        this.context.router.push('/pay/member/success')
+        if (this.state.isSubscribe) {
+        } else {
+          this.context.router.push(
+            `/pay/audioPaySuccess?goodsId=${this.state.goodsId}`
+          )
+        }
       }
     })
   }
@@ -216,7 +227,7 @@ export default class CoinAudioPay extends React.Component<any, any> {
     // const { dispatch } = this.props
     // dispatch(alertMsg('已取消支付'))
     this.setState({
-      showModal: true
+      showModal2: true
     })
   }
 
@@ -289,12 +300,29 @@ export default class CoinAudioPay extends React.Component<any, any> {
             </div>
           </div>
         </div>
-        <Dialog {...this.state.alert} show={this.state.showModal}>
+        {/* <Dialog {...this.state.alert} show={this.state.showModal}>
           真的要放弃报名吗？
         </Dialog>
         <Dialog {...this.state.showAlert} show={this.state.showModal2}>
           本期名额已抢完，确认进入下一期
-        </Dialog>
+        </Dialog> */}
+        <Alert
+          text="本期名额已抢完，确认进入下一期"
+          btnText="确定"
+          callBack={() => this.reload()}
+          show={this.state.showModal}
+        />
+        <Dialog
+          text="真的要放弃报名吗？"
+          btnText1="去报名"
+          btnText2="不报名"
+          callBack1={() => this.setState({ showModal2: false })}
+          callBack2={() => {
+            this.setState({ showModal2: false })
+            this.handlePayPopOut()
+          }}
+          show={this.state.showModal2}
+        />
         {goodsId && (
           <PayInfo
             ref="payInfo"
