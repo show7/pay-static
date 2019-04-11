@@ -21,7 +21,8 @@ export default class CollegeAudioPay extends React.Component<any, any> {
       saleImg: null,
       goodsId: 18,
       isCanBuy: true,
-      isSubscribe: true
+      isSubscribe: true,
+      isShow: false
     }
   }
 
@@ -39,7 +40,8 @@ export default class CollegeAudioPay extends React.Component<any, any> {
           goodsType: quanwaiGoods.goodsType,
           saleImg: quanwaiGoods.saleImg,
           isCanBuy: quanwaiGoods.isCanBuy,
-          isSubscribe: quanwaiGoods.isSubscribe
+          isSubscribe: quanwaiGoods.isSubscribe,
+          isShow: true
         })
         mark({
           module: '打点',
@@ -49,7 +51,9 @@ export default class CollegeAudioPay extends React.Component<any, any> {
         })
         if (!this.state.isCanBuy) {
           if (this.state.isSubscribe) {
-            window.location.replace(`/rise/static/learn`)
+            window.location.replace(
+              `/rise/static/plan/study?planId=${quanwaiGoods.memberPlanId}`
+            )
           } else {
             this.context.router.push(
               `/pay/audioPaySuccess?goodsId=${this.state.goodsId}`
@@ -134,7 +138,10 @@ export default class CollegeAudioPay extends React.Component<any, any> {
       showClassMaster
     } = this.state
     return (
-      <div className="pay-college-audio-container">
+      <div
+        className="pay-college-audio-container"
+        style={{ display: isShow ? 'block' : 'none' }}
+      >
         <img src={saleImg} alt="" />
         {goodsId && (
           <PayInfo

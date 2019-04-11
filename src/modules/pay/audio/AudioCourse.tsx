@@ -71,7 +71,9 @@ export default class AudioCourse extends React.Component<any, any> {
         })
         if (!this.state.isCanBuy) {
           if (this.state.isSubscribe) {
-            window.location.replace(`/rise/static/learn`)
+            window.location.replace(
+              `/rise/static/plan/study?planId=${result.memberPlanId}`
+            )
           } else {
             this.context.router.push(
               `/pay/audioPaySuccess?goodsId=${this.state.goodsId}`

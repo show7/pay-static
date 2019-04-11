@@ -53,7 +53,8 @@ export default class CoinAudioPay extends React.Component<any, any> {
         ]
       },
       isSubscribe: true,
-      canClick: true
+      canClick: true,
+      isShow: false
     }
   }
   static contextTypes = {
@@ -80,11 +81,14 @@ export default class CoinAudioPay extends React.Component<any, any> {
         goodsType: result.goodsType,
         saleImg: result.saleImg,
         isCanBuy: result.isCanBuy,
-        isSubscribe: result.isSubscribe
+        isSubscribe: result.isSubscribe,
+        isShow: true
       })
       if (!this.state.isCanBuy) {
         if (this.state.isSubscribe) {
-          window.location.replace(`/rise/static/learn`)
+          window.location.replace(
+            `/rise/static/plan/study?planId=${result.memberPlanId}`
+          )
         } else {
           this.context.router.push(
             `/pay/audioPaySuccess?goodsId=${this.state.goodsId}`
@@ -258,10 +262,14 @@ export default class CoinAudioPay extends React.Component<any, any> {
       goodsName,
       goodsType,
       surplus,
-      cooldown
+      cooldown,
+      isShow
     } = this.state
     return (
-      <div className="coin-audio-container">
+      <div
+        className="coin-audio-container"
+        style={{ display: isShow ? 'block' : 'none' }}
+      >
         {saleImg &&
           saleImg.map((item, index) => {
             return <img key={index} src={item} alt="" />
