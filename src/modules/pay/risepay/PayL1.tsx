@@ -1,20 +1,20 @@
 import * as React from 'react'
 import * as _ from 'lodash'
 import './PayL1.less'
-import {connect} from 'react-redux'
-import {mark} from 'utils/request'
-import {PayType, sa, refreshForPay, saTrack} from 'utils/helpers'
-import {set, startLoad, endLoad, alertMsg} from 'redux/actions'
-import {config, configShare} from 'modules/helpers/JsConfig'
+import { connect } from 'react-redux'
+import { mark } from 'utils/request'
+import { PayType, sa, refreshForPay, saTrack } from 'utils/helpers'
+import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
+import { config, configShare } from 'modules/helpers/JsConfig'
 import PayInfo from '../components/PayInfo'
 import {
   checkRiseMember,
   getRiseMember,
   loadInvitation,
-  loadTask,
+  loadTask
 } from '../async'
-import {MarkBlock} from '../components/markblock/MarkBlock'
-import {SubscribeAlert} from './components/SubscribeAlert'
+import { MarkBlock } from '../components/markblock/MarkBlock'
+import { SubscribeAlert } from './components/SubscribeAlert'
 import InvitationLayout from '../components/invitationLayout/InvitationLayout'
 import RenderInBody from '../../../components/RenderInBody'
 import SaleShow from '../../../components/SaleShow'
@@ -23,7 +23,7 @@ import { StepFooterButton } from '../../../components/submitbutton/StepFooterBut
 @connect(state => state)
 export default class PayL1 extends React.Component<any, any> {
   static contextTypes = {
-    router: React.PropTypes.object.isRequired,
+    router: React.PropTypes.object.isRequired
   }
 
   constructor() {
@@ -36,7 +36,7 @@ export default class PayL1 extends React.Component<any, any> {
       data: {},
       invitationLayout: false, // 弹框标识
       showShare: false,
-      type: 0,
+      type: 0
     }
   }
 
@@ -45,14 +45,14 @@ export default class PayL1 extends React.Component<any, any> {
     if (refreshForPay()) {
       return
     }
-    const {dispatch} = this.props
+    const { dispatch } = this.props
     dispatch(startLoad())
 
     let amount = 0
 
-    let {riseId,markScene} = this.props.location.query
+    let { riseId, markScene } = this.props.location.query
     //判断是否是老带新分享的链接
-    if(markScene){
+    if (markScene) {
       mark({
         module: '打点',
         function: '普通打点链接',
@@ -60,22 +60,22 @@ export default class PayL1 extends React.Component<any, any> {
         memo: riseId
       })
     }
-    let alertMsgText = undefined;
+    let alertMsgText = undefined
     if (!_.isEmpty(riseId)) {
       let param = {
         riseId: riseId,
-        memberTypeId: 12,
+        memberTypeId: 12
       }
       let invitationInfo = await loadInvitation(param)
-      this.setState({invitationData: invitationInfo.msg})
+      this.setState({ invitationData: invitationInfo.msg })
 
       amount = invitationInfo.msg.amount
 
       if (amount !== 0) {
         if (invitationInfo.msg.isNewUser && invitationInfo.msg.isReceived) {
-          alertMsgText = '优惠券已经发到你的圈外同学账号咯！';
+          alertMsgText = '优惠券已经发到你的圈外同学账号咯！'
         } else if (invitationInfo.msg.isNewUser) {
-          this.setState({invitationLayout: true})
+          this.setState({ invitationLayout: true })
         }
       }
     }
@@ -84,20 +84,20 @@ export default class PayL1 extends React.Component<any, any> {
       .then(res => {
         dispatch(endLoad())
         if (res.code === 200) {
-          this.setState({data: res.msg})
-          const {quanwaiGoods = {}} = res.msg
+          this.setState({ data: res.msg })
+          const { quanwaiGoods = {} } = res.msg
 
           saTrack('openSalePayPage', {
             goodsType: quanwaiGoods.goodsType + '',
-            goodsId: quanwaiGoods.id + '',
+            goodsId: quanwaiGoods.id + ''
           })
           mark({
             module: '打点',
             function: quanwaiGoods.goodsType,
             action: quanwaiGoods.id,
-            memo: '入学页面',
+            memo: '入学页面'
           })
-          if(!quanwaiGoods.stepPrice && alertMsgText) {
+          if (!quanwaiGoods.stepPrice && alertMsgText) {
             dispatch(alertMsg(alertMsgText))
           }
         } else {
@@ -109,10 +109,10 @@ export default class PayL1 extends React.Component<any, any> {
         dispatch(alertMsg(err))
       })
 
-    const {type = 0, taskId = 1} = this.props.location.query
+    const { type = 0, taskId = 1 } = this.props.location.query
     this.loadTask(taskId)
     if (type == 1 && amount != 0) {
-      this.setState({showShare: true})
+      this.setState({ showShare: true })
     }
   }
 
@@ -120,7 +120,7 @@ export default class PayL1 extends React.Component<any, any> {
   loadTask(type) {
     loadTask(type).then(res => {
       if (res.code == 200) {
-        this.setState({task: res.msg}, () => {
+        this.setState({ task: res.msg }, () => {
           configShare(
             `【${window.ENV.userName}@你】发现一门课程不错，推荐给你一起提升吧`,
             `https://${window.location.hostname}/pay/l1?riseId=${
@@ -146,8 +146,8 @@ export default class PayL1 extends React.Component<any, any> {
         this.state.task.shareAmount
       }元【圈外同学】L1项目入学优惠券`
     )
-    mark({module: '打点', function: '关闭弹框l1', action: '点击关闭弹框'})
-    this.setState({showShare: false, type: 1})
+    mark({ module: '打点', function: '关闭弹框l1', action: '点击关闭弹框' })
+    this.setState({ showShare: false, type: 1 })
   }
 
   componentDidMount() {
@@ -161,19 +161,19 @@ export default class PayL1 extends React.Component<any, any> {
   }
 
   handlePayedDone() {
-    const {data} = this.state
-    const {quanwaiGoods = {}} = data
+    const { data } = this.state
+    const { quanwaiGoods = {} } = data
     mark({
       module: '打点',
       function: '商学院会员',
       action: '支付成功',
-      memo: quanwaiGoods.id,
+      memo: quanwaiGoods.id
     })
     this.context.router.push({
       pathname: '/pay/member/success',
       query: {
-        goodsId: quanwaiGoods.id,
-      },
+        goodsId: quanwaiGoods.id
+      }
     })
   }
 
@@ -182,15 +182,15 @@ export default class PayL1 extends React.Component<any, any> {
     let param = _.get(res, 'err_desc', _.get(res, 'errMsg', ''))
     if (param.indexOf('跨公众号发起') != -1) {
       // 跨公众号
-      this.setState({showCodeErr: true})
+      this.setState({ showCodeErr: true })
     } else {
-      this.setState({showErr: true})
+      this.setState({ showErr: true })
     }
   }
 
   /** 处理取消支付的状态 */
   handlePayedCancel() {
-    this.setState({showErr: true})
+    this.setState({ showErr: true })
   }
 
   /**
@@ -198,14 +198,14 @@ export default class PayL1 extends React.Component<any, any> {
    * @param goodsId 会员类型id
    */
   handleClickOpenPayInfo(goodsId) {
-    const {dispatch} = this.props
-    const {data} = this.state
-    const {privilege, errorMsg} = data
+    const { dispatch } = this.props
+    const { data } = this.state
+    const { privilege, errorMsg } = data
     if (!privilege && !!errorMsg) {
       dispatch(alertMsg(errorMsg))
       return
     }
-    const {riseId = '', type = 0} = this.props.location.query
+    const { riseId = '', type = 0 } = this.props.location.query
 
     this.reConfig()
     dispatch(startLoad())
@@ -214,7 +214,7 @@ export default class PayL1 extends React.Component<any, any> {
       .then(res => {
         dispatch(endLoad())
         if (res.code === 200) {
-          const {qrCode, privilege, errorMsg, subscribe} = res.msg
+          const { qrCode, privilege, errorMsg, subscribe } = res.msg
           if (subscribe) {
             if (privilege) {
               this.refs.payInfo.handleClickOpen()
@@ -225,8 +225,8 @@ export default class PayL1 extends React.Component<any, any> {
             this.context.router.push({
               pathname: '/pay/oldBeltNew',
               query: {
-                goodsId: goodsId,
-              },
+                goodsId: goodsId
+              }
             })
             // this.setState({qrCode: qrCode, showQr: true})
           }
@@ -241,13 +241,13 @@ export default class PayL1 extends React.Component<any, any> {
   }
 
   handlePayedBefore() {
-    const {data} = this.state
-    const {quanwaiGoods = {}} = data
+    const { data } = this.state
+    const { quanwaiGoods = {} } = data
     mark({
       module: '打点',
       function: '商学院会员',
       action: '点击付费',
-      memo: quanwaiGoods.id,
+      memo: quanwaiGoods.id
     })
   }
 
@@ -271,25 +271,29 @@ export default class PayL1 extends React.Component<any, any> {
       invitationData,
       showShare,
       type,
-      task = {},
+      task = {}
     } = this.state
-    const {privilege, quanwaiGoods = {}, tip} = data
-    const {shareAmount, shareContribution, finishContribution} = task
-    const {location} = this.props
+    const { privilege, quanwaiGoods = {}, tip } = data
+    const { shareAmount, shareContribution, finishContribution } = task
+    const { location } = this.props
     let payType = _.get(location, 'query.paytype')
 
     const renderPay = () => {
       if (!quanwaiGoods.id) return null
       return (
-        <StepFooterButton goods={quanwaiGoods} name='l1' onClick={() => {
-          mark({
-            module: '打点',
-            func: quanwaiGoods.id+'',
-            action: '点击入学按钮',
-            memo: privilege + ''
-          })
-          this.handleClickOpenPayInfo(quanwaiGoods.id)
-        }}/>
+        <StepFooterButton
+          goods={quanwaiGoods}
+          name="l1"
+          onClick={() => {
+            mark({
+              module: '打点',
+              func: quanwaiGoods.id + '',
+              action: '点击入学按钮',
+              memo: privilege + ''
+            })
+            this.handleClickOpenPayInfo(quanwaiGoods.id)
+          }}
+        />
       )
     }
 
@@ -297,12 +301,19 @@ export default class PayL1 extends React.Component<any, any> {
       <div className="rise-pay-container">
         <div className="pay-page">
           {quanwaiGoods.saleImg && (
-            <SaleShow goods={quanwaiGoods} showList={quanwaiGoods.saleImg} name="l1" />
+            <SaleShow
+              goods={quanwaiGoods}
+              showList={quanwaiGoods.saleImg}
+              name="l1"
+            />
           )}
           {renderPay()}
         </div>
         {showErr && (
-          <div className="mask" onClick={() => this.setState({showErr: false})}>
+          <div
+            className="mask"
+            onClick={() => this.setState({ showErr: false })}
+          >
             <div className="tips">
               出现问题的童鞋看这里
               <br /> 1如果显示“URL未注册”，请重新刷新页面即可
@@ -319,7 +330,7 @@ export default class PayL1 extends React.Component<any, any> {
         {showCodeErr && (
           <div
             className="mask"
-            onClick={() => this.setState({showCodeErr: false})}
+            onClick={() => this.setState({ showCodeErr: false })}
           >
             <div className="tips">
               糟糕，支付不成功
@@ -333,7 +344,7 @@ export default class PayL1 extends React.Component<any, any> {
             </div>
             <img
               className="xiaoQ"
-              style={{width: '50%'}}
+              style={{ width: '50%' }}
               src="https://static.iqycamp.com/images/code_zsbzr_0703.jpeg?imageslim"
             />
           </div>
@@ -354,16 +365,18 @@ export default class PayL1 extends React.Component<any, any> {
           />
         )}
         {subscribe && (
-          <SubscribeAlert closeFunc={() => this.setState({subscribe: false})} />
+          <SubscribeAlert
+            closeFunc={() => this.setState({ subscribe: false })}
+          />
         )}
 
-        {(invitationLayout && !quanwaiGoods.stepPrice) && (
+        {invitationLayout && !quanwaiGoods.stepPrice && (
           <InvitationLayout
             oldNickName={invitationData.oldNickName}
             amount={invitationData.amount}
             projectName={invitationData.memberTypeName}
             callBack={() => {
-              this.setState({invitationLayout: false})
+              this.setState({ invitationLayout: false })
             }}
           />
         )}
@@ -373,7 +386,7 @@ export default class PayL1 extends React.Component<any, any> {
               <div
                 className="qr_dialog_mask"
                 onClick={() => {
-                  this.setState({showQr: false})
+                  this.setState({ showQr: false })
                 }}
               />
               <div className="qr_dialog_content">
