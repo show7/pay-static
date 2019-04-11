@@ -149,7 +149,7 @@ export default class CoinAudioPay extends React.Component<any, any> {
     checkCanPay().then(res => {
       if (res.code === 200) {
         if (_.isEmpty(res.msg)) {
-          checkGoodsInfo(21).then(res => {
+          checkGoodsInfo(22).then(res => {
             this.setState({
               canClick: true
             })
