@@ -82,19 +82,22 @@ export default class CoinAudioPay extends React.Component<any, any> {
         saleImg: result.saleImg,
         isCanBuy: result.isCanBuy,
         isSubscribe: result.isSubscribe,
-        isShow: true
+        memberPlanId: result.memberPlanId
       })
-      if (!this.state.isCanBuy) {
-        if (this.state.isSubscribe) {
+      if (result.isCanBuy === false) {
+        if (result.isSubscribe) {
           window.location.replace(
             `/rise/static/plan/study?planId=${result.memberPlanId}`
           )
         } else {
-          this.context.router.push(
+          window.location.replace(
             `/pay/audioPaySuccess?goodsId=${this.state.goodsId}`
           )
         }
       } else {
+        this.setState({
+          isShow: true
+        })
         let _timer = setInterval(() => {
           if (this.state.downTime <= 0) {
             clearInterval(_timer)
@@ -146,7 +149,7 @@ export default class CoinAudioPay extends React.Component<any, any> {
     checkCanPay().then(res => {
       if (res.code === 200) {
         if (_.isEmpty(res.msg)) {
-          checkGoodsInfo(22).then(res => {
+          checkGoodsInfo(21).then(res => {
             this.setState({
               canClick: true
             })
@@ -225,6 +228,9 @@ export default class CoinAudioPay extends React.Component<any, any> {
     loadRotate(13).then(res => {
       if (res.code === 200) {
         if (this.state.isSubscribe) {
+          window.location.replace(
+            `/rise/static/plan/study?planId=${this.state.memberPlanId}`
+          )
         } else {
           this.context.router.push(
             `/pay/audioPaySuccess?goodsId=${this.state.goodsId}`

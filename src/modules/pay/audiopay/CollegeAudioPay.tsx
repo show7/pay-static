@@ -40,8 +40,7 @@ export default class CollegeAudioPay extends React.Component<any, any> {
           goodsType: quanwaiGoods.goodsType,
           saleImg: quanwaiGoods.saleImg,
           isCanBuy: quanwaiGoods.isCanBuy,
-          isSubscribe: quanwaiGoods.isSubscribe,
-          isShow: true
+          isSubscribe: quanwaiGoods.isSubscribe
         })
         mark({
           module: '打点',
@@ -60,6 +59,9 @@ export default class CollegeAudioPay extends React.Component<any, any> {
             )
           }
         }
+        this.setState({
+          isShow: true
+        })
       }
     })
   }
@@ -135,7 +137,8 @@ export default class CollegeAudioPay extends React.Component<any, any> {
       goodsName,
       goodsType,
       showQr,
-      showClassMaster
+      showClassMaster,
+      isShow
     } = this.state
     return (
       <div

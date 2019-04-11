@@ -21,7 +21,8 @@ export default class AudioCourse extends React.Component<any, any> {
       posterShow: false,
       subscribe: false,
       needMember: 0,
-      canClick: true
+      canClick: true,
+      isShow: true
     }
   }
 
@@ -55,7 +56,7 @@ export default class AudioCourse extends React.Component<any, any> {
   getInfo() {
     const { riseId = null } = this.props.location.query
     let param = riseId ? Object.assign({}, { riseId: riseId }) : {}
-    loadActivityCheck(17, param).then(res => {
+    loadActivityCheck(21, param).then(res => {
       if (res.code === 200) {
         let result = res.msg
         this.setState({
@@ -69,17 +70,20 @@ export default class AudioCourse extends React.Component<any, any> {
           saleImg: result.saleImg,
           needMember: result.needMember
         })
-        if (!this.state.isCanBuy) {
-          if (this.state.isSubscribe) {
+        if (result.isCanBuy === false) {
+          if (result.isSubscribe) {
             window.location.replace(
               `/rise/static/plan/study?planId=${result.memberPlanId}`
             )
           } else {
-            this.context.router.push(
+            window.location.replace(
               `/pay/audioPaySuccess?goodsId=${this.state.goodsId}`
             )
           }
         }
+        this.setState({
+          isShow: true
+        })
       }
     })
   }
@@ -112,10 +116,13 @@ export default class AudioCourse extends React.Component<any, any> {
   }
 
   render() {
-    const { saleImg, posterShow, posterUrl } = this.state
+    const { saleImg, posterShow, posterUrl, isShow } = this.state
     const { type } = this.props.location.query
     return (
-      <div className="self-manage-container">
+      <div
+        className="self-manage-container"
+        style={{ display: isShow ? 'block' : 'none' }}
+      >
         {saleImg &&
           saleImg.map((item, index) => {
             return <img key={index} src={item} alt="" />
@@ -151,7 +158,8 @@ export default class AudioCourse extends React.Component<any, any> {
             <li
               style={{
                 width: '100%',
-                background: 'rgba(61,81,137,1)',
+                background:
+                  'linear-gradient(270deg,rgba(165,230,40,1) 0%,rgba(125,190,0,1) 100%)',
                 color: 'rgba(255,255,255,1)'
               }}
               onClick={() => {

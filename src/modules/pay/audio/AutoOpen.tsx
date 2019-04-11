@@ -22,7 +22,8 @@ export default class AutoOpen extends React.Component<any, any> {
       subscribe: false,
       needMember: 0,
       show: false,
-      msg: ''
+      msg: '',
+      isShow: false
     }
   }
 
@@ -48,17 +49,20 @@ export default class AutoOpen extends React.Component<any, any> {
           saleImg: result.saleImg,
           needMember: result.needMember
         })
-        if (!this.state.isCanBuy) {
-          if (this.state.isSubscribe) {
-            window.location.replace(
-              `/rise/static/plan/study?planId=${result.memberPlanId}`
-            )
-          } else {
-            this.context.router.push(
-              `/pay/audioPaySuccess?goodsId=${this.state.goodsId}`
-            )
-          }
-        }
+        // if (!this.state.isCanBuy) {
+        //   if (this.state.isSubscribe) {
+        //     window.location.replace(
+        //       `/rise/static/plan/study?planId=${result.memberPlanId}`
+        //     )
+        //   } else {
+        //     this.context.router.push(
+        //       `/pay/audioPaySuccess?goodsId=${this.state.goodsId}`
+        //     )
+        //   }
+        // }
+        // this.setState({
+        //   isShow: true
+        // })
       }
     })
   }
@@ -74,9 +78,12 @@ export default class AutoOpen extends React.Component<any, any> {
   }
 
   render() {
-    const { saleImg, show, msg } = this.state
+    const { saleImg, show, msg, isShow } = this.state
     return (
-      <div className="self-manage-container">
+      <div
+        className="self-manage-container"
+        style={{ display: isShow ? 'block' : 'none' }}
+      >
         {saleImg &&
           saleImg.map((item, index) => {
             return <img key={index} src={item} alt="" />
