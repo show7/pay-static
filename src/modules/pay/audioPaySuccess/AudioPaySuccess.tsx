@@ -18,7 +18,7 @@ export default class MemberPaySuccess extends React.Component<any, any> {
       operateUrl: '',
       headTeacherNickName: '',
       openDate: '',
-      wechatPublicUrl: ''
+      audioCoinWechatPublicUrl: ''
     }
 
     this.pd = (50 / 750) * window.innerWidth
@@ -40,7 +40,7 @@ export default class MemberPaySuccess extends React.Component<any, any> {
             operateUrl,
             headTeacherNickName,
             openDate,
-            wechatPublicUrl
+            audioCoinWechatPublicUrl
           } = res.msg
           mark({
             module: '购课落地页',
@@ -54,7 +54,7 @@ export default class MemberPaySuccess extends React.Component<any, any> {
             operateUrl,
             headTeacherNickName,
             openDate,
-            wechatPublicUrl
+            audioCoinWechatPublicUrl
           })
         } else {
           dispatch(alertMsg(res.msg))
@@ -73,12 +73,16 @@ export default class MemberPaySuccess extends React.Component<any, any> {
       operateUrl,
       headTeacherNickName,
       openDate,
-      wechatPublicUrl
+      audioCoinWechatPublicUrl
     } = this.state
 
     const classmatesCode = () => {
       return (
-        <img src={wechatPublicUrl} alt="圈外同学服务号" className="qrcode" />
+        <img
+          src={audioCoinWechatPublicUrl}
+          alt="圈外同学服务号"
+          className="qrcode"
+        />
       )
     }
 

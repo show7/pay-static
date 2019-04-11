@@ -52,7 +52,8 @@ export default class CoinAudioPay extends React.Component<any, any> {
           }
         ]
       },
-      isSubscribe: false
+      isSubscribe: true,
+      canClick: true
     }
   }
   static contextTypes = {
@@ -83,7 +84,7 @@ export default class CoinAudioPay extends React.Component<any, any> {
       })
       if (!this.state.isCanBuy) {
         if (this.state.isSubscribe) {
-          // window.location.href = `www.baidu.com`
+          window.location.replace(`/rise/static/learn`)
         } else {
           this.context.router.push(
             `/pay/audioPaySuccess?goodsId=${this.state.goodsId}`
@@ -108,7 +109,7 @@ export default class CoinAudioPay extends React.Component<any, any> {
           if (this.state.surplus <= 0) {
             clearInterval(_number)
             this.setState({
-              showModal1: true
+              showModal: true
             })
           }
         }, 1000 * 3)
@@ -126,6 +127,10 @@ export default class CoinAudioPay extends React.Component<any, any> {
    * 点击免费入学
    */
   handleFreeEntry() {
+    if (!this.state.canClick) return
+    this.setState({
+      canClick: false
+    })
     const { source } = this.props.location.query
     mark({
       module: '打点',
@@ -138,6 +143,9 @@ export default class CoinAudioPay extends React.Component<any, any> {
       if (res.code === 200) {
         if (_.isEmpty(res.msg)) {
           checkGoodsInfo(22).then(res => {
+            this.setState({
+              canClick: true
+            })
             if (res.code === 200) {
               let result = res.msg
               this.setState(
@@ -179,7 +187,7 @@ export default class CoinAudioPay extends React.Component<any, any> {
     checkCanPay().then(res => {
       if (res.code === 200) {
         if (_.isEmpty(res.msg)) {
-          checkGoodsInfo(21).then(res => {
+          checkGoodsInfo(22).then(res => {
             if (res.code === 200) {
               let result = res.msg
               this.setState(
@@ -291,7 +299,7 @@ export default class CoinAudioPay extends React.Component<any, any> {
           <div className="priceContent">
             <div className="leftContent">
               <div className="nowPrice">
-                ￥<span>9.00</span>
+                ￥<span>1.00</span>
               </div>
               <del>原价￥199.00</del>
             </div>

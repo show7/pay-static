@@ -12,7 +12,7 @@ export default class AudioCourse extends React.Component<any, any> {
     super(props)
     this.state = {
       isCanBuy: true,
-      isSubscribe: false,
+      isSubscribe: true,
       price: 49,
       qrCodeUrl: '',
       saleImg: null,
@@ -69,6 +69,15 @@ export default class AudioCourse extends React.Component<any, any> {
           saleImg: result.saleImg,
           needMember: result.needMember
         })
+        if (!this.state.isCanBuy) {
+          if (this.state.isSubscribe) {
+            window.location.replace(`/rise/static/learn`)
+          } else {
+            this.context.router.push(
+              `/pay/audioPaySuccess?goodsId=${this.state.goodsId}`
+            )
+          }
+        }
       }
     })
   }
@@ -148,7 +157,7 @@ export default class AudioCourse extends React.Component<any, any> {
               }}
             >
               免费入学
-              <span style={{ fontSize: '13' }}>（原价69元）</span>
+              <span style={{ fontSize: '13' }}>（原价199元）</span>
             </li>
           </ul>
         </div>
