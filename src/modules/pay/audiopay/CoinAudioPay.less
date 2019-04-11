@@ -1,30 +1,111 @@
-.coin-audio-container{
-  padding-bottom: 5rem;
-  >img{
+.coin-audio-container {
+  padding-bottom: 7rem;
+  > img {
     width: 100%;
   }
-  .audio-bottom-button{
+  .audio-bottom-button {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
     width: 100%;
-    height: 5rem;
-    background-color: #FFFFFF;
-    >ul{
-      >li{
+    background-color: #ffffff;
+    align-items: center;
+    justify-content: space-between;
+    .numberContent {
+      color: rgba(119, 84, 28, 1);
+      display: flex;
+      font-size: 1.2rem;
+      background: linear-gradient(
+        to right,
+        rgba(255, 251, 228, 1),
+        rgba(255, 245, 196, 1)
+      );
+      padding: 4px 0;
+      .surplus {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .surplusText {
+          margin-left: 0.5rem;
+        }
+      }
+      > div {
+        flex-grow: 1;
+        flex-shrink: 1;
+        text-align: center;
+      }
+    }
+    .priceContent {
+      background: linear-gradient(
+        270deg,
+        rgba(254, 32, 66, 1) 0%,
+        rgba(255, 149, 9, 1) 100%
+      );
+      display: flex;
+      justify-content: space-between;
+      height: 6rem;
+      align-items: center;
+    }
+    .leftContent {
+      display: flex;
+      align-items: baseline;
+      color: #fff;
+      .nowPrice {
+        font-size: 2rem;
+        margin: 0 1rem 0 2rem;
+        span {
+          font-weight: bold;
+          font-size: 3rem;
+          font-weight: bold;
+        }
+      }
+      .surplus {
+        font-size: 1.2rem;
+      }
+      del {
+        font-size: 1.2rem;
+      }
+    }
+    .rightContent {
+      margin-right: 1rem;
+      text-align: center;
+      width: 12rem;
+      height: 4.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #fff;
+      border-radius: 2.1rem;
+      .cooldown {
+        font-size: 1.3rem;
+        display: flex;
+        align-items: center;
+        color: #fff;
+        img {
+          margin-right: 0.5rem;
+        }
+      }
+      .signText {
+        font-size: 1.7rem;
+        color: rgba(254, 32, 66, 1);
+        font-weight: bold;
+      }
+    }
+    > ul {
+      > li {
         display: inline-block;
         line-height: 5rem;
         text-align: center;
-        letter-spacing:3px;
-        &:first-child{
-          font-size:1.4rem;
-          font-weight:300;
+        letter-spacing: 3px;
+        &:first-child {
+          font-size: 1.4rem;
+          font-weight: 300;
           width: 37%;
-          background:rgba(255,255,255,1);
-          color:rgba(61,81,137,1);
+          background: rgba(255, 255, 255, 1);
+          color: rgba(61, 81, 137, 1);
           position: relative;
-          &:before{
+          &:before {
             content: '';
             width: 100%;
             height: 1px;
@@ -32,49 +113,50 @@
             top: 0;
             left: 0;
             right: 0;
-            border-top:1px solid rgba(206,206,206,1);
+            border-top: 1px solid rgba(206, 206, 206, 1);
             -webkit-transform: scaleY(0.5);
           }
         }
-        &:last-child{
-          font-size:1.6rem;
-          font-weight:500;
+        &:last-child {
+          font-size: 1.6rem;
+          font-weight: 500;
           width: 63%;
-          background:rgba(61,81,137,1);
-          color:rgba(255,255,255,1);
+          background: rgba(61, 81, 137, 1);
+          color: rgba(255, 255, 255, 1);
         }
       }
     }
   }
 
-  .poster-mask,.subscribe-mask{
+  .poster-mask,
+  .subscribe-mask {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     width: 100%;
-    background:rgba(0,0,0,0.75);
+    background: rgba(0, 0, 0, 0.75);
     overflow-y: scroll;
-    .poster-box{
+    .poster-box {
       position: absolute;
       width: 100%;
       padding-top: 2rem;
       padding-bottom: 2rem;
       overflow-y: scroll;
-      >p{
-        font-size:1.6rem;
-        font-weight:600;
-        color:rgba(255,255,255,1);
+      > p {
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 1);
         text-align: center;
         margin-bottom: 2.5rem;
       }
-      >img.posterPic{
+      > img.posterPic {
         width: 82%;
         margin: 0 auto;
         display: block;
       }
-      .close{
+      .close {
         width: 2.1rem;
         height: 2.1rem;
         position: absolute;
@@ -83,45 +165,44 @@
       }
     }
 
-    .qrCodeUrl-box{
+    .qrCodeUrl-box {
       margin: 0 auto;
       text-align: center;
       position: absolute;
       top: 20%;
       left: 0;
       right: 0;
-      >p{
-        font-size:1.6rem;
-        font-weight:600;
-        color:rgba(255,255,255,1);
+      > p {
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 1);
         text-align: center;
         margin-bottom: 2.5rem;
       }
-      >img.subscribe{
+      > img.subscribe {
         width: 20rem;
         height: 20rem;
         margin-bottom: 2rem;
       }
-      .close{
+      .close {
         width: 2.1rem;
         height: 2.1rem;
         display: block;
         margin: 0 auto;
-
       }
     }
   }
 
-  .poster-mask2{
+  .poster-mask2 {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     width: 100%;
-    background:rgba(0,0,0,0.75);
+    background: rgba(0, 0, 0, 0.75);
     overflow-y: scroll;
-    .poster-box{
+    .poster-box {
       position: absolute;
       width: 100%;
       padding-top: 2rem;
@@ -129,19 +210,19 @@
       overflow-y: scroll;
       top: 50%;
       transform: translateY(-50%);
-      >p{
-        font-size:1.6rem;
-        font-weight:600;
-        color:rgba(255,255,255,1);
+      > p {
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 1);
         text-align: center;
         margin-bottom: 2.5rem;
       }
-      >.posterPic{
+      > .posterPic {
         width: 82%;
         margin: 0 auto;
         display: block;
       }
-      .close{
+      .close {
         width: 2.1rem;
         height: 2.1rem;
         position: relative;
@@ -150,6 +231,5 @@
         transform: translateX(-50%);
       }
     }
-
   }
 }
