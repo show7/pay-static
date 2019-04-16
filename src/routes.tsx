@@ -23,6 +23,7 @@ import PageNotFound from './modules/others/pageNotFound/PageNotFound'
 import PayL1 from 'modules/pay/risepay/PayL1'
 import PayGift from 'modules/pay/payGift/PayGift'
 import AudioCourse from 'modules/pay/audio/AudioCourse'
+import ActivityCourse from 'modules/pay/activityCourse/ActivityCourse'
 import AutoOpen from 'modules/pay/audio/AutoOpen'
 import ChallengeAudio from './modules/pay/audio/ChallengeAudio'
 import ReadCourse from './modules/pay/read/ReadCourse'
@@ -79,6 +80,7 @@ const routes = (
       <Route path="pay/oldBeltNew" component={OldBeltNew} />
       <Route path="pay/evalSellCourse" component={evalSellCourse} />
       <Route path="pay/paper" component={Paper} />
+      <Route path="pay/activityCourse" component={ActivityCourse} />
     </Route>
     <Route path="*" component={PageNotFound} />
   </Route>

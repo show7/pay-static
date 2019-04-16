@@ -1,13 +1,13 @@
 import * as React from 'react'
-import './AudioCourse.less'
+import './ActivityCourse.less'
 import { connect } from 'react-redux'
 import { loadActivityCheck, joinAudioCourse } from '../async'
 import { alertMsg } from '../../../redux/actions'
 import { configShare } from '../../helpers/JsConfig'
 import { mark } from 'utils/request'
-
+import Icon from '../../../components/Icon'
 @connect(state => state)
-export default class AudioCourse extends React.Component<any, any> {
+export default class ActivityCourse extends React.Component<any, any> {
   constructor(props) {
     super(props)
     this.state = {
@@ -22,7 +22,11 @@ export default class AudioCourse extends React.Component<any, any> {
       subscribe: false,
       needMember: 0,
       canClick: true,
-      isShow: true
+      isShow: true,
+      isSHowActive: false,
+      isBuyed: false,
+      isSHowTopic: false,
+      qrcodeUrl: ''
     }
   }
 
@@ -68,19 +72,12 @@ export default class AudioCourse extends React.Component<any, any> {
           goodsName: result.goodsName,
           goodsType: result.goodsType,
           saleImg: result.saleImg,
-          needMember: result.needMember
+          needMember: result.needMember,
+          isBuyed: !result.isCanBuy,
+          isSHowActive: true
         })
-        // if (result.isCanBuy === false) {
-        //   if (result.isSubscribe) {
-        //     window.location.replace(
-        //       `/rise/static/plan/study?planId=${result.memberPlanId}`
-        //     )
-        //   } else {
-        //     window.location.replace(
-        //       `/pay/audioPaySuccess?goodsId=${this.state.goodsId}`
-        //     )
-        //   }
-        // }
+        if (result.isCanBuy === true) {
+        }
         this.setState({
           isShow: true
         })
@@ -96,17 +93,22 @@ export default class AudioCourse extends React.Component<any, any> {
     this.setState({
       canClick: false
     })
-    const { source = 'normal_audio', riseId = null } = this.props.location.query
+    let {
+      source = 'normal_audio',
+      activityId = null,
+      msgId = null
+    } = this.props.location.query
     mark({ module: '打点', function: '音频课入学', action: 'wondercv_click' })
-    joinAudioCourse({ source, riseId }).then(res => {
+    activityId = Number(activityId) ? Number(activityId) : null
+    msgId = Number(msgId) ? Number(msgId) : null
+    joinAudioCourse({ source, activityId, msgId }).then(res => {
       this.setState({
         canClick: true
       })
       if (res.code === 200) {
         let result = res.msg
         this.setState({
-          posterShow: true,
-          posterUrl: result.url
+          isSHowTopic: true
         })
       } else {
         const { dispatch } = this.props
@@ -114,9 +116,27 @@ export default class AudioCourse extends React.Component<any, any> {
       }
     })
   }
-
+  closeShow() {
+    this.setState({
+      isSHowActive: false
+    })
+  }
+  closeTopic() {
+    this.setState({
+      isSHowTopic: false
+    })
+  }
   render() {
-    const { saleImg, posterShow, posterUrl, isShow } = this.state
+    const {
+      saleImg,
+      posterShow,
+      posterUrl,
+      isShow,
+      isSHowActive,
+      isBuyed,
+      isSHowTopic,
+      qrcodeUrl
+    } = this.state
     const { type } = this.props.location.query
     return (
       <div
@@ -166,11 +186,43 @@ export default class AudioCourse extends React.Component<any, any> {
                 this.handleFreeEntry()
               }}
             >
-              免费入学
-              <span style={{ fontSize: '13' }}>（原价199元）</span>
+              免费领取
+              {/* <span style={{ fontSize: '13' }}>（原价199元）</span> */}
             </li>
           </ul>
         </div>
+        {isSHowActive && !isBuyed && (
+          <div className="activeMask">
+            <div className="toastContent">
+              <img src="https://static.iqycamp.com/toast1-okzkrcit.png" />
+              <div className="closeImg" onClick={() => this.closeShow()}>
+                <Icon type="close" size="3rem" />
+              </div>
+            </div>
+          </div>
+        )}
+        {isSHowActive && isBuyed && (
+          <div className="activeMask">
+            <div className="toastContent">
+              <img src="https://static.iqycamp.com/toast2-vt7f3shj.png" />
+              <div className="closeImg" onClick={() => this.closeShow()}>
+                <Icon type="close" size="3rem" />
+              </div>
+            </div>
+          </div>
+        )}
+        {isSHowTopic && (
+          <div className="activeMask">
+            <div className="toastContent notice">
+              <div className="noticeText">
+                恭喜您获得一份能力提升资料合集，点击免费领取，我们将在公众号为您发送
+              </div>
+              <div className="ensure" onClick={() => this.closeTopic()}>
+                确定
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     )
   }
