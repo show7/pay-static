@@ -25,7 +25,8 @@ export default class ActivityCourse extends React.Component<any, any> {
       isShow: true,
       isSHowActive: false,
       isBuyed: false,
-      isSHowTopic: false
+      isSHowTopic: false,
+      qrcodeUrl: ''
     }
   }
 
@@ -107,9 +108,6 @@ export default class ActivityCourse extends React.Component<any, any> {
       if (res.code === 200) {
         let result = res.msg
         this.setState({
-          posterShow: true,
-          posterUrl: result.url,
-          isSHowActive: true,
           isSHowTopic: true
         })
       } else {
@@ -136,7 +134,8 @@ export default class ActivityCourse extends React.Component<any, any> {
       isShow,
       isSHowActive,
       isBuyed,
-      isSHowTopic
+      isSHowTopic,
+      qrcodeUrl
     } = this.state
     const { type } = this.props.location.query
     return (
@@ -215,16 +214,10 @@ export default class ActivityCourse extends React.Component<any, any> {
         {isSHowTopic && (
           <div className="activeMask">
             <div className="toastContent notice">
-              <div className="title">领书活动已结束</div>
-              <img className="qrcode" src="" />
-              <div className="topic">
-                <p>您可以长按保存图片</p>
-                <p>分享并关注「又更新了」公众号</p>
-                <p>成功邀请一人即可获得一份资料包。</p>
-                <div className="closeImg" onClick={() => this.closeTopic()}>
-                  <Icon type="close" size="3rem" />
-                </div>
+              <div className="noticeText">
+                恭喜您获得一份能力提升资料合集，点击免费领取，我们将在公众号为您发送
               </div>
+              <div className="ensure">确定</div>
             </div>
           </div>
         )}
