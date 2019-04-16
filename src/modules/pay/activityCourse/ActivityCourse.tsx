@@ -217,7 +217,9 @@ export default class ActivityCourse extends React.Component<any, any> {
               <div className="noticeText">
                 恭喜您获得一份能力提升资料合集，点击免费领取，我们将在公众号为您发送
               </div>
-              <div className="ensure">确定</div>
+              <div className="ensure" onClick={() => this.closeTopic()}>
+                确定
+              </div>
             </div>
           </div>
         )}
