@@ -108,7 +108,8 @@ export default class ActivityCourse extends React.Component<any, any> {
       if (res.code === 200) {
         let result = res.msg
         this.setState({
-          isSHowTopic: true
+          isSHowTopic: true,
+          posterUrl: result.url
         })
       } else {
         const { dispatch } = this.props
@@ -214,9 +215,17 @@ export default class ActivityCourse extends React.Component<any, any> {
         {isSHowTopic && (
           <div className="activeMask">
             <div className="toastContent notice">
-              <div className="noticeText">
-                恭喜您获得一份能力提升资料合集，点击免费领取，我们将在公众号为您发送
-              </div>
+              {!isBuyed && (
+                <div className="noticeText">
+                  您的礼包已经通过公众号发送，扫描关注您的专属班主任与其他小伙伴一起学习职场提升课。
+                </div>
+              )}
+              {isBuyed && (
+                <div className="noticeText isBuyed">
+                  成功领取礼包，请注意查收。
+                </div>
+              )}
+              {!isBuyed && <img className="qrcode" src={posterUrl} />}
               <div className="ensure" onClick={() => this.closeTopic()}>
                 确定
               </div>
