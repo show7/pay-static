@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {set, startLoad, endLoad, alertMsg} from 'redux/actions'
-import {getQuery} from '../../../utils/getquery'
-import {mark} from 'utils/request'
-import {pay, config, configShare} from '../../helpers/JsConfig'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
+import { getQuery } from '../../../utils/getquery'
+import { mark } from 'utils/request'
+import { pay, config, configShare } from '../../helpers/JsConfig'
 import * as _ from 'lodash'
 import {
   checkRiseMember,
@@ -15,14 +15,14 @@ import {
   afterPayDone,
   calculateCoupons,
   loadInvitation,
-  loadTask,
+  loadTask
 } from '../async'
 
 import './OldBeltNew.less'
 enum payType {
   WECHAT = 1,
   ALIPAY = 8,
-  HUABEI = 8,
+  HUABEI = 8
 }
 @connect(state => state)
 export default class OldBeltNew extends Component<any, any> {
@@ -37,44 +37,51 @@ export default class OldBeltNew extends Component<any, any> {
       couponsIdGroup: [],
       couponTip: '',
       favorablePrice: '',
+      isShow: false,
+      canClick: true
     }
   }
   static contextTypes = {
-    router: React.PropTypes.object.isRequired,
+    router: React.PropTypes.object.isRequired
   }
   async componentDidMount() {
-    const {dispatch} = this.props
+    const { dispatch } = this.props
+    dispatch(startLoad())
     const goodsId = getQuery('goodsId') || ''
     //try {
-    const {code: riseCode, msg: riseMsg} = await getRiseMember(goodsId)
+    const { code: riseCode, msg: riseMsg } = await getRiseMember(goodsId)
     if (riseCode !== 200) throw '信息校验失败'
-    const {quanwaiGoods} = riseMsg
-    const {goodsType, priceActivityId = ''} = quanwaiGoods
-    this.setState({goodsType, goodsId})
+    const { quanwaiGoods } = riseMsg
+    const { goodsType, priceActivityId = '' } = quanwaiGoods
+    this.setState({ goodsType, goodsId })
 
-    const {code: loadCode, msg: loadMsg} = await loadGoodsInfo(
+    const { code: loadCode, msg: loadMsg } = await loadGoodsInfo(
       goodsType,
       goodsId,
       priceActivityId
     )
+    dispatch(endLoad())
+    this.setState({
+      isShow: true
+    })
     if (loadCode !== 200) throw '加载商品信息失败'
     const {
       coupons,
-      autoCoupons,
+      autoCoupons = [],
       name,
       fee,
       multiCoupons,
       sellingDeadline,
-      openDate,
+      openDate
     } = loadMsg
     let autoCouponsIdList = autoCoupons.map(item => item.id)
     coupons.forEach(coupon => {
-      Object.assign(coupon, {isSelect: autoCouponsIdList.includes(coupon.id)})
+      Object.assign(coupon, { isSelect: autoCouponsIdList.includes(coupon.id) })
     })
     this.setState({
       coupons,
       multiCoupons,
-      subjectinfor: {name, fee, sellingDeadline, openDate},
+      subjectinfor: { name, fee, sellingDeadline, openDate }
     })
     this.setCoupon()
     //} catch (e) {
@@ -82,57 +89,79 @@ export default class OldBeltNew extends Component<any, any> {
     //}
   }
   async goPay() {
-    const {riseId = '', type = 0} = this.props
-    const {goodsId, goodsType} = this.state
-    const {dispatch} = this.props
-
+    const { dispatch } = this.props
+    if (!this.state.canClick) return
+    dispatch(startLoad())
+    this.setState({
+      canClick: false
+    })
+    const { riseId = '', type = 0 } = this.props
+    const { goodsId, goodsType } = this.state
     //try {
-    const {code: checkCode, msg: checkMsg} = await checkRiseMember(
+    const { code: checkCode, msg: checkMsg } = await checkRiseMember(
       goodsId,
       riseId,
       type
     )
+    dispatch(endLoad())
     if (checkCode !== 200) throw '支付校验失败'
-    const {privilege, errorMsg} = checkMsg
-    if (!privilege) throw errorMsg
-    const {selectPayIndex, payTypeMap, couponsIdGroup} = this.state
+    const { privilege, errorMsg } = checkMsg
+    if (!privilege) dispatch(alertMsg(errorMsg))
+    const { selectPayIndex, payTypeMap, couponsIdGroup } = this.state
     const mobile = this.refs.mobile.value
-    if (!/^1\d{10}$/.test(mobile))
+    if (!/^1\d{10}$/.test(mobile)) {
+      this.setState({
+        canClick: true
+      })
       return dispatch(alertMsg('请检查手机号格式是否有误'))
+    }
     mark({
       module: '购课落地页',
       function: '支付页',
       action: '进入支付页后输入手机号',
-      memo: `mobile=${mobile}`,
+      memo: `mobile=${mobile}`
     })
     const payMap = ['微信', '支付宝', '花呗']
     mark({
       module: '购课落地页',
       function: '支付页',
       action: '进入支付页后选择支付方式',
-      memo: `payType=${payMap[selectPayIndex]}`,
+      memo: `payType=${payMap[selectPayIndex]}`
     })
     mark({
       module: '购课落地页',
       function: '支付页',
       action: '点击立即支付',
-      memo: `mobile=${mobile}&payTypeMap=${payTypeMap[selectPayIndex]}`,
+      memo: `mobile=${mobile}&payTypeMap=${payTypeMap[selectPayIndex]}`
     })
     const params = {
       goodsType,
       goodsId,
       payType: payTypeMap[selectPayIndex],
       couponsIdGroup,
-      mobile,
+      mobile
     }
-    const {code: loadPayCode, msg: loadPayMsg} = await loadPaymentParam(params)
-    const {fee, free, signParams, productId} = loadPayMsg
-    if (loadPayCode !== 200) throw '获取支付信息失败'
+    const { code: loadPayCode, msg: loadPayMsg } = await loadPaymentParam(
+      params
+    )
+    const { fee, free, signParams, productId } = loadPayMsg
+    if (loadPayCode !== 200) {
+      dispatch(alertMsg('获取支付信息失败'))
+      this.setState({
+        canClick: true
+      })
+    }
 
     if (Number(fee) === 0 && free) {
-      const {code: freePayDoneCode} = await afterPayDone(productId)
+      const { code: freePayDoneCode } = await afterPayDone(productId)
+      this.setState({
+        canClick: true
+      })
       if (freePayDoneCode === 200) return this.handlePayDone(goodsId)
     }
+    this.setState({
+      canClick: true
+    })
     payTypeMap[selectPayIndex] === payType.WECHAT
       ? this.handleH5Pay(signParams, goodsType)
       : (window.location.href = `/pay/alipay/rise?orderId=${productId}&goto=${encodeURIComponent(
@@ -149,21 +178,21 @@ export default class OldBeltNew extends Component<any, any> {
   handleH5Pay(signParams, goodsType = '未知商品') {
     this.reConfig()
     let functionName = goodsType
-    const {goodsId} = this.state
+    const { goodsId } = this.state
     mark({
       module: '支付',
       function: functionName,
       action: '开始支付',
-      memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo,
+      memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
     })
 
-    const {dispatch} = this.props
+    const { dispatch } = this.props
     if (!signParams) {
       mark({
         module: '支付',
         function: functionName,
         action: '没有支付参数',
-        memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo,
+        memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
       })
       dispatch(alertMsg('支付信息错误，请刷新'))
       return
@@ -174,10 +203,13 @@ export default class OldBeltNew extends Component<any, any> {
         module: '支付',
         function: functionName,
         action: 'windows-pay',
-        memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo,
+        memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
       })
       dispatch(alertMsg('Windows的微信客户端不能支付哦，请在手机端购买课程～'))
     }
+    this.setState({
+      canClick: true
+    })
     // 调起H5支付
     pay(
       {
@@ -186,7 +218,7 @@ export default class OldBeltNew extends Component<any, any> {
         nonceStr: signParams.nonceStr, //随机串
         package: signParams.package,
         signType: signParams.signType, //微信签名方式：
-        paySign: signParams.paySign, //微信签名
+        paySign: signParams.paySign //微信签名
       },
       () => {
         // 购买成功的回调
@@ -194,7 +226,7 @@ export default class OldBeltNew extends Component<any, any> {
           module: '支付',
           function: functionName,
           action: 'success',
-          memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo,
+          memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
         })
         this.handlePayDone(goodsId)
       },
@@ -204,7 +236,7 @@ export default class OldBeltNew extends Component<any, any> {
           module: '支付',
           function: functionName,
           action: 'cancel',
-          memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo,
+          memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
         })
       },
       res => {
@@ -226,22 +258,22 @@ export default class OldBeltNew extends Component<any, any> {
   }
   handlePayDone(goodsId) {
     //成功跳转到报名成功页面
-    const {dispatch} = this.props
+    const { dispatch } = this.props
     mark({
       module: '购课落地页',
       function: '支付页',
       action: '进入支付成功页面的人数',
-      memo: '进入支付成功页面的人数',
+      memo: '进入支付成功页面的人数'
     })
     this.context.router.push({
       pathname: `/pay/member/success`,
       query: {
-        goodsId,
-      },
+        goodsId
+      }
     })
   }
   setCoupon() {
-    const {coupons} = this.state
+    const { coupons } = this.state
     const couponsCroup = coupons
       .map(item => (item.isSelect ? item : ''))
       .filter(id => id !== '')
@@ -256,12 +288,12 @@ export default class OldBeltNew extends Component<any, any> {
     this.setState({
       couponsIdGroup,
       couponTip,
-      favorablePrice,
+      favorablePrice
     })
   }
   selectedCoupon(i) {
-    const {dispatch} = this.props
-    const {coupons, multiCoupons} = this.state
+    const { dispatch } = this.props
+    const { coupons, multiCoupons } = this.state
     if (multiCoupons) {
       coupons[i].isSelect = !coupons[i].isSelect
     } else {
@@ -272,7 +304,7 @@ export default class OldBeltNew extends Component<any, any> {
     }
     this.setCoupon()
     this.setState({
-      coupons,
+      coupons
     })
   }
   /**
@@ -285,16 +317,16 @@ export default class OldBeltNew extends Component<any, any> {
     const payModelist = [
       {
         payName: '微信支付',
-        payIcon: 'https://static.iqycamp.com/02-hgf9x2um.png',
+        payIcon: 'https://static.iqycamp.com/02-hgf9x2um.png'
       },
       {
         payName: '支付宝',
-        payIcon: 'https://static.iqycamp.com/03-w6zbyuag.png',
+        payIcon: 'https://static.iqycamp.com/03-w6zbyuag.png'
       },
       {
         payName: '支付宝花呗(支持分期)',
-        payIcon: 'https://static.iqycamp.com/04-2ys3s3nr.png',
-      },
+        payIcon: 'https://static.iqycamp.com/04-2ys3s3nr.png'
+      }
     ]
     const {
       selectPayIndex,
@@ -303,20 +335,21 @@ export default class OldBeltNew extends Component<any, any> {
       subjectinfor,
       couponTip,
       favorablePrice,
+      isShow
     } = this.state
-    const {name, fee, openDate, sellingDeadline} = subjectinfor
+    const { name, fee, openDate, sellingDeadline } = subjectinfor
     const CouponSelectComponent = props => {
-      const {isShow} = props
+      const { isShow } = props
       return (
         <div
           className="coupon-select-wrap"
-          style={{display: isShow ? 'block' : 'none'}}
+          style={{ display: isShow ? 'block' : 'none' }}
         >
           <div className="coupon-box-wrap">
             <div
               className="close-coupon"
               onClick={() => {
-                this.setState({isShowCouponSelect: false})
+                this.setState({ isShowCouponSelect: false })
               }}
             >
               <img
@@ -328,7 +361,7 @@ export default class OldBeltNew extends Component<any, any> {
             {!!coupons && coupons.length > 0 ? (
               <ul>
                 {coupons.map((coupon, i) => {
-                  const {amount, isSelect, expired} = coupon
+                  const { amount, isSelect, expired } = coupon
                   return (
                     <li
                       key={i}
@@ -359,7 +392,7 @@ export default class OldBeltNew extends Component<any, any> {
             <div
               className="use-coupon"
               onClick={() => {
-                this.setState({isShowCouponSelect: false})
+                this.setState({ isShowCouponSelect: false })
               }}
             >
               确认使用
@@ -369,7 +402,10 @@ export default class OldBeltNew extends Component<any, any> {
       )
     }
     return (
-      <div className="old-belt-new-wrap">
+      <div
+        className="old-belt-new-wrap"
+        style={{ display: isShow ? 'block' : 'none' }}
+      >
         <div>
           <div className="user-name">{window.ENV.userName}</div>
           <div className="input-wrap">
@@ -407,7 +443,7 @@ export default class OldBeltNew extends Component<any, any> {
         <div
           className="coupon-wrap"
           onClick={() => {
-            this.setState({isShowCouponSelect: true})
+            this.setState({ isShowCouponSelect: true })
           }}
         >
           <div>
@@ -427,7 +463,7 @@ export default class OldBeltNew extends Component<any, any> {
             return (
               <li
                 onClick={() => {
-                  this.setState({selectPayIndex: i})
+                  this.setState({ selectPayIndex: i })
                 }}
               >
                 <div>
