@@ -89,32 +89,32 @@ export default class OldBeltNew extends Component<any, any> {
     //}
   }
   async goPay() {
+    const { dispatch } = this.props
     if (!this.state.canClick) return
-    this.props.dispatch(startLoad())
+    dispatch(startLoad())
     this.setState({
       canClick: false
     })
     const { riseId = '', type = 0 } = this.props
     const { goodsId, goodsType } = this.state
-    const { dispatch } = this.props
-
     //try {
     const { code: checkCode, msg: checkMsg } = await checkRiseMember(
       goodsId,
       riseId,
       type
     )
-    this.props.dispatch(endLoad())
-    this.setState({
-      canClick: true
-    })
+    dispatch(endLoad())
     if (checkCode !== 200) throw '支付校验失败'
     const { privilege, errorMsg } = checkMsg
-    if (!privilege) throw errorMsg
+    if (!privilege) dispatch(alertMsg(errorMsg))
     const { selectPayIndex, payTypeMap, couponsIdGroup } = this.state
     const mobile = this.refs.mobile.value
-    if (!/^1\d{10}$/.test(mobile))
+    if (!/^1\d{10}$/.test(mobile)) {
+      this.setState({
+        canClick: true
+      })
       return dispatch(alertMsg('请检查手机号格式是否有误'))
+    }
     mark({
       module: '购课落地页',
       function: '支付页',
@@ -145,12 +145,23 @@ export default class OldBeltNew extends Component<any, any> {
       params
     )
     const { fee, free, signParams, productId } = loadPayMsg
-    if (loadPayCode !== 200) throw '获取支付信息失败'
+    if (loadPayCode !== 200) {
+      dispatch(alertMsg('获取支付信息失败'))
+      this.setState({
+        canClick: true
+      })
+    }
 
     if (Number(fee) === 0 && free) {
       const { code: freePayDoneCode } = await afterPayDone(productId)
+      this.setState({
+        canClick: true
+      })
       if (freePayDoneCode === 200) return this.handlePayDone(goodsId)
     }
+    this.setState({
+      canClick: true
+    })
     payTypeMap[selectPayIndex] === payType.WECHAT
       ? this.handleH5Pay(signParams, goodsType)
       : (window.location.href = `/pay/alipay/rise?orderId=${productId}&goto=${encodeURIComponent(
@@ -196,6 +207,9 @@ export default class OldBeltNew extends Component<any, any> {
       })
       dispatch(alertMsg('Windows的微信客户端不能支付哦，请在手机端购买课程～'))
     }
+    this.setState({
+      canClick: true
+    })
     // 调起H5支付
     pay(
       {
