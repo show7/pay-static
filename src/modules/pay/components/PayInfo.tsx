@@ -6,22 +6,22 @@ import * as _ from 'lodash'
 import classnames from 'classnames'
 
 const numeral = require('numeral')
-import {startLoad, endLoad, alertMsg} from 'redux/actions'
+import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import {
   afterPayDone,
   logPay,
   loadGoodsInfo,
   loadPaymentParam,
-  calculateCoupons,
+  calculateCoupons
 } from '../async'
-import {mark} from 'utils/request'
+import { mark } from 'utils/request'
 
-import {pay} from '../../helpers/JsConfig'
+import { pay } from '../../helpers/JsConfig'
 import {
   getQueryString,
   GoodsType,
   PayType,
-  saTrack,
+  saTrack
 } from '../../../utils/helpers'
 
 /** 超过这个金额时可以选择支付方式 */
@@ -69,9 +69,9 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       chose: {
         used: false,
         total: 0,
-        couponsIdGroup: [],
+        couponsIdGroup: []
       },
-      payType: this.props.payType || PayType.WECHAT,
+      payType: this.props.payType || PayType.WECHAT
     }
   }
 
@@ -87,7 +87,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
   componentWillMount(type, id) {
     let goodsType = type || this.props.goodsType
     let goodsId = id || this.props.goodsId
-    const {dispatch} = this.props
+    const { dispatch } = this.props
 
     let payMethod = getQueryString(window.location.href, 'pay')
     let priceActivityId = getQueryString(window.location.href, 'paId')
@@ -99,11 +99,12 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       justOpenPayType: goodsId == 7 && GoodsType.BS_APPLICATION == goodsType,
       showKfq: !!payMethod,
       showHuabei: !!payMethod,
-      priceActivityId: priceActivityId,
+      priceActivityId: priceActivityId
     })
     loadGoodsInfo(goodsType, goodsId, priceActivityId)
       .then(res => {
         if (res.code === 200) {
+          this.props.setPrice(res.msg.fee, res.msg.initPrice)
           this.setState(res.msg, () => {
             // 如果autoChose有值则自动选择优惠券
             if (!_.isEmpty(res.msg.autoCoupons) && res.msg.coupons) {
@@ -123,7 +124,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
         }
       })
       .catch(ex => {
-        const {dispatch} = this.props
+        const { dispatch } = this.props
         dispatch(alertMsg(ex))
       })
   }
@@ -143,7 +144,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
 
   handleClickOpen() {
     console.log('error')
-    const {fee} = this.state
+    const { fee } = this.state
     // 价格小于100 则直接付费
     if (fee <= MULTI_PAY_TYPE_PRICE) {
       console.log('<100')
@@ -152,13 +153,13 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       }
       this.handleClickPay()
     } else {
-      this.setState({show: true}, () => {
+      this.setState({ show: true }, () => {
         if (_.isFunction(this.props.afterShow)) {
           this.props.afterShow()
         }
         saTrack('clickPayDialogButton', {
           goodsType: this.props.goodsType,
-          goodsId: Number(this.props.goodsId).toString(),
+          goodsId: Number(this.props.goodsId).toString()
         })
       })
     }
@@ -168,7 +169,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     this.setState(
       {
         show: false,
-        openCoupon: false,
+        openCoupon: false
       },
       () => {
         if (_.isFunction(this.props.afterClose)) {
@@ -188,14 +189,14 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       goodsType,
       goodsId,
       activityId = null,
-      channel = null,
+      channel = null
     } = this.props
     const {
       chose,
       final,
       free,
       multiCoupons,
-      payType = PayType.WECHAT,
+      payType = PayType.WECHAT
     } = this.state
     if (!goodsId || !goodsType) {
       dispatch(alertMsg('支付信息错误，请联系管理员'))
@@ -206,19 +207,19 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       goodsId: goodsId,
       goodsType: goodsType,
       payType: payType,
-      priceActivityId: priceActivityId,
+      priceActivityId: priceActivityId
     }
     if (chose) {
       if (!_.isEmpty(chose.couponsIdGroup)) {
-        param = _.merge({}, param, {couponsIdGroup: chose.couponsIdGroup})
+        param = _.merge({}, param, { couponsIdGroup: chose.couponsIdGroup })
       }
     }
     if (activityId) {
       //活动id
-      param = _.merge({}, param, {activityId: activityId})
+      param = _.merge({}, param, { activityId: activityId })
     }
     if (channel) {
-      param = _.merge({}, param, {channel: channel})
+      param = _.merge({}, param, { channel: channel })
     }
     dispatch(startLoad())
     loadPaymentParam(param)
@@ -228,13 +229,13 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
           saTrack('clickPayButton', {
             goodsType: this.props.goodsType,
             goodsId: Number(this.props.goodsId).toString(),
-            payType: payType,
+            payType: payType
           })
           if (_.isFunction(this.props.payedBefore)) {
             this.props.payedBefore()
           }
-          const {fee, free, signParams, productId} = res.msg
-          this.setState({productId: productId})
+          const { fee, free, signParams, productId } = res.msg
+          this.setState({ productId: productId })
           if (!_.isNumber(fee)) {
             dispatch(alertMsg('支付金额异常，请联系工作人员'))
             return
@@ -283,16 +284,16 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       module: '支付',
       function: functionName,
       action: '开始支付',
-      memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo,
+      memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
     })
 
-    const {dispatch} = this.props
+    const { dispatch } = this.props
     if (!signParams) {
       mark({
         module: '支付',
         function: functionName,
         action: '没有支付参数',
-        memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo,
+        memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
       })
       dispatch(alertMsg('支付信息错误，请刷新'))
       return
@@ -310,13 +311,13 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
           'url:' +
           window.location.href +
           ',os:' +
-          window.ENV.systemInfo,
+          window.ENV.systemInfo
       })
       dispatch(alertMsg(this.state.err))
       return
     }
 
-    this.setState({showPayInfo: false})
+    this.setState({ showPayInfo: false })
 
     if (window.ENV.osName === 'windows') {
       // windows客户端
@@ -324,7 +325,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
         module: '支付',
         function: functionName,
         action: 'windows-pay',
-        memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo,
+        memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
       })
       dispatch(alertMsg('Windows的微信客户端不能支付哦，请在手机端购买课程～'))
     }
@@ -337,7 +338,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
         nonceStr: signParams.nonceStr, //随机串
         package: signParams.package,
         signType: signParams.signType, //微信签名方式：
-        paySign: signParams.paySign, //微信签名
+        paySign: signParams.paySign //微信签名
       },
       () => {
         // 购买成功的回调
@@ -345,7 +346,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
           module: '支付',
           function: functionName,
           action: 'success',
-          memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo,
+          memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
         })
         this.handlePayDone()
       },
@@ -355,7 +356,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
           module: '支付',
           function: functionName,
           action: 'cancel',
-          memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo,
+          memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
         })
         this.handleClickClose()
         if (_.isFunction(this.props.payedCancel)) {
@@ -388,18 +389,18 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     if (_.isEmpty(autoCoupons)) {
       return
     }
-    const {dispatch} = this.props
+    const { dispatch } = this.props
     // 可用的优惠券
     let chose = {
       couponsIdGroup: [],
       total: 0,
-      used: false,
+      used: false
     }
     let priceActivityId = getQueryString(window.location.href, 'paId')
     let param = {
       goodsId: goodsId,
       goodsType: goodsType,
-      priceActivityId: priceActivityId,
+      priceActivityId: priceActivityId
     }
 
     chose.used = true
@@ -408,14 +409,14 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       chose.total += autoCoupons[i].amount
     }
 
-    _.merge(param, {couponsIdGroup: chose.couponsIdGroup})
+    _.merge(param, { couponsIdGroup: chose.couponsIdGroup })
     calculateCoupons(param)
       .then(res => {
         dispatch(endLoad())
         if (res.code === 200) {
-          let state = {free: res.msg === 0, chose: chose, final: res.msg}
+          let state = { free: res.msg === 0, chose: chose, final: res.msg }
           if (!multiCoupons) {
-            _.merge(state, {openCoupon: false})
+            _.merge(state, { openCoupon: false })
           }
           this.setState(state)
         } else {
@@ -433,8 +434,8 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
    * @param coupon 优惠券
    */
   handleClickChooseCoupon(coupon) {
-    const {dispatch, goodsId, goodsType} = this.props
-    const {multiCoupons} = this.state
+    const { dispatch, goodsId, goodsType } = this.props
+    const { multiCoupons } = this.state
     let coupons = _.get(this.state, 'coupons', [])
     // coupons = this.filterCoupons(coupons, goodsType)
     let chose = _.get(this.state, 'chose', {})
@@ -444,12 +445,12 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     let param = {
       goodsId: goodsId,
       goodsType: goodsType,
-      priceActivityId: priceActivityId,
+      priceActivityId: priceActivityId
     }
     // 可以选择多个优惠券
     if (chose === null) {
       chose = {
-        couponsIdGroup: [],
+        couponsIdGroup: []
       }
     } else {
       if (!chose.couponsIdGroup) {
@@ -468,7 +469,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       }
       chose.couponsIdGroup.push(coupon.id)
     }
-    _.merge(param, {couponsIdGroup: chose.couponsIdGroup})
+    _.merge(param, { couponsIdGroup: chose.couponsIdGroup })
 
     if (_.isEmpty(chose.couponsIdGroup)) {
       chose.used = false
@@ -492,9 +493,9 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       .then(res => {
         dispatch(endLoad())
         if (res.code === 200) {
-          let state = {free: res.msg === 0, chose: chose, final: res.msg}
+          let state = { free: res.msg === 0, chose: chose, final: res.msg }
           if (!multiCoupons) {
-            _.merge(state, {openCoupon: false})
+            _.merge(state, { openCoupon: false })
           }
           this.setState(state)
         } else {
@@ -512,14 +513,14 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
    */
   handlePayDone() {
     this.handleClickClose()
-    const {dispatch} = this.props
-    const {productId} = this.state
+    const { dispatch } = this.props
+    const { productId } = this.state
     if (this.state.err) {
       mark({
         module: '打点',
         function: '支付',
         action: '支付异常',
-        memo: window.location.href,
+        memo: window.location.href
       })
       dispatch(alertMsg('支付失败：' + this.state.err))
       return
@@ -571,10 +572,10 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
   }
 
   handleClickChooseAll() {
-    const {dispatch, goodsId, goodsType} = this.props
+    const { dispatch, goodsId, goodsType } = this.props
     let coupons = _.get(this.state, 'coupons', [])
     // coupons = this.filterCoupons(coupons, goodsType)
-    const {multiCoupons} = this.state
+    const { multiCoupons } = this.state
     if (multiCoupons && !_.isEmpty(coupons)) {
       let chose = _.get(this.state, 'chose', {})
       // 可以多选
@@ -582,7 +583,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       if (!chose) {
         chose = {
           total: 0,
-          used: false,
+          used: false
         }
       }
       let choseList = _.get(chose, 'couponsIdGroup', [])
@@ -612,7 +613,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
         goodsId: goodsId,
         goodsType: goodsType,
         couponsIdGroup: chose.couponsIdGroup,
-        priceActivityId: priceActivityId,
+        priceActivityId: priceActivityId
       }
       dispatch(startLoad())
       calculateCoupons(param)
@@ -624,7 +625,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
               chose: chose,
               final: res.msg,
               chose: chose,
-              chooseAll: addCount !== 0,
+              chooseAll: addCount !== 0
             })
           } else {
             dispatch(alertMsg(res.msg))
@@ -638,7 +639,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
   }
 
   choosePayType(payType) {
-    const {openPayType, fee} = this.state
+    const { openPayType, fee } = this.state
     // console.log(fee);
     if (fee <= MULTI_PAY_TYPE_PRICE) {
       return
@@ -646,20 +647,20 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     console.log('选择paytype', payType)
     if (!!payType) {
       // 有payType
-      this.setState({payType: payType, openPayType: false})
+      this.setState({ payType: payType, openPayType: false })
       setTimeout(() => {
-        this.setState({hiddenCoupon: false})
+        this.setState({ hiddenCoupon: false })
       }, 500)
     } else {
       if (openPayType) {
         // 要关闭
-        this.setState({openPayType: false})
+        this.setState({ openPayType: false })
         setTimeout(() => {
-          this.setState({hiddenCoupon: false})
+          this.setState({ hiddenCoupon: false })
         }, 500)
       } else {
         // 要打开
-        this.setState({openPayType: true, hiddenCoupon: true})
+        this.setState({ openPayType: true, hiddenCoupon: true })
       }
     }
   }
@@ -684,9 +685,9 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       hiddenCoupon = false,
       justOpenPayType,
       showKfq,
-      showHuabei,
+      showHuabei
     } = this.state
-    const {header, goodsId, goodsType} = this.props
+    const { header, goodsId, goodsType } = this.props
     let coupons = _.get(this.state, 'coupons', [])
     // coupons = this.filterCoupons(coupons, goodsType)
     const hasCoupons = !_.isEmpty(coupons)
@@ -773,7 +774,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
           <span
             className="final"
             key={1}
-            style={{marginLeft: '5px'}}
+            style={{ marginLeft: '5px' }}
           >{`¥ ${numeral(
             (final || free) && !_.isEqual(final, fee) ? final : fee
           ).format('0.00')}元`}</span>
@@ -853,22 +854,22 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                 : null}
             </ul>
             <span
-              style={{paddingLeft: '15px', fontSize: '15px', color: '#333'}}
+              style={{ paddingLeft: '15px', fontSize: '15px', color: '#333' }}
             >
               支付方式:
             </span>
             <br />
             <ul className="pay-type-list">
               <li
-                className={classnames({choose: payType == PayType.WECHAT})}
-                onClick={() => this.setState({payType: PayType.WECHAT})}
+                className={classnames({ choose: payType == PayType.WECHAT })}
+                onClick={() => this.setState({ payType: PayType.WECHAT })}
               >
                 微信
               </li>
               {fee > MULTI_PAY_TYPE_PRICE && (
                 <li
-                  className={classnames({choose: payType == PayType.ALIPAY})}
-                  onClick={() => this.setState({payType: PayType.ALIPAY})}
+                  className={classnames({ choose: payType == PayType.ALIPAY })}
+                  onClick={() => this.setState({ payType: PayType.ALIPAY })}
                 >
                   支付宝/*<span className="pay-type-tips">(支持花呗分期)</span>
                   */
@@ -878,32 +879,38 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                 fee <= KFQ_PAY_PRICE_RANGE[1] &&
                 showKfq && (
                   <li
-                    className={classnames({choose: payType == PayType.KFQ})}
-                    onClick={() => this.setState({payType: PayType.KFQ})}
+                    className={classnames({ choose: payType == PayType.KFQ })}
+                    onClick={() => this.setState({ payType: PayType.KFQ })}
                   >
                     银联分期
                   </li>
                 )}
               {showHuabei && (
                 <li
-                  className={classnames({choose: payType == PayType.HUABEI_3})}
-                  onClick={() => this.setState({payType: PayType.HUABEI_3})}
+                  className={classnames({
+                    choose: payType == PayType.HUABEI_3
+                  })}
+                  onClick={() => this.setState({ payType: PayType.HUABEI_3 })}
                 >
                   花呗分期(3期)
                 </li>
               )}
               {showHuabei && (
                 <li
-                  className={classnames({choose: payType == PayType.HUABEI_6})}
-                  onClick={() => this.setState({payType: PayType.HUABEI_6})}
+                  className={classnames({
+                    choose: payType == PayType.HUABEI_6
+                  })}
+                  onClick={() => this.setState({ payType: PayType.HUABEI_6 })}
                 >
                   花呗分期(6期)
                 </li>
               )}
               {showHuabei && (
                 <li
-                  className={classnames({choose: payType == PayType.HUABEI_12})}
-                  onClick={() => this.setState({payType: PayType.HUABEI_12})}
+                  className={classnames({
+                    choose: payType == PayType.HUABEI_12
+                  })}
+                  onClick={() => this.setState({ payType: PayType.HUABEI_12 })}
                 >
                   花呗分期(12期)
                 </li>
@@ -922,14 +929,14 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
           className={classnames('pay-info', {
             show: show,
             hasCoupons: hasCoupons,
-            hasTime: !!startTime && !!endTime,
+            hasTime: !!startTime && !!endTime
           })}
         >
           {show && (
             <div
               className={classnames('pi-close', {
                 hasCoupons: hasCoupons,
-                hasTime: !!startTime && !!endTime,
+                hasTime: !!startTime && !!endTime
               })}
               onClick={() => this.handleClickClose()}
             >
@@ -940,13 +947,13 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
             className={classnames('main-container', {
               hasCoupons: hasCoupons,
               show: show,
-              hasTime: !!startTime && !!endTime,
+              hasTime: !!startTime && !!endTime
             })}
           >
             <div
               className={classnames('header', {
                 openCoupon: openCoupon || openPayType,
-                'just-open-pay-type': justOpenPayType,
+                'just-open-pay-type': justOpenPayType
               })}
             >
               {header || name}
@@ -954,7 +961,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
             <div
               className={classnames('content', {
                 openCoupon: openCoupon || openPayType,
-                'just-open-pay-type': justOpenPayType,
+                'just-open-pay-type': justOpenPayType
               })}
             >
               {!!startTime && !!endTime && (
@@ -967,7 +974,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
               )}
               <div
                 className={classnames('price', 'item', {
-                  'show-tips': this.props.priceTips,
+                  'show-tips': this.props.priceTips
                 })}
               >
                 {renderPrice(fee, final, free, initPrice)}
@@ -977,10 +984,10 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                   className={classnames('has-arrow', 'coupon', 'item', {
                     open: openCoupon,
                     hidden: openPayType,
-                    'just-open-pay-type': justOpenPayType,
+                    'just-open-pay-type': justOpenPayType
                   })}
                   onClick={() =>
-                    this.setState({openCoupon: !this.state.openCoupon})
+                    this.setState({ openCoupon: !this.state.openCoupon })
                   }
                 >
                   {chose && chose.used
@@ -997,7 +1004,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                   open: openPayType,
                   hidden: openCoupon,
                   'just-open-pay-type': justOpenPayType,
-                  'has-arrow': fee > MULTI_PAY_TYPE_PRICE,
+                  'has-arrow': fee > MULTI_PAY_TYPE_PRICE
                 })}
                 onClick={() => this.choosePayType()}
               >
@@ -1018,7 +1025,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
               className={classnames('coupon-list', {
                 open: openCoupon,
                 hidden: hiddenCoupon,
-                'just-open-pay-type': justOpenPayType,
+                'just-open-pay-type': justOpenPayType
               })}
             >
               {multiCoupons && (
@@ -1026,7 +1033,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                   <div className="choose-area">
                     <div className="choose-all-tips">全选</div>
                     <div
-                      className={classnames('choose-all', {chose: chooseAll})}
+                      className={classnames('choose-all', { chose: chooseAll })}
                       onClick={() => this.handleClickChooseAll()}
                     >
                       <div className="btn" />
@@ -1054,18 +1061,18 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                       <div
                         className={classnames('chose-btn', {
                           'multi-chooses': multiCoupons,
-                          chose: couponChosen(item),
+                          chose: couponChosen(item)
                         })}
                         onClick={() => this.handleClickChooseCoupon(item)}
                       >
                         <div
                           className={classnames('btn', {
-                            'multi-chooses': multiCoupons,
+                            'multi-chooses': multiCoupons
                           })}
                         />
                         <div
                           className={classnames('mask', {
-                            'multi-chooses': multiCoupons,
+                            'multi-chooses': multiCoupons
                           })}
                         />
                       </div>
@@ -1078,7 +1085,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
               className={classnames('pay-list', {
                 open: openPayType,
                 hidden: openCoupon,
-                'just-open-pay-type': justOpenPayType,
+                'just-open-pay-type': justOpenPayType
               })}
             >
               <li className="pay-type-item">
@@ -1090,7 +1097,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                 </div>
                 <div
                   className={classnames('chose-btn', {
-                    chose: payType == PayType.WECHAT,
+                    chose: payType == PayType.WECHAT
                   })}
                   onClick={() => this.choosePayType(PayType.WECHAT)}
                 >
@@ -1111,7 +1118,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                 </div>
                 <div
                   className={classnames('chose-btn', {
-                    chose: payType == PayType.ALIPAY,
+                    chose: payType == PayType.ALIPAY
                   })}
                   onClick={() => this.choosePayType(PayType.ALIPAY)}
                 >
@@ -1132,7 +1139,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                     </div>
                     <div
                       className={classnames('chose-btn', {
-                        chose: payType == PayType.KFQ,
+                        chose: payType == PayType.KFQ
                       })}
                       onClick={() => this.choosePayType(PayType.KFQ)}
                     >
@@ -1155,7 +1162,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                   </div>
                   <div
                     className={classnames('chose-btn', {
-                      chose: payType == PayType.HUABEI_3,
+                      chose: payType == PayType.HUABEI_3
                     })}
                     onClick={() => this.choosePayType(PayType.HUABEI_3)}
                   >
@@ -1178,7 +1185,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                   </div>
                   <div
                     className={classnames('chose-btn', {
-                      chose: payType == PayType.HUABEI_6,
+                      chose: payType == PayType.HUABEI_6
                     })}
                     onClick={() => this.choosePayType(PayType.HUABEI_6)}
                   >
@@ -1201,7 +1208,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
                   </div>
                   <div
                     className={classnames('chose-btn', {
-                      chose: payType == PayType.HUABEI_12,
+                      chose: payType == PayType.HUABEI_12
                     })}
                     onClick={() => this.choosePayType(PayType.HUABEI_12)}
                   >
@@ -1214,7 +1221,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
           </div>
           <div
             className={classnames('btn-container', {
-              openCoupon: openCoupon || openPayType,
+              openCoupon: openCoupon || openPayType
             })}
           >
             <div className="btn" onClick={() => this.handleClickPay()}>
