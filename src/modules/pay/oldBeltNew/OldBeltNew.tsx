@@ -106,7 +106,13 @@ export default class OldBeltNew extends Component<any, any> {
     dispatch(endLoad())
     if (checkCode !== 200) throw '支付校验失败'
     const { privilege, errorMsg } = checkMsg
-    if (!privilege) dispatch(alertMsg(errorMsg))
+    if (!privilege) {
+      dispatch(alertMsg(errorMsg))
+      this.setState({
+        canClick: true
+      })
+      return
+    }
     const { selectPayIndex, payTypeMap, couponsIdGroup } = this.state
     const mobile = this.refs.mobile.value
     if (!/^1\d{10}$/.test(mobile)) {

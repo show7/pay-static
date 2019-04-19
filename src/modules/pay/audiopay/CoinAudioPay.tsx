@@ -54,7 +54,9 @@ export default class CoinAudioPay extends React.Component<any, any> {
       },
       isSubscribe: true,
       canClick: true,
-      isShow: false
+      isShow: false,
+      fee: null,
+      initPrice: null
     }
   }
   static contextTypes = {
@@ -258,7 +260,13 @@ export default class CoinAudioPay extends React.Component<any, any> {
   handlePayedBefore() {
     mark({ module: '打点', function: '进阶课程', action: '点击付费' })
   }
-
+  setPrice(fee, initPrice) {
+    console.log(fee, initPrice)
+    this.setState({
+      fee: fee,
+      initPrice: initPrice
+    })
+  }
   render() {
     const {
       saleImg,
@@ -269,7 +277,9 @@ export default class CoinAudioPay extends React.Component<any, any> {
       goodsType,
       surplus,
       cooldown,
-      isShow
+      isShow,
+      fee,
+      initPrice
     } = this.state
     return (
       <div
@@ -313,9 +323,11 @@ export default class CoinAudioPay extends React.Component<any, any> {
           <div className="priceContent">
             <div className="leftContent">
               <div className="nowPrice">
-                ￥<span>1.00</span>
+                ￥<span>{Number(fee) ? fee.toFixed(2) : null}</span>
               </div>
-              <del>原价￥199.00</del>
+              <del style={{ display: Number(initPrice) ? 'block' : 'none' }}>
+                原价￥{Number(initPrice) ? initPrice.toFixed(2) : null}
+              </del>
             </div>
             <div
               className="rightContent"
@@ -381,6 +393,7 @@ export default class CoinAudioPay extends React.Component<any, any> {
             payedError={res => this.handlePayedError(res)}
             payedBefore={() => this.handlePayedBefore()}
             payType={PayType.WECHAT}
+            setPrice={(fee, initPrice) => this.setPrice(fee, initPrice)}
           />
         )}
       </div>
