@@ -36,5 +36,5 @@ export const DataFormat = function(milliseconds) {
   } else {
     milli = '00' + parseInt(timediff - 60000 * minute - 1000 * second)
   }
-  return minute + ':' + second + ':' + milli
+  return minute + ':' + second
 }
