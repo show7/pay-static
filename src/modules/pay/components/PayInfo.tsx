@@ -104,7 +104,9 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
     loadGoodsInfo(goodsType, goodsId, priceActivityId)
       .then(res => {
         if (res.code === 200) {
-          this.props.setPrice(res.msg.fee, res.msg.initPrice)
+          if (this.props.setPrice) {
+            this.props.setPrice(res.msg.fee, res.msg.initPrice)
+          }
           this.setState(res.msg, () => {
             // 如果autoChose有值则自动选择优惠券
             if (!_.isEmpty(res.msg.autoCoupons) && res.msg.coupons) {

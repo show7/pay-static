@@ -86,7 +86,7 @@ export default class CoinAudioPay extends React.Component<any, any> {
         isSubscribe: result.isSubscribe,
         memberPlanId: result.memberPlanId
       })
-      if (result.isCanBuy === false) {
+      if (!result.isCanBuy === false) {
         if (result.isSubscribe) {
           window.location.replace(
             `/rise/static/plan/study?planId=${result.memberPlanId}`
