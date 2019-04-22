@@ -88,9 +88,15 @@ export default class CoinAudioPay extends React.Component<any, any> {
       })
       if (result.isCanBuy === false) {
         if (result.isSubscribe) {
-          window.location.replace(
-            `/rise/static/plan/study?planId=${result.memberPlanId}`
-          )
+          if(result.memberPlanId) {
+            window.location.replace(
+              `/rise/static/plan/study?planId=${result.memberPlanId}`
+            )
+          } else {
+            window.location.replace('/rise/activity/static/promotion/audio?activityId=13')
+
+          }
+
         } else {
           window.location.replace(
             `/pay/audioPaySuccess?goodsId=${this.state.goodsId}`
