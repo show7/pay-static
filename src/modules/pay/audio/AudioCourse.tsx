@@ -71,14 +71,32 @@ export default class AudioCourse extends React.Component<any, any> {
           needMember: result.needMember
         })
         if (result.isCanBuy === false) {
-          if (result.isSubscribe) {
-            window.location.replace(
-              `/rise/static/plan/study?planId=${result.memberPlanId}`
-            )
+          if (result.isPaid === true) {
+            if (result.isSubscribe) {
+              if (result.memberPlanId) {
+                window.location.replace(
+                  `/rise/static/plan/study?planId=${result.memberPlanId}`
+                )
+              } else {
+                window.location.replace(
+                  '/rise/activity/static/promotion/audio?activityId=13'
+                )
+              }
+            } else {
+              window.location.replace(
+                `/pay/audioPaySuccess?goodsId=${this.state.goodsId}`
+              )
+            }
           } else {
-            window.location.replace(
-              `/pay/audioPaySuccess?goodsId=${this.state.goodsId}`
-            )
+            if (result.memberPlanId) {
+              window.location.replace(
+                `/rise/static/plan/study?planId=${result.memberPlanId}`
+              )
+            } else {
+              window.location.replace(
+                '/rise/activity/static/promotion/audio?activityId=13'
+              )
+            }
           }
         }
         this.setState({
