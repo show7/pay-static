@@ -87,26 +87,32 @@ export default class CoinAudioPay extends React.Component<any, any> {
         memberPlanId: result.memberPlanId
       })
       if (result.isCanBuy === false) {
-        if(result.memberPlanId) {
-          window.location.replace(
-            `/rise/static/plan/study?planId=${result.memberPlanId}`
-          )
-          return;
-        }
-        if (result.isSubscribe) {
-          if(result.memberPlanId) {
+        if (result.isPaid === true) {
+          if (result.isSubscribe) {
+            if (result.memberPlanId) {
+              window.location.replace(
+                `/rise/static/plan/study?planId=${result.memberPlanId}`
+              )
+            } else {
+              window.location.replace(
+                '/rise/activity/static/promotion/audio?activityId=13'
+              )
+            }
+          } else {
+            window.location.replace(
+              `/pay/audioPaySuccess?goodsId=${this.state.goodsId}`
+            )
+          }
+        } else {
+          if (result.memberPlanId) {
             window.location.replace(
               `/rise/static/plan/study?planId=${result.memberPlanId}`
             )
           } else {
-            window.location.replace('/rise/activity/static/promotion/audio?activityId=13')
-
+            window.location.replace(
+              '/rise/activity/static/promotion/audio?activityId=13'
+            )
           }
-
-        } else {
-          window.location.replace(
-            `/pay/audioPaySuccess?goodsId=${this.state.goodsId}`
-          )
         }
       } else {
         this.setState({
