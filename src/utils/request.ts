@@ -54,7 +54,7 @@ function pget(url: string, query?: Object) {
 
 function ppost(url: string, body: Object) {
   let headers = mockId ? { mockId } : {}
-  return post(url, body, headers)
+  return post(url, body, {headers})
     .then(res => res.data)
     .catch(error => {
       if (error.response) {

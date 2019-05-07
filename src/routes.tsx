@@ -33,6 +33,8 @@ import OldBeltNew from './modules/pay/oldBeltNew/OldBeltNew'
 // import Paper from './modules/others/paper/paper'
 import audioPaySuccess from './modules/pay/audioPaySuccess/AudioPaySuccess'
 import Paper from './modules/pay/paper/Paper'
+import AudioPay from './modules/pay/audiopay/AudioPay'
+
 const routes = (
   <Route path="/">
     <Route
@@ -74,6 +76,7 @@ const routes = (
       <Route path="pay/collegeaudio" component={CollegeAudioPay} />
       <Route path="pay/challengeaudio" component={ChallengeAudio} />
       <Route path="pay/coinaudio" component={CoinAudioPay} />
+      <Route path="pay/audiopay" component={AudioPay} />
       <Route path="pay/exchange" component={ExchangePay} />
       <Route path="pay/read" component={ReadCourse} />
       <Route path="pay/eval" component={payEval} />
