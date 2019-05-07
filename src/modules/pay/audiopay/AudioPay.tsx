@@ -208,7 +208,7 @@ export default class AudioPay extends React.Component<any, any> {
 
   /*点击购买*/
   handlePayPopOut() {
-    const { source } = this.props.location.query
+    const { source,goodsId } = this.props.location.query
     mark({
       module: '打点',
       function: '音频课入学',
@@ -219,7 +219,7 @@ export default class AudioPay extends React.Component<any, any> {
     checkCanPay().then(res => {
       if(res.code === 200) {
         if(_.isEmpty(res.msg)) {
-          checkGoodsInfo(22).then(res => {
+          checkGoodsInfo(goodsId).then(res => {
             if(res.code === 200) {
               let result = res.msg
               this.setState(
