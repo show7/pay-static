@@ -15,10 +15,10 @@ export default class InvitationLayout extends React.Component {
         <div className="layout-box">
           <h3>「限时优惠券」</h3>
           <p>{amount}元优惠券，48小时后过期</p>
-          <p className="subText">
+          {/* <p className="subText">
             *<b>4月16日前报名</b>
             ，额外送¥598圈外王牌课程礼包，含《认识自己》和《职业规划》
-          </p>
+          </p> */}
           <span className="button" onClick={callBack}>
             点击领取
           </span>
