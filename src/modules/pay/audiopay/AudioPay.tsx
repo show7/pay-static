@@ -78,7 +78,7 @@ export default class AudioPay extends React.Component<any, any> {
       action: goodsId + '',
       memo: source
     })
-    let res = await checkAudioV2('coin_audio')
+    let res = await checkAudioV2(goodsId)
     if(res.code === 200) {
       let result = res.msg
       this.setState({
