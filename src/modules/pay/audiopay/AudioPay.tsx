@@ -2,7 +2,7 @@ import * as React from 'react';
 import './AudioPay.less'
 import { connect } from 'react-redux'
 import { PayType } from '../../../utils/helpers'
-import { checkAudio, checkCanPay, loadRotate, checkGoodsInfo } from '../async'
+import { checkAudioV2, checkAudio, checkCanPay, loadRotate, checkGoodsInfo } from '../async'
 import { alertMsg } from '../../../redux/actions'
 import { Alert } from '../../../components/alert/Alert'
 import { Dialog } from '../../../components/dialog/Dialog'
@@ -78,7 +78,7 @@ export default class AudioPay extends React.Component<any, any> {
       action: goodsId + '',
       memo: source
     })
-    let res = await checkAudio('coin_audio')
+    let res = await checkAudioV2('coin_audio')
     if(res.code === 200) {
       let result = res.msg
       this.setState({
@@ -163,7 +163,7 @@ export default class AudioPay extends React.Component<any, any> {
     this.setState({
       canClick: false
     })
-    const { source } = this.props.location.query
+    const { source, goodsId } = this.props.location.query
     mark({
       module: '打点',
       function: '音频课入学',
@@ -174,7 +174,7 @@ export default class AudioPay extends React.Component<any, any> {
     checkCanPay().then(res => {
       if(res.code === 200) {
         if(_.isEmpty(res.msg)) {
-          checkGoodsInfo(22).then(res => {
+          checkGoodsInfo(goodsid).then(res => {
             this.setState({
               canClick: true
             })
@@ -377,7 +377,7 @@ export default class AudioPay extends React.Component<any, any> {
             header={goodsName}
             priceTips={}
             activityId={17}
-            channel="coin_audio"
+            channel="new_28_rotate"
             payedDone={goodsId => this.handlePayedDone()}
             payedCancel={res => this.handlePayedCancel(res)}
             payedError={res => this.handlePayedError(res)}
