@@ -174,7 +174,7 @@ export default class AudioPay extends React.Component<any, any> {
     checkCanPay().then(res => {
       if(res.code === 200) {
         if(_.isEmpty(res.msg)) {
-          checkGoodsInfo(goodsid).then(res => {
+          checkGoodsInfo(goodsId).then(res => {
             this.setState({
               canClick: true
             })
