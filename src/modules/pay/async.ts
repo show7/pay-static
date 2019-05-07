@@ -1,4 +1,4 @@
-import {pget, ppost} from 'utils/request'
+import { pget, ppost } from 'utils/request'
 
 /**
  * 获取支付信息
@@ -6,10 +6,12 @@ import {pget, ppost} from 'utils/request'
 export function loadPaymentParam(param) {
   return ppost('/signup/load/pay/param', param)
 }
+
 /**
  * 是否购买过测评售卖课程
  */
 export const courseBuyValidate = () => pget('/rise/survey/validate')
+
 /**
  * 计算优惠券信息
  */
@@ -41,7 +43,7 @@ export function getRiseMember(riseMember) {
 }
 
 export function checkRiseMember(riseMember, riseId, type) {
-  if (type == 2) {
+  if(type == 2) {
     return pget(
       `/signup/rise/member/check/${riseMember}?riseId=${riseId}&type=${type}`
     )
@@ -68,7 +70,7 @@ export function loadGoodsInfo(goodsType, goodsId, priceActivityId) {
 }
 
 export function loadWannaMember(goodsId) {
-  return pget('/signup/wanna/member', {goodsId: goodsId})
+  return pget('/signup/wanna/member', { goodsId: goodsId })
 }
 
 /**
@@ -96,20 +98,24 @@ export function checkAudio(param) {
   return pget(`/signup/rise/member/audio/check?channel=${param}`)
 }
 
+export function checkAudioV2(goodsId) {
+  return pget(`/signup/rise/member/audio/check?goodsId=${goodsId}`)
+}
+
 export function joinAudioCourse(param) {
   return ppost(`/promotion/audio/join`, param)
 }
 
 export function joinChallengeAudio(source) {
-  return ppost(`/promotion/audio/challenge/join`, {source: source})
+  return ppost(`/promotion/audio/challenge/join`, { source: source })
 }
 
 export function autoJoinReadCourse(source) {
-  return ppost(`/promotion/audio/camp/open`, {source: source})
+  return ppost(`/promotion/audio/camp/open`, { source: source })
 }
 
 export function autoJoinAudioCourse(riseId) {
-  return ppost(`/promotion/audio/auto/open`, {riseId: riseId})
+  return ppost(`/promotion/audio/auto/open`, { riseId: riseId })
 }
 
 export function checkCanPay() {
