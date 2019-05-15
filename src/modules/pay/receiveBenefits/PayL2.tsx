@@ -334,7 +334,7 @@ export default class PayL2 extends React.Component<any, any> {
         <div className="quanwai-code-wrap">
           <div>
             <div>价值199元学习礼包</div>
-            <div>前200名扫码免费</div>
+            <div>前200名扫码免费领取</div>
           </div>
           <div className="down-arrow">
             <img src={'https://static.iqycamp.com/箭头@2x-u5ltnjsb.png'}/>
