@@ -6,7 +6,7 @@ import { merge } from 'lodash'
 import { getMockId } from '../config/mockconfig.ts'
 axios.defaults.headers.platform = 'we_mobile'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
-let MockId = getMockId()
+let MockId = ''
 // 对于 700 返回，默认跳转登录页
 axios.interceptors.response.use(
   function(response) {
