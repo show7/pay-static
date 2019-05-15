@@ -1,0 +1,256 @@
+@import "../../../style/variable";
+
+.rise-pay-container {
+  padding-bottom: 50px;
+
+  > .mask {
+    position: fixed;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.6);
+    > .tips {
+      margin-top: 50px;
+      color: #FFFFFF;
+      text-align: center;
+      font-size: 16px;
+    }
+    > .xiaoQ {
+      display: block;
+      margin: 25px auto 0;
+      width: 70%;
+    }
+  }
+  > .pay-page {
+    .button-footer.step-wrapper {
+      display: flex;
+      flex-direction: row;
+      .price-tips-wrapper {
+        display: flex;
+        flex-direction: row;
+        font-size: 3.2vw;
+        align-items: center;
+        justify-content: center;
+        color: #50505A;
+        width: 100%;
+        .real-price {
+          color: #ED4A47;
+        }
+        .remain {
+          color: #7DBE00;
+        }
+
+      }
+      .footer-btn {
+        width: 69.3vw;
+        font-size: 4.5vw;
+      }
+    }
+
+    .button-footer {
+      box-shadow: 0 0 8px 4px rgba(0, 0, 0, 0.04);
+      display: block;
+      position: fixed;
+      font-size: 17px;
+      bottom: 0;
+      width: 100%;
+      height: 50px;
+      text-align: center;
+      line-height: 50px;
+      color: #fff;
+      background-color: #fff;
+      z-index: 10;
+      .footer-left {
+        height: 100%;
+        position: relative;
+        width: 30%;
+        top: 1px;
+        font-size: 15px;
+        color: #5b3f00;
+        float: left;
+      }
+      .guest-footer-btn {
+        height: 40px;
+        margin: 0 6%;
+        position: absolute;
+        width: 88%;
+        top: 50%;
+        left: 0;
+        -webkit-transform: translateY(-50%);
+        -moz-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        -o-transform: translateY(-50%);
+        transform: translateY(-50%);
+        background: url('../../../../assets/icons/pay_btn_bg.png') center center/100% 100%;
+        //background-color: #e3ca65;
+        border-radius: 20px;
+        font-size: 20px;
+        color: #5b3f00;
+        line-height: 40px;
+        overflow: hidden;
+        > svg {
+          > text {
+            text-anchor: middle; /* 文本水平居中 */
+            dominant-baseline: middle; /* 文本垂直居中 */
+          }
+        }
+      }
+      .footer-btn {
+        height: 100%;
+        position: relative;
+        font-size: 20px;
+        color: #FFF;
+        line-height: 50px;
+        overflow: hidden;
+        background: #7DBE00;
+        > svg {
+          > text {
+            text-anchor: middle; /* 文本水平居中 */
+            dominant-baseline: middle; /* 文本垂直居中 */
+          }
+        }
+        .audition {
+          display: inline-block;
+          //text-indent: 30px;
+          //background: url('../../../../assets/icons/rise_icon_audition.png') no-repeat left center/22px 16px;
+        }
+
+      }
+    }
+  }
+
+  > .share-tip {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.7);
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1000;
+    > .tip-pic {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  }
+  .weui_dialog_ft {
+    display: none;
+  }
+
+  /*投资分享样式*/
+  .share-mask-box {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    z-index: 56;
+    background: rgba(0, 0, 0, 0.4354);
+    .share-content {
+      width: 79%;
+      margin: 0 auto;
+      left: 0;
+      right: 0;
+      top: 10%;
+      position: absolute;
+      padding-bottom: 0.3rem;
+      background-color: @color_white;
+      box-sizing: border-box;
+      border-radius: 1.6rem;
+      .share-content-top {
+        background-image: url("https://static.iqycamp.com/1111533183269_-g475rgqw.pic.jpg?imageslim");
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        height: 11.7rem;
+        display: flex;
+        align-items: center;
+        padding: 2.4rem;
+        box-sizing: border-box;
+        border-top-left-radius: 1.6rem;
+        border-top-right-radius: 1.6rem;
+        > p {
+          font-size: 1.5rem;
+          color: @color_white;
+          width: 100%;
+          text-align: center;
+          > span {
+            font-size: 2.2rem;
+            height: 1.17rem;
+          }
+        }
+
+      }
+      .share-content-bottom {
+        background-color: @color_white;
+        padding: 2.2rem 2rem 0 2rem;
+        box-sizing: border-box;
+        > div {
+          display: flex;
+          flex-direction: row;
+          margin-bottom: 2.5rem;
+          box-sizing: border-box;
+          > p.desc {
+            font-size: 1.4rem;
+            color: #000;
+            display: inline-block;
+            vertical-align: baseline;
+            flex: 10;
+          }
+          > span {
+            display: inline-block;
+            width: 1.7rem;
+            height: 1.7rem;
+            border-radius: 50%;
+            background-color: @color-green;
+            color: @color_white;
+            line-height: 1.7rem;
+            text-align: center;
+            margin-right: 0.4rem;
+            position: relative;
+            top: 0.2rem;
+          }
+          &.button-bottom {
+            box-sizing: border-box;
+            padding-right: 0;
+            > p {
+              width: 84%;
+              height: 4.4rem;
+              line-height: 4.4rem;
+              text-align: center;
+              color: @color_white;
+              background: linear-gradient(-90deg, rgba(165, 230, 40, 1), rgba(125, 190, 0, 1));
+              border-radius: 2.2rem;
+              font-size: 1.7rem;
+              margin-left: auto;
+              margin-right: auto;
+            }
+          }
+        }
+      }
+    }
+  }
+  .type-share {
+    position: fixed;
+    width: 65.8%;
+    height: 7rem;
+    top: 2rem;
+    right: 1rem;
+    > img {
+      width: 100%;
+    }
+  }
+  .quanwai-code-wrap{
+    text-align: center;
+    font-size: 1.6rem;
+    .down-arrow{
+      width: 1.3rem;
+      height: 1.3rem;
+      margin: auto;
+      background: url('https://static.iqycamp.com/jiantou-nbnd9ht1.jpeg') no-repeat center;
+      background:100%;
+    }
+  }
+}

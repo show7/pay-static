@@ -1,0 +1,122 @@
+.customer-evaluate-component {
+  width: 100%;
+  position: relative;
+  background-color: #041932;
+  min-height: 100vh;
+  box-sizing: border-box;
+  margin-top: -1px;
+  padding: 20px 0 50px;
+
+  .evaluate-tag {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    left: 35px;
+    top: 0;
+  }
+  .evaluate {
+    display: block;
+    position: relative;
+    margin: 55px 35px 0;
+    padding-top: 40px;
+    padding-bottom: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+
+    .head-image {
+      display: block;
+      position: absolute;
+      width: 65px;
+      height: 65px;
+      top: -32.5px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .nickname {
+      display: block;
+      margin: 0 auto;
+      font-size: 18px;
+      color: #333;
+      text-align: center;
+    }
+    .description {
+      display: block;
+      font-size: 12px;
+      color: #333;
+      text-align: center;
+    }
+    .content {
+      margin: 15px 28px 20px 28px;
+      font-size: 14px;
+      position: relative;
+      max-height: 70px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+
+      &:after {
+        display: block;
+        content: ' ';
+        background-image: url("https://static.iqycamp.com/images/bg_rectangle.png?imageslim");
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        bottom: 0;
+      }
+
+      &.all {
+        max-height: none;
+        display: block;
+        -webkit-line-clamp: none;
+        overflow: visible;
+        &:after {
+          background-image: none;
+        }
+      }
+    }
+    .exchange {
+      display: block;
+      position: relative;
+      height: 14px;
+      width: 100%;
+      line-height: 14px;
+      font-size: 12px;
+      color: #399bd3;
+      margin: 0 auto;
+      text-align: center;
+
+      .exchange-text {
+        text-align: center;
+        width: 48px;
+        height: 14px;
+        line-height: 14px;
+        left: 0;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        -webkit-tap-highlight-color: transparent;
+
+        &::after {
+          content: " ";
+          display: inline-block;
+          vertical-align: bottom;
+          margin-left: 5px;
+          background-image: url("https://static.iqycamp.com/images/arrow_down_icon.png?imageslim");
+          background-repeat: no-repeat;
+          background-size: 50% 50%;
+          background-position-y: 50%;
+          width: 20px;
+          height: 14px;
+        }
+      }
+
+      &.all {
+        .exchange-text {
+          &::after {
+            background-image: url("https://static.iqycamp.com/images/rise_icon_arrow_up.png?imageslim");
+          }
+        }
+      }
+    }
+  }
+
+}
