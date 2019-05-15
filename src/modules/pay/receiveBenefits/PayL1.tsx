@@ -8,7 +8,7 @@ import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { config, configShare } from 'modules/helpers/JsConfig'
 import PayInfo from '../components/PayInfo'
 
-import Popup from '../../../components/popup/popup'
+import Popup from '../../../components/popup/Popup'
 import {
   checkRiseMember,
   getRiseMember,

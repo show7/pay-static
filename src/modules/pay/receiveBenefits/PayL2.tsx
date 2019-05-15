@@ -12,7 +12,7 @@ import InvitationLayout from '../components/invitationLayout/InvitationLayout'
 import { MarkBlock } from '../components/markblock/MarkBlock'
 import { SubscribeAlert } from './components/SubscribeAlert'
 import RenderInBody from '../../../components/RenderInBody'
-import Popup from '../../../components/popup/popup'
+import Popup from '../../../components/popup/Popup'
 import SaleShow from '../../../components/SaleShow'
 import { StepFooterButton } from '../../../components/submitbutton/StepFooterButton'
 
