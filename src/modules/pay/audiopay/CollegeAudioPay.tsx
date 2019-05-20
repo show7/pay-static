@@ -30,7 +30,7 @@ export default class CollegeAudioPay extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    window.location.href = '/pay/audiopay?goodsId=32'
+    window.location.href = '/pay/audiocourse'
     // this.getInfo()
   }
 

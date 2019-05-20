@@ -30,7 +30,7 @@ export default class ChallengeAudio extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    window.location.href = '/pay/audiopay?goodsId=32'
+    window.location.href = '/pay/audiocourse'
 
     // const { source } = this.props.location.query
     // mark({
