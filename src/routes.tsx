@@ -34,7 +34,9 @@ import OldBeltNew from './modules/pay/oldBeltNew/OldBeltNew'
 import audioPaySuccess from './modules/pay/audioPaySuccess/AudioPaySuccess'
 import Paper from './modules/pay/paper/Paper'
 import AudioPay from './modules/pay/audiopay/AudioPay'
-
+import ReceivePL1 from './modules/pay/receiveBenefits/PayL1'
+import ReceivePL2 from './modules/pay/receiveBenefits/PayL2'
+import ReceivePL3 from './modules/pay/receiveBenefits/PayL3'
 const routes = (
   <Route path="/">
     <Route
@@ -84,6 +86,10 @@ const routes = (
       <Route path="pay/evalSellCourse" component={evalSellCourse} />
       <Route path="pay/paper" component={Paper} />
       <Route path="pay/activityCourse" component={ActivityCourse} />
+      <Route path="pay/receivePL1" component={ReceivePL1} />
+      <Route path="pay/receivePL2" component={ReceivePL2} />
+      <Route path="pay/receivePL3" component={ReceivePL3} />
+      <Route path="" component={ActivityCourse} />
     </Route>
     <Route path="*" component={PageNotFound} />
   </Route>

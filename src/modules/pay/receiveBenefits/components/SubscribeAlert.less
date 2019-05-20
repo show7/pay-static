@@ -1,0 +1,60 @@
+.subscribe-alert-component {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.70);
+  z-index: 100;
+  .content-box {
+    display: block;
+    position: absolute;
+    width: 29rem;
+    height: 43.5rem;
+    border-radius: 4px;
+    background-color: #fff;
+    left: 50%;
+    top: 40%;
+    transform: translateX(-50%) translateY(-50%);
+    .subscribe-success {
+      display: block;
+      margin: 1rem auto 0;
+      width: 20rem;
+      height: 13.6rem;
+    }
+    .success-content {
+      font-size: 2rem;
+      color: #333333;
+      text-align: center;
+      .orange {
+        color: #ff983f;
+      }
+    }
+    .add-tip {
+      color: #666666;
+      font-size: 1.2rem;
+      text-align: center;
+      line-height: 2.3rem;
+      margin-top: 3rem;
+      .orange {
+        color: #ff983f;
+      }
+    }
+    .qrcode {
+      display: block;
+      width: 14rem;
+      height: 14rem;
+      margin: 0 auto;
+    }
+  }
+  .close-icon {
+    display: block;
+    position: absolute;
+    width: 3.5rem;
+    height: 3.5rem;
+    bottom: 6rem;
+    left: 50%;
+    top: ~'calc(40% + 23.5rem)';
+    transform: translateX(-50%);
+  }
+}

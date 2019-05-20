@@ -66,6 +66,8 @@ export default class CoinAudioPay extends React.Component<any, any> {
     window.location.href = '/pay/coinaudio?random=' + Math.random()
   }
   async componentWillMount() {
+    window.location.href = '/pay/audiopay?goodsId=32';
+    return ;
     const { source } = this.props.location.query
     mark({
       module: '打点',

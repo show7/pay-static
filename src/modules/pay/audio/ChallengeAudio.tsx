@@ -30,20 +30,22 @@ export default class ChallengeAudio extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    const { source } = this.props.location.query
-    mark({
-      module: '打点',
-      function: '音频课入学',
-      action: 'challengeaudio',
-      memo: source
-    })
-    this.getInfo()
-    configShare(
-      `【圈外同学】请停止无效努力音频课`,
-      `https://${window.location.hostname}/pay/challengeaudio`,
-      'https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg',
-      `顶尖咨询总监，8年职场方法论`
-    )
+    window.location.href = '/pay/audiocourse'
+
+    // const { source } = this.props.location.query
+    // mark({
+    //   module: '打点',
+    //   function: '音频课入学',
+    //   action: 'challengeaudio',
+    //   memo: source
+    // })
+    // this.getInfo()
+    // configShare(
+    //   `【圈外同学】请停止无效努力音频课`,
+    //   `https://${window.location.hostname}/pay/challengeaudio`,
+    //   'https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg',
+    //   `顶尖咨询总监，8年职场方法论`
+    // )
   }
 
   getInfo() {

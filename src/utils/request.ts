@@ -6,7 +6,7 @@ import { merge } from 'lodash'
 import { getMockId } from '../config/mockconfig.ts'
 axios.defaults.headers.platform = 'we_mobile'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
-let mockId = getMockId()
+let MockId = ''
 // 对于 700 返回，默认跳转登录页
 axios.interceptors.response.use(
   function(response) {
@@ -27,7 +27,7 @@ axios.interceptors.response.use(
 )
 
 function pget(url: string, query?: Object) {
-  let headers = mockId ? { mockId } : {}
+  let headers = MockId ? { MockId } : {}
   return get(`${url}${_appendQs(query)}`, {
     headers,
     validateStatus: function(status) {
@@ -53,7 +53,7 @@ function pget(url: string, query?: Object) {
 }
 
 function ppost(url: string, body: Object) {
-  let headers = mockId ? { mockId } : {}
+  let headers = MockId ? { MockId } : {}
   return post(url, body, {headers})
     .then(res => res.data)
     .catch(error => {
