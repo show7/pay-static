@@ -10,6 +10,9 @@ import { alertMsg } from '../../../redux/actions'
 import { configShare, config } from '../../helpers/JsConfig'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 
+/**
+ * 已废弃,且因为router原因，页面报错，无法打开，再开发时需要注意
+ */
 @connect(state => state)
 export default class CollegeAudioPay extends React.Component<any, any> {
   constructor(props) {
@@ -27,7 +30,8 @@ export default class CollegeAudioPay extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    this.getInfo()
+    window.location.href = '/pay/audiopay?goodsId=32'
+    // this.getInfo()
   }
 
   getInfo() {
