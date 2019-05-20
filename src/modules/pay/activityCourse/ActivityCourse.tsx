@@ -26,7 +26,8 @@ export default class ActivityCourse extends React.Component<any, any> {
       isSHowActive: false,
       isBuyed: false,
       isSHowTopic: false,
-      qrcodeUrl: ''
+      qrcodeUrl: '',
+      inviteNumber: 0
     }
   }
 
@@ -73,8 +74,9 @@ export default class ActivityCourse extends React.Component<any, any> {
           goodsType: result.goodsType,
           saleImg: result.saleImg,
           needMember: result.needMember,
-          isBuyed: !result.isCanBuy,
-          isSHowActive: true
+          isBuyed: false,
+          isSHowActive: true,
+          inviteNumber: 1
         })
         if (result.isCanBuy === true) {
         }
@@ -136,7 +138,8 @@ export default class ActivityCourse extends React.Component<any, any> {
       isSHowActive,
       isBuyed,
       isSHowTopic,
-      qrcodeUrl
+      qrcodeUrl,
+      inviteNumber
     } = this.state
     const { type } = this.props.location.query
     return (
@@ -192,7 +195,18 @@ export default class ActivityCourse extends React.Component<any, any> {
             </li>
           </ul>
         </div>
-        {isSHowActive && !isBuyed && (
+        {isSHowActive && !isBuyed && inviteNumber === 0 && (
+          <div className="activeMask">
+            <div className="toastContent">
+              <img src="https://static.iqycamp.com/toast1-okzkrcit.png" />
+              <div className="closeImg" onClick={() => this.closeShow()}>
+                <Icon type="close" size="3rem" />
+              </div>
+            </div>
+            <div>inviteNumber==0</div>
+          </div>
+        )}
+        {isSHowActive && !isBuyed && inviteNumber >= 1 && (
           <div className="activeMask">
             <div className="toastContent">
               <img src="https://static.iqycamp.com/toast1-okzkrcit.png" />
@@ -202,7 +216,7 @@ export default class ActivityCourse extends React.Component<any, any> {
             </div>
           </div>
         )}
-        {isSHowActive && isBuyed && (
+        {isSHowActive && isBuyed && inviteNumber > 0 && (
           <div className="activeMask">
             <div className="toastContent">
               <img src="https://static.iqycamp.com/toast2-vt7f3shj.png" />
@@ -215,17 +229,19 @@ export default class ActivityCourse extends React.Component<any, any> {
         {isSHowTopic && (
           <div className="activeMask">
             <div className="toastContent notice">
-              {!isBuyed && (
+              {!isBuyed && inviteNumber >= 1 && (
                 <div className="noticeText">
                   您的礼包已经通过公众号发送，扫描关注您的专属班主任与其他小伙伴一起学习职场提升课。
                 </div>
               )}
-              {isBuyed && (
+              {isBuyed && inviteNumber >= 1 && (
                 <div className="noticeText isBuyed">
                   成功领取礼包，请注意查收。
                 </div>
               )}
-              {!isBuyed && <img className="qrcode" src={posterUrl} />}
+              {!isBuyed && inviteNumber >= 1 && (
+                <img className="qrcode" src={posterUrl} />
+              )}
               <div className="ensure" onClick={() => this.closeTopic()}>
                 确定
               </div>
