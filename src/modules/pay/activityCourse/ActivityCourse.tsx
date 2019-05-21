@@ -125,7 +125,6 @@ export default class ActivityCourse extends React.Component<any, any> {
                   noneUrl: data.msg.sharePoster
                 })
               } else {
-                const { dispatch } = this.props
                 dispatch(alertMsg(data.msg))
               }
             })
@@ -134,8 +133,8 @@ export default class ActivityCourse extends React.Component<any, any> {
               console.log(err)
             })
         } else {
-          const { dispatch } = this.props
           dispatch(alertMsg(res.msg))
+          dispatch(endLoad())
         }
       })
       .catch(err => {
