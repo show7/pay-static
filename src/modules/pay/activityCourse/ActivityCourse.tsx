@@ -26,7 +26,6 @@ export default class ActivityCourse extends React.Component<any, any> {
       isSHowActive: false,
       isBuyed: false,
       isSHowTopic: false,
-      qrcodeUrl: '',
       inviteNumber: 0,
       noneUrl: ''
     }
@@ -69,7 +68,6 @@ export default class ActivityCourse extends React.Component<any, any> {
           isCanBuy: result.isCanBuy,
           isSubscribe: result.isSubscribe,
           price: result.price,
-          qrCodeUrl: result.qrCodeUrl,
           goodsId: result.goodsId,
           goodsName: result.goodsName,
           goodsType: result.goodsType,
@@ -108,11 +106,15 @@ export default class ActivityCourse extends React.Component<any, any> {
     dispatch(startLoad())
     joinAudioCourse({ source, activityId /*msgId*/ })
       .then(res => {
+        console.log(res.msg)
         this.setState({
           canClick: true
         })
         if (res.code === 200) {
           let result = res.msg
+          this.setState({
+            qrcodeUrl: result.url
+          })
           getPosterUrl(activityId)
             .then(data => {
               dispatch(endLoad())
@@ -152,7 +154,7 @@ export default class ActivityCourse extends React.Component<any, any> {
     })
   }
   render() {
-    const {
+    let {
       saleImg,
       posterShow,
       posterUrl,
@@ -256,6 +258,7 @@ export default class ActivityCourse extends React.Component<any, any> {
                 <div className="noticeText">
                   您的礼包已经通过公众号发送，扫描关注您的专属班主任与其他小伙伴一起学习职场提升课。
                 </div>
+                <img className="qrcode" src={qrcodeUrl} />
                 <div className="ensure" onClick={() => this.closeTopic()}>
                   确定
                 </div>
