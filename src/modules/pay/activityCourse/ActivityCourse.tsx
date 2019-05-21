@@ -44,7 +44,7 @@ export default class ActivityCourse extends React.Component<any, any> {
     }
     mark({
       module: '打点',
-      function: '音频课入学',
+      function: '免费入学落地页',
       action: 'wondercv',
       memo: source
     })
@@ -102,7 +102,7 @@ export default class ActivityCourse extends React.Component<any, any> {
     // activityId = null,
     // msgId = null
     // } = this.props.location.query
-    mark({ module: '打点', function: '音频课入学', action: 'wondercv_click' })
+    mark({ module: '打点', function: '点击免费入学', action: 'wondercv_click' })
     // activityId = Number(activityId) ? Number(activityId) : null
     // msgId = Number(msgId) ? Number(msgId) : null
     dispatch(startLoad())
