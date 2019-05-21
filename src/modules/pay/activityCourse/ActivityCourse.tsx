@@ -92,6 +92,7 @@ export default class ActivityCourse extends React.Component<any, any> {
    */
   handleFreeEntry() {
     const { dispatch } = this.props
+    const activityId = this.state.activityId
     if (!this.state.canClick) return
     this.setState({
       canClick: false
@@ -105,13 +106,13 @@ export default class ActivityCourse extends React.Component<any, any> {
     // activityId = Number(activityId) ? Number(activityId) : null
     // msgId = Number(msgId) ? Number(msgId) : null
     dispatch(startLoad())
-    joinAudioCourse({ source /*activityId, msgId*/ }).then(res => {
+    joinAudioCourse({ source, activityId /*msgId*/ }).then(res => {
       this.setState({
         canClick: true
       })
       if (res.code === 200) {
         let result = res.msg
-        getPosterUrl(this.state.activityId)
+        getPosterUrl(activityId)
           .then(data => {
             dispatch(endLoad())
             if (data.code === 200) {
