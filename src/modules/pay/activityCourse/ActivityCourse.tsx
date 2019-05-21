@@ -2,10 +2,10 @@ import * as React from 'react'
 import './ActivityCourse.less'
 import { connect } from 'react-redux'
 import { loadActivityCheck, joinAudioCourse, getPosterUrl } from '../async'
-import { alertMsg } from '../../../redux/actions'
 import { configShare } from '../../helpers/JsConfig'
 import { mark } from 'utils/request'
 import Icon from '../../../components/Icon'
+import { startLoad, endLoad, alertMsg } from '../../../redux/actions'
 @connect(state => state)
 export default class ActivityCourse extends React.Component<any, any> {
   constructor(props) {
@@ -80,8 +80,6 @@ export default class ActivityCourse extends React.Component<any, any> {
           inviteNumber: result.inviteNumber,
           activityId: result.activityId
         })
-        if (result.isCanBuy === true) {
-        }
         this.setState({
           isShow: true
         })
@@ -93,6 +91,7 @@ export default class ActivityCourse extends React.Component<any, any> {
    * 点击免费入学
    */
   handleFreeEntry() {
+    const { dispatch } = this.props
     if (!this.state.canClick) return
     this.setState({
       canClick: false
@@ -105,26 +104,31 @@ export default class ActivityCourse extends React.Component<any, any> {
     mark({ module: '打点', function: '音频课入学', action: 'wondercv_click' })
     // activityId = Number(activityId) ? Number(activityId) : null
     // msgId = Number(msgId) ? Number(msgId) : null
+    dispatch(startLoad())
     joinAudioCourse({ source /*activityId, msgId*/ }).then(res => {
       this.setState({
         canClick: true
       })
       if (res.code === 200) {
         let result = res.msg
-        this.setState({
-          isSHowTopic: true,
-          posterUrl: result.url
-        })
-        getPosterUrl(this.state.activityId).then(data => {
-          if (data.code === 200) {
-            this.setState({
-              noneUrl: data.sharePoster
-            })
-          } else {
-            const { dispatch } = this.props
-            dispatch(alertMsg(data.msg))
-          }
-        })
+        getPosterUrl(this.state.activityId)
+          .then(data => {
+            dispatch(endLoad())
+            if (data.code === 200) {
+              this.setState({
+                isSHowTopic: true,
+                posterUrl: result.url,
+                noneUrl: data.sharePoster
+              })
+            } else {
+              const { dispatch } = this.props
+              dispatch(alertMsg(data.msg))
+            }
+          })
+          .cathc(err => {
+            dispatch(endLoad())
+            console.log(err)
+          })
       } else {
         const { dispatch } = this.props
         dispatch(alertMsg(res.msg))
@@ -265,7 +269,14 @@ export default class ActivityCourse extends React.Component<any, any> {
         )}
         {isSHowTopic && inviteNumber === 0 && (
           <div className="activeMask">
-            {inviteNumber === 0 && <img className="postUrl" src={noneUrl} />}
+            {inviteNumber === 0 && (
+              <div className="toastContent">
+                <img className="postUrl" src={noneUrl} />
+                <div className="closeImg" onClick={() => this.closeTopic()}>
+                  <Icon type="close" size="3rem" />
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>
