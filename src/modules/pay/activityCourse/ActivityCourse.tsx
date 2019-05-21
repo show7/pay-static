@@ -1,7 +1,7 @@
 import * as React from 'react'
 import './ActivityCourse.less'
 import { connect } from 'react-redux'
-import { loadActivityCheck, joinAudioCourse } from '../async'
+import { loadActivityCheck, joinAudioCourse, getPosterUrl } from '../async'
 import { alertMsg } from '../../../redux/actions'
 import { configShare } from '../../helpers/JsConfig'
 import { mark } from 'utils/request'
@@ -27,7 +27,8 @@ export default class ActivityCourse extends React.Component<any, any> {
       isBuyed: false,
       isSHowTopic: false,
       qrcodeUrl: '',
-      inviteNumber: 0
+      inviteNumber: 0,
+      noneUrl: ''
     }
   }
 
@@ -59,9 +60,9 @@ export default class ActivityCourse extends React.Component<any, any> {
   }
 
   getInfo() {
-    const { riseId = null } = this.props.location.query
-    let param = riseId ? Object.assign({}, { riseId: riseId }) : {}
-    loadActivityCheck(21, param).then(res => {
+    // const { riseId = null } = this.props.location.query
+    // let param = riseId ? Object.assign({}, { riseId: riseId }) : {}
+    loadActivityCheck(21, {}).then(res => {
       if (res.code === 200) {
         let result = res.msg
         this.setState({
@@ -74,9 +75,10 @@ export default class ActivityCourse extends React.Component<any, any> {
           goodsType: result.goodsType,
           saleImg: result.saleImg,
           needMember: result.needMember,
-          isBuyed: false,
+          isBuyed: !result.isCanBuy,
           isSHowActive: true,
-          inviteNumber: 1
+          inviteNumber: result.inviteNumber,
+          activityId: result.activityId
         })
         if (result.isCanBuy === true) {
         }
@@ -95,15 +97,15 @@ export default class ActivityCourse extends React.Component<any, any> {
     this.setState({
       canClick: false
     })
-    let {
-      source = 'normal_audio',
-      activityId = null,
-      msgId = null
-    } = this.props.location.query
+    // let {
+    let source = 'normal_audio'
+    // activityId = null,
+    // msgId = null
+    // } = this.props.location.query
     mark({ module: '打点', function: '音频课入学', action: 'wondercv_click' })
-    activityId = Number(activityId) ? Number(activityId) : null
-    msgId = Number(msgId) ? Number(msgId) : null
-    joinAudioCourse({ source, activityId, msgId }).then(res => {
+    // activityId = Number(activityId) ? Number(activityId) : null
+    // msgId = Number(msgId) ? Number(msgId) : null
+    joinAudioCourse({ source /*activityId, msgId*/ }).then(res => {
       this.setState({
         canClick: true
       })
@@ -112,6 +114,16 @@ export default class ActivityCourse extends React.Component<any, any> {
         this.setState({
           isSHowTopic: true,
           posterUrl: result.url
+        })
+        getPosterUrl(this.state.activityId).then(data => {
+          if (data.code === 200) {
+            this.setState({
+              noneUrl: data.sharePoster
+            })
+          } else {
+            const { dispatch } = this.props
+            dispatch(alertMsg(data.msg))
+          }
         })
       } else {
         const { dispatch } = this.props
@@ -139,7 +151,8 @@ export default class ActivityCourse extends React.Component<any, any> {
       isBuyed,
       isSHowTopic,
       qrcodeUrl,
-      inviteNumber
+      inviteNumber,
+      noneUrl
     } = this.state
     const { type } = this.props.location.query
     return (
@@ -195,7 +208,7 @@ export default class ActivityCourse extends React.Component<any, any> {
             </li>
           </ul>
         </div>
-        {isSHowActive && !isBuyed && inviteNumber === 0 && (
+        {/* {isSHowActive && !isBuyed && inviteNumber === 0 && (
           <div className="activeMask">
             <div className="toastContent">
               <img src="https://static.iqycamp.com/toast1-okzkrcit.png" />
@@ -205,7 +218,7 @@ export default class ActivityCourse extends React.Component<any, any> {
             </div>
             <div>inviteNumber==0</div>
           </div>
-        )}
+        )} */}
         {isSHowActive && !isBuyed && inviteNumber >= 1 && (
           <div className="activeMask">
             <div className="toastContent">
@@ -216,7 +229,7 @@ export default class ActivityCourse extends React.Component<any, any> {
             </div>
           </div>
         )}
-        {isSHowActive && isBuyed && inviteNumber > 0 && (
+        {isSHowActive && isBuyed && inviteNumber >= 1 && (
           <div className="activeMask">
             <div className="toastContent">
               <img src="https://static.iqycamp.com/toast2-vt7f3shj.png" />
@@ -226,26 +239,33 @@ export default class ActivityCourse extends React.Component<any, any> {
             </div>
           </div>
         )}
-        {isSHowTopic && (
+        {isSHowTopic && inviteNumber >= 1 && (
           <div className="activeMask">
-            <div className="toastContent notice">
-              {!isBuyed && inviteNumber >= 1 && (
+            {!isBuyed && (
+              <div className="toastContent notice">
                 <div className="noticeText">
                   您的礼包已经通过公众号发送，扫描关注您的专属班主任与其他小伙伴一起学习职场提升课。
                 </div>
-              )}
-              {isBuyed && inviteNumber >= 1 && (
+                <div className="ensure" onClick={() => this.closeTopic()}>
+                  确定
+                </div>
+              </div>
+            )}
+            {isBuyed && (
+              <div className="toastContent notice">
                 <div className="noticeText isBuyed">
                   成功领取礼包，请注意查收。
                 </div>
-              )}
-              {!isBuyed && inviteNumber >= 1 && (
-                <img className="qrcode" src={posterUrl} />
-              )}
-              <div className="ensure" onClick={() => this.closeTopic()}>
-                确定
+                <div className="ensure" onClick={() => this.closeTopic()}>
+                  确定
+                </div>
               </div>
-            </div>
+            )}
+          </div>
+        )}
+        {isSHowTopic && inviteNumber === 0 && (
+          <div className="activeMask">
+            {inviteNumber === 0 && <img className="postUrl" src={noneUrl} />}
           </div>
         )}
       </div>

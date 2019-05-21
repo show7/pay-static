@@ -43,7 +43,7 @@ export function getRiseMember(riseMember) {
 }
 
 export function checkRiseMember(riseMember, riseId, type) {
-  if(type == 2) {
+  if (type == 2) {
     return pget(
       `/signup/rise/member/check/${riseMember}?riseId=${riseId}&type=${type}`
     )
@@ -65,7 +65,7 @@ export function loadGoodsInfo(goodsType, goodsId, priceActivityId) {
   return ppost('/signup/load/goods', {
     goodsType: goodsType,
     goodsId: goodsId,
-    priceActivityId: priceActivityId,
+    priceActivityId: priceActivityId
   })
 }
 
@@ -133,6 +133,10 @@ export function checkGoodsInfo(param) {
 export function exchangeRiseMemberByCode(exchangeCode, goodsId) {
   return ppost(`/exchange/card/exchange`, {
     exchangeCode: exchangeCode,
-    goodsId: goodsId,
+    goodsId: goodsId
   })
+}
+
+export function getPosterUrl(activityId) {
+  return pget(`/promotion/activity/current/info/${activityId}`)
 }
