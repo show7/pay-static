@@ -26,27 +26,26 @@ export default class ActivityCourse extends React.Component<any, any> {
       isSHowActive: false,
       isBuyed: false,
       isSHowTopic: false,
-      qrcodeUrl: '',
       inviteNumber: 0,
       noneUrl: ''
     }
   }
 
   componentWillMount() {
-    const { source, markScene, riseId } = this.props.location.query
+    const { source, markScene, msgId } = this.props.location.query
     if (markScene) {
       mark({
         module: '打点',
         function: '普通打点链接',
         action: markScene,
-        memo: riseId
+        memo: msgId
       })
     }
     mark({
       module: '打点',
       function: '免费入学落地页',
       action: 'wondercv',
-      memo: source
+      memo: `msgId=${msgId}`
     })
     this.getInfo()
     configShare(
@@ -69,7 +68,6 @@ export default class ActivityCourse extends React.Component<any, any> {
           isCanBuy: result.isCanBuy,
           isSubscribe: result.isSubscribe,
           price: result.price,
-          qrCodeUrl: result.qrCodeUrl,
           goodsId: result.goodsId,
           goodsName: result.goodsName,
           goodsType: result.goodsType,
@@ -106,35 +104,44 @@ export default class ActivityCourse extends React.Component<any, any> {
     // activityId = Number(activityId) ? Number(activityId) : null
     // msgId = Number(msgId) ? Number(msgId) : null
     dispatch(startLoad())
-    joinAudioCourse({ source, activityId /*msgId*/ }).then(res => {
-      this.setState({
-        canClick: true
+    joinAudioCourse({ source, activityId /*msgId*/ })
+      .then(res => {
+        console.log(res.msg)
+        this.setState({
+          canClick: true
+        })
+        if (res.code === 200) {
+          let result = res.msg
+          this.setState({
+            qrcodeUrl: result.url
+          })
+          getPosterUrl(activityId)
+            .then(data => {
+              dispatch(endLoad())
+              if (data.code === 200) {
+                this.setState({
+                  isSHowTopic: true,
+                  posterUrl: result.url,
+                  noneUrl: data.msg.sharePoster
+                })
+              } else {
+                const { dispatch } = this.props
+                dispatch(alertMsg(data.msg))
+              }
+            })
+            .catch(err => {
+              dispatch(endLoad())
+              console.log(err)
+            })
+        } else {
+          const { dispatch } = this.props
+          dispatch(alertMsg(res.msg))
+        }
       })
-      if (res.code === 200) {
-        let result = res.msg
-        getPosterUrl(activityId)
-          .then(data => {
-            dispatch(endLoad())
-            if (data.code === 200) {
-              this.setState({
-                isSHowTopic: true,
-                posterUrl: result.url,
-                noneUrl: data.sharePoster
-              })
-            } else {
-              const { dispatch } = this.props
-              dispatch(alertMsg(data.msg))
-            }
-          })
-          .cathc(err => {
-            dispatch(endLoad())
-            console.log(err)
-          })
-      } else {
-        const { dispatch } = this.props
-        dispatch(alertMsg(res.msg))
-      }
-    })
+      .catch(err => {
+        dispatch(endLoad())
+        console.log(err)
+      })
   }
   closeShow() {
     this.setState({
@@ -147,7 +154,7 @@ export default class ActivityCourse extends React.Component<any, any> {
     })
   }
   render() {
-    const {
+    let {
       saleImg,
       posterShow,
       posterUrl,
@@ -251,6 +258,7 @@ export default class ActivityCourse extends React.Component<any, any> {
                 <div className="noticeText">
                   您的礼包已经通过公众号发送，扫描关注您的专属班主任与其他小伙伴一起学习职场提升课。
                 </div>
+                <img className="qrcode" src={qrcodeUrl} />
                 <div className="ensure" onClick={() => this.closeTopic()}>
                   确定
                 </div>
@@ -271,10 +279,18 @@ export default class ActivityCourse extends React.Component<any, any> {
         {isSHowTopic && inviteNumber === 0 && (
           <div className="activeMask">
             {inviteNumber === 0 && (
-              <div className="toastContent">
-                <img className="postUrl" src={noneUrl} />
-                <div className="closeImg" onClick={() => this.closeTopic()}>
-                  <Icon type="close" size="3rem" />
+              <div className="toastContent notice">
+                <div>
+                  <div className="noticeText" style={{ color: '#000' }}>
+                    长按保存图片，邀请1个好友扫码即可免费领取！
+                  </div>
+                  <img className="postUrl" src={noneUrl} />
+                  <div
+                    className="closeImg changePos"
+                    onClick={() => this.closeTopic()}
+                  >
+                    <Icon type="close" size="3rem" />
+                  </div>
                 </div>
               </div>
             )}
