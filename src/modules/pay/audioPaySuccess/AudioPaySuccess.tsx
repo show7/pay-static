@@ -103,7 +103,7 @@ export default class MemberPaySuccess extends React.Component<any, any> {
         <div className="step-wrapper">
           <div className="content">
             <div className="notice">
-              请长按识别下方二维码关注“圈外职场学院”服务号，我们将在服务号为您提供教学服务，并推送上课时间。
+              请长按识别下方二维码关注“圈外同学”服务号，我们将在服务号为您提供教学服务，并推送上课时间。
             </div>
             <div className="qrcodeContent">{classmatesCode()}</div>
             <div className="study-help align-center">
