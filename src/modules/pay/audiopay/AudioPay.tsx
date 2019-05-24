@@ -66,17 +66,24 @@ export default class AudioPay extends React.Component<any, any> {
   }
 
   reload() {
-    const { source, goodsId } = this.props.location.query
-    window.location.href = `/pay/audiopay?random=${Math.random()}&goodsId=${goodsId}` + (source ? `source=${source}` : '')
+    const { source, goodsId, channelSource } = this.props.location.query
+    window.location.href = `/pay/audiopay?random=${Math.random()}&goodsId=${goodsId}` + (source ? `&source=${source}` : '') + (channelSource ? `&channelSource=${channelSource}` : '')
   }
 
   async componentWillMount() {
-    const { source, goodsId } = this.props.location.query
+    const { source, goodsId, channelSource } = this.props.location.query
     mark({
       module: '打点',
       function: 'audiopay',
       action: goodsId + '',
       memo: source
+    })
+
+    mark({
+      module: '打点',
+      function: '音频课投放',
+      action: goodsId + '',
+      memo: channelSource
     })
     let res = await checkAudioV2(goodsId)
     if(res.code === 200) {
@@ -208,7 +215,7 @@ export default class AudioPay extends React.Component<any, any> {
 
   /*点击购买*/
   handlePayPopOut() {
-    const { source,goodsId } = this.props.location.query
+    const { source, goodsId } = this.props.location.query
     mark({
       module: '打点',
       function: '音频课入学',
@@ -286,6 +293,10 @@ export default class AudioPay extends React.Component<any, any> {
   }
 
   render() {
+
+    const { source, goodsId, channelSource } = this.props.location.query
+
+
     const {
       saleImg,
       posterShow,
@@ -377,7 +388,7 @@ export default class AudioPay extends React.Component<any, any> {
             header={goodsName}
             priceTips={}
             activityId={17}
-            channel="new_28_rotate"
+            channel={channelSource || "new_28_rotate"}
             payedDone={goodsId => this.handlePayedDone()}
             payedCancel={res => this.handlePayedCancel(res)}
             payedError={res => this.handlePayedError(res)}
