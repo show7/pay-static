@@ -294,7 +294,7 @@ export default class AudioPay extends React.Component<any, any> {
 
   render() {
 
-    const { source, goodsId, channelSource } = this.props.location.query
+    const { source, channelSource } = this.props.location.query
 
 
     const {
