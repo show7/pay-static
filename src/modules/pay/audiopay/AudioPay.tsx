@@ -389,7 +389,7 @@ export default class AudioPay extends React.Component<any, any> {
             priceTips={}
             activityId={17}
             channel={channelSource || "new_28_rotate"}
-            payedDone={goodsId => this.handlePayedDone()}
+            payedDone={() => this.handlePayedDone()}
             payedCancel={res => this.handlePayedCancel(res)}
             payedError={res => this.handlePayedError(res)}
             payedBefore={() => this.handlePayedBefore()}
