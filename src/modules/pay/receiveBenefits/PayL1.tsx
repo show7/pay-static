@@ -289,7 +289,7 @@ export default class PayL1 extends React.Component<any, any> {
           <Fixedbutton
             buttonArray={[
               {
-                text: '点击领取',
+                text: '领取福利',
                 style: {
                   background: '#ACDB5B',
                   color: '#FFFFFF',
