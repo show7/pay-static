@@ -9,7 +9,7 @@ export default class InvitationLayout extends React.Component {
   }
 
   render() {
-    const { oldNickName, projectName, amount, callBack } = this.props
+    const {oldNickName, projectName, amount, callBack} = this.props
     return (
       <div className="invitation-layout">
         <div className="layout-box">
@@ -32,5 +32,5 @@ InvitationLayout.propTypes = {
   oldNickName: React.PropTypes.string, // 邀请人昵称
   projectName: React.PropTypes.string, // 项目名称
   amount: React.PropTypes.number, // 金额数目
-  callback: React.PropTypes.func // 回调函数
+  callback: React.PropTypes.func, // 回调函数
 }
