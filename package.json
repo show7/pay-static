@@ -11,7 +11,7 @@
     "macDev": "PROXY=https://www.confucius.mobi MockId=true npm start",
     "dist": "NODE_ENV=production webpack",
     "ftp": "set NODE_ENV=production&&webpack&&gulp ftp",
-    "macFtp": "NODE_ENV=production webpack; gulp ftp",
+    "macFtp": "NODE_ENV=production&&webpack&&gulp ftp",
     "beta": "NODE_ENV=production webpack; gulp beta",
     "test": "echo \"Error: no test specified\" && exit 1",
     "local": "PROXY=http://0.0.0.0:3000/ npm start",

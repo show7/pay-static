@@ -1,0 +1,27 @@
+.fixed-button-component {
+  position: fixed;
+  width: 100%;
+  bottom: 0.6rem;
+  left: 0;
+  right: 0;
+  box-sizing: border-box;
+  padding: 0 .8rem;
+  -webkit-transform: translateZ(0);
+  z-index: 100;
+
+  >div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 4.5rem;
+    overflow: hidden;
+
+    >div {
+      flex: 1;
+      height: 4.5rem;
+      line-height: 4.5rem;
+      text-align: center;
+      font-size: 1.6rem;
+    }
+  }
+}

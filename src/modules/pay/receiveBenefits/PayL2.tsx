@@ -1,26 +1,31 @@
 import * as React from 'react'
 import * as _ from 'lodash'
 import './PayL2.less'
-import { connect } from 'react-redux'
-import { mark } from 'utils/request'
-import { PayType, sa, refreshForPay, saTrack } from 'utils/helpers'
-import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
-import { config, configShare } from 'modules/helpers/JsConfig'
+import {connect} from 'react-redux'
+import {mark} from 'utils/request'
+import {PayType, sa, refreshForPay, saTrack} from 'utils/helpers'
+import {set, startLoad, endLoad, alertMsg} from 'redux/actions'
+import {config, configShare} from 'modules/helpers/JsConfig'
 import PayInfo from '../components/PayInfo'
-import { checkRiseMember, getRiseMember, loadInvitation, loadTask } from '../async'
+import {
+  checkRiseMember,
+  getRiseMember,
+  loadInvitation,
+  loadTask,
+} from '../async'
+import Fixedbutton from './components/fixedbutton/FixedButton'
 import InvitationLayout from '../components/invitationLayout/InvitationLayout'
-import { MarkBlock } from '../components/markblock/MarkBlock'
-import { SubscribeAlert } from './components/SubscribeAlert'
+import {MarkBlock} from '../components/markblock/MarkBlock'
+import {SubscribeAlert} from './components/SubscribeAlert'
 import RenderInBody from '../../../components/RenderInBody'
 import Popup from '../../../components/popup/Popup'
 import SaleShow from '../../../components/SaleShow'
-import { StepFooterButton } from '../../../components/submitbutton/StepFooterButton'
+import {StepFooterButton} from '../../../components/submitbutton/StepFooterButton'
 
 @connect(state => state)
 export default class PayL2 extends React.Component<any, any> {
-
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: React.PropTypes.object.isRequired,
   }
 
   constructor() {
@@ -34,90 +39,99 @@ export default class PayL2 extends React.Component<any, any> {
       data: {},
       invitationLayout: false, // 弹框标识
       invitationData: {}, //分享的优惠券数据
-      riseId: null,       //分享来源
+      riseId: null, //分享来源
       showShare: false, //不显示分享
       type: 0,
-      closeQrCode:false
+      closeQrCode: false,
     }
   }
 
   async componentWillMount() {
     // ios／安卓微信支付兼容性
-    if(refreshForPay()) {
+    if (refreshForPay()) {
       return
     }
-    const { dispatch } = this.props
+    const {dispatch} = this.props
     dispatch(startLoad())
 
     let amount = 0
 
     //表示是分享点击进入
-    let { riseId, testPay, markScene } = this.props.location.query
-    if(testPay == 'true') {
-      this.setState({ testPay: true })
+    let {riseId, testPay, markScene} = this.props.location.query
+    if (testPay == 'true') {
+      this.setState({testPay: true})
     }
-    if(markScene){
+    if (markScene) {
       mark({
         module: '打点',
         function: '普通打点链接',
         action: markScene,
-        memo: riseId
+        memo: riseId,
       })
     }
-    let alertMsgText = undefined;
+    let alertMsgText = undefined
     //判断是否是老带新分享的链接
-    if(!_.isEmpty(riseId)) {
+    if (!_.isEmpty(riseId)) {
       let param = {
         riseId: riseId,
-        memberTypeId: 10
+        memberTypeId: 10,
       }
       let invitationInfo = await loadInvitation(param)
-      this.setState({ invitationData: invitationInfo.msg })
+      this.setState({invitationData: invitationInfo.msg})
       amount = invitationInfo.msg.amount
-      if(amount !== 0) {
-        if(invitationInfo.msg.isNewUser && invitationInfo.msg.isReceived) {
-          alertMsgText = '优惠券已经发到你的圈外同学账号咯！';
-        } else if(invitationInfo.msg.isNewUser) {
-          this.setState({ invitationLayout: true })
+      if (amount !== 0) {
+        if (invitationInfo.msg.isNewUser && invitationInfo.msg.isReceived) {
+          alertMsgText = '优惠券已经发到你的圈外同学账号咯！'
+        } else if (invitationInfo.msg.isNewUser) {
+          this.setState({invitationLayout: true})
         }
       }
     }
     // 查询订单信息
-    getRiseMember(this.state.goodsId).then(res => {
-      dispatch(endLoad())
-      if(res.code === 200) {
-        this.setState({ data: res.msg })
-        const { quanwaiGoods = {} } = res.msg
-        saTrack('openSalePayPage', {
-          goodsType: quanwaiGoods.goodsType + '',
-          goodsId: quanwaiGoods.id + '',
-        })
-        mark({ module: '打点', function: quanwaiGoods.goodsType, action: quanwaiGoods.id, memo: '入学页面' })
-        if(!quanwaiGoods.stepPrice && alertMsgText) {
-          dispatch(alertMsg(alertMsgText))
+    getRiseMember(this.state.goodsId)
+      .then(res => {
+        dispatch(endLoad())
+        if (res.code === 200) {
+          this.setState({data: res.msg})
+          const {quanwaiGoods = {}} = res.msg
+          saTrack('openSalePayPage', {
+            goodsType: quanwaiGoods.goodsType + '',
+            goodsId: quanwaiGoods.id + '',
+          })
+          mark({
+            module: '打点',
+            function: quanwaiGoods.goodsType,
+            action: quanwaiGoods.id,
+            memo: '入学页面',
+          })
+          if (!quanwaiGoods.stepPrice && alertMsgText) {
+            dispatch(alertMsg(alertMsgText))
+          }
+        } else {
+          dispatch(alertMsg(res.msg))
         }
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch((err) => {
-      dispatch(endLoad())
-      dispatch(alertMsg(err))
-    })
-    const { type = 0, taskId = 2 } = this.props.location.query;
+      })
+      .catch(err => {
+        dispatch(endLoad())
+        dispatch(alertMsg(err))
+      })
+    const {type = 0, taskId = 2} = this.props.location.query
     this.loadTask(taskId)
-    if(type == 1 && amount!=0) {
-      this.setState({ showShare: true })
+    if (type == 1 && amount != 0) {
+      this.setState({showShare: true})
     }
   }
 
   /*获取值贡献*/
   loadTask(type) {
-    loadTask(type).then((res) => {
-      if(res.code == 200) {
-        this.setState({ task: res.msg }, () => {
+    loadTask(type).then(res => {
+      if (res.code == 200) {
+        this.setState({task: res.msg}, () => {
           configShare(
             `【${window.ENV.userName}@你】发现一门课程不错，推荐给你一起提升吧`,
-            `https://${window.location.hostname}/pay/rise?riseId=${window.ENV.riseId}&type=2`,
+            `https://${window.location.hostname}/pay/rise?riseId=${
+              window.ENV.riseId
+            }&type=2`,
             `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
             `实战训练，相信它能帮你成为优秀部门leader`
           )
@@ -130,38 +144,42 @@ export default class PayL2 extends React.Component<any, any> {
   getsShowShare() {
     configShare(
       `【圈外同学】企业实战训练，成为优秀的部门leader`,
-      `https://${window.location.hostname}/pay/rise?riseId=${window.ENV.riseId}&type=2`,
+      `https://${window.location.hostname}/pay/rise?riseId=${
+        window.ENV.riseId
+      }&type=2`,
       `https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg`,
-      `${window.ENV.userName}邀请你成为同学，领取${this.state.task.shareAmount}元【圈外同学】L2项目入学优惠券`
+      `${window.ENV.userName}邀请你成为同学，领取${
+        this.state.task.shareAmount
+      }元【圈外同学】L2项目入学优惠券`
     )
-    mark({ module: '打点', function: '关闭弹框l2', action: '点击关闭弹框' })
-    this.setState({ showShare: false, type: 1 })
+    mark({module: '打点', function: '关闭弹框l2', action: '点击关闭弹框'})
+    this.setState({showShare: false, type: 1})
   }
 
   handlePayedDone() {
-    mark({ module: '打点', function: '商学院会员', action: '支付成功' })
+    mark({module: '打点', function: '商学院会员', action: '支付成功'})
     this.context.router.push({
       pathname: '/pay/member/success',
       query: {
-        goodsId: 10
-      }
+        goodsId: 10,
+      },
     })
   }
 
   /** 处理支付失败的状态 */
   handlePayedError(res) {
     let param = _.get(res, 'err_desc', _.get(res, 'errMsg', ''))
-    if(param.indexOf('跨公众号发起') != -1) {
+    if (param.indexOf('跨公众号发起') != -1) {
       // 跨公众号
-      this.setState({ showCodeErr: true })
+      this.setState({showCodeErr: true})
     } else {
-      this.setState({ showErr: true })
+      this.setState({showErr: true})
     }
   }
 
   /** 处理取消支付的状态 */
   handlePayedCancel(res) {
-    this.setState({ showErr: true })
+    this.setState({showErr: true})
   }
 
   /**
@@ -170,82 +188,120 @@ export default class PayL2 extends React.Component<any, any> {
    */
   handleClickOpenPayInfo(goodsId) {
     // this.reConfig()
-    const { dispatch } = this.props
-    const { riseId = '', type = 0 } = this.props.location.query
+    const {dispatch} = this.props
+    const {riseId = '', type = 0} = this.props.location.query
     dispatch(startLoad())
     // 先检查是否能够支付
-    checkRiseMember(goodsId, riseId, type).then(res => {
-      dispatch(endLoad())
-      if(res.code === 200) {
-        const { qrCode, privilege, errorMsg, subscribe } = res.msg
-        if(subscribe) {
-          if(privilege) {
-            this.refs.payInfo.handleClickOpen()
+    checkRiseMember(goodsId, riseId, type)
+      .then(res => {
+        dispatch(endLoad())
+        if (res.code === 200) {
+          const {qrCode, privilege, errorMsg, subscribe} = res.msg
+          if (subscribe) {
+            if (privilege) {
+              this.refs.payInfo.handleClickOpen()
+            } else {
+              dispatch(alertMsg(errorMsg))
+            }
           } else {
-            dispatch(alertMsg(errorMsg))
+            this.context.router.push({
+              pathname: '/pay/oldBeltNew',
+              query: {
+                goodsId: goodsId,
+              },
+            })
+            // this.setState({ qrCode: qrCode, showQr: true })
           }
         } else {
-          this.context.router.push({
-            pathname: '/pay/oldBeltNew',
-            query: {
-              goodsId: goodsId
-            },
-          })
-          // this.setState({ qrCode: qrCode, showQr: true })
+          dispatch(alertMsg(res.msg))
         }
-      }
-      else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-    })
+      })
+      .catch(ex => {
+        dispatch(endLoad())
+        dispatch(alertMsg(ex))
+      })
   }
 
   handlePayedBefore() {
-    const { data } = this.state
-    const { quanwaiGoods = {} } = data
-    mark({ module: '打点', function: '商学院会员', action: '点击付费', memo: quanwaiGoods.id })
+    const {data} = this.state
+    const {quanwaiGoods = {}} = data
+    mark({
+      module: '打点',
+      function: '商学院会员',
+      action: '点击付费',
+      memo: quanwaiGoods.id,
+    })
   }
 
   /**
    * 重新注册页面签名
    */
   reConfig() {
-    config([ 'chooseWXPay' ])
+    config(['chooseWXPay'])
   }
 
   render() {
     const {
-      data, timeOut, showErr, showCodeErr, subscribe,
-      invitationLayout, invitationData,closeQrCode,
-      showQr, qrCode, showShare, type, task = {}
+      data,
+      timeOut,
+      showErr,
+      showCodeErr,
+      subscribe,
+      invitationLayout,
+      invitationData,
+      closeQrCode,
+      showQr,
+      qrCode,
+      showShare,
+      type,
+      task = {},
     } = this.state
-    const { privilege, buttonStr, quanwaiGoods = {}, tip } = data
-    const { shareAmount, shareContribution, finishContribution } = task
-    const { location } = this.props
+    const {privilege, buttonStr, quanwaiGoods = {}, tip} = data
+    const {shareAmount, shareContribution, finishContribution} = task
+    const {location} = this.props
     let payType = _.get(location, 'query.paytype')
 
     const renderPay = () => {
-      if(!quanwaiGoods) return null
+      if (!quanwaiGoods) return null
 
       return (
-        <StepFooterButton goods={quanwaiGoods} name='l2' onClick={() => {
-          mark({
-            module: '打点',
-            func: quanwaiGoods.id+'',
-            action: '点击入学按钮',
-            memo: privilege + ''
-          })
-          this.handleClickOpenPayInfo(quanwaiGoods.id)
-        }}/>
+        <Fixedbutton
+          buttonArray={[
+            {
+              text: '点击领取',
+              style: {
+                background: '#F4B167',
+                color: '#FFFFFF',
+              },
+              click: () => {
+                console.log('pppp')
+                this.setState({closeQrCode: true}).bind(this)
+              },
+            },
+            {
+              text: '立即报名',
+              style: {
+                background: '#E9843C',
+                color: '#fff',
+              },
+              click: () => {
+                mark({
+                  module: '打点',
+                  func: quanwaiGoods.id + '',
+                  action: '点击入学按钮',
+                  memo: privilege + '',
+                })
+                this.handleClickOpenPayInfo(quanwaiGoods.id).bind(this)
+              },
+            },
+          ]}
+        />
       )
     }
 
     return (
       <div className="rise-pay-container">
-       <div className="receive-benefits-btn" onClick={()=> this.setState({closeQrCode: true})}>
+        {/* <div className="receive-benefits-btn" onClick={()=> this.setState({closeQrCode: true})}>
           <div className="background-cirle">
             <img src="https://static.iqycamp.com/礼物icon@2x-n3kzc9h8.png" alt=""/>
           </div>
@@ -253,121 +309,181 @@ export default class PayL2 extends React.Component<any, any> {
             <div>领取</div>
             <div>福利</div>
           </div>
-        </div>
+        </div> */}
         <div className="pay-page l2">
-          {quanwaiGoods.saleImg && <SaleShow goods={quanwaiGoods} showList={quanwaiGoods.saleImg} name='l2'/>}
+          {quanwaiGoods.saleImg && (
+            <SaleShow
+              goods={quanwaiGoods}
+              showList={quanwaiGoods.saleImg}
+              name="l2"
+            />
+          )}
           {renderPay()}
         </div>
-        {
-          timeOut &&
-          <div className="mask" onClick={() => {
-            window.history.back()
-          }}
-               style={{
-                 background: 'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center' +
-                 ' center/100% 100%'
-               }}/>
-        }
-        {
-          showErr &&
-          <div className="mask" onClick={() => this.setState({ showErr: false })}>
+        {timeOut && (
+          <div
+            className="mask"
+            onClick={() => {
+              window.history.back()
+            }}
+            style={{
+              background:
+                'url("https://static.iqycamp.com/images/riseMemberTimeOut.png?imageslim") center' +
+                ' center/100% 100%',
+            }}
+          />
+        )}
+        {showErr && (
+          <div className="mask" onClick={() => this.setState({showErr: false})}>
             <div className="tips">
-              出现问题的童鞋看这里<br/> 1如果显示“URL未注册”，请重新刷新页面即可<br/> 2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
+              出现问题的童鞋看这里
+              <br /> 1如果显示“URL未注册”，请重新刷新页面即可
+              <br />{' '}
+              2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑
+              <br />
             </div>
-            <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
+            <img
+              className="xiaoQ"
+              src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"
+            />
           </div>
-        }
-        {
-          showCodeErr &&
-          <div className="mask" onClick={() => this.setState({ showCodeErr: false })}>
+        )}
+        {showCodeErr && (
+          <div
+            className="mask"
+            onClick={() => this.setState({showCodeErr: false})}
+          >
             <div className="tips">
-              糟糕，支付不成功<br/> 原因：微信不支持跨公众号支付<br/> 怎么解决：<br/> 1，长按下方二维码，保存到相册；<br/> 2，打开微信扫一扫，点击右上角相册，选择二维码图片；<br/>
-              3，在新开的页面完成支付即可<br/>
+              糟糕，支付不成功
+              <br /> 原因：微信不支持跨公众号支付
+              <br /> 怎么解决：
+              <br /> 1，长按下方二维码，保存到相册；
+              <br /> 2，打开微信扫一扫，点击右上角相册，选择二维码图片；
+              <br />
+              3，在新开的页面完成支付即可
+              <br />
             </div>
-            <img className="xiaoQ" style={{ width: '50%' }}
-                 src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
+            <img
+              className="xiaoQ"
+              style={{width: '50%'}}
+              src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"
+            />
           </div>
-        }
-        {
-          quanwaiGoods &&
-          <PayInfo ref="payInfo" dispatch={this.props.dispatch} goodsType={quanwaiGoods.goodsType}
-                   goodsId={quanwaiGoods.id} header={quanwaiGoods.name} priceTips={tip}
-                   payedDone={(goodsId) => this.handlePayedDone(goodsId)}
-                   payedCancel={(res) => this.handlePayedCancel(res)}
-                   payedError={(res) => this.handlePayedError(res)}
-                   payedBefore={() => this.handlePayedBefore()}
-                   payType={payType || PayType.WECHAT}/>
-        }
-        {
-          subscribe && <SubscribeAlert closeFunc={() => this.setState({ subscribe: false })}/>
-        }
-        {(invitationLayout && !quanwaiGoods.stepPrice) &&
-          <InvitationLayout oldNickName={invitationData.oldNickName}
-                          amount={invitationData.amount}
-                          projectName={invitationData.memberTypeName}
-                          callBack={() => {
-                            this.setState({ invitationLayout: false })
-                          }}/>
-        }
+        )}
+        {quanwaiGoods && (
+          <PayInfo
+            ref="payInfo"
+            dispatch={this.props.dispatch}
+            goodsType={quanwaiGoods.goodsType}
+            goodsId={quanwaiGoods.id}
+            header={quanwaiGoods.name}
+            priceTips={tip}
+            payedDone={goodsId => this.handlePayedDone(goodsId)}
+            payedCancel={res => this.handlePayedCancel(res)}
+            payedError={res => this.handlePayedError(res)}
+            payedBefore={() => this.handlePayedBefore()}
+            payType={payType || PayType.WECHAT}
+          />
+        )}
+        {subscribe && (
+          <SubscribeAlert closeFunc={() => this.setState({subscribe: false})} />
+        )}
+        {invitationLayout && !quanwaiGoods.stepPrice && (
+          <InvitationLayout
+            oldNickName={invitationData.oldNickName}
+            amount={invitationData.amount}
+            projectName={invitationData.memberTypeName}
+            callBack={() => {
+              this.setState({invitationLayout: false})
+            }}
+          />
+        )}
 
-        {!!showQr ? <RenderInBody>
-          <div className="qr_dialog">
-            <div className="qr_dialog_mask" onClick={() => {
-              this.setState({ showQr: false })
-            }}>
-            </div>
-            <div className="qr_dialog_content">
-              <span>请先扫码关注，“圈外同学”公众号，了解报名详情👇</span>
-              <div className="qr_code">
-                <img src={qrCode}/>
+        {!!showQr ? (
+          <RenderInBody>
+            <div className="qr_dialog">
+              <div
+                className="qr_dialog_mask"
+                onClick={() => {
+                  this.setState({showQr: false})
+                }}
+              />
+              <div className="qr_dialog_content">
+                <span>请先扫码关注，“圈外同学”公众号，了解报名详情👇</span>
+                <div className="qr_code">
+                  <img src={qrCode} />
+                </div>
               </div>
             </div>
-          </div>
-        </RenderInBody> : null}
+          </RenderInBody>
+        ) : null}
         <Popup
-            title={""}
-            isShow={closeQrCode}
-            closePopup={() => {
-            this.setState({closeQrCode: false});
+          title={''}
+          isShow={closeQrCode}
+          closePopup={() => {
+            this.setState({closeQrCode: false})
           }}
         >
-        <div className="quanwai-code-wrap">
-          <div>
-            <div>价值199元学习礼包</div>
-            <div>前200名扫码免费领取</div>
+          <div className="quanwai-code-wrap">
+            <div>
+              <div>价值199元学习礼包</div>
+              <div>前200名扫码免费领取</div>
+            </div>
+            <div className="down-arrow">
+              <img src={'https://static.iqycamp.com/箭头@2x-u5ltnjsb.png'} />
+            </div>
+            <div className="quanwai-qr-code">
+              <img
+                src="https://static.iqycamp.com/w1tkwrc2q82oejrbbsnskxv99xz02p5n.jpg"
+                alt=""
+              />
+            </div>
           </div>
-          <div className="down-arrow">
-            <img src={'https://static.iqycamp.com/箭头@2x-u5ltnjsb.png'}/>
-          </div>
-          <div className="quanwai-qr-code">
-            <img src="https://static.iqycamp.com/w1tkwrc2q82oejrbbsnskxv99xz02p5n.jpg" alt=""/>
-          </div>
-        </div>
         </Popup>
-        {
-          showShare &&
+        {showShare && (
           <div className="share-mask-box">
             <dev className="share-content">
               <div className="share-content-top">
-                <p>可赠送好友 <br/><span>{shareAmount}元</span><br/> L2项目入学优惠券 </p>
+                <p>
+                  可赠送好友 <br />
+                  <span>{shareAmount}元</span>
+                  <br /> L2项目入学优惠券{' '}
+                </p>
               </div>
               <div className="share-content-bottom">
-                <div><span>1</span><p className='desc'>好友成功入学，你将获得{shareContribution}贡献值</p></div>
-                <div><span>2</span><p className='desc'>好友在开学1个月内按进度学习并完课，你将获得{finishContribution}贡献值</p>
+                <div>
+                  <span>1</span>
+                  <p className="desc">
+                    好友成功入学，你将获得{shareContribution}贡献值
+                  </p>
                 </div>
-                <div className="button-bottom" onClick={() => {
-                  this.getsShowShare()
-                }}><p>立即邀请</p></div>
+                <div>
+                  <span>2</span>
+                  <p className="desc">
+                    好友在开学1个月内按进度学习并完课，你将获得
+                    {finishContribution}贡献值
+                  </p>
+                </div>
+                <div
+                  className="button-bottom"
+                  onClick={() => {
+                    this.getsShowShare()
+                  }}
+                >
+                  <p>立即邀请</p>
+                </div>
               </div>
             </dev>
           </div>
-        }
-        {
-          type == 1 &&
+        )}
+        {type == 1 && (
           <div className="type-share">
-            <img src="https://static.iqycamp.com/1091533182527_-sc42kog6.pic.jpg" alt="分享图片"/>
+            <img
+              src="https://static.iqycamp.com/1091533182527_-sc42kog6.pic.jpg"
+              alt="分享图片"
+            />
           </div>
-        }
+        )}
       </div>
     )
   }
