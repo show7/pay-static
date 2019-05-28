@@ -3,7 +3,7 @@
 .rise-pay-container {
   padding-bottom: 50px;
 
-  > .mask {
+  >.mask {
     position: fixed;
     z-index: 10;
     width: 100%;
@@ -11,22 +11,27 @@
     top: 0;
     left: 0;
     background: rgba(0, 0, 0, 0.6);
-    > .tips {
+
+    >.tips {
       margin-top: 50px;
       color: #FFFFFF;
       text-align: center;
       font-size: 16px;
     }
-    > .xiaoQ {
+
+    >.xiaoQ {
       display: block;
       margin: 25px auto 0;
       width: 70%;
     }
   }
-  > .pay-page {
+
+  >.pay-page {
+
     .button-footer.step-wrapper {
       display: flex;
       flex-direction: row;
+
       .price-tips-wrapper {
         display: flex;
         flex-direction: row;
@@ -35,14 +40,17 @@
         justify-content: center;
         color: #50505A;
         width: 100%;
+
         .real-price {
           color: #ED4A47;
         }
+
         .remain {
           color: #7DBE00;
         }
 
       }
+
       .footer-btn {
         width: 69.3vw;
         font-size: 4.5vw;
@@ -62,6 +70,7 @@
       color: #fff;
       background-color: #fff;
       z-index: 10;
+
       .footer-left {
         height: 100%;
         position: relative;
@@ -71,6 +80,7 @@
         color: #5b3f00;
         float: left;
       }
+
       .guest-footer-btn {
         height: 40px;
         margin: 0 6%;
@@ -90,13 +100,17 @@
         color: #5b3f00;
         line-height: 40px;
         overflow: hidden;
-        > svg {
-          > text {
-            text-anchor: middle; /* 文本水平居中 */
-            dominant-baseline: middle; /* 文本垂直居中 */
+
+        >svg {
+          >text {
+            text-anchor: middle;
+            /* 文本水平居中 */
+            dominant-baseline: middle;
+            /* 文本垂直居中 */
           }
         }
       }
+
       .footer-btn {
         height: 100%;
         position: relative;
@@ -105,12 +119,16 @@
         line-height: 50px;
         overflow: hidden;
         background: #7DBE00;
-        > svg {
-          > text {
-            text-anchor: middle; /* 文本水平居中 */
-            dominant-baseline: middle; /* 文本垂直居中 */
+
+        >svg {
+          >text {
+            text-anchor: middle;
+            /* 文本水平居中 */
+            dominant-baseline: middle;
+            /* 文本垂直居中 */
           }
         }
+
         .audition {
           display: inline-block;
           //text-indent: 30px;
@@ -121,7 +139,7 @@
     }
   }
 
-  > .share-tip {
+  >.share-tip {
     position: fixed;
     background-color: rgba(0, 0, 0, 0.7);
     left: 0;
@@ -129,12 +147,14 @@
     height: 100%;
     width: 100%;
     z-index: 1000;
-    > .tip-pic {
+
+    >.tip-pic {
       position: absolute;
       top: 0;
       right: 0;
     }
   }
+
   .weui_dialog_ft {
     display: none;
   }
@@ -149,6 +169,7 @@
     top: 0;
     z-index: 56;
     background: rgba(0, 0, 0, 0.4354);
+
     .share-content {
       width: 79%;
       margin: 0 auto;
@@ -160,6 +181,7 @@
       background-color: @color_white;
       box-sizing: border-box;
       border-radius: 1.6rem;
+
       .share-content-top {
         background-image: url("https://static.iqycamp.com/1111533183269_-g475rgqw.pic.jpg?imageslim");
         background-repeat: no-repeat;
@@ -171,35 +193,41 @@
         box-sizing: border-box;
         border-top-left-radius: 1.6rem;
         border-top-right-radius: 1.6rem;
-        > p {
+
+        >p {
           font-size: 1.5rem;
           color: @color_white;
           width: 100%;
           text-align: center;
-          > span {
+
+          >span {
             font-size: 2.2rem;
             height: 1.17rem;
           }
         }
 
       }
+
       .share-content-bottom {
         background-color: @color_white;
         padding: 2.2rem 2rem 0 2rem;
         box-sizing: border-box;
-        > div {
+
+        >div {
           display: flex;
           flex-direction: row;
           margin-bottom: 2.5rem;
           box-sizing: border-box;
-          > p.desc {
+
+          >p.desc {
             font-size: 1.4rem;
             color: #000;
             display: inline-block;
             vertical-align: baseline;
             flex: 10;
           }
-          > span {
+
+          >span {
             display: inline-block;
             width: 1.7rem;
             height: 1.7rem;
@@ -212,10 +240,12 @@
             position: relative;
             top: 0.2rem;
           }
+
           &.button-bottom {
             box-sizing: border-box;
             padding-right: 0;
-            > p {
+
+            >p {
               width: 84%;
               height: 4.4rem;
               line-height: 4.4rem;
@@ -232,13 +262,15 @@
       }
     }
   }
+
   .type-share {
     position: fixed;
     width: 65.8%;
     height: 7rem;
     top: 2rem;
     right: 1rem;
-    > img {
+
+    >img {
       width: 100%;
     }
   }
