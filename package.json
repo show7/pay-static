@@ -33,7 +33,7 @@
     "fbjs": "0.8.9",
     "iosselect": "^1.1.3",
     "jquery": "^3.2.1",
-    "lodash": "^4.14.1",
+    "lodash": "^4.17.13",
     "numeral": "^1.5.5",
     "react": "15.3.0",
     "react-dom": "15.3.0",
