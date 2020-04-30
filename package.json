@@ -32,7 +32,7 @@
     "es6-promise": "^3.3.1",
     "fbjs": "0.8.9",
     "iosselect": "^1.1.3",
-    "jquery": "^3.2.1",
+    "jquery": "^3.5.0",
     "lodash": "^4.14.1",
     "numeral": "^1.5.5",
     "react": "15.3.0",
