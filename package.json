@@ -45,7 +45,7 @@
     "redux-logger": "^2.7.0",
     "redux-thunk": "^2.1.0",
     "sa-sdk-javascript": "^1.10.1",
-    "swiper": "3.4.2",
+    "swiper": "6.5.1",
     "ua-device": "^0.1.10",
     "vconsole": "^3.3.0",
     "weui": "^1.1.0"
