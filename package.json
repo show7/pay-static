@@ -72,7 +72,7 @@
     "file-loader": "^0.9.0",
     "grunt": "^1.0.1",
     "grunt-ftpscript": "^0.1.7",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.2",
     "gulp-ftp": "^1.1.0",
     "gulp-util": "^3.0.7",
     "ip": "^1.1.3",
